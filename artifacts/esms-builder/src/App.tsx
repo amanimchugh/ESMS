@@ -545,23 +545,24 @@ function MonitoringForm({value,onChange}){
 
 // ═══════════════ SUPPLIER ASSESSMENT ═══════════════
 function SupplierAssessment({value,onChange}){
+  const {t}=useLang();
   const rows=value||[];
   const cols=[
-    {id:"supplier",label:"Supplier Name",w:"13%",ph:"Company name"},
-    {id:"country",label:"Country",w:"7%",ph:"Country"},
-    {id:"category",label:"Category",w:"10%",type:"sel",opts:["Panels / Modules","Batteries","Accessories","Logistics","Agent/Distributor","Service provider","Other"]},
-    {id:"spend",label:"Annual Spend",w:"8%",ph:"USD amount"},
-    {id:"es_policy",label:"E&S Policy?",w:"7%",type:"sel",opts:["Yes","No","Partial","Unknown"]},
-    {id:"child_labour",label:"Child Labour Risk",w:"8%",type:"sel",opts:["Low","Medium","High","Unknown"]},
-    {id:"forced_labour",label:"Forced Labour Risk",w:"8%",type:"sel",opts:["Low","Medium","High","Unknown"]},
-    {id:"ewaste",label:"E-Waste Policy?",w:"7%",type:"sel",opts:["Yes","No","Partial","Unknown"]},
-    {id:"certified",label:"Certified?",w:"8%",ph:"e.g. RBA, ISO"},
-    {id:"last_review",label:"Last Reviewed",w:"7%",ph:"DD/MM/YY"},
-    {id:"action",label:"Required Action",w:"14%",type:"ta"},
+    {id:"supplier",label:t("supplierColName"),w:"13%",ph:"Company name"},
+    {id:"country",label:t("csvColCountry"),w:"7%",ph:"Country"},
+    {id:"category",label:t("riskColCategory"),w:"10%",type:"sel",opts:["Panels / Modules","Batteries","Accessories","Logistics","Agent/Distributor","Service provider","Other"]},
+    {id:"spend",label:t("csvColSpend"),w:"8%",ph:"USD amount"},
+    {id:"es_policy",label:t("csvColESPolicy"),w:"7%",type:"sel",opts:["Yes","No","Partial","Unknown"]},
+    {id:"child_labour",label:t("csvColChildLabour"),w:"8%",type:"sel",opts:["Low","Medium","High","Unknown"]},
+    {id:"forced_labour",label:t("csvColForcedLabour"),w:"8%",type:"sel",opts:["Low","Medium","High","Unknown"]},
+    {id:"ewaste",label:t("csvColEwaste"),w:"7%",type:"sel",opts:["Yes","No","Partial","Unknown"]},
+    {id:"certified",label:t("csvColCertified"),w:"8%",ph:"e.g. RBA, ISO"},
+    {id:"last_review",label:t("csvColLastReview"),w:"7%",ph:"DD/MM/YY"},
+    {id:"action",label:t("complianceColAction"),w:"14%",type:"ta"},
   ];
   return(<div>
-    <InfoBox col={C.orange} bg="#FFF3E0">IFC PS2 requires supply chain due diligence, particularly for child labour, forced labour, and worker safety. Assess all primary suppliers and include E&S requirements in supplier contracts. Review annually or when onboarding new suppliers.</InfoBox>
-    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel="Add Supplier"/>
+    <InfoBox col={C.orange} bg="#FFF3E0">{t("supplierInfoBox")}</InfoBox>
+    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("supplierAddBtn")}/>
   </div>);
 }
 
@@ -1814,7 +1815,9 @@ function GuidelinesPanel({ guideId, onClose }) {
   const guide = GUIDELINES_DB[guideId];
   const guidelinesPdfUrl = lang === "fr" ? "/ROGEAP_ESMS-Guidelines_FR.pdf" : "/ROGEAP_ESMS-Guidelines_EN.pdf";
   const guidelinesPdfLabel = lang === "fr"
-    ? "Lignes directrices SGES ROGEAP — Secteur solaire hors réseau (PDF)"
+    ? "Lignes directrices SGSE ROGEAP — Secteur solaire hors réseau (PDF)"
+    : lang === "pt"
+    ? "Diretrizes SGAS ROGEAP — Setor Solar Fora da Rede (PDF — EN)"
     : "ROGEAP ESMS Guidelines — Off-Grid Solar Sector (PDF)";
   const [activeSection, setActiveSection] = useState(0);
   const panelRef = useRef(null);
@@ -1947,7 +1950,7 @@ function GuidelinesPanel({ guideId, onClose }) {
               borderRadius:10,
             }}>
               <div style={{ fontWeight:700, color:col, fontSize:13, marginBottom:10, display:"flex", alignItems:"center", gap:6 }}>
-                <span>🔗</span> References & Web Resources
+                {t("guideResourcesLabel")}
               </div>
               <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
                 {guide.resources.map((r, i) => {
@@ -1970,7 +1973,7 @@ function GuidelinesPanel({ guideId, onClose }) {
               </div>
               {/* Core docs always shown */}
               <div style={{ marginTop:12, paddingTop:10, borderTop:`1px solid ${col}20` }}>
-                <div style={{ fontSize:11, color:C.muted, fontWeight:600, marginBottom:6 }}>CORE DOCUMENTS — click any link to open in a new tab</div>
+                <div style={{ fontSize:11, color:C.muted, fontWeight:600, marginBottom:6 }}>{t("guideCoreDocsLabel")}</div>
                 {[
                   { label:guidelinesPdfLabel, url:guidelinesPdfUrl },
                   { label:"IFC ESMS Implementation Handbook — General (2015)", url:"https://www.ifc.org/en/insights-reports/2015/publications-handbook-esms-general" },
@@ -2002,7 +2005,7 @@ function GuidelinesPanel({ guideId, onClose }) {
           display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:8,
         }}>
           <div style={{ fontSize:11, color:C.muted }}>
-            Sources: ROGEAP ESMS Guidelines v01 · IFC ESMS Toolkit 2015 · IFC Performance Standards 2012
+            {t("guideFooter")}
           </div>
           <button onClick={onClose} style={{ ...S.btn, padding:"7px 18px", fontSize:12, background:col }}>
             {t("guideClose")}
@@ -2975,13 +2978,13 @@ export default function App() {
           <div style={{ padding:"10px 12px", borderTop:"1px solid rgba(255,255,255,0.1)", display:"flex", flexDirection:"column", gap:5 }}>
             <ExportBar isFull={true} esmsData={esmsData} filename="Full_ESMS_Document" title="Full ESMS Document" sections={[]}/>
             <div style={{ borderTop:"1px solid rgba(255,255,255,0.08)", paddingTop:7, display:"flex", flexDirection:"column", gap:5 }}>
-              <div style={{ fontSize:9, color:"rgba(255,255,255,0.4)", fontWeight:600, textTransform:"uppercase", letterSpacing:"0.5px", marginBottom:1 }}>💾 Data Backup</div>
+              <div style={{ fontSize:9, color:"rgba(255,255,255,0.4)", fontWeight:600, textTransform:"uppercase", letterSpacing:"0.5px", marginBottom:1 }}>{t("backupLabel")}</div>
               <button onClick={backupData}
                 style={{ width:"100%", background:"rgba(14,124,123,0.25)", border:"1px solid rgba(14,124,123,0.5)", borderRadius:6, padding:"9px 0", color:"rgba(150,230,228,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b }}>
-                💾 Save Backup (.json)
+                {t("backupSave")}
               </button>
               <label style={{ display:"block", width:"100%", background:"rgba(42,95,158,0.2)", border:"1px solid rgba(42,95,158,0.4)", borderRadius:6, padding:"9px 0", color:"rgba(160,200,255,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b, textAlign:"center" }}>
-                📂 Restore from File
+                {t("backupRestore")}
                 <input type="file" accept=".json" aria-label="Restore data from backup file" onChange={e => { if(e.target.files?.[0]) { restoreData(e.target.files[0]); e.target.value=''; } }} style={{ display:"none" }}/>
               </label>
               <button onClick={() => { if(window.confirm(t("resetConfirm"))) { setEsmsData({}); setActive("welcome"); } }}

@@ -230,6 +230,16 @@ export const TRANSLATIONS = {
     csvLabelStakeholder: "Stakeholder Register",
     csvLabelSupplier: "Supplier Assessment",
     csvLabelEsap: "ESAP",
+
+    // Sidebar backup buttons
+    backupLabel: "💾 Data Backup",
+    backupSave: "💾 Save Backup (.json)",
+    backupRestore: "📂 Restore from File",
+
+    // Supplier assessment
+    supplierInfoBox: "IFC PS2 requires supply chain due diligence, particularly for child labour, forced labour, and worker safety. Assess all primary suppliers and include E&S requirements in supplier contracts. Review annually or when onboarding new suppliers.",
+    supplierAddBtn: "Add Supplier",
+    supplierColName: "Supplier Name",
   },
 
   fr: {
@@ -440,6 +450,16 @@ export const TRANSLATIONS = {
     csvLabelStakeholder: "Registre des parties prenantes",
     csvLabelSupplier: "Évaluation des fournisseurs",
     csvLabelEsap: "PGSE",
+
+    // Sidebar backup buttons
+    backupLabel: "💾 Sauvegarde des données",
+    backupSave: "💾 Enregistrer la sauvegarde (.json)",
+    backupRestore: "📂 Restaurer depuis un fichier",
+
+    // Supplier assessment
+    supplierInfoBox: "La NP2 de la SFI exige une diligence raisonnable sur la chaîne d'approvisionnement, notamment en matière de travail des enfants, de travail forcé et de sécurité des travailleurs. Évaluez tous les fournisseurs principaux et incluez des exigences E&S dans les contrats fournisseurs.",
+    supplierAddBtn: "Ajouter un fournisseur",
+    supplierColName: "Nom du fournisseur",
   },
 
   pt: {
@@ -650,6 +670,16 @@ export const TRANSLATIONS = {
     csvLabelStakeholder: "Registro de Partes Interessadas",
     csvLabelSupplier: "Avaliação de Fornecedores",
     csvLabelEsap: "PAAS",
+
+    // Sidebar backup buttons
+    backupLabel: "💾 Backup de Dados",
+    backupSave: "💾 Salvar Backup (.json)",
+    backupRestore: "📂 Restaurar de Arquivo",
+
+    // Supplier assessment
+    supplierInfoBox: "O PS2 da IFC exige diligência devida na cadeia de abastecimento, particularmente em relação ao trabalho infantil, trabalho forçado e segurança dos trabalhadores. Avalie todos os fornecedores principais e inclua requisitos A&S nos contratos de fornecimento.",
+    supplierAddBtn: "Adicionar Fornecedor",
+    supplierColName: "Nome do Fornecedor",
   },
 };
 

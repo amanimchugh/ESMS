@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useState, useEffect, useRef, createContext, useContext } from "react";
+import { useState, useEffect, useRef, createContext, useContext, useCallback } from "react";
 import { TRANSLATIONS, LangContext, useLang } from "./i18n/translations.js";
 
 // ═══════════════ TOKENS ═══════════════
@@ -12,14 +12,26 @@ const C = {
   border:"#D0DCE8", text:"#1A2B3C", muted:"#5F7080",
 };
 const F = {
-  d:"'Palatino Linotype','Book Antiqua',Palatino,serif",
-  b:"'Trebuchet MS',Tahoma,Geneva,sans-serif",
+  d:"'Palatino Linotype','Book Antiqua',Palatino,'Noto Serif','Georgia',serif",
+  b:"'Trebuchet MS','Noto Sans','Roboto',Tahoma,Geneva,sans-serif",
 };
 
 function useLS(k,d){
   const[v,sv]=useState(()=>{try{const s=localStorage.getItem(k);return s?JSON.parse(s):d;}catch{return d;}});
   useEffect(()=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}},[k,v]);
   return[v,sv];
+}
+
+function useIsMobile(breakpoint=768){
+  const[mobile,setMobile]=useState(()=>typeof window!=="undefined"&&window.innerWidth<=breakpoint);
+  useEffect(()=>{
+    const mq=window.matchMedia(`(max-width:${breakpoint}px)`);
+    const handler=e=>setMobile(e.matches);
+    mq.addEventListener("change",handler);
+    setMobile(mq.matches);
+    return()=>mq.removeEventListener("change",handler);
+  },[breakpoint]);
+  return mobile;
 }
 
 // ═══════════════ BASE STYLES ═══════════════
@@ -72,7 +84,7 @@ function ChecklistBuilder({baseline,value,onChange,columns=1}){
           {editing===i
             ?<input value={c.text} onChange={e=>editCust(i,e.target.value)} onBlur={()=>setEditing(null)} autoFocus style={{...S.inp,flex:1,padding:"3px 8px",fontSize:12}}/>
             :<span style={{flex:1,fontSize:13,cursor:"pointer"}} onClick={()=>setEditing(i)}>{c.text}</span>}
-          <button onClick={()=>removeCust(i)} style={{background:"none",border:"none",color:C.red,cursor:"pointer",fontSize:16,padding:"0 2px",lineHeight:1}}>×</button>
+          <button onClick={()=>removeCust(i)} aria-label="Remove item" className="remove-btn" style={{background:"none",border:"none",color:C.red,cursor:"pointer",fontSize:18,padding:"0 4px",lineHeight:1,flexShrink:0}}>×</button>
         </div>
       ))}
     </div>}
@@ -108,7 +120,7 @@ function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row"
                     :<input value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} placeholder={c.ph||""} style={{...S.inp,padding:"5px 8px"}}/>}
               </td>
             ))}
-            <td style={{...S.td,textAlign:"center"}}><button onClick={()=>removeRow(ri)} style={{background:"none",border:"none",color:C.red,cursor:"pointer",fontSize:16,lineHeight:1}}>×</button></td>
+            <td style={{...S.td,textAlign:"center",padding:0}}><button onClick={()=>removeRow(ri)} aria-label="Remove row" className="remove-btn" style={{background:"none",border:"none",color:C.red,cursor:"pointer",fontSize:18,lineHeight:1,width:44,height:44}}>×</button></td>
           </tr>
         ))}
       </tbody>
@@ -150,7 +162,7 @@ function RiskMatrix({baselineRisks,value,onChange}){
             <td style={S.td}><input value={row.responsible||""} onChange={e=>update(ri,"responsible",e.target.value)} style={{...S.inp,padding:"4px 6px",fontSize:11}}/></td>
             <td style={S.td}><select value={row.status||"Planned"} onChange={e=>update(ri,"status",e.target.value)} style={{...S.inp,padding:"4px 5px",fontSize:11}}>
               {["Planned","In Progress","Complete","Overdue","N/A"].map(o=><option key={o}>{o}</option>)}</select></td>
-            <td style={{...S.td,textAlign:"center"}}><button onClick={()=>removeRow(ri)} style={{background:"none",border:"none",color:C.red,cursor:"pointer",fontSize:15}}>×</button></td>
+            <td style={{...S.td,textAlign:"center",padding:0}}><button onClick={()=>removeRow(ri)} aria-label="Remove risk row" className="remove-btn" style={{background:"none",border:"none",color:C.red,cursor:"pointer",fontSize:18,width:44,height:44}}>×</button></td>
           </tr>);
         })}
       </tbody>
@@ -1800,31 +1812,55 @@ function GuidelinesPanel({ guideId, onClose }) {
   const { t } = useLang();
   const guide = GUIDELINES_DB[guideId];
   const [activeSection, setActiveSection] = useState(0);
-  if (!guide) return null;
+  const panelRef = useRef(null);
+  const closeBtnRef = useRef(null);
 
+  // Escape key to close + focus trap
+  useEffect(()=>{
+    const handler = (e) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "Tab" && panelRef.current) {
+        const focusable = panelRef.current.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const first = focusable[0]; const last = focusable[focusable.length-1];
+        if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last?.focus(); } }
+        else { if (document.activeElement === last) { e.preventDefault(); first?.focus(); } }
+      }
+    };
+    document.addEventListener("keydown", handler);
+    // Auto-focus close button on open
+    setTimeout(()=>closeBtnRef.current?.focus(), 50);
+    return ()=>document.removeEventListener("keydown", handler);
+  },[onClose]);
+
+  if (!guide) return null;
   const col = guide.color || C.navy;
 
   return (
-    <div style={{
-      position:"fixed", inset:0, zIndex:2000,
-      display:"flex", alignItems:"stretch",
-      background:"rgba(10,20,35,0.6)",
-      backdropFilter:"blur(3px)",
-    }}
-    onClick={e => { if(e.target === e.currentTarget) onClose(); }}>
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={guide.title}
+      style={{
+        position:"fixed", inset:0, zIndex:2000,
+        display:"flex", alignItems:"stretch",
+        background:"rgba(10,20,35,0.6)",
+        backdropFilter:"blur(3px)",
+      }}
+      onClick={e => { if(e.target === e.currentTarget) onClose(); }}>
       {/* PANEL */}
-      <div style={{
+      <div ref={panelRef} className="guidelines-panel" style={{
         marginLeft:"auto",
         width:"min(680px, 100vw)",
         background:"white",
         display:"flex", flexDirection:"column",
         boxShadow:"-8px 0 40px rgba(0,0,0,0.25)",
         animation:"slideInRight 0.25s ease",
+        maxHeight:"100dvh", overflowY:"hidden",
       }}>
         {/* HEADER */}
         <div style={{
           background:`linear-gradient(135deg, ${col}, ${col}CC)`,
-          padding:"22px 24px 18px",
+          padding:"20px 20px 16px",
           flexShrink:0,
           position:"relative",
         }}>
@@ -1833,10 +1869,10 @@ function GuidelinesPanel({ guideId, onClose }) {
               <div style={{ fontSize:11, fontWeight:700, color:"rgba(255,255,255,0.65)", textTransform:"uppercase", letterSpacing:"1px", marginBottom:6 }}>📖 Guidelines & Background</div>
               <h2 style={{ margin:0, color:"white", fontFamily:F.d, fontSize:20, lineHeight:1.3 }}>{guide.title}</h2>
             </div>
-            <button onClick={onClose} style={{
-              background:"rgba(255,255,255,0.2)", border:"none", color:"white",
-              width:34, height:34, borderRadius:"50%", cursor:"pointer",
-              fontSize:20, display:"flex", alignItems:"center", justifyContent:"center",
+            <button ref={closeBtnRef} onClick={onClose} aria-label="Close guidelines panel" style={{
+              background:"rgba(255,255,255,0.2)", border:"2px solid rgba(255,255,255,0.35)", color:"white",
+              width:44, height:44, borderRadius:"50%", cursor:"pointer",
+              fontSize:22, display:"flex", alignItems:"center", justifyContent:"center",
               flexShrink:0, lineHeight:1,
             }}>×</button>
           </div>
@@ -2710,7 +2746,7 @@ function ExportBar({ title, sections, csvToolId, csvRows, csvCols, filename, esm
 export default function App() {
   const [active, setActive] = useLS("esms_v4_active", "welcome");
   const [esmsData, setEsmsData] = useLS("esms_v4_data", {});
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => typeof window !== "undefined" ? window.innerWidth > 768 : true);
   const [guideOpen, setGuideOpen] = useState(null);
   const [lang, setLang] = useLS("esms_lang", "en");
   const mainRef = useRef(null);
@@ -2804,67 +2840,119 @@ export default function App() {
   };
 
   const activeIdx = NAV.findIndex(n => n.id === active);
+  const isMobile = useIsMobile();
+
+  // Close sidebar when navigating on mobile
+  const mobileGoTo = (id) => { goTo(id); if(isMobile) setSidebarOpen(false); };
+
+  // Bottom-nav shows first 5 items (home + 4 key sections)
+  const BOTTOM_NAV = NAV.slice(0, 5);
 
   return (
     <LangContext.Provider value={{ lang, t }}>
-    <div lang={lang} translate="yes" style={{ display:"flex", minHeight:"100vh", fontFamily:F.b, background:C.bg, color:C.text }}>
+    {/* ── SKIP LINK (keyboard / screen reader navigation) ── */}
+    <a href="#main-content" className="skip-link">Skip to main content</a>
+
+    <div lang={lang} translate="yes" className="app-root" style={{ fontFamily:F.b, background:C.bg, color:C.text }}>
       {/* GUIDELINES PANEL OVERLAY */}
       {guideOpen && <GuidelinesPanel guideId={guideOpen} onClose={closeGuide}/>}
 
-      {/* SIDEBAR */}
-      <div style={{ width:sidebarOpen?260:56, flexShrink:0, background:C.navyDark, display:"flex", flexDirection:"column", transition:"width 0.2s ease", overflow:"hidden", position:"sticky", top:0, height:"100vh" }}>
+      {/* ── MOBILE HEADER BAR ── */}
+      <header id="mobile-header" role="banner">
+        <button
+          aria-label={sidebarOpen ? "Close menu" : "Open menu"}
+          aria-expanded={sidebarOpen}
+          aria-controls="app-sidebar"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          style={{ background:"none", border:"none", color:"white", cursor:"pointer", fontSize:22, padding:"0 4px", flexShrink:0, lineHeight:1, display:"flex", alignItems:"center", justifyContent:"center", width:44, height:44 }}>
+          {sidebarOpen ? "✕" : "☰"}
+        </button>
+        <span style={{ color:"white", fontWeight:700, fontSize:14, fontFamily:F.d, flex:1, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>
+          🌿 {t("appName")}
+        </span>
+        <select value={lang} onChange={e => setLang(e.target.value)}
+          aria-label="Language"
+          style={{ background:"rgba(255,255,255,0.12)", border:"1px solid rgba(255,255,255,0.25)", borderRadius:6, color:"white", fontSize:12, cursor:"pointer", fontFamily:F.b, outline:"none", padding:"4px 6px", maxWidth:110 }}>
+          <option value="en" style={{background:"#0D2038"}}>🌐 English</option>
+          <option value="fr" style={{background:"#0D2038"}}>🌐 Français</option>
+          <option value="pt" style={{background:"#0D2038"}}>🌐 Português</option>
+        </select>
+      </header>
+
+      {/* ── SIDEBAR BACKDROP (mobile only) ── */}
+      <div id="sidebar-backdrop" className={sidebarOpen && isMobile ? "backdrop-open" : ""}
+        onClick={() => setSidebarOpen(false)}
+        aria-hidden="true"/>
+
+      {/* ── SIDEBAR ── */}
+      <div
+        id="app-sidebar"
+        role="navigation"
+        aria-label="Main navigation"
+        className={`app-sidebar${sidebarOpen && isMobile ? " sidebar-open" : ""}`}
+        style={{ width:sidebarOpen?260:56, flexShrink:0, background:C.navyDark, display:"flex", flexDirection:"column", transition:"width 0.2s ease", overflow:"hidden" }}>
+
+        {/* Sidebar header */}
         <div style={{ padding:sidebarOpen?"16px 12px":"16px 9px", borderBottom:"1px solid rgba(255,255,255,0.1)" }}>
           <div style={{ display:"flex", alignItems:"center", gap:9 }}>
             <span style={{ fontSize:19, flexShrink:0 }}>🌿</span>
             {sidebarOpen && <span style={{ color:"white", fontWeight:700, fontSize:14, fontFamily:F.d, whiteSpace:"nowrap", flex:1 }}>{t("appName")}</span>}
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background:"none", border:"none", color:"rgba(255,255,255,0.5)", cursor:"pointer", fontSize:15, padding:4, flexShrink:0 }}>{sidebarOpen ? t("collapseNav") : t("expandNav")}</button>
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              aria-label={sidebarOpen ? t("collapseNav") : t("expandNav")}
+              aria-expanded={sidebarOpen}
+              style={{ background:"none", border:"none", color:"rgba(255,255,255,0.5)", cursor:"pointer", fontSize:15, padding:6, flexShrink:0, minWidth:36, minHeight:36, display:"flex", alignItems:"center", justifyContent:"center" }}>
+              {sidebarOpen ? t("collapseNav") : t("expandNav")}
+            </button>
           </div>
           {sidebarOpen && <div style={{ marginTop:9, background:"rgba(255,255,255,0.09)", borderRadius:7, padding:"6px 10px", fontSize:11, color:"rgba(255,255,255,0.6)" }}>{t("appEdition")}</div>}
           {sidebarOpen && (
-            <select value={lang} onChange={e => setLang(e.target.value)} style={{
-              marginTop:8, width:"100%", padding:"6px 8px",
-              background:"rgba(255,255,255,0.12)", border:"1px solid rgba(255,255,255,0.25)",
-              borderRadius:6, color:"rgba(255,255,255,0.9)", fontSize:12,
-              cursor:"pointer", fontFamily:F.b, outline:"none",
-            }}>
+            <select value={lang} onChange={e => setLang(e.target.value)}
+              aria-label="Language"
+              style={{ marginTop:8, width:"100%", padding:"8px", background:"rgba(255,255,255,0.12)", border:"1px solid rgba(255,255,255,0.25)", borderRadius:6, color:"rgba(255,255,255,0.9)", fontSize:12, cursor:"pointer", fontFamily:F.b, outline:"none" }}>
               <option value="en" style={{background:"#0D2038"}}>🌐 English</option>
               <option value="fr" style={{background:"#0D2038"}}>🌐 Français</option>
               <option value="pt" style={{background:"#0D2038"}}>🌐 Português</option>
             </select>
           )}
         </div>
-        <nav style={{ flex:1, padding:"9px 6px", overflowY:"auto" }}>
+
+        {/* Nav items */}
+        <nav aria-label="Sections" style={{ flex:1, padding:"9px 6px", overflowY:"auto" }}>
           {NAV.map(item => {
             const isA = active === item.id;
             return (
-              <button key={item.id} onClick={() => goTo(item.id)}
+              <button key={item.id}
+                onClick={() => mobileGoTo(item.id)}
+                aria-label={item.label}
+                aria-current={isA ? "page" : undefined}
+                className="nav-btn"
                 style={{ display:"flex", alignItems:"center", gap:8, width:"100%", padding:sidebarOpen?"8px 10px":"8px", justifyContent:sidebarOpen?"flex-start":"center", background:isA?"rgba(255,255,255,0.15)":"transparent", border:"none", borderRadius:7, cursor:"pointer", color:isA?"white":"rgba(255,255,255,0.65)", fontWeight:isA?700:400, fontSize:12, marginBottom:2, textAlign:"left", fontFamily:F.b }}
                 onMouseEnter={e => { if(!isA) e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}
                 onMouseLeave={e => { if(!isA) e.currentTarget.style.background = "transparent"; }}>
-                <span style={{ fontSize:14, flexShrink:0 }}>{item.icon}</span>
+                <span style={{ fontSize:14, flexShrink:0 }} aria-hidden="true">{item.icon}</span>
                 {sidebarOpen && <span style={{ whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{item.label}</span>}
               </button>
             );
           })}
         </nav>
+
+        {/* Bottom action buttons */}
         {sidebarOpen && (
           <div style={{ padding:"10px 12px", borderTop:"1px solid rgba(255,255,255,0.1)", display:"flex", flexDirection:"column", gap:5 }}>
-            <ExportBar isFull={true} esmsData={esmsData} filename="Full_ESMS_Document"
-              title="Full ESMS Document"
-              sections={[]}/>
-            {/* Backup / Restore / Reset */}
+            <ExportBar isFull={true} esmsData={esmsData} filename="Full_ESMS_Document" title="Full ESMS Document" sections={[]}/>
             <div style={{ borderTop:"1px solid rgba(255,255,255,0.08)", paddingTop:7, display:"flex", flexDirection:"column", gap:5 }}>
               <div style={{ fontSize:9, color:"rgba(255,255,255,0.4)", fontWeight:600, textTransform:"uppercase", letterSpacing:"0.5px", marginBottom:1 }}>💾 Data Backup</div>
               <button onClick={backupData}
-                style={{ width:"100%", background:"rgba(14,124,123,0.25)", border:"1px solid rgba(14,124,123,0.5)", borderRadius:6, padding:"6px 0", color:"rgba(150,230,228,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b }}>
+                style={{ width:"100%", background:"rgba(14,124,123,0.25)", border:"1px solid rgba(14,124,123,0.5)", borderRadius:6, padding:"9px 0", color:"rgba(150,230,228,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b }}>
                 💾 Save Backup (.json)
               </button>
-              <label style={{ display:"block", width:"100%", background:"rgba(42,95,158,0.2)", border:"1px solid rgba(42,95,158,0.4)", borderRadius:6, padding:"6px 0", color:"rgba(160,200,255,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b, textAlign:"center" }}>
+              <label style={{ display:"block", width:"100%", background:"rgba(42,95,158,0.2)", border:"1px solid rgba(42,95,158,0.4)", borderRadius:6, padding:"9px 0", color:"rgba(160,200,255,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b, textAlign:"center" }}>
                 📂 Restore from File
-                <input type="file" accept=".json" onChange={e => { if(e.target.files?.[0]) { restoreData(e.target.files[0]); e.target.value=''; } }} style={{ display:"none" }}/>
+                <input type="file" accept=".json" aria-label="Restore data from backup file" onChange={e => { if(e.target.files?.[0]) { restoreData(e.target.files[0]); e.target.value=''; } }} style={{ display:"none" }}/>
               </label>
               <button onClick={() => { if(window.confirm(t("resetConfirm"))) { setEsmsData({}); setActive("welcome"); } }}
-                style={{ width:"100%", background:"rgba(192,57,43,0.2)", border:"1px solid rgba(192,57,43,0.4)", borderRadius:6, padding:"6px 0", color:"rgba(255,180,180,0.85)", cursor:"pointer", fontSize:11, fontFamily:F.b }}>
+                style={{ width:"100%", background:"rgba(192,57,43,0.2)", border:"1px solid rgba(192,57,43,0.4)", borderRadius:6, padding:"9px 0", color:"rgba(255,180,180,0.85)", cursor:"pointer", fontSize:11, fontFamily:F.b }}>
                 {t("resetData")}
               </button>
             </div>
@@ -2872,19 +2960,46 @@ export default function App() {
         )}
       </div>
 
-      {/* MAIN */}
-      <div ref={mainRef} style={{ flex:1, padding:"28px 32px 48px", overflowX:"hidden", overflowY:"auto", maxHeight:"100vh" }}>
-        <div style={{ maxWidth:1000, margin:"0 auto" }}>
+      {/* ── MAIN CONTENT ── */}
+      <main id="main-content" ref={mainRef} className="app-main" role="main" style={{ flex:1, padding:"28px 32px 48px", overflowX:"hidden", overflowY:"auto", maxHeight:"100vh" }}>
+        <div className="app-content-inner" style={{ maxWidth:1000, margin:"0 auto" }}>
           {renderContent()}
           {active !== "welcome" && (
             <div style={{ marginTop:32, paddingTop:18, borderTop:`2px solid ${C.border}`, display:"flex", gap:10, flexWrap:"wrap" }}>
-              {activeIdx > 0 && <button onClick={() => goTo(NAV[activeIdx-1].id)} style={S.outBtn}>← {NAV[activeIdx-1].label}</button>}
+              {activeIdx > 0 && <button onClick={() => mobileGoTo(NAV[activeIdx-1].id)} style={S.outBtn}>← {NAV[activeIdx-1].label}</button>}
               <div style={{ flex:1 }}/>
-              {activeIdx < NAV.length-1 && <button onClick={() => goTo(NAV[activeIdx+1].id)} style={S.btn}>{NAV[activeIdx+1].label} →</button>}
+              {activeIdx < NAV.length-1 && <button onClick={() => mobileGoTo(NAV[activeIdx+1].id)} style={S.btn}>{NAV[activeIdx+1].label} →</button>}
             </div>
           )}
         </div>
-      </div>
+      </main>
+
+      {/* ── MOBILE BOTTOM NAVIGATION ── */}
+      <nav id="mobile-bottom-nav" aria-label="Quick navigation">
+        {BOTTOM_NAV.map(item => {
+          const isA = active === item.id;
+          return (
+            <button key={item.id}
+              onClick={() => mobileGoTo(item.id)}
+              aria-label={item.label}
+              aria-current={isA ? "page" : undefined}
+              style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:2, padding:"4px 0", color:isA?"white":"rgba(255,255,255,0.5)", transition:"color 0.15s" }}>
+              <span style={{ fontSize:18, lineHeight:1 }} aria-hidden="true">{item.icon}</span>
+              <span style={{ fontSize:9, fontWeight:isA?700:400, whiteSpace:"nowrap", maxWidth:56, overflow:"hidden", textOverflow:"ellipsis" }}>{item.label.replace(/^\d+\.\s/,"")}</span>
+              {isA && <div style={{ width:4, height:4, borderRadius:"50%", background:"#15A09F", marginTop:2 }}/>}
+            </button>
+          );
+        })}
+        {/* More button opens sidebar */}
+        <button
+          onClick={() => setSidebarOpen(true)}
+          aria-label="Open full navigation menu"
+          style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:2, padding:"4px 0", color:"rgba(255,255,255,0.5)" }}>
+          <span style={{ fontSize:18, lineHeight:1 }} aria-hidden="true">⋯</span>
+          <span style={{ fontSize:9 }}>More</span>
+        </button>
+      </nav>
+
     </div>
     </LangContext.Provider>
   );

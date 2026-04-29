@@ -32,10 +32,28 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
 - **Kind**: react-vite web app
 - **Preview path**: `/`
 - **Description**: ROGEAP Off-Grid Solar ESMS Builder — a comprehensive tool for building and implementing an Environmental & Social Management System, aligned with ROGEAP Guidelines and IFC Performance Standards.
-- **Architecture**: Single-file React app (`src/App.tsx`, ported from App.jsx). Uses `// @ts-nocheck` to allow plain JSX. No backend needed — all data persisted in localStorage via `useLS` hook.
+- **Architecture**: Single-file React app (`src/App.tsx`). Uses `// @ts-nocheck` to allow plain JSX. No backend — all data persisted in localStorage via `useLS` hook.
 - **Key files**:
-  - `src/App.tsx` — main app (2835 lines, all components, tools, export engine)
+  - `src/App.tsx` — main app (~2960 lines, all components, tools, export engine)
   - `src/i18n/translations.js` — UI strings in English, Français, Português
-  - `src/index.css` — minimal reset styles (no Tailwind)
-- **Features**: E&S Screening, Policies, Risk Assessment, Compliance, Management Plans, Implementation Tools, ESAP, multilingual (EN/FR/PT), PDF/Word/CSV export
-- **Bug fixed**: `Welcome` component needed `nav` prop (NAV was defined inside App function but referenced in module-level Welcome component)
+  - `src/index.css` — responsive CSS (mobile layout, touch targets, skip link, iOS zoom fix)
+  - `public/manifest.json` — PWA web app manifest
+- **Features**: E&S Screening, Policies, Risk Assessment, Compliance, Management Plans, Implementation Tools, ESAP, multilingual (EN/FR/PT), PDF/Word/CSV export, JSON backup/restore
+- **Responsive layout**:
+  - Desktop (>768px): sticky sidebar + main content
+  - Mobile (≤768px): mobile top header (hamburger + title + language), off-screen sidebar drawer, mobile bottom navigation bar (5 tabs + More)
+  - GuidelinesPanel: slide-in from right on desktop, full-screen on mobile
+- **Accessibility (WCAG 2.1 AA)**:
+  - Skip-to-main-content link (`.skip-link`)
+  - `<main id="main-content" role="main">`
+  - Sidebar: `role="navigation"` + `aria-label`
+  - GuidelinesPanel: `role="dialog"` + `aria-modal` + Escape key + focus trap + auto-focus close button
+  - All icon-only and remove (×) buttons have `aria-label`
+  - `aria-current="page"` on active nav items
+  - `aria-expanded` on hamburger button
+- **Touch & mobile fixes**:
+  - iOS auto-zoom fix: `font-size: 16px !important` on all inputs/select/textarea on touch devices
+  - All × remove buttons: `min-width: 44px; min-height: 44px` on touch devices
+  - Android font fallbacks: Noto Serif/Noto Sans added to font stacks
+  - `viewport-fit=cover` for iPhone safe areas
+  - `env(safe-area-inset-bottom)` padding on bottom nav

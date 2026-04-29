@@ -1,0 +1,19 @@
+Now I have a thorough picture of every component, interaction pattern, layout constraint, and platform-specific issue. Let me produce the complete checklist.Here is the complete interactive UX/UI checklist — 48 items across 8 categories, each tagged by screen size and operating system. Tick items off as they are completed in Replit.
+
+The checklist is organised in priority order:
+
+**Section 1 — Responsive Layout & Navigation** covers the most fundamental issue: the current fixed sidebar and layout assumptions break entirely on phones and tablets. The sidebar needs to become a drawer/bottom-tab hybrid, and the Guidelines panel needs to go full-screen on mobile.
+
+**Section 2 — Touch Targets & Interaction** addresses the many small buttons (× remove buttons, checklist adds, table cells) that are well below the 44×44px minimum required by both Apple HIG and Google Material Design. This section also covers platform-specific gestures — swipe-to-close on iOS and Android.
+
+**Section 3 — Tables & Data Registers** is critical because the Risk Matrix (`minWidth:900`) and all multi-column registers currently cause page-level horizontal scrolling on any device under 900px. The fix is a combination of overflow-x containers and a card/stack view for very small screens.
+
+**Section 4 — Forms & Text Input** focuses on the iOS auto-zoom bug (triggered by any `font-size` below 16px on inputs), correct `inputmode` attributes for number fields, and responsive grid collapsing inside ESAP cards.
+
+**Section 5 — Export & Downloads** covers the platform differences in how `window.open()`, RTF data URIs, and PDF printing behave differently on iOS Safari, Android Chrome, Windows, and macOS — each requiring a different approach or fallback.
+
+**Section 6 — Typography & Readability** addresses font size minimums (11px text exists throughout the app), the missing Android fallback fonts (Trebuchet MS and Palatino Linotype are not installed on most Android devices), and WCAG AA contrast verification.
+
+**Section 7 — Platform-Specific Navigation** covers the Android hardware back button, iOS swipe-from-left-edge, keyboard shortcuts for Windows/macOS power users, and adding a Web App Manifest so the app can be added to the home screen on both iOS and Android as a progressive web app.
+
+**Section 8 — Accessibility (WCAG 2.1 AA)** covers missing ARIA labels on icon-only buttons, the Guidelines panel needing `role="dialog"`, focus trapping, a skip-to-main-content link, and the need to test with VoiceOver and TalkBack.

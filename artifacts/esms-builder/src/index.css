@@ -1,8 +1,214 @@
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; height: 100%; }
 #root { height: 100%; }
-/* Smooth scrollbar */
+
+/* ─── SCROLLBAR ─── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(26,58,92,0.25); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(26,58,92,0.45); }
+
+/* ─── SKIP LINK — keyboard/screen-reader navigation ─── */
+.skip-link {
+  position: absolute; top: -100px; left: 12px; z-index: 9999;
+  background: #1A3A5C; color: white; padding: 8px 18px;
+  border-radius: 0 0 8px 8px; font-weight: 700;
+  text-decoration: none; font-size: 14px; transition: top 0.15s;
+  white-space: nowrap;
+}
+.skip-link:focus { top: 0; }
+
+/* ─── KEYBOARD FOCUS INDICATOR (WCAG AA) ─── */
+:focus-visible {
+  outline: 3px solid #2A5F9E;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes slideInRight {
+  from { transform: translateX(30px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes slideInUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── iOS AUTO-ZOOM FIX — font-size < 16px triggers auto-zoom on Safari ─── */
+@media (hover: none) and (pointer: coarse) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ─── TABLE HORIZONTAL SCROLL ─── */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── TOUCH TARGET MINIMUM 44×44px (Apple HIG + Google Material) ─── */
+@media (hover: none) and (pointer: coarse) {
+  button, [role="button"] {
+    min-height: 44px;
+  }
+  .remove-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  /* Nav items in sidebar */
+  .nav-btn {
+    min-height: 48px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+}
+
+/* ─── MOBILE LAYOUT — default hide/show ─── */
+#mobile-header { display: none; }
+#mobile-bottom-nav { display: none; }
+#sidebar-backdrop { display: none; opacity: 0; pointer-events: none; }
+
+@media (max-width: 768px) {
+  /* Mobile header bar — above sidebar backdrop */
+  #mobile-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 12px;
+    height: 54px;
+    min-height: 54px;
+    background: #0D2038;
+    position: sticky;
+    top: 0;
+    z-index: 305;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Sidebar drawer */
+  .app-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 100dvh !important;
+    width: min(300px, 88vw) !important;
+    z-index: 301 !important;
+    transform: translateX(-110%) !important;
+    transition: transform 0.27s cubic-bezier(0.4,0,0.2,1) !important;
+    overflow-y: auto !important;
+  }
+  .app-sidebar.sidebar-open {
+    transform: translateX(0) !important;
+    box-shadow: 6px 0 32px rgba(0,0,0,0.45) !important;
+  }
+
+  /* Backdrop */
+  #sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 300;
+    transition: opacity 0.25s;
+    cursor: pointer;
+  }
+  #sidebar-backdrop.backdrop-open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Main content adjustments */
+  .app-main {
+    padding: 16px 14px 76px !important;
+    max-height: none !important;
+  }
+
+  /* Bottom navigation */
+  #mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: #0D2038;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    z-index: 200;
+    align-items: stretch;
+    /* safe area for iPhone home indicator */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* GuidelinesPanel full-screen on mobile */
+  .guidelines-panel {
+    width: 100vw !important;
+    margin-left: 0 !important;
+    animation: slideInUp 0.25s ease !important;
+  }
+
+  /* Responsive max-width */
+  .app-content-inner {
+    max-width: 100% !important;
+  }
+
+  /* Wrap export bar */
+  .export-bar { flex-wrap: wrap; }
+
+  /* ESAP card grid collapses to 1 col */
+  .esap-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ─── SMALL PHONE ─── */
+@media (max-width: 420px) {
+  .app-main {
+    padding: 12px 10px 76px !important;
+  }
+}
+
+/* ─── ALL SCREENS: base layout ─── */
+.app-root {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: row;
+}
+
+/* ─── LARGE SCREENS: keep sidebar sticky ─── */
+@media (min-width: 769px) {
+  .app-sidebar {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100vh !important;
+    flex-shrink: 0;
+  }
+  .app-main {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+}
+
+/* ─── MOBILE: column layout ─── */
+@media (max-width: 768px) {
+  .app-root {
+    flex-direction: column;
+  }
+  .app-main {
+    flex: 1;
+    overflow-y: auto;
+  }
+}
+
+/* ─── PRINT MEDIA ─── */
+@media print {
+  .app-sidebar, #mobile-header, #mobile-bottom-nav { display: none !important; }
+  .app-main { padding: 0 !important; max-height: none !important; }
+}

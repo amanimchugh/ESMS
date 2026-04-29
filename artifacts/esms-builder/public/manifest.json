@@ -1,0 +1,19 @@
+{
+  "name": "ESMS Builder — ROGEAP Off-Grid Solar",
+  "short_name": "ESMS Builder",
+  "description": "ROGEAP Off-Grid Solar Environmental & Social Management System tool aligned with IFC Performance Standards",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0D2038",
+  "theme_color": "#1A3A5C",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

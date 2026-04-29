@@ -2181,25 +2181,25 @@ ${body}
 
 function exportPDF(title, sections) {
   const html = buildPrintHTML(title, sections);
-  // Try opening a new window with the printable content
-  let w = null;
-  try { w = window.open('', '_blank'); } catch(e) {}
-  if (w && !w.closed) {
-    w.document.open();
-    w.document.write(html);
-    w.document.close();
-    // Print dialog fires after document loads
-    w.onload = () => { try { w.focus(); w.print(); } catch(e){} };
-    setTimeout(() => { try { w.focus(); w.print(); } catch(e){} }, 900);
-  } else {
-    // Sandbox blocks window.open — use data URI in a new tab
-    const blob = new Blob([html], {type:'text/html'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.target = '_blank'; a.style.display = 'none';
-    document.body.appendChild(a); a.click();
-    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+  // Use Blob URL — works reliably in both standalone and embedded environments
+  const blob = new Blob([html], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  try {
+    a.click();
+  } catch(e) {
+    // Last resort: direct window.open
+    try { window.open(url, '_blank'); } catch(e2) {}
   }
+  setTimeout(() => {
+    try { document.body.removeChild(a); } catch(e) {}
+    URL.revokeObjectURL(url);
+  }, 1500);
 }
 
 // ══════════════════════════════════════════════════
@@ -2727,6 +2727,51 @@ export default function App() {
   const openGuide = (id) => setGuideOpen(id);
   const closeGuide = () => setGuideOpen(null);
 
+  // ── JSON Backup / Restore ──
+  const backupData = () => {
+    try {
+      const backup = {
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        lang,
+        esmsData,
+      };
+      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ESMS_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 500);
+    } catch(e) {
+      alert('Could not save backup: ' + e.message);
+    }
+  };
+
+  const restoreData = (file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const backup = JSON.parse(e.target.result);
+        if (backup && typeof backup.esmsData === 'object') {
+          if (window.confirm('Restore this backup? All current data will be replaced.')) {
+            setEsmsData(backup.esmsData);
+            if (backup.lang) setLang(backup.lang);
+            setActive('welcome');
+          }
+        } else {
+          alert('Invalid backup file. Please select a valid ESMS Builder .json backup file.');
+        }
+      } catch(err) {
+        alert('Could not read backup file. Make sure it is a valid JSON backup.');
+      }
+    };
+    reader.readAsText(file);
+  };
+
   // Inject openGuide into every section via prop
   const renderContent = () => {
     switch(active) {
@@ -2803,16 +2848,26 @@ export default function App() {
           })}
         </nav>
         {sidebarOpen && (
-          <div style={{ padding:"10px 12px", borderTop:"1px solid rgba(255,255,255,0.1)", display:"flex", flexDirection:"column", gap:6 }}>
-            {/* Full ESMS downloads */}
-            <div style={{ fontSize:10, color:"rgba(255,255,255,0.5)", fontWeight:600, textTransform:"uppercase", letterSpacing:"0.5px", marginBottom:2 }}>
-              {t("downloadFull")}
-            </div>
+          <div style={{ padding:"10px 12px", borderTop:"1px solid rgba(255,255,255,0.1)", display:"flex", flexDirection:"column", gap:5 }}>
             <ExportBar isFull={true} esmsData={esmsData} filename="Full_ESMS_Document"
               title="Full ESMS Document"
               sections={[]}/>
-            <button onClick={() => { if(confirm(t("resetConfirm"))) { setEsmsData({}); setActive("welcome"); } }}
-              style={{ width:"100%", background:"rgba(192,57,43,0.2)", border:"1px solid rgba(192,57,43,0.4)", borderRadius:6, padding:7, color:"rgba(255,180,180,0.85)", cursor:"pointer", fontSize:11, fontFamily:F.b, marginTop:4 }}>{t("resetData")}</button>
+            {/* Backup / Restore / Reset */}
+            <div style={{ borderTop:"1px solid rgba(255,255,255,0.08)", paddingTop:7, display:"flex", flexDirection:"column", gap:5 }}>
+              <div style={{ fontSize:9, color:"rgba(255,255,255,0.4)", fontWeight:600, textTransform:"uppercase", letterSpacing:"0.5px", marginBottom:1 }}>💾 Data Backup</div>
+              <button onClick={backupData}
+                style={{ width:"100%", background:"rgba(14,124,123,0.25)", border:"1px solid rgba(14,124,123,0.5)", borderRadius:6, padding:"6px 0", color:"rgba(150,230,228,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b }}>
+                💾 Save Backup (.json)
+              </button>
+              <label style={{ display:"block", width:"100%", background:"rgba(42,95,158,0.2)", border:"1px solid rgba(42,95,158,0.4)", borderRadius:6, padding:"6px 0", color:"rgba(160,200,255,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b, textAlign:"center" }}>
+                📂 Restore from File
+                <input type="file" accept=".json" onChange={e => { if(e.target.files?.[0]) { restoreData(e.target.files[0]); e.target.value=''; } }} style={{ display:"none" }}/>
+              </label>
+              <button onClick={() => { if(window.confirm(t("resetConfirm"))) { setEsmsData({}); setActive("welcome"); } }}
+                style={{ width:"100%", background:"rgba(192,57,43,0.2)", border:"1px solid rgba(192,57,43,0.4)", borderRadius:6, padding:"6px 0", color:"rgba(255,180,180,0.85)", cursor:"pointer", fontSize:11, fontFamily:F.b }}>
+                {t("resetData")}
+              </button>
+            </div>
           </div>
         )}
       </div>

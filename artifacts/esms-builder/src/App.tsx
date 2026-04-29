@@ -641,58 +641,59 @@ function ESAPTable({value,onChange}){
 
 // ═══════════════ CODE OF CONDUCT BUILDER ═══════════════
 function CodeOfConductBuilder({value,onChange}){
+  const {t}=useLang();
   const d=value||{};
   const set=(k,v)=>onChange({...d,[k]:v});
   const BASELINE_ITEMS=[
-    {id:"competence",text:"Carry out duties competently and diligently, maintaining professional standards at all times"},
-    {id:"comply_laws",text:"Comply with this Code of Conduct and all applicable laws, regulations, and company requirements"},
-    {id:"safe_workplace",text:"Maintain a safe working environment — ensure workplaces and equipment under your control are safe; wear required PPE; follow emergency operating procedures"},
-    {id:"report_unsafe",text:"Report work situations you believe are unsafe or unhealthy; remove yourself from any situation presenting imminent and serious danger"},
-    {id:"respect",text:"Treat all people with respect regardless of gender, race, ethnicity, nationality, language, religion, political opinion, social origin, disability, or any other characteristic"},
-    {id:"no_discrimination",text:"Not discriminate against specific groups including women, people with disabilities, migrant workers, or children"},
-    {id:"no_seah_harassment",text:"Not engage in Sexual Harassment — meaning unwelcome sexual advances, requests for sexual favours, or other verbal/physical conduct of a sexual nature"},
-    {id:"no_exploitation",text:"Not engage in Sexual Exploitation — meaning any actual or attempted abuse of position of vulnerability or power for sexual purposes"},
-    {id:"no_abuse",text:"Not engage in Sexual Abuse — meaning any actual or threatened physical intrusion of a sexual nature, whether by force or under coercive conditions"},
-    {id:"no_sex_minors",text:"Not engage in any form of sexual activity with individuals under 18 years of age under any circumstances"},
-    {id:"complete_training",text:"Complete all mandatory training provided by the company, including on E&S, health and safety, SEA/SH prevention, and Code of Conduct"},
-    {id:"report_violations",text:"Report violations of this Code of Conduct — through the grievance mechanism or to management — without fear of retaliation"},
-    {id:"no_retaliation_coc",text:"Not retaliate against any person who reports violations of this Code, uses the grievance mechanism, or cooperates in an investigation"},
-    {id:"no_corruption",text:"Not engage in bribery, fraud, or any corrupt practice in connection with company business"},
-    {id:"ewaste_responsibility",text:"Handle and dispose of e-waste (batteries, panels, accessories) in accordance with the company's Waste Management Plan"},
-    {id:"confidentiality",text:"Maintain confidentiality of company information, customer data, and grievance complaints"},
+    {id:"competence",text:t("cocItem1")},
+    {id:"comply_laws",text:t("cocItem2")},
+    {id:"safe_workplace",text:t("cocItem3")},
+    {id:"report_unsafe",text:t("cocItem4")},
+    {id:"respect",text:t("cocItem5")},
+    {id:"no_discrimination",text:t("cocItem6")},
+    {id:"no_seah_harassment",text:t("cocItem7")},
+    {id:"no_exploitation",text:t("cocItem8")},
+    {id:"no_abuse",text:t("cocItem9")},
+    {id:"no_sex_minors",text:t("cocItem10")},
+    {id:"complete_training",text:t("cocItem11")},
+    {id:"report_violations",text:t("cocItem12")},
+    {id:"no_retaliation_coc",text:t("cocItem13")},
+    {id:"no_corruption",text:t("cocItem14")},
+    {id:"ewaste_responsibility",text:t("cocItem15")},
+    {id:"confidentiality",text:t("cocItem16")},
   ];
   return(<div>
-    <InfoBox col={C.navyLight} bg="#EBF5FB">This Code of Conduct is based on the ROGEAP sample (Box 2 of the Guidelines). All employees and subcontractors must read, sign, and receive a copy in a language they understand. Signed copies must be retained on file. Select the items applicable to your company and add any additional requirements.</InfoBox>
+    <InfoBox col={C.navyLight} bg="#EBF5FB">{t("cocInfoBox")}</InfoBox>
     <div style={{...S.card,marginBottom:16}}>
-      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:4,fontFamily:F.d}}>Company Details</div>
+      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:4,fontFamily:F.d}}>{t("cocSecCompanyDetails")}</div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
-        {[["company_name","Company Name"],["effective_date","Effective Date"],["approved_by","Approved By (Name & Title)"]].map(([k,l])=>(
+        {[[`company_name`,t("cocFldCompanyName")],[`effective_date`,t("cocFldEffectiveDate")],[`approved_by`,t("cocFldApprovedBy")]].map(([k,l])=>(
           <div key={k}><Lbl c={l}/><input value={d[k]||""} onChange={e=>set(k,e.target.value)} style={S.inp}/></div>
         ))}
       </div>
     </div>
     <div style={{...S.card,marginBottom:16}}>
-      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:4,fontFamily:F.d}}>Preamble</div>
-      <Hint c="This introductory paragraph sets the tone. Edit as needed."/>
-      <textarea value={d.preamble||`This Code of Conduct is part of our measures to address environmental, social, health and safety (ESHS) risks related to our operations and the products and services we provide. The Code specifies behaviour expected of all our employees and subcontractors. Our workplace is an environment where unsafe, offensive, abusive, or violent behaviour will not be tolerated, and where all persons should feel comfortable raising issues or concerns without fear of retaliation.`} onChange={e=>set("preamble",e.target.value)} rows={5} style={S.ta}/>
+      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:4,fontFamily:F.d}}>{t("cocSecPreamble")}</div>
+      <Hint c={t("cocHintPreamble")}/>
+      <textarea value={d.preamble||t("cocDefaultPreamble")} onChange={e=>set("preamble",e.target.value)} rows={5} style={S.ta}/>
     </div>
     <div style={{...S.card,marginBottom:16}}>
-      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:8,fontFamily:F.d}}>Code of Conduct Requirements</div>
-      <Hint c="All pre-populated items are selected. Deselect any not applicable; add your own at the bottom."/>
+      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:8,fontFamily:F.d}}>{t("cocSecRequirements")}</div>
+      <Hint c={t("cocHintRequirements")}/>
       <ChecklistBuilder baseline={BASELINE_ITEMS} value={d.items} onChange={v=>set("items",v)}/>
     </div>
     <div style={{...S.card,marginBottom:16}}>
-      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:4,fontFamily:F.d}}>Consequences of Violation</div>
-      <textarea value={d.consequences||`Any violation of this Code of Conduct may result in serious consequences, up to and including:\n• Verbal or written warning (for minor violations)\n• Suspension without pay (for serious violations)\n• Termination of employment or contract\n• Referral to relevant legal authorities (for criminal violations, including GBV/SEA/SH)\n\nThe severity of the consequence will depend on the nature and seriousness of the violation.`} onChange={e=>set("consequences",e.target.value)} rows={6} style={S.ta}/>
+      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:4,fontFamily:F.d}}>{t("cocSecConsequences")}</div>
+      <textarea value={d.consequences||t("cocDefaultConsequences")} onChange={e=>set("consequences",e.target.value)} rows={6} style={S.ta}/>
     </div>
     <div style={{...S.card}}>
-      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:4,fontFamily:F.d}}>Reporting Violations</div>
-      <textarea value={d.reporting||`If any person observes behaviour that may represent a violation of this Code, or that otherwise concerns them, they should raise the issue promptly through the company's grievance mechanism.\n\nChannel: [WhatsApp / Phone / Email / In-person — specify contact details]\n\nThe person's identity will be kept confidential unless reporting is mandated by law. Anonymous complaints may also be submitted and will be given appropriate consideration. There will be no retaliation against any person who raises a concern in good faith.`} onChange={e=>set("reporting",e.target.value)} rows={6} style={S.ta}/>
+      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:4,fontFamily:F.d}}>{t("cocSecReporting")}</div>
+      <textarea value={d.reporting||t("cocDefaultReporting")} onChange={e=>set("reporting",e.target.value)} rows={6} style={S.ta}/>
       <div style={{marginTop:12,background:"#F8FAFD",borderRadius:8,padding:12}}>
-        <div style={{fontWeight:700,fontSize:13,marginBottom:6}}>Employee Acknowledgement (Signing Block)</div>
-        <div style={{fontSize:12,color:C.muted,fontStyle:"italic"}}>I have received a copy of the Code of Conduct in a language I understand. I have read and understand the behaviour expected of me. I understand the consequences of non-compliance and commit to comply fully.</div>
+        <div style={{fontWeight:700,fontSize:13,marginBottom:6}}>{t("cocAckTitle")}</div>
+        <div style={{fontSize:12,color:C.muted,fontStyle:"italic"}}>{t("cocAckText")}</div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginTop:8}}>
-          {["Full Name:","Position:","Signature:","Date:"].map((l,i)=><div key={i} style={{fontSize:12,borderBottom:`1px solid ${C.border}`,paddingBottom:4,color:C.muted}}>{l} _______________________</div>)}
+          {[t("cocSigFullName"),t("cocSigPosition"),t("cocSigSignature"),t("cocSigDate")].map((l,i)=><div key={i} style={{fontSize:12,borderBottom:`1px solid ${C.border}`,paddingBottom:4,color:C.muted}}>{l} _______________________</div>)}
         </div>
       </div>
     </div>
@@ -838,36 +839,36 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
       desc:t("policyDescES"),
       fields:[
         {id:"company_name",label:t("pfldCompanyName"),t:"text",req:true},
-        {id:"mission",label:t("pfldMission"),t:"ta",rows:3,req:true,ph:"What does your company do and what impact does it aim to have?"},
+        {id:"mission",label:t("pfldMission"),t:"ta",rows:3,req:true,ph:t("phMission")},
         {id:"env_commitments",label:t("pfldEnvCommitments"),t:"cbl",items:[
-          {id:"ewaste",text:"Responsible take-back, recycling and disposal of all end-of-life solar products and batteries"},
-          {id:"suppliers_env",text:"Select suppliers based on environmental and social responsibility"},
-          {id:"ghg",text:"Minimise greenhouse gas emissions from operations and logistics"},
-          {id:"resource",text:"Reduce energy and water consumption in offices, warehouses, and installations"},
-          {id:"ewaste_edu",text:"Provide customers with information on safe use and responsible disposal of products"},
-          {id:"epr",text:"Fulfil Extended Producer Responsibility (EPR) obligations for end-of-life products"},
-          {id:"comply_env",text:"Comply with all applicable environmental laws and regulations"},
+          {id:"ewaste",text:t("envCommit1")},
+          {id:"suppliers_env",text:t("envCommit2")},
+          {id:"ghg",text:t("envCommit3")},
+          {id:"resource",text:t("envCommit4")},
+          {id:"ewaste_edu",text:t("envCommit5")},
+          {id:"epr",text:t("envCommit6")},
+          {id:"comply_env",text:t("envCommit7")},
         ]},
         {id:"social_commitments",label:t("pfldSocialCommitments"),t:"cbl",items:[
-          {id:"fair_labour",text:"Ensure safe, fair, and dignified working conditions for all staff, contractors, and agents"},
-          {id:"living_wage",text:"Pay fair wages at or above the national minimum; move toward a living wage"},
-          {id:"no_child",text:"Zero tolerance for forced labour and child labour in our operations and supply chain"},
-          {id:"gender",text:"Promote gender equity and women's participation at all levels of the company"},
-          {id:"zero_seah",text:"Zero tolerance for Gender-Based Violence (GBV), Sexual Exploitation, Abuse, and Harassment (SEAH)"},
-          {id:"community",text:"Engage fairly and transparently with communities and customers"},
-          {id:"access",text:"Ensure affordable and accessible products, especially for underserved and rural communities"},
+          {id:"fair_labour",text:t("socialCommit1")},
+          {id:"living_wage",text:t("socialCommit2")},
+          {id:"no_child",text:t("socialCommit3")},
+          {id:"gender",text:t("socialCommit4")},
+          {id:"zero_seah",text:t("socialCommit5")},
+          {id:"community",text:t("socialCommit6")},
+          {id:"access",text:t("socialCommit7")},
         ]},
         {id:"governance",label:t("pfldGovernance"),t:"cbl",items:[
-          {id:"laws",text:"Comply with all applicable national laws and regulations in countries of operation"},
-          {id:"ifc",text:"Adhere to IFC Performance Standards and World Bank Environmental and Social Framework"},
-          {id:"gogla",text:"Commit to the GOGLA Consumer Protection Code"},
-          {id:"abc",text:"Zero tolerance for corruption and bribery (Anti-Bribery and Corruption policy)"},
-          {id:"reporting",text:"Maintain transparent records and report regularly to investors, lenders, and regulators"},
-          {id:"gm_commit",text:"Maintain a Grievance Mechanism accessible to all stakeholders, including for GBV/SEA/SH"},
-          {id:"review",text:"Conduct annual review and continuous improvement of our E&S performance"},
+          {id:"laws",text:t("govCommit1")},
+          {id:"ifc",text:t("govCommit2")},
+          {id:"gogla",text:t("govCommit3")},
+          {id:"abc",text:t("govCommit4")},
+          {id:"reporting",text:t("govCommit5")},
+          {id:"gm_commit",text:t("govCommit6")},
+          {id:"review",text:t("govCommit7")},
         ]},
-        {id:"policy_text",label:t("pfldPolicyText"),t:"ta",rows:12,ph:"Write your complete E&S Policy Statement here. Use the checklist items above as the basis. This will be signed by your CEO/MD and displayed prominently."},
-        {id:"signatory",label:t("pfldSignatory"),t:"text",ph:"e.g. Amina Ibrahim, Managing Director | Date: 01/06/2025"},
+        {id:"policy_text",label:t("pfldPolicyText"),t:"ta",rows:12,ph:t("phPolicyText")},
+        {id:"signatory",label:t("pfldSignatory"),t:"text",ph:t("phSignatoryES")},
         {id:"review_freq",label:t("pfldReviewFreq"),t:"sel",opts:[t("optAnnually"),t("optSixMonthly"),t("optAfterIncident"),t("optNotDetermined")]},
       ]
     },
@@ -875,111 +876,111 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
       id:"hr_policy_stmt", icon:"👥", label:t("policyLblHR"), color:C.navyLight,
       desc:t("policyDescHR"),
       fields:[
-        {id:"hr_scope",label:t("pfldHRScope"),t:"ta",rows:2,ph:"All permanent employees, contract workers, casual workers, interns, trainees, and contractors"},
+        {id:"hr_scope",label:t("pfldHRScope"),t:"ta",rows:2,ph:t("phHRScope")},
         {id:"eeo",label:t("pfldEEO"),t:"cbl",items:[
-          {id:"no_race",text:"No discrimination by race, colour, religion, gender, nationality, age, or disability"},
-          {id:"merit",text:"All employment decisions based on merit, skills, and relevant experience"},
-          {id:"women_access",text:"Women given equal access to training, promotion, and career advancement"},
-          {id:"minority",text:"Actively recruit from underrepresented groups; set diversity targets"},
+          {id:"no_race",text:t("eeoItem1")},
+          {id:"merit",text:t("eeoItem2")},
+          {id:"women_access",text:t("eeoItem3")},
+          {id:"minority",text:t("eeoItem4")},
         ]},
         {id:"work_conditions",label:t("pfldWorkConditions"),t:"cbl",items:[
-          {id:"contracts",text:"All workers issued written employment contracts before starting work"},
-          {id:"min_wage",text:"Wages at or above national minimum wage; annual review against living wage benchmark"},
-          {id:"overtime",text:"Overtime is voluntary, compensated at legal premium rate, and within legal maximum hours"},
-          {id:"leave",text:"Annual, sick, maternity, and paternity leave provided in accordance with national law"},
-          {id:"benefits",text:"Benefits provided (health, pension, transport, etc.) as applicable"},
+          {id:"contracts",text:t("workCond1")},
+          {id:"min_wage",text:t("workCond2")},
+          {id:"overtime",text:t("workCond3")},
+          {id:"leave",text:t("workCond4")},
+          {id:"benefits",text:t("workCond5")},
         ]},
         {id:"rights",label:t("pfldWorkerRights"),t:"cbl",items:[
-          {id:"foa",text:"Right to freedom of association — workers may organise and join workers' organisations without retaliation"},
-          {id:"no_forced",text:"No forced labour — workers are never required to surrender identity documents"},
-          {id:"no_child_hr",text:"No child labour — minimum age verified for all workers; age-specific work restrictions applied"},
-          {id:"safety",text:"Right to a safe and healthy working environment"},
-          {id:"dignity",text:"Right to dignity and respect — zero tolerance for harassment or bullying"},
+          {id:"foa",text:t("rights1")},
+          {id:"no_forced",text:t("rights2")},
+          {id:"no_child_hr",text:t("rights3")},
+          {id:"safety",text:t("rights4")},
+          {id:"dignity",text:t("rights5")},
         ]},
         {id:"women_hr",label:t("pfldWomenHR"),t:"cbl",items:[
-          {id:"sanitary",text:"Clean, private sanitary facilities provided for female workers at all locations"},
-          {id:"maternity",text:"Maternity leave and provisions provided per national law (specify enhanced provisions if any)"},
-          {id:"seah_policy",text:"Zero tolerance for GBV/SEAH in the workplace with confidential reporting route"},
-          {id:"career_women",text:"Equal access to training and promotion for women; gender disaggregated data tracked"},
+          {id:"sanitary",text:t("womenHR1")},
+          {id:"maternity",text:t("womenHR2")},
+          {id:"seah_policy",text:t("womenHR3")},
+          {id:"career_women",text:t("womenHR4")},
         ]},
-        {id:"grievance_hr",label:t("pfldGrievanceHR"),t:"ta",rows:3,ph:"How can workers raise complaints? What are the channels (including anonymous option)? What is the response timeline? What protection from retaliation is guaranteed?"},
-        {id:"hr_signatory",label:t("pfldSignatory"),t:"text",ph:"e.g. Fatima Bello, HR Manager | Date: 01/06/2025"},
+        {id:"grievance_hr",label:t("pfldGrievanceHR"),t:"ta",rows:3,ph:t("phGrievanceHR")},
+        {id:"hr_signatory",label:t("pfldSignatory"),t:"text",ph:t("phSignatoryHR")},
       ]
     },
     {
       id:"hs_policy_stmt", icon:"⛑️", label:t("policyLblHS"), color:C.red,
       desc:t("policyDescHS"),
       fields:[
-        {id:"hs_commitment",label:t("pfldHSCommitment"),t:"ta",rows:4,ph:"[Company Name] is committed to providing a safe and healthy working environment for all employees, contractors, and visitors. We believe all workplace accidents are preventable. Safety is a condition of employment."},
+        {id:"hs_commitment",label:t("pfldHSCommitment"),t:"ta",rows:4,ph:t("phHSCommitment")},
         {id:"hs_objectives",label:t("pfldHSObjectives"),t:"cbl",items:[
-          {id:"zero_fat",text:"Achieve zero fatalities"},
-          {id:"reduce_lti",text:"Eliminate or minimise all significant OHS risks through the hierarchy of controls"},
-          {id:"comply_ohs",text:"Comply with all applicable OHS laws and regulations"},
-          {id:"ppe_ohs",text:"Provide adequate PPE and training for all workers"},
-          {id:"inspect",text:"Conduct regular workplace inspections and hazard assessments"},
-          {id:"investigate",text:"Investigate all incidents and near-misses; implement corrective actions"},
-          {id:"committee",text:"Consult workers on OHS matters through the Safety Committee"},
-          {id:"improve_ohs",text:"Continuously improve OHS performance year on year"},
+          {id:"zero_fat",text:t("hsObj1")},
+          {id:"reduce_lti",text:t("hsObj2")},
+          {id:"comply_ohs",text:t("hsObj3")},
+          {id:"ppe_ohs",text:t("hsObj4")},
+          {id:"inspect",text:t("hsObj5")},
+          {id:"investigate",text:t("hsObj6")},
+          {id:"committee",text:t("hsObj7")},
+          {id:"improve_ohs",text:t("hsObj8")},
         ]},
-        {id:"hs_resp",label:t("pfldHSResp"),t:"ta",rows:5,ph:"Management: Provide leadership, resources, and commitment.\nOHS Officer: Develop, implement, and maintain OHS system.\nSupervisors: Ensure workers follow safe procedures; report hazards.\nAll Workers: Follow procedures; use PPE; report hazards and incidents."},
-        {id:"hs_signatory",label:t("pfldSignatory"),t:"text",ph:"MD Name | Date: DD/MM/YYYY"},
+        {id:"hs_resp",label:t("pfldHSResp"),t:"ta",rows:5,ph:t("phHSResp")},
+        {id:"hs_signatory",label:t("pfldSignatory"),t:"text",ph:t("phSignatoryHS")},
       ]
     },
     {
       id:"consumer_policy_stmt", icon:"🛡️", label:t("policyLblConsumer"), color:C.teal,
       desc:t("policyDescConsumer"),
       fields:[
-        {id:"cp_statement",label:t("pfldPolicyStatement"),t:"ta",rows:4,ph:"[Company Name] is committed to the fair, transparent, and respectful treatment of all customers. We adopt the GOGLA Consumer Protection Code as our baseline standard."},
+        {id:"cp_statement",label:t("pfldPolicyStatement"),t:"ta",rows:4,ph:t("phCPStatement")},
         {id:"cp_principles",label:t("pfldCPPrinciples"),t:"cbl",items:[
-          {id:"transparency_cp",text:"Transparency — provide complete, accurate, accessible information on products, prices, fees, and terms before sale"},
-          {id:"affordability",text:"Responsible Sales — conduct affordability assessments; never sell to customers who cannot afford payments"},
-          {id:"no_pressure",text:"Prohibit pressure selling, false capacity claims, and deceptive marketing by all agents"},
-          {id:"after_sales",text:"Good Service — provide accessible, timely after-sales support and complaint resolution"},
-          {id:"quality_cp",text:"Good Product Quality — only sell products meeting VeraSol/IEC quality standards"},
-          {id:"data_privacy_cp",text:"Data Privacy — protect customer data; only collect what is necessary; do not share without consent"},
-          {id:"fair_treatment",text:"Fair Treatment — no discrimination by gender, religion, ethnicity, or disability"},
-          {id:"debt_cp",text:"No predatory debt collection — no harassment, intimidation, or unauthorised asset seizure"},
-          {id:"gogla_cp",text:"Formally commit to the GOGLA Consumer Protection Code (letter to consumerprotection@gogla.org)"},
-          {id:"disposal_cp",text:"Inform customers about safe product disposal and end-of-life battery return options"},
+          {id:"transparency_cp",text:t("cpPrin1")},
+          {id:"affordability",text:t("cpPrin2")},
+          {id:"no_pressure",text:t("cpPrin3")},
+          {id:"after_sales",text:t("cpPrin4")},
+          {id:"quality_cp",text:t("cpPrin5")},
+          {id:"data_privacy_cp",text:t("cpPrin6")},
+          {id:"fair_treatment",text:t("cpPrin7")},
+          {id:"debt_cp",text:t("cpPrin8")},
+          {id:"gogla_cp",text:t("cpPrin9")},
+          {id:"disposal_cp",text:t("cpPrin10")},
         ]},
-        {id:"cp_signatory",label:t("pfldSignatory"),t:"text",ph:"MD Name | Date: DD/MM/YYYY"},
+        {id:"cp_signatory",label:t("pfldSignatory"),t:"text",ph:t("phSignatoryCP")},
       ]
     },
     {
       id:"waste_policy_stmt", icon:"♻️", label:t("policyLblWaste"), color:C.green,
       desc:t("policyDescWaste"),
       fields:[
-        {id:"waste_statement",label:t("pfldPolicyStatement"),t:"ta",rows:4,ph:"[Company Name] is committed to minimising environmental and health impacts of waste from our operations and products through the 5R principles and Extended Producer Responsibility obligations."},
+        {id:"waste_statement",label:t("pfldPolicyStatement"),t:"ta",rows:4,ph:t("phWasteStatement")},
         {id:"waste_commitments",label:t("pfldWasteCommitments"),t:"cbl",items:[
-          {id:"r5_wmp",text:"Apply 5R hierarchy: Reduce → Reuse → Repair → Refurbish → Recycle before considering disposal"},
-          {id:"takeback_wmp",text:"Establish and operate a product take-back scheme for end-of-life batteries and panels"},
-          {id:"licensed_wmp",text:"Partner exclusively with licensed and certified e-waste recyclers and waste disposal services"},
-          {id:"no_dump",text:"Prohibit disposal of hazardous waste in municipal waste streams, open burning, or uncontrolled dumping"},
-          {id:"track_wmp",text:"Track and report on volumes of waste collected, recycled, and disposed annually"},
-          {id:"educate_wmp",text:"Educate customers on responsible product and battery disposal at point of sale and during maintenance"},
-          {id:"comply_wmp",text:"Comply with all applicable waste management, e-waste, and environmental regulations"},
-          {id:"informal_wmp",text:"Engage constructively with the informal recycling sector to promote safe handling practices"},
+          {id:"r5_wmp",text:t("wasteCommit1")},
+          {id:"takeback_wmp",text:t("wasteCommit2")},
+          {id:"licensed_wmp",text:t("wasteCommit3")},
+          {id:"no_dump",text:t("wasteCommit4")},
+          {id:"track_wmp",text:t("wasteCommit5")},
+          {id:"educate_wmp",text:t("wasteCommit6")},
+          {id:"comply_wmp",text:t("wasteCommit7")},
+          {id:"informal_wmp",text:t("wasteCommit8")},
         ]},
-        {id:"waste_signatory",label:t("pfldSignatory"),t:"text",ph:"MD Name | Date: DD/MM/YYYY"},
+        {id:"waste_signatory",label:t("pfldSignatory"),t:"text",ph:t("phSignatoryWaste")},
       ]
     },
     {
       id:"gender_policy_stmt", icon:"⚡", label:t("policyLblGender"), color:C.purple,
       desc:t("policyDescGender"),
       fields:[
-        {id:"gender_statement",label:t("pfldPolicyStatement"),t:"ta",rows:4,ph:"[Company Name] is committed to gender equity and social inclusion. We have zero tolerance for GBV and SEAH. We actively support women's participation in the off-grid solar sector."},
+        {id:"gender_statement",label:t("pfldPolicyStatement"),t:"ta",rows:4,ph:t("phGenderStatement")},
         {id:"gender_commitments",label:t("pfldGenderCommitments"),t:"cbl",items:[
-          {id:"zero_seah_g",text:"Zero tolerance for GBV, SEAH, and all forms of gender-based discrimination"},
-          {id:"safe_reporting",text:"Maintain safe, confidential reporting channels for SEAH incidents — separate from general grievance mechanism"},
-          {id:"workforce_targets",text:"Set and track targets for women in total workforce, field roles, and management positions"},
-          {id:"training_gender",text:"Conduct regular training on gender sensitivity and GBV/SEAH prevention for all staff"},
-          {id:"female_customers",text:"Design products and services to meet women's needs — female agents available on request"},
-          {id:"gender_data",text:"Collect and report gender-disaggregated data on workforce, customers, and agents"},
-          {id:"separate_forums",text:"Hold separate engagement forums for women stakeholders where appropriate"},
-          {id:"female_agents",text:"Support female entrepreneurship and employment in the solar value chain"},
+          {id:"zero_seah_g",text:t("genderCommit1")},
+          {id:"safe_reporting",text:t("genderCommit2")},
+          {id:"workforce_targets",text:t("genderCommit3")},
+          {id:"training_gender",text:t("genderCommit4")},
+          {id:"female_customers",text:t("genderCommit5")},
+          {id:"gender_data",text:t("genderCommit6")},
+          {id:"separate_forums",text:t("genderCommit7")},
+          {id:"female_agents",text:t("genderCommit8")},
         ]},
-        {id:"seah_procedure",label:t("pfldSEAHProcedure"),t:"ta",rows:4,ph:"Describe the confidential reporting channel for SEAH: who receives reports, how victims are supported, how investigations are conducted, and what disciplinary action follows."},
-        {id:"gender_signatory",label:t("pfldSignatory"),t:"text",ph:"MD Name | Date: DD/MM/YYYY"},
+        {id:"seah_procedure",label:t("pfldSEAHProcedure"),t:"ta",rows:4,ph:t("phSEAHProcedure")},
+        {id:"gender_signatory",label:t("pfldSignatory"),t:"text",ph:t("phSignatoryGender")},
       ]
     },
   ];
@@ -1083,12 +1084,12 @@ const PLAN_DEFS_SIMPLE = [
     required:"IFC PS2 / WB ESS2 | ROGEAP Component 4",
     linkedTools:["ppe_matrix","incident_log","training_register"],
     fields:[
-      {id:"scope",lk:"plnfldScope",label:"Scope & Management Commitment",t:"ta",rows:3,ph:"This plan applies to all employees, contractors, visitors at all company locations and field sites. Safety is a non-negotiable condition of employment."},
-      {id:"safety_committee",lk:"plnfldSafetyCommittee",label:"Safety Committee (Members & Meeting Frequency)",t:"ta",rows:3,ph:"Members: MD (Chair), OHS Officer, Warehouse Supervisor, Field Tech Representative\nMeeting frequency: Monthly + after any incident"},
-      {id:"hazard_summary",lk:"plnfldHazardSummary",label:"Key Hazards & Controls Summary",t:"ta",rows:6,ph:"1. WORKING AT HEIGHTS — Controls: Fall arrest harness mandatory; buddy system; ladder inspection checklist\n2. ELECTRICAL HAZARDS — Controls: LOTO before all electrical work; insulated tools; no solo electrical work\n3. BATTERY HAZARDS — Controls: Acid PPE; segregated storage; CO2 extinguisher present\n4. VEHICLE ACCIDENTS — Controls: Driver safety training; GPS tracking; maximum hours policy\n5. GBV/SEAH — Controls: Zero-tolerance policy; Code of Conduct; confidential reporting channel\n[Add others]"},
-      {id:"training_ohs",lk:"plnfldTrainingOHS",label:"Training Programme Summary",t:"ta",rows:4,ph:"All staff: Safety induction (Day 1); annual refresher\nField technicians: Electrical safety cert; working-at-heights cert; first aid cert\nDrivers: Defensive driving; load securement\nWarehouse: Battery handling; fire safety\nToolbox talks: Before each rooftop job"},
-      {id:"incident_proc",lk:"plnfldIncidentProc",label:"Incident Reporting Procedure",t:"ta",rows:4,ph:"Reporting chain: Worker → Supervisor (verbal, immediately) → OHS Officer (written form, within 24hrs) → MD (for serious) → Labour Authority (fatalities/serious injuries, within 48hrs)\nInvestigation: Root cause analysis (5 Whys) within 5 working days. Corrective action plan with named responsible and deadline."},
-      {id:"ohs_targets",lk:"plnfldOHSTargets",label:"OHS Performance Targets",t:"ta",rows:3,ph:"• Zero fatalities\n• ≤ 2 lost-time injuries per quarter\n• 100% of field techs with current working-at-heights cert\n• All incidents investigated; corrective actions closed within 30 days"},
+      {id:"scope",lk:"plnfldScope",label:"Scope & Management Commitment",t:"ta",rows:3,phk:"phScope"},
+      {id:"safety_committee",lk:"plnfldSafetyCommittee",label:"Safety Committee (Members & Meeting Frequency)",t:"ta",rows:3,phk:"phSafetyCommittee"},
+      {id:"hazard_summary",lk:"plnfldHazardSummary",label:"Key Hazards & Controls Summary",t:"ta",rows:6,phk:"phHazardSummary"},
+      {id:"training_ohs",lk:"plnfldTrainingOHS",label:"Training Programme Summary",t:"ta",rows:4,phk:"phTrainingOHS"},
+      {id:"incident_proc",lk:"plnfldIncidentProc",label:"Incident Reporting Procedure",t:"ta",rows:4,phk:"phIncidentProc"},
+      {id:"ohs_targets",lk:"plnfldOHSTargets",label:"OHS Performance Targets",t:"ta",rows:3,phk:"phOHSTargets"},
     ]
   },
   {
@@ -1096,11 +1097,11 @@ const PLAN_DEFS_SIMPLE = [
     required:"IFC PS4 / WB ESS4 | ROGEAP Component 4",
     linkedTools:["stakeholder_register"],
     fields:[
-      {id:"community_map",lk:"plnfldCommunityMap",label:"Affected Community Mapping",t:"ta",rows:4,ph:"List communities affected: location, type of impact, proximity, most affected groups (women, children, elderly)"},
-      {id:"product_safety",lk:"plnfldProductSafety",label:"Product Safety Standards",t:"ta",rows:4,ph:"Electrical safety features in products; labelling and multilingual instructions; quality verification; recall procedure"},
-      {id:"installation_safety",lk:"plnfldInstallSafety",label:"Installation Safety in Communities",t:"ta",rows:3,ph:"Site barriers and signage; no children near installation work; community notification before work starts; post-installation safety inspection"},
-      {id:"waste_community",lk:"plnfldWasteCommunity",label:"Community Waste / E-Waste Impacts",t:"ta",rows:3,ph:"Customer education on battery disposal; take-back scheme publicity; partnership with local collection points"},
-      {id:"community_kpis",lk:"plnfldCommunityKPIs",label:"Community Health & Safety Targets",t:"ta",rows:2,ph:"• Zero community safety incidents from installations per quarter\n• 100% of products shipped with bilingual safety instructions"},
+      {id:"community_map",lk:"plnfldCommunityMap",label:"Affected Community Mapping",t:"ta",rows:4,phk:"phCommunityMap"},
+      {id:"product_safety",lk:"plnfldProductSafety",label:"Product Safety Standards",t:"ta",rows:4,phk:"phProductSafety"},
+      {id:"installation_safety",lk:"plnfldInstallSafety",label:"Installation Safety in Communities",t:"ta",rows:3,phk:"phInstallSafety"},
+      {id:"waste_community",lk:"plnfldWasteCommunity",label:"Community Waste / E-Waste Impacts",t:"ta",rows:3,phk:"phWasteCommunity"},
+      {id:"community_kpis",lk:"plnfldCommunityKPIs",label:"Community Health & Safety Targets",t:"ta",rows:2,phk:"phCommunityKPIs"},
     ]
   },
   {
@@ -1108,11 +1109,11 @@ const PLAN_DEFS_SIMPLE = [
     required:"IFC PS4 | ROGEAP Component 4 | GOGLA Consumer Protection Code",
     linkedTools:["grievance_log"],
     fields:[
-      {id:"gogla_status",lk:"plnfldGOGLAStatus",label:"GOGLA CP Code Commitment Status",t:"ta",rows:2,ph:"Letter of commitment sent: [date] | Self-assessment completed: [date] | Last declaration sent: [date] | Next due: [date]"},
-      {id:"transparency_plan",lk:"plnfldTransparencyPlan",label:"Transparency — Information Provided to Customers",t:"ta",rows:3,ph:"Pre-sale: product specs, pricing breakdown (all fees), payment terms, warranty, data privacy notice\nLanguages: [list languages] | Format: written + verbal handover by agent"},
-      {id:"responsible_sales_plan",lk:"plnfldResponsibleSales",label:"Responsible Sales — Affordability & Prohibited Behaviours",t:"ta",rows:4,ph:"Affordability check process: [describe]\nProhibited: overstating capacity; pressure selling; selling to customers who cannot afford payments; misrepresenting PAYG terms\nDebt collection policy: no harassment; no seizure beyond the product"},
-      {id:"service_plan",lk:"plnfldServicePlan",label:"Customer Service — After-Sales & Complaints",t:"ta",rows:4,ph:"Support channels: WhatsApp [number]; Email [address]; Service centres [addresses]\nWarranty: [terms]\nComplaints: Acknowledge within 2 working days; resolve within 10 working days; escalation to manager if unresolved"},
-      {id:"consumer_kpis",lk:"plnfldConsumerKPIs",label:"Consumer Protection Targets",t:"ta",rows:3,ph:"• Customer satisfaction score ≥ 85% (quarterly SMS survey)\n• 100% of complaints acknowledged within 2 working days\n• Zero substantiated mis-selling complaints per quarter"},
+      {id:"gogla_status",lk:"plnfldGOGLAStatus",label:"GOGLA CP Code Commitment Status",t:"ta",rows:2,phk:"phGOGLAStatus"},
+      {id:"transparency_plan",lk:"plnfldTransparencyPlan",label:"Transparency — Information Provided to Customers",t:"ta",rows:3,phk:"phTransparencyPlan"},
+      {id:"responsible_sales_plan",lk:"plnfldResponsibleSales",label:"Responsible Sales — Affordability & Prohibited Behaviours",t:"ta",rows:4,phk:"phResponsibleSales"},
+      {id:"service_plan",lk:"plnfldServicePlan",label:"Customer Service — After-Sales & Complaints",t:"ta",rows:4,phk:"phServicePlan"},
+      {id:"consumer_kpis",lk:"plnfldConsumerKPIs",label:"Consumer Protection Targets",t:"ta",rows:3,phk:"phConsumerKPIs"},
     ]
   },
   {
@@ -1120,12 +1121,12 @@ const PLAN_DEFS_SIMPLE = [
     required:"IFC PS3 / WB ESS3 | ROGEAP Component 6",
     linkedTools:["waste_register"],
     fields:[
-      {id:"waste_streams",lk:"plnfldWasteStreams",label:"Waste Streams & Volumes (from audit)",t:"ta",rows:4,ph:"Lead-acid batteries: ~[X] units/year | Lithium batteries: ~[X] units/year | Panels EOL: ~[X] units/year | Accessories: ~[X] units/year | Packaging: ~[X] kg/year"},
-      {id:"r5_strategy_wmp",lk:"plnfldR5Strategy",label:"5R Strategy by Waste Stream",t:"ta",rows:6,ph:"BATTERIES: Reduce (longer-life products) → Reuse (secondary market) → Repair (reconditioning) → Refurbish (cell salvage) → Recycle ([Recycler name])\nPANELS: Reduce (maintenance to extend life) → Reuse (secondary market) → Recycle ([Recycler or gap])\n[Continue for each stream]"},
-      {id:"takeback_wmp",lk:"plnfldTakeBack",label:"Take-Back Scheme",t:"ta",rows:3,ph:"Collection: Agent collection at maintenance visit; drop-off at [service centre locations]\nIncentive: [e.g. ₦500 credit per battery returned]\nFrequency: Central collection every [X] weeks"},
-      {id:"storage_wmp",lk:"plnfldEWasteStorage",label:"E-Waste Storage",t:"ta",rows:3,ph:"Location: [describe bunded, ventilated storage area]\nSegregation: Lead-acid separate from lithium; labelled containers; max 60 days before collection\nSafety: Spill kit; CO2 extinguisher; PPE required"},
-      {id:"partners_wmp",lk:"plnfldWastePartners",label:"Disposal & Recycling Partners",t:"ta",rows:3,ph:"Waste Type | Recycler | Registration No. | Collection Frequency | Documentation\nLead-acid | [Name] | NESREA [No.] | Quarterly | Certificate of Recycling"},
-      {id:"waste_kpis",lk:"plnfldWasteKPIs",label:"Waste Management Targets",t:"ta",rows:3,ph:"• Collect ≥ 80% of batteries sold (by weight) within 2 years of sale\n• Zero batteries in municipal waste (verified by records)\n• 100% of hazardous waste to licensed recycler (cert on file)"},
+      {id:"waste_streams",lk:"plnfldWasteStreams",label:"Waste Streams & Volumes (from audit)",t:"ta",rows:4,phk:"phWasteStreams"},
+      {id:"r5_strategy_wmp",lk:"plnfldR5Strategy",label:"5R Strategy by Waste Stream",t:"ta",rows:6,phk:"phR5Strategy"},
+      {id:"takeback_wmp",lk:"plnfldTakeBack",label:"Take-Back Scheme",t:"ta",rows:3,phk:"phTakeBack"},
+      {id:"storage_wmp",lk:"plnfldEWasteStorage",label:"E-Waste Storage",t:"ta",rows:3,phk:"phEWasteStorage"},
+      {id:"partners_wmp",lk:"plnfldWastePartners",label:"Disposal & Recycling Partners",t:"ta",rows:3,phk:"phWastePartners"},
+      {id:"waste_kpis",lk:"plnfldWasteKPIs",label:"Waste Management Targets",t:"ta",rows:3,phk:"phWasteKPIs"},
     ]
   },
   {
@@ -1133,12 +1134,12 @@ const PLAN_DEFS_SIMPLE = [
     required:"IFC PS2/PS4 | ROGEAP Component 11",
     linkedTools:["incident_log"],
     fields:[
-      {id:"scenarios_epr",lk:"plnfldScenarios",label:"Emergency Scenarios & Priority",t:"ta",rows:5,ph:"SCENARIO | PROBABILITY | SEVERITY | PRIORITY\nElectrical fire | Medium | High | HIGH\nBattery acid spill | Medium | High | HIGH\nTechnician electrocution | Low | Critical | HIGH\nVehicle accident | Medium | Medium | MEDIUM\nGBV/SEAH incident | Low | High | HIGH\n[Add others from risk assessment]"},
-      {id:"ert",lk:"plnfldERT",label:"Emergency Response Team",t:"ta",rows:4,ph:"Coordinator: [Name] — [Mobile]\nEvacuation Lead: [Name]\nFirst Aid: [Name] (certified)\nCommunications: [Name]\nFire Service: [Number] | Ambulance: 112 | Police: [Number]"},
-      {id:"fire_proc_epr",lk:"plnfldFireProc",label:"Fire Response Procedure (key steps)",t:"ta",rows:6,ph:"1. Shout FIRE; activate alarm; call fire service [number]\n2. Evacuate via marked exits — do NOT use lifts; close doors behind you\n3. Assembly Point: [location]; supervisor conducts headcount\n4. Battery fires: CO2 or dry powder ONLY — never water on lithium\n5. Do not re-enter until fire service authorises\n6. Complete Incident Report Form within 24hrs"},
-      {id:"electrical_epr",lk:"plnfldElecProc",label:"Electrical Incident Procedure (key steps)",t:"ta",rows:5,ph:"⚠️ DO NOT TOUCH — isolate power first\n1. Switch off at controller/disconnect; use dry non-conductive object to free person if needed\n2. Call 112; call ERT Coordinator\n3. CPR if trained and not breathing; do not give food/water\n4. Report to OHS Officer within 1hr; complete form before end of day"},
-      {id:"battery_epr",lk:"plnfldBatteryProc",label:"Battery Emergency Procedure (key steps)",t:"ta",rows:4,ph:"ACID SPILL: Evacuate area; PPE on; neutralise with baking soda; use spill kit; flush skin/eyes with water 15 min; report\nLITHIUM FIRE: DO NOT use water; evacuate; call fire service (alert: lithium involved); CO2 only for surrounding fire"},
-      {id:"drills_epr",lk:"plnfldDrills",label:"Drill Schedule & Records",t:"ta",rows:2,ph:"Full evacuation drill: [frequency] | Battery/spill drill: [frequency] | Last drill: [date] | Next drill: [date]"},
+      {id:"scenarios_epr",lk:"plnfldScenarios",label:"Emergency Scenarios & Priority",t:"ta",rows:5,phk:"phScenarios"},
+      {id:"ert",lk:"plnfldERT",label:"Emergency Response Team",t:"ta",rows:4,phk:"phERT"},
+      {id:"fire_proc_epr",lk:"plnfldFireProc",label:"Fire Response Procedure (key steps)",t:"ta",rows:6,phk:"phFireProc"},
+      {id:"electrical_epr",lk:"plnfldElecProc",label:"Electrical Incident Procedure (key steps)",t:"ta",rows:5,phk:"phElecProc"},
+      {id:"battery_epr",lk:"plnfldBatteryProc",label:"Battery Emergency Procedure (key steps)",t:"ta",rows:4,phk:"phBatteryProc"},
+      {id:"drills_epr",lk:"plnfldDrills",label:"Drill Schedule & Records",t:"ta",rows:2,phk:"phDrills"},
     ]
   },
   {
@@ -1146,11 +1147,11 @@ const PLAN_DEFS_SIMPLE = [
     required:"IFC PS2 / WB ESS2 | ROGEAP Component 5",
     linkedTools:["training_register"],
     fields:[
-      {id:"workforce",lk:"plnfldWorkforce",label:"Current Workforce Profile",t:"ta",rows:2,ph:"Permanent: [X] | Contract: [X] | Casual: [X] | Contractors: [X] | % Female: [X]%"},
-      {id:"recruitment_hr",lk:"plnfldRecruitment",label:"Recruitment & Equal Opportunity Process",t:"ta",rows:3,ph:"Advertise vacancies publicly; selection based on merit; age verification for all workers; diversity targets: [X]% women overall, [Y]% in field/technical roles"},
-      {id:"wages_hr",lk:"plnfldWagesHours",label:"Wages, Hours & Benefits",t:"ta",rows:4,ph:"Min wage: [amount] | Company rate: [X]% above minimum | Last wage review: [date]\nHours: [X/day, Y/week] | Overtime: voluntary, [X]% premium, max [Y] hrs/week\nBenefits: [list]"},
-      {id:"women_plan",lk:"plnfldWomenPlan",label:"Women's Health, Safety & Inclusion",t:"ta",rows:3,ph:"Sanitary facilities: [describe] | Maternity: [X weeks paid]\nSEAH reporting route: confidential to [Name/role] | Support: [counselling, leave, referral]\nTargets: [X]% women in field roles by [year]"},
-      {id:"coc_rollout",lk:"plnfldCoCRollout",label:"Code of Conduct Rollout",t:"ta",rows:3,ph:"All staff sign CoC before starting work (language understood confirmed); signed copies filed in HR folder\nAnnual refresher training; refresher after any SEAH incident\nContractors required to sign as part of contract agreement"},
+      {id:"workforce",lk:"plnfldWorkforce",label:"Current Workforce Profile",t:"ta",rows:2,phk:"phWorkforce"},
+      {id:"recruitment_hr",lk:"plnfldRecruitment",label:"Recruitment & Equal Opportunity Process",t:"ta",rows:3,phk:"phRecruitment"},
+      {id:"wages_hr",lk:"plnfldWagesHours",label:"Wages, Hours & Benefits",t:"ta",rows:4,phk:"phWagesHours"},
+      {id:"women_plan",lk:"plnfldWomenPlan",label:"Women's Health, Safety & Inclusion",t:"ta",rows:3,phk:"phWomenPlan"},
+      {id:"coc_rollout",lk:"plnfldCoCRollout",label:"Code of Conduct Rollout",t:"ta",rows:3,phk:"phCoCRollout"},
     ]
   },
   {
@@ -1158,11 +1159,11 @@ const PLAN_DEFS_SIMPLE = [
     required:"WB ESS10 | IFC PS1 | ROGEAP Component 7",
     linkedTools:["stakeholder_register","grievance_log"],
     fields:[
-      {id:"sep_objectives",lk:"plnfldSEPObjectives",label:"Stakeholder Engagement Objectives",t:"ta",rows:2,ph:"1. Identify and address community concerns before they escalate\n2. Ensure women and vulnerable groups are meaningfully included\n3. Build trust and social licence to operate in service areas"},
-      {id:"key_engagement",lk:"plnfldKeyEngagement",label:"Key Engagement Activities by Group",t:"ta",rows:7,ph:"CUSTOMERS: Ongoing — agent handover, SMS surveys, complaints hotline, social media\nLOCAL COMMUNITIES: Quarterly — community meetings before installations, feedback boxes, liaison visits\nREGULATORS: Quarterly — formal meetings, annual compliance reports\nINVESTORS/ROGEAP: Quarterly — E&S reporting per agreement format\nSUPPLIERS: Annually — supplier assessment, contractual E&S requirements\nEMPLOYEES: Ongoing — team meetings, safety committee, HR grievance mechanism"},
-      {id:"fpic_sep",lk:"plnfldFPIC",label:"Free, Prior, and Informed Consent (FPIC)",t:"ta",rows:3,ph:"Free: No coercion; engagement at reasonable times; power imbalance managed\nPrior: Communities engaged before installation activities begin in new areas\nInformed: Information in local languages; visual formats for low literacy; questions welcomed"},
-      {id:"gender_sep",lk:"plnfldGenderSEP",label:"Gender-Inclusive Engagement",t:"ta",rows:3,ph:"Separate forums for women in community meetings; female liaison officers deployed in areas with cultural barriers; meeting times suitable for women's schedules; female customer feedback tracked separately"},
-      {id:"sep_records",lk:"plnfldSEPRecords",label:"Documentation & Reporting Back",t:"ta",rows:3,ph:"Engagement Register: date, location, attendees, topics discussed, concerns raised, company commitments, follow-up actions and dates\nReport back to communities on outcomes annually or after major engagements"},
+      {id:"sep_objectives",lk:"plnfldSEPObjectives",label:"Stakeholder Engagement Objectives",t:"ta",rows:2,phk:"phSEPObjectives"},
+      {id:"key_engagement",lk:"plnfldKeyEngagement",label:"Key Engagement Activities by Group",t:"ta",rows:7,phk:"phKeyEngagement"},
+      {id:"fpic_sep",lk:"plnfldFPIC",label:"Free, Prior, and Informed Consent (FPIC)",t:"ta",rows:3,phk:"phFPIC"},
+      {id:"gender_sep",lk:"plnfldGenderSEP",label:"Gender-Inclusive Engagement",t:"ta",rows:3,phk:"phGenderSEP"},
+      {id:"sep_records",lk:"plnfldSEPRecords",label:"Documentation & Reporting Back",t:"ta",rows:3,phk:"phSEPRecords"},
     ]
   },
 ];
@@ -1209,8 +1210,8 @@ function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
           <div key={f.id} style={{ marginBottom:20 }}>
             <Lbl c={f.lk ? t(f.lk) : f.label} req={f.req}/>
             {f.hint && <Hint c={f.hint}/>}
-            {f.t === "text" && <input value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} placeholder={f.ph||""} style={S.inp}/>}
-            {f.t === "ta" && <textarea value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} placeholder={f.ph||""} rows={f.rows||4} style={S.ta}/>}
+            {f.t === "text" && <input value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} placeholder={f.phk ? t(f.phk) : (f.ph||"")} style={S.inp}/>}
+            {f.t === "ta" && <textarea value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} placeholder={f.phk ? t(f.phk) : (f.ph||"")} rows={f.rows||4} style={S.ta}/>}
             {f.t === "cbl" && <ChecklistBuilder baseline={f.items||[]} value={d[f.id]} onChange={v=>set(f.id,v)}/>}
           </div>
         ))}

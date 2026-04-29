@@ -1462,7 +1462,7 @@ const GUIDELINES_DB = {
       }
     ],
     resources: [
-      { label: "ROGEAP ESMS Guidelines for Off-Grid Solar Companies (PDF)", url: "https://ecowas.rogeap.org/wp-content/uploads/2023/10/ROGEAP_ESMS-Guidelines_v_01.pdf" },
+      { label: "__ROGEAP_GUIDELINES_LABEL__", url: "__ROGEAP_GUIDELINES_PDF__" },
       { label: "IFC Performance Standards (2012)", url: "https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
       { label: "IFC ESMS Toolkit — General (2015)", url: "https://www.ifc.org/en/insights-reports/2015/publications-handbook-esms-general" },
       { label: "FIRST for Sustainability — Managing E&S Risks", url: "https://firstforsustainability.org/managing-environmental-and-social-risk" },
@@ -1804,8 +1804,12 @@ const GUIDELINES_DB = {
 //  GUIDELINES PANEL COMPONENT
 // ═══════════════════════════════════════════════════════════
 function GuidelinesPanel({ guideId, onClose }) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const guide = GUIDELINES_DB[guideId];
+  const guidelinesPdfUrl = lang === "fr" ? "/ROGEAP_ESMS-Guidelines_FR.pdf" : "/ROGEAP_ESMS-Guidelines_EN.pdf";
+  const guidelinesPdfLabel = lang === "fr"
+    ? "Lignes directrices SGES ROGEAP — Secteur solaire hors réseau (PDF)"
+    : "ROGEAP ESMS Guidelines — Off-Grid Solar Sector (PDF)";
   const [activeSection, setActiveSection] = useState(0);
   const panelRef = useRef(null);
   const closeBtnRef = useRef(null);
@@ -1940,8 +1944,11 @@ function GuidelinesPanel({ guideId, onClose }) {
                 <span>🔗</span> References & Web Resources
               </div>
               <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
-                {guide.resources.map((r, i) => (
-                  <a key={i} href={r.url} target="_blank" rel="noopener noreferrer" style={{
+                {guide.resources.map((r, i) => {
+                  const href = r.url === "__ROGEAP_GUIDELINES_PDF__" ? guidelinesPdfUrl : r.url;
+                  const label = r.label === "__ROGEAP_GUIDELINES_LABEL__" ? guidelinesPdfLabel : r.label;
+                  return (
+                  <a key={i} href={href} target="_blank" rel="noopener noreferrer" style={{
                     color:col, fontSize:13, textDecoration:"none",
                     display:"flex", alignItems:"flex-start", gap:7, lineHeight:1.5,
                     padding:"5px 8px", borderRadius:6,
@@ -1949,16 +1956,17 @@ function GuidelinesPanel({ guideId, onClose }) {
                   }}
                   onMouseEnter={e => e.currentTarget.style.background=`${col}12`}
                   onMouseLeave={e => e.currentTarget.style.background="transparent"}>
-                    <span style={{ flexShrink:0, marginTop:1 }}>↗</span>
-                    <span style={{ textDecoration:"underline", textUnderlineOffset:2 }}>{r.label}</span>
+                    <span style={{ flexShrink:0, marginTop:1 }}>📄</span>
+                    <span style={{ textDecoration:"underline", textUnderlineOffset:2 }}>{label}</span>
                   </a>
-                ))}
+                  );
+                })}
               </div>
               {/* Core docs always shown */}
               <div style={{ marginTop:12, paddingTop:10, borderTop:`1px solid ${col}20` }}>
                 <div style={{ fontSize:11, color:C.muted, fontWeight:600, marginBottom:6 }}>CORE DOCUMENTS — click any link to open in a new tab</div>
                 {[
-                  { label:"ROGEAP ESMS Guidelines for Off-Grid Solar Companies (PDF)", url:"https://ecowas.rogeap.org/wp-content/uploads/2023/10/ROGEAP_ESMS-Guidelines_v_01.pdf" },
+                  { label:guidelinesPdfLabel, url:guidelinesPdfUrl },
                   { label:"IFC ESMS Implementation Handbook — General (2015)", url:"https://www.ifc.org/en/insights-reports/2015/publications-handbook-esms-general" },
                   { label:"IFC Performance Standards on Environmental and Social Sustainability (2012)", url:"https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
                   { label:"World Bank Environmental and Social Framework (2017)", url:"https://thedocs.worldbank.org/en/doc/837721522762050108-0290022018/original/ESFFramework.pdf" },
@@ -1972,7 +1980,7 @@ function GuidelinesPanel({ guideId, onClose }) {
                   }}
                   onMouseEnter={e => e.currentTarget.style.background="#EBF5FB"}
                   onMouseLeave={e => e.currentTarget.style.background="transparent"}>
-                    <span style={{ flexShrink:0 }}>↗</span>
+                    <span style={{ flexShrink:0 }}>{r.url.startsWith("/") ? "📄" : "↗"}</span>
                     <span style={{ textDecoration:"underline", textUnderlineOffset:2 }}>{r.label}</span>
                   </a>
                 ))}

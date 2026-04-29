@@ -1,0 +1,322 @@
+Here are complete, copy-paste-ready instructions for setting up and running the ESMS Builder in Replit:
+
+---
+
+## ESMS Builder — Replit Setup & Development Instructions
+
+---
+
+### Part 1: Import the Project into Replit
+
+**Step 1 — Create a new Repl from the zip file**
+
+1. Log into your Replit account at [replit.com](https://replit.com)
+2. Click the **+ Create Repl** button (top left)
+3. In the dialog that opens, click **"Import from ZIP"** (or drag the `esms-builder.zip` file directly onto the Replit dashboard)
+4. When prompted to select a template, choose **"React (Vite)"** or simply **"Node.js"** — either works
+5. Name the project `esms-builder` and click **Import**
+
+Replit will extract the zip and display the file tree. You should see:
+
+```
+esms-builder/
+├── index.html
+├── package.json
+├── vite.config.js
+├── .replit
+├── README.md
+├── public/
+│   └── favicon.svg
+└── src/
+    ├── main.jsx
+    ├── App.jsx
+    ├── index.css
+    └── i18n/
+        └── translations.js
+```
+
+---
+
+### Part 2: Install Dependencies and Run
+
+**Step 2 — Open the Shell tab**
+
+In Replit, click the **Shell** tab (bottom panel or left sidebar). Run the following commands one at a time:
+
+```bash
+# Install all dependencies (React 18 + Vite 5)
+npm install
+```
+
+Wait for `npm install` to finish. You will see a `node_modules/` folder appear in the file tree.
+
+**Step 3 — Start the development server**
+
+```bash
+npm run dev
+```
+
+You should see output like:
+
+```
+  VITE v5.x.x  ready in XXX ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://0.0.0.0:5173/
+```
+
+Replit will automatically open a **Webview panel** showing the running app. If it does not open automatically, click the **"Open in new tab"** icon in the Webview panel.
+
+---
+
+### Part 3: Project File Guide
+
+Before making any changes, understand what each file does:
+
+| File | Purpose | Edit? |
+|---|---|---|
+| `src/App.jsx` | The entire application — all 2,834 lines of components, tools, ROGEAP content, export engine, and guidelines knowledge base | Yes — main development file |
+| `src/i18n/translations.js` | All UI strings in English, Français, and Português. Also exports `LangContext` and `useLang()` | Yes — for adding/editing translations |
+| `src/main.jsx` | React entry point — mounts App into `#root`. Rarely needs editing | Rarely |
+| `src/index.css` | Global reset and scrollbar styles | Rarely |
+| `index.html` | HTML entry point with `lang` and `translate="yes"` for Google Translate | Rarely |
+| `vite.config.js` | Vite build config — sets host to `0.0.0.0` so Replit preview works | Rarely |
+| `package.json` | Dependency manifest | Only when adding packages |
+
+---
+
+### Part 4: Understanding the App Architecture
+
+`App.jsx` is a single-file React application. It is structured in layers from top to bottom:
+
+```
+1. Imports + Design tokens (colours, fonts)
+2. useLS hook (localStorage persistence)
+3. Base styles object (S)
+4. Micro-components (Lbl, Hint, InfoBox, Tag)
+5. ChecklistBuilder — pre-populated ROGEAP checklists
+6. TableBuilder — editable data tables
+7. RiskMatrix — probability × severity scoring
+8. Specialised tool components:
+      IncidentLog, WasteRegister, GrievanceLog,
+      TrainingRegister, StakeholderRegister, PPEMatrix,
+      ComplianceTracker, ScreeningQuestionnaire,
+      MonitoringForm, SupplierAssessment, ESAPTable,
+      CodeOfConductBuilder
+9. NAV_DEFS + TOOLS_REGISTRY + TOOL_GROUPS
+10. ToolsSection
+11. PolicySection (6 policy builders)
+12. PLAN_DEFS_SIMPLE (7 management plans)
+13. ManagementPlansSection
+14. RiskSection / ComplianceSection / ScreeningSection
+15. Welcome component
+16. GUIDELINES_DB (13 guide entries with ROGEAP/IFC content)
+17. GuidelinesPanel + GuideBtn
+18. Export engine:
+      exportPDF / exportWord / exportCSV /
+      buildPrintHTML / buildRTF / buildFullESMSSections
+      + all section builder functions
+19. ExportBar component
+20. App (root component — sidebar, nav, language selector,
+         LangContext.Provider, renderContent switch)
+```
+
+All data entered by users is saved automatically to `localStorage` using the `useLS` hook. No backend or database is required.
+
+---
+
+### Part 5: Common Development Tasks
+
+#### Add a new navigation section
+
+1. Add a new entry to `NAV_DEFS` in `App.jsx`:
+```jsx
+{ id:"mynewsection", icon:"🆕", tKey:"navMyNewSection" },
+```
+
+2. Add the translation key to all three language blocks in `src/i18n/translations.js`:
+```js
+// In en: { ... }
+navMyNewSection: "My New Section",
+// In fr: { ... }
+navMyNewSection: "Ma Nouvelle Section",
+// In pt: { ... }
+navMyNewSection: "Minha Nova Seção",
+```
+
+3. Add the case to the `renderContent()` switch in `App.jsx`:
+```jsx
+case "mynewsection": return <MyNewSection esmsData={esmsData} setFieldValue={setFieldValue} openGuide={openGuide}/>;
+```
+
+4. Write the `MyNewSection` component following the existing pattern (use `SectionHeader`, `InfoBox`, `ExportBar`, `GuideBtn`).
+
+---
+
+#### Add a new implementation tool
+
+1. Add the tool's component function (e.g. `function MyNewTool({value, onChange}){...}`) alongside the other tool components.
+
+2. Register it in `TOOLS_REGISTRY`:
+```js
+my_tool: {
+  id:"my_tool", icon:"🔧", label:"My New Tool",
+  color:C.teal, tag:"My Category",
+  desc:"Description of what this tool does.",
+  component:"MyNewTool"
+},
+```
+
+3. Add it to `TOOL_COMPONENTS`:
+```js
+const TOOL_COMPONENTS = {
+  ...existing,
+  MyNewTool,
+};
+```
+
+4. Add it to the appropriate group in `TOOL_GROUPS` by adding its tag to the relevant group's `tags` array.
+
+5. If tabular, add a CSV definition to `TOOL_CSV_DEFS`:
+```js
+my_tool: {
+  label: "My New Tool",
+  cols: [
+    {id:"col1", label:"Column 1"},
+    {id:"col2", label:"Column 2"},
+  ]
+}
+```
+
+---
+
+#### Add a new policy
+
+1. Add a new object to the `policies` array inside `PolicySection`:
+```js
+{
+  id:"my_policy_stmt", icon:"📋", label:"My Policy", color:C.navy,
+  desc:"Short description.",
+  fields:[
+    {id:"statement",label:"Policy Statement",t:"ta",rows:4,ph:"Enter your policy statement here…"},
+    {id:"commitments",label:"Commitments",t:"cbl",items:[
+      {id:"item1", text:"First commitment"},
+      {id:"item2", text:"Second commitment"},
+    ]},
+    {id:"signatory",label:"Signed by (Name, Title, Date)",t:"text",ph:"MD Name | Date: DD/MM/YYYY"},
+  ]
+},
+```
+
+Field types: `t:"text"` (single line), `t:"ta"` (textarea, add `rows:`), `t:"cbl"` (checklist builder, add `items:`), `t:"sel"` (dropdown, add `opts:[]`).
+
+---
+
+#### Add or edit translations
+
+Open `src/i18n/translations.js`. Every UI string follows this pattern across all three language blocks:
+
+```js
+export const TRANSLATIONS = {
+  en: {
+    myNewKey: "English text here",
+    // ...
+  },
+  fr: {
+    myNewKey: "Texte en français ici",
+    // ...
+  },
+  pt: {
+    myNewKey: "Texto em português aqui",
+    // ...
+  },
+};
+```
+
+To use a translation key in any component:
+```jsx
+const { t } = useLang(); // import useLang from './i18n/translations.js'
+// Then use:
+<h2>{t("myNewKey")}</h2>
+```
+
+The `useLang()` hook is already imported and available in all major components. For any new component, add `const { t } = useLang();` at the top of the function body.
+
+---
+
+#### Add a new guidelines entry
+
+Find `const GUIDELINES_DB` in `App.jsx` and add a new entry:
+
+```js
+my_guide: {
+  id: "my_guide",
+  title: "My Guide Title",
+  color: "#1A3A5C",
+  rogeapRef: "ROGEAP §X — Section reference",
+  ifcRef: "IFC PS1 — Relevant standard",
+  summary: "One paragraph explaining what this section is about.",
+  sections: [
+    {
+      heading: "First Topic",
+      body: "Detailed guidance text. Can use \\n for line breaks."
+    },
+    {
+      heading: "Second Topic",
+      body: "More guidance."
+    },
+  ],
+  resources: [
+    { label: "Resource Name", url: "https://example.com" },
+  ]
+},
+```
+
+Then add a `<GuideBtn guideId="my_guide" onOpen={openGuide}/>` button to the relevant section header.
+
+---
+
+### Part 6: Build for Production
+
+When you are ready to deploy a production version:
+
+```bash
+# Build optimised static files
+npm run build
+```
+
+The output will appear in a `dist/` folder. To preview the production build locally:
+
+```bash
+npm run preview
+```
+
+To deploy on Replit, go to **Deployments** in the left sidebar and choose **Static** deployment, pointing to the `dist/` folder. Replit will give you a public URL.
+
+---
+
+### Part 7: Troubleshooting
+
+| Problem | Solution |
+|---|---|
+| **Blank white screen after `npm run dev`** | Open the browser console (F12). Most likely a JSX syntax error in App.jsx — check the Vite terminal output for the error line number |
+| **"Cannot find module './i18n/translations.js'"** | Ensure the file exists at `src/i18n/translations.js` — check capitalisation; file names are case-sensitive |
+| **Language selector not switching text** | Ensure the new string has entries in all three language blocks (`en`, `fr`, `pt`) in `translations.js` |
+| **Data not saving between sessions** | The app uses `localStorage`. Check that your browser is not in private/incognito mode, which clears storage on close |
+| **Export buttons not working** | PDF uses `window.open()` — ensure pop-ups are not blocked. Word and CSV use data URIs — ensure the browser allows downloads |
+| **Vite server not accessible in Replit webview** | Confirm `vite.config.js` has `host: '0.0.0.0'`. Also check the `.replit` file has `localPort = 5173` mapped to `externalPort = 80` |
+| **`npm install` fails** | Run `npm cache clean --force` then try again. If a specific package fails, check the Replit network is not blocking npm registry |
+| **Changes not reflecting** | Vite hot-reloads automatically on save. If stuck, stop the server (`Ctrl+C`) and run `npm run dev` again |
+
+---
+
+### Part 8: Key Design Conventions to Maintain
+
+When adding new features, follow these conventions already established in the codebase:
+
+- **Colours** — always use the `C` object (e.g. `C.navy`, `C.teal`, `C.amber`). Never hardcode hex values in JSX
+- **Fonts** — use `F.d` (Palatino, display/headings) and `F.b` (Trebuchet MS, body). Never use font-family strings directly in JSX
+- **Data persistence** — use `useLS("unique_key", defaultValue)` for any state that should survive page refresh. Use `useState` for ephemeral UI state (modal open/closed, active tab, etc.)
+- **Translations** — every user-visible string that is part of the UI (button labels, headings, section titles) should be in `translations.js` and called via `t("key")`. Longer ROGEAP content (guidance text, field placeholder text, baseline data) can remain as English literals — they will be picked up by Google Translate via the `translate="yes"` attribute
+- **Section structure** — every main section should include a header area with the section icon, title, description, a `<GuideBtn>` for the guidelines panel, and an `<ExportBar>` for downloads
+- **Components are self-contained** — each tool component (e.g. `WasteRegister`, `GrievanceLog`) manages only its own rendering. Data flows in via `value` prop and out via `onChange` prop, following standard React controlled-component pattern

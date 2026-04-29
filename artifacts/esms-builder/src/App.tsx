@@ -193,93 +193,98 @@ function RiskMatrix({baselineRisks,value,onChange}){
 
 // ═══════════════ INCIDENT LOG ═══════════════
 function IncidentLog({value,onChange}){
+  const {t}=useLang();
   const rows=value||[];
   const cols=[
-    {id:"date",label:"Date",w:"8%",ph:"DD/MM/YY"},
-    {id:"type",label:"Type",w:"9%",type:"sel",opts:["Injury","Near-Miss","Property Damage","Environmental","Security","SEAH","Other"]},
-    {id:"description",label:"Description",w:"22%",type:"ta"},
-    {id:"location",label:"Location",w:"10%",ph:"Site/area"},
-    {id:"persons",label:"Person(s) Involved",w:"10%",ph:"Role only"},
-    {id:"cause",label:"Root Cause",w:"15%",type:"ta"},
-    {id:"action",label:"Corrective Action",w:"15%",type:"ta"},
-    {id:"responsible",label:"Responsible",w:"8%",ph:"Name"},
-    {id:"status",label:"Status",w:"8%",type:"sel",opts:["Open","In Progress","Closed","Reported to Authority"]},
+    {id:"date",label:t("csvColDate"),w:"8%",ph:"DD/MM/YY"},
+    {id:"type",label:t("csvColType"),w:"9%",type:"sel",opts:["Injury","Near-Miss","Property Damage","Environmental","Security","SEAH","Other"]},
+    {id:"description",label:t("csvColDescription"),w:"22%",type:"ta"},
+    {id:"location",label:t("csvColLocation"),w:"10%",ph:"Site/area"},
+    {id:"persons",label:t("csvColPersons"),w:"10%",ph:"Role only"},
+    {id:"cause",label:t("csvColCause"),w:"15%",type:"ta"},
+    {id:"action",label:t("csvColAction"),w:"15%",type:"ta"},
+    {id:"responsible",label:t("colResponsible"),w:"8%",ph:"Name"},
+    {id:"status",label:t("colStatus"),w:"8%",type:"sel",opts:["Open","In Progress","Closed","Reported to Authority"]},
   ];
   return(<div>
-    <InfoBox col={C.red} bg="#FFF5F5">All accidents, injuries, near-misses, and dangerous occurrences must be logged here within 24 hours. Serious incidents must be reported to the national labour / OHS authority.</InfoBox>
-    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel="Log Incident / Near-Miss"/>
+    <InfoBox col={C.red} bg="#FFF5F5">{t("incidentInfoBox")}</InfoBox>
+    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("incidentAddRow")}/>
   </div>);
 }
 
 // ═══════════════ WASTE REGISTER ═══════════════
 function WasteRegister({value,onChange}){
+  const {t}=useLang();
   const rows=value||[];
   const cols=[
-    {id:"date",label:"Date",w:"8%",ph:"DD/MM/YY"},
-    {id:"waste_type",label:"Waste Type",w:"12%",type:"sel",opts:["Lead-acid battery","Lithium battery","Solar panel","Inverter/controller","Accessories","Packaging","Office waste","Workshop waste","Other"]},
-    {id:"qty_units",label:"Qty (units)",w:"7%",ph:"#"},
-    {id:"qty_kg",label:"Weight (kg)",w:"7%",ph:"kg"},
-    {id:"source",label:"Source / Region",w:"10%",ph:"Agent/area"},
-    {id:"r5",label:"5R Action",w:"9%",type:"sel",opts:["Reduce","Reuse","Repair","Refurbish","Recycle","Dispose"]},
-    {id:"disposal_route",label:"Disposal Route",w:"13%",ph:"Recycler/landfill"},
-    {id:"recycler",label:"Recycler / Partner",w:"12%",ph:"Name"},
-    {id:"certificate",label:"Certificate No.",w:"10%",ph:"Ref no."},
-    {id:"responsible",label:"Responsible",w:"8%",ph:"Name"},
+    {id:"date",label:t("csvColDate"),w:"8%",ph:"DD/MM/YY"},
+    {id:"waste_type",label:t("csvColWasteType"),w:"12%",type:"sel",opts:["Lead-acid battery","Lithium battery","Solar panel","Inverter/controller","Accessories","Packaging","Office waste","Workshop waste","Other"]},
+    {id:"qty_units",label:t("csvColQtyUnits"),w:"7%",ph:"#"},
+    {id:"qty_kg",label:t("csvColQtyKg"),w:"7%",ph:"kg"},
+    {id:"source",label:t("csvColSource"),w:"10%",ph:"Agent/area"},
+    {id:"r5",label:t("csv5R"),w:"9%",type:"sel",opts:["Reduce","Reuse","Repair","Refurbish","Recycle","Dispose"]},
+    {id:"disposal_route",label:t("csvColDisposalRoute"),w:"13%",ph:"Recycler/landfill"},
+    {id:"recycler",label:t("colWasteRecycler"),w:"12%",ph:"Name"},
+    {id:"certificate",label:t("colCertNo"),w:"10%",ph:"Ref no."},
+    {id:"responsible",label:t("colResponsible"),w:"8%",ph:"Name"},
   ];
   return(<div>
-    <InfoBox col={C.green} bg="#F0FFF4">Log all waste collected and disposed. This register is evidence of compliance with your Waste Management Plan and is required for investor reporting. Retain for minimum 5 years.</InfoBox>
-    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel="Log Waste Batch"/>
+    <InfoBox col={C.green} bg="#F0FFF4">{t("wasteInfoBox")}</InfoBox>
+    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("wasteAddRow")}/>
   </div>);
 }
 
 // ═══════════════ GRIEVANCE LOG ═══════════════
 function GrievanceLog({value,onChange}){
+  const {t}=useLang();
   const rows=value||[];
   const cols=[
-    {id:"case_id",label:"Case No.",w:"7%",ph:"GRM-001"},
-    {id:"date_received",label:"Date Received",w:"7%",ph:"DD/MM/YY"},
-    {id:"channel",label:"Channel",w:"8%",type:"sel",opts:["Phone/WhatsApp","Email","In-person","Suggestion box","Online form","Via agent","Anonymous","Other"]},
-    {id:"complainant",label:"Complainant (if known)",w:"10%",ph:"Name or 'Anon'"},
-    {id:"category",label:"Category",w:"9%",type:"sel",opts:["Working conditions","Product quality","Consumer protection","Environmental","Community","Gender/SEAH","Payment dispute","Safety","Other"]},
-    {id:"description",label:"Description",w:"18%",type:"ta"},
-    {id:"level",label:"Level",w:"6%",type:"sel",opts:["Level 1","Level 2","Level 3"]},
-    {id:"assigned_to",label:"Assigned To",w:"8%",ph:"Name"},
-    {id:"action",label:"Action Taken",w:"13%",type:"ta"},
-    {id:"satisfied",label:"Satisfied?",w:"6%",type:"sel",opts:["Yes","No","Pending","N/A"]},
-    {id:"date_closed",label:"Date Closed",w:"7%",ph:"DD/MM/YY"},
+    {id:"case_id",label:t("csvColCaseNo"),w:"7%",ph:"GRM-001"},
+    {id:"date_received",label:t("csvColDateReceived"),w:"7%",ph:"DD/MM/YY"},
+    {id:"channel",label:t("csvColChannel"),w:"8%",type:"sel",opts:["Phone/WhatsApp","Email","In-person","Suggestion box","Online form","Via agent","Anonymous","Other"]},
+    {id:"complainant",label:t("colComplainantKnown"),w:"10%",ph:"Name or 'Anon'"},
+    {id:"category",label:t("riskColCategory"),w:"9%",type:"sel",opts:["Working conditions","Product quality","Consumer protection","Environmental","Community","Gender/SEAH","Payment dispute","Safety","Other"]},
+    {id:"description",label:t("csvColDescription"),w:"18%",type:"ta"},
+    {id:"level",label:t("csvColLevel"),w:"6%",type:"sel",opts:["Level 1","Level 2","Level 3"]},
+    {id:"assigned_to",label:t("csvColAssignedTo"),w:"8%",ph:"Name"},
+    {id:"action",label:t("colActionTaken"),w:"13%",type:"ta"},
+    {id:"satisfied",label:t("csvColSatisfied"),w:"6%",type:"sel",opts:["Yes","No","Pending","N/A"]},
+    {id:"date_closed",label:t("csvColDateClosed"),w:"7%",ph:"DD/MM/YY"},
   ];
   return(<div>
     <InfoBox col={C.purple} bg="#F9F0FF">
-      <strong>ROGEAP Timelines:</strong> Acknowledge within 3 days (Level 1 & 2) or same day (Level 3). Resolve within 15 days. GBV/SEAH complaints — separate confidential log only (record nature + outcome here; no personal details of victim).<br/>
-      <strong>Levels:</strong> Level 1 = one-off event | Level 2 = repeated/widespread | Level 3 = breach of law or policy
+      <strong>{t("grievanceTimelinesLabel")}</strong> {t("grievanceTimelinesText")}<br/>
+      <strong>{t("grievanceLevelsLabel")}</strong> {t("grievanceLevelsText")}
     </InfoBox>
-    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel="Log Grievance"/>
+    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("grievanceAddRow")}/>
   </div>);
 }
 
 // ═══════════════ TRAINING REGISTER ═══════════════
 function TrainingRegister({value,onChange}){
+  const {t}=useLang();
   const rows=value||[];
   const cols=[
-    {id:"date",label:"Date",w:"8%",ph:"DD/MM/YY"},
-    {id:"module",label:"Training Module",w:"18%",ph:"e.g. OHS Induction"},
-    {id:"facilitator",label:"Facilitator",w:"10%",ph:"Name / Org"},
-    {id:"participants",label:"No. of Participants",w:"8%",ph:"#"},
-    {id:"target_group",label:"Target Group",w:"11%",ph:"e.g. Field techs"},
-    {id:"duration",label:"Duration",w:"7%",ph:"hrs/days"},
-    {id:"method",label:"Method",w:"9%",type:"sel",opts:["In-person","Workshop","On-the-job","Online","Toolbox talk","Certified course","Other"]},
-    {id:"assessment",label:"Assessment?",w:"7%",type:"sel",opts:["Yes","No","Planned"]},
-    {id:"cert_no",label:"Certificate No.",w:"9%",ph:"Ref (if any)"},
-    {id:"notes",label:"Notes / Gaps",w:"12%",type:"ta"},
+    {id:"date",label:t("csvColDate"),w:"8%",ph:"DD/MM/YY"},
+    {id:"module",label:t("csvColModule"),w:"18%",ph:"e.g. OHS Induction"},
+    {id:"facilitator",label:t("csvColFacilitator"),w:"10%",ph:"Name / Org"},
+    {id:"participants",label:t("colParticipantsNo"),w:"8%",ph:"#"},
+    {id:"target_group",label:t("csvColTargetGroup"),w:"11%",ph:"e.g. Field techs"},
+    {id:"duration",label:t("csvColDuration"),w:"7%",ph:"hrs/days"},
+    {id:"method",label:t("csvColMethod"),w:"9%",type:"sel",opts:["In-person","Workshop","On-the-job","Online","Toolbox talk","Certified course","Other"]},
+    {id:"assessment",label:t("csvColAssessment"),w:"7%",type:"sel",opts:["Yes","No","Planned"]},
+    {id:"cert_no",label:t("colCertNo"),w:"9%",ph:"Ref (if any)"},
+    {id:"notes",label:t("colNotesGaps"),w:"12%",type:"ta"},
   ];
   return(<div>
-    <InfoBox col={C.navyLight} bg="#EBF5FB">Record all E&S, OHS, and HR training delivered. This register is evidence for ROGEAP compliance verification and investor due diligence. Include inductions, refreshers, toolbox talks, and certified courses.</InfoBox>
-    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel="Log Training Session"/>
+    <InfoBox col={C.navyLight} bg="#EBF5FB">{t("trainingInfoBox")}</InfoBox>
+    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("trainingAddRow")}/>
   </div>);
 }
 
 // ═══════════════ STAKEHOLDER REGISTER ═══════════════
 function StakeholderRegister({value,onChange}){
+  const {t}=useLang();
   const baseline=[
     {group:"Customers (households / businesses)",interests:"Product reliability, affordability, safety, e-waste disposal",influence:"High",impact:"High",relationship:"Direct",method:"",frequency:"",responsible:""},
     {group:"Employees (all categories)",interests:"Fair wages, safe conditions, job security, career development",influence:"High",impact:"High",relationship:"Direct",method:"",frequency:"",responsible:""},
@@ -294,24 +299,25 @@ function StakeholderRegister({value,onChange}){
   ];
   const rows=Array.isArray(value)&&value.length>0?value:baseline;
   const cols=[
-    {id:"group",label:"Stakeholder Group",w:"16%",ph:"Group name"},
-    {id:"interests",label:"Interests / Concerns",w:"18%",type:"ta"},
-    {id:"influence",label:"Influence",w:"7%",type:"sel",opts:["High","Medium","Low"]},
-    {id:"impact",label:"Impact on Them",w:"7%",type:"sel",opts:["High","Medium","Low"]},
-    {id:"relationship",label:"Relationship",w:"9%",ph:"Type"},
-    {id:"method",label:"Engagement Method",w:"14%",type:"ta"},
-    {id:"frequency",label:"Frequency",w:"8%",type:"sel",opts:["Ongoing","Monthly","Quarterly","Annually","As needed"]},
-    {id:"responsible",label:"Responsible",w:"9%",ph:"Name"},
-    {id:"last_engaged",label:"Last Engaged",w:"8%",ph:"DD/MM/YY"},
+    {id:"group",label:t("csvColGroup"),w:"16%",ph:"Group name"},
+    {id:"interests",label:t("csvColInterests"),w:"18%",type:"ta"},
+    {id:"influence",label:t("csvColInfluence"),w:"7%",type:"sel",opts:["High","Medium","Low"]},
+    {id:"impact",label:t("colImpactThem"),w:"7%",type:"sel",opts:["High","Medium","Low"]},
+    {id:"relationship",label:t("csvColRelationship"),w:"9%",ph:"Type"},
+    {id:"method",label:t("colEngagementMethod"),w:"14%",type:"ta"},
+    {id:"frequency",label:t("csvColFrequency"),w:"8%",type:"sel",opts:["Ongoing","Monthly","Quarterly","Annually","As needed"]},
+    {id:"responsible",label:t("colResponsible"),w:"9%",ph:"Name"},
+    {id:"last_engaged",label:t("colLastInspected"),w:"8%",ph:"DD/MM/YY"},
   ];
   return(<div>
-    <InfoBox col={C.purple} bg="#F9F0FF">The ROGEAP SEP requires identification of all stakeholders by interest and influence. Stakeholders with High influence + High impact require proactive engagement. Review this register quarterly or after any major change in operations.</InfoBox>
-    <TableBuilder columns={cols} baselineRows={baseline} value={rows} onChange={onChange} addRowLabel="Add Stakeholder Group"/>
+    <InfoBox col={C.purple} bg="#F9F0FF">{t("stakeholderInfoBox2")}</InfoBox>
+    <TableBuilder columns={cols} baselineRows={baseline} value={rows} onChange={onChange} addRowLabel={t("stakeholderAddRow")}/>
   </div>);
 }
 
 // ═══════════════ PPE MATRIX ═══════════════
 function PPEMatrix({value,onChange}){
+  const {t}=useLang();
   const baseline=[
     {task:"Rooftop / elevated installation work",hazard:"Falls from height",ppe_required:"Fall arrest harness (EN355), hard hat (Class E), non-slip safety boots, hi-vis vest, UV-protection gloves",standard:"EN355, EN397",provided:"",inspected:"",notes:""},
     {task:"Electrical system work (live DC/AC)",hazard:"Electric shock, arc flash",ppe_required:"Insulated gloves (EN60903 Class 1 minimum), safety goggles, insulated footwear, no jewellery",standard:"EN60903 Class 1",provided:"",inspected:"",notes:""},
@@ -324,17 +330,17 @@ function PPEMatrix({value,onChange}){
   ];
   const rows=Array.isArray(value)&&value.length>0?value:baseline;
   const cols=[
-    {id:"task",label:"Task / Activity",w:"15%",ph:"Describe task"},
-    {id:"hazard",label:"Key Hazard",w:"13%",ph:"Main hazard"},
-    {id:"ppe_required",label:"PPE Required (Baseline)",w:"22%",type:"ta"},
-    {id:"standard",label:"Standard",w:"8%",ph:"EN/ISO ref"},
-    {id:"provided",label:"PPE Provided By Co.?",w:"8%",type:"sel",opts:["Yes","No","Partial","Planned"]},
-    {id:"inspected",label:"Last Inspected",w:"7%",ph:"DD/MM/YY"},
-    {id:"your_spec",label:"Your Specification / Notes",w:"18%",type:"ta"},
+    {id:"task",label:t("ppeColTask"),w:"15%",ph:"Describe task"},
+    {id:"hazard",label:t("ppeColHazard"),w:"13%",ph:"Main hazard"},
+    {id:"ppe_required",label:t("ppeColRequired"),w:"22%",type:"ta"},
+    {id:"standard",label:t("ppeColStandard"),w:"8%",ph:"EN/ISO ref"},
+    {id:"provided",label:t("ppeColProvided"),w:"8%",type:"sel",opts:["Yes","No","Partial","Planned"]},
+    {id:"inspected",label:t("colLastInspected"),w:"7%",ph:"DD/MM/YY"},
+    {id:"your_spec",label:t("ppeColSpec"),w:"18%",type:"ta"},
   ];
   return(<div>
-    <InfoBox col={C.red} bg="#FFF5F5">PPE is the last line of defence — always eliminate or engineer out hazards first. This matrix must be reviewed when operations change and after any PPE-related incident. Add rows for any tasks specific to your operations.</InfoBox>
-    <TableBuilder columns={cols} baselineRows={baseline} value={rows} onChange={onChange} addRowLabel="Add Task / PPE Requirement"/>
+    <InfoBox col={C.red} bg="#FFF5F5">{t("ppeInfoBox")}</InfoBox>
+    <TableBuilder columns={cols} baselineRows={baseline} value={rows} onChange={onChange} addRowLabel={t("ppeAddRow")}/>
   </div>);
 }
 
@@ -695,19 +701,19 @@ function CodeOfConductBuilder({value,onChange}){
 
 // ═══════════════ TOOLS REGISTRY ═══════════════
 const TOOLS_REGISTRY = {
-  screening: { id:"screening", icon:"📋", label:"ROGEAP Screening Questionnaire", color:C.navy, tag:"Assessment", desc:"ROGEAP E&S Screening Questionnaire (Table 6 of Guidelines). Assess your ESMS maturity against all required components.", component:"ScreeningQuestionnaire" },
-  risk_matrix: { id:"risk_matrix", icon:"🔍", label:"Risk Register & Matrix", color:C.red, tag:"Risk Assessment", desc:"Scored risk register (Probability × Severity) for all OGS E&S risks. Pre-populated with ROGEAP baseline risks. Add, edit, rate, and track mitigation.", component:"RiskMatrix" },
-  compliance: { id:"compliance", icon:"⚖️", label:"Legal & Compliance Tracker", color:C.amber, tag:"Compliance", desc:"Track all applicable laws, permits, and standards with compliance status. Pre-loaded with baseline requirements for OGS companies.", component:"ComplianceTracker" },
-  ppe_matrix: { id:"ppe_matrix", icon:"🦺", label:"PPE Requirements Matrix", color:C.red, tag:"OHS", desc:"Task-by-task PPE requirements matrix. Pre-populated with ROGEAP OHS baseline. Add tasks specific to your operations.", component:"PPEMatrix" },
-  incident_log: { id:"incident_log", icon:"🚑", label:"Incident & Near-Miss Log", color:C.red, tag:"OHS", desc:"Log all workplace incidents, near-misses, dangerous occurrences, and SEAH events. Required for OHS monitoring and regulatory reporting.", component:"IncidentLog" },
-  training_register: { id:"training_register", icon:"🎓", label:"Training Register", color:C.navyLight, tag:"Capacity", desc:"Record all E&S, OHS, and HR training delivered. Required evidence for ROGEAP compliance verification and investor due diligence.", component:"TrainingRegister" },
-  coc: { id:"coc", icon:"📜", label:"Code of Conduct Builder", color:C.navyLight, tag:"HR Policy", desc:"Interactive Code of Conduct builder based on ROGEAP sample (Box 2). Select applicable items, add company-specific requirements, and generate signing block.", component:"CodeOfConductBuilder" },
-  waste_register: { id:"waste_register", icon:"♻️", label:"Waste Tracking Register", color:C.green, tag:"Waste Management", desc:"Log all e-waste and other waste collected, recycled, and disposed. Tracks 5R actions and recycler certificates. Required for EPR compliance.", component:"WasteRegister" },
-  stakeholder_register: { id:"stakeholder_register", icon:"🤝", label:"Stakeholder Register & Engagement Tracker", color:C.purple, tag:"SEP", desc:"Complete stakeholder mapping table with ROGEAP stakeholder groups pre-populated. Add engagement methods, frequency, and track last engagement date.", component:"StakeholderRegister" },
-  grievance_log: { id:"grievance_log", icon:"📬", label:"Grievance Log (GRM)", color:C.purple, tag:"Grievance Mechanism", desc:"ROGEAP-compliant grievance log (based on Table 21 of Guidelines). Track all complaints with 5-stage ROGEAP process. Includes level classification.", component:"GrievanceLog" },
-  supplier_assessment: { id:"supplier_assessment", icon:"🔗", label:"Supplier E&S Assessment", color:C.orange, tag:"Supply Chain", desc:"Assess E&S risks across your supply chain. Rate suppliers on child labour, forced labour, e-waste, and policy compliance. Required for IFC PS2.", component:"SupplierAssessment" },
-  monitoring_form: { id:"monitoring_form", icon:"📊", label:"ROGEAP E&S Monitoring Form", color:C.teal, tag:"Monitoring", desc:"ROGEAP Operational Manual E&S Risk Monitoring Form (Table 22 of Guidelines). Complete quarterly for ROGEAP reporting and management review.", component:"MonitoringForm" },
-  esap: { id:"esap", icon:"📝", label:"ESAP — Environmental & Social Action Plan", color:C.navy, tag:"ESAP", desc:"ROGEAP-aligned ESAP table (based on Table 23 of Guidelines). Full ESAP with Objective, Output, KPI, Baseline, Target, Timeline, Responsible, and Budget.", component:"ESAPTable" },
+  screening: { id:"screening", icon:"📋", lk:"toolLblScreening", dk:"toolDescScreening", color:C.navy, tag:"Assessment", component:"ScreeningQuestionnaire" },
+  risk_matrix: { id:"risk_matrix", icon:"🔍", lk:"toolLblRisk", dk:"toolDescRisk", color:C.red, tag:"Risk Assessment", component:"RiskMatrix" },
+  compliance: { id:"compliance", icon:"⚖️", lk:"toolLblCompliance", dk:"toolDescCompliance", color:C.amber, tag:"Compliance", component:"ComplianceTracker" },
+  ppe_matrix: { id:"ppe_matrix", icon:"🦺", lk:"toolLblPpe", dk:"toolDescPpe", color:C.red, tag:"OHS", component:"PPEMatrix" },
+  incident_log: { id:"incident_log", icon:"🚑", lk:"toolLblIncident", dk:"toolDescIncident", color:C.red, tag:"OHS", component:"IncidentLog" },
+  training_register: { id:"training_register", icon:"🎓", lk:"toolLblTraining", dk:"toolDescTraining", color:C.navyLight, tag:"Capacity", component:"TrainingRegister" },
+  coc: { id:"coc", icon:"📜", lk:"toolLblCoc", dk:"toolDescCoc", color:C.navyLight, tag:"HR Policy", component:"CodeOfConductBuilder" },
+  waste_register: { id:"waste_register", icon:"♻️", lk:"toolLblWaste", dk:"toolDescWaste", color:C.green, tag:"Waste Management", component:"WasteRegister" },
+  stakeholder_register: { id:"stakeholder_register", icon:"🤝", lk:"toolLblStakeholder", dk:"toolDescStakeholder", color:C.purple, tag:"SEP", component:"StakeholderRegister" },
+  grievance_log: { id:"grievance_log", icon:"📬", lk:"toolLblGrievance", dk:"toolDescGrievance", color:C.purple, tag:"Grievance Mechanism", component:"GrievanceLog" },
+  supplier_assessment: { id:"supplier_assessment", icon:"🔗", lk:"toolLblSupplier", dk:"toolDescSupplier", color:C.orange, tag:"Supply Chain", component:"SupplierAssessment" },
+  monitoring_form: { id:"monitoring_form", icon:"📊", lk:"toolLblMonitoring", dk:"toolDescMonitoring", color:C.teal, tag:"Monitoring", component:"MonitoringForm" },
+  esap: { id:"esap", icon:"📝", lk:"toolLblEsap", dk:"toolDescEsap", color:C.navy, tag:"ESAP", component:"ESAPTable" },
 };
 
 const TOOL_COMPONENTS = {
@@ -717,13 +723,13 @@ const TOOL_COMPONENTS = {
 };
 
 const TOOL_GROUPS = [
-  { label:"📋 Assessment & Planning", tags:["Assessment","Risk Assessment","Compliance"], color:C.navy },
-  { label:"🦺 OHS & Safety", tags:["OHS"], color:C.red },
-  { label:"👥 HR & Labour", tags:["HR Policy","Capacity"], color:C.navyLight },
-  { label:"♻️ Environment & Waste", tags:["Waste Management"], color:C.green },
-  { label:"🤝 Stakeholder & Grievance", tags:["SEP","Grievance Mechanism"], color:C.purple },
-  { label:"🔗 Supply Chain", tags:["Supply Chain"], color:C.orange },
-  { label:"📊 Monitoring & ESAP", tags:["Monitoring","ESAP"], color:C.teal },
+  { lk:"grpAssessment", tags:["Assessment","Risk Assessment","Compliance"], color:C.navy },
+  { lk:"grpOHS", tags:["OHS"], color:C.red },
+  { lk:"grpHR", tags:["HR Policy","Capacity"], color:C.navyLight },
+  { lk:"grpEnvironment", tags:["Waste Management"], color:C.green },
+  { lk:"grpStakeholder", tags:["SEP","Grievance Mechanism"], color:C.purple },
+  { lk:"grpSupplyChain", tags:["Supply Chain"], color:C.orange },
+  { lk:"grpMonitoring", tags:["Monitoring","ESAP"], color:C.teal },
 ];
 
 // ═══════════════ TOOLS SECTION ═══════════════
@@ -748,17 +754,17 @@ function ToolsSection({ esmsData, setFieldValue, openGuide }) {
             <div style={{ fontSize:30 }}>{tool.icon}</div>
             <div style={{ flex:1 }}>
               <div style={{ display:"flex", gap:8, alignItems:"center", marginBottom:4, flexWrap:"wrap" }}>
-                <h3 style={{ margin:0, fontFamily:F.d, color:C.text, fontSize:19 }}>{tool.label}</h3>
+                <h3 style={{ margin:0, fontFamily:F.d, color:C.text, fontSize:19 }}>{t(tool.lk)}</h3>
                 <Tag label={tool.tag} col={tool.color} bg={`${tool.color}18`}/>
               </div>
-              <p style={{ margin:0, color:C.muted, fontSize:13, lineHeight:1.5 }}>{tool.desc}</p>
+              <p style={{ margin:0, color:C.muted, fontSize:13, lineHeight:1.5 }}>{t(tool.dk)}</p>
             </div>
             {GUIDELINES_DB[`tool_${activeTool}`] && <GuideBtn guideId={`tool_${activeTool}`} onOpen={openGuide}/>}
           </div>
         </div>
         <div style={{display:"flex",justifyContent:"flex-end",marginBottom:12}}>
           <ExportBar
-            title={tool.label} filename={`ESMS_${activeTool}`}
+            title={t(tool.lk)} filename={`ESMS_${activeTool}`}
             sections={buildToolSection(activeTool, esmsData, t)}
             csvToolId={["risk_matrix","compliance","incident_log","waste_register","grievance_log","training_register","stakeholder_register","supplier_assessment","esap"].includes(activeTool) ? activeTool : null}
             esmsData={esmsData}
@@ -783,17 +789,19 @@ function ToolsSection({ esmsData, setFieldValue, openGuide }) {
       <InfoBox col={C.amber} bg="#FFF8ED">{t("toolsInfoBox")}</InfoBox>
 
       {TOOL_GROUPS.map(grp => {
-        const groupTools = Object.values(TOOLS_REGISTRY).filter(t => grp.tags.includes(t.tag));
+        const groupTools = Object.values(TOOLS_REGISTRY).filter(tool => grp.tags.includes(tool.tag));
         if (!groupTools.length) return null;
         return (
-          <div key={grp.label} style={{ marginBottom:24 }}>
+          <div key={grp.lk} style={{ marginBottom:24 }}>
             <div style={{ fontWeight:700, fontSize:14, color:C.text, marginBottom:10, paddingBottom:6, borderBottom:`2px solid ${grp.color}30`, display:"flex", alignItems:"center", gap:8 }}>
               <span style={{ width:16, height:3, background:grp.color, borderRadius:2, display:"inline-block" }}/>
-              {grp.label}
+              {t(grp.lk)}
             </div>
             <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(290px,1fr))", gap:12 }}>
               {groupTools.map(tool => {
                 const hasData = !!(getVal(tool.id)?.data);
+                const toolLabel = t(tool.lk);
+                const toolDesc = t(tool.dk);
                 return (
                   <div key={tool.id} onClick={() => setActiveTool(tool.id)}
                     style={{ ...S.card, cursor:"pointer", borderLeft:`4px solid ${tool.color}`, position:"relative", transition:"all 0.15s", borderColor: hasData ? C.green : C.border, borderWidth:"1.5px 1.5px 1.5px 4px" }}
@@ -803,12 +811,12 @@ function ToolsSection({ esmsData, setFieldValue, openGuide }) {
                     <div style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
                       <div style={{ fontSize:24, flexShrink:0 }}>{tool.icon}</div>
                       <div>
-                        <div style={{ fontWeight:700, color:C.text, fontSize:13, marginBottom:3 }}>{tool.label}</div>
+                        <div style={{ fontWeight:700, color:C.text, fontSize:13, marginBottom:3 }}>{toolLabel}</div>
                         <Tag label={tool.tag} col={tool.color} bg={`${tool.color}15`}/>
-                        <div style={{ fontSize:12, color:C.muted, marginTop:5, lineHeight:1.45 }}>{tool.desc.substring(0,85)}…</div>
+                        <div style={{ fontSize:12, color:C.muted, marginTop:5, lineHeight:1.45 }}>{toolDesc.substring(0,85)}…</div>
                       </div>
                     </div>
-                    <div style={{ marginTop:10, fontSize:11, color:tool.color, fontWeight:600 }}>Open Tool →</div>
+                    <div style={{ marginTop:10, fontSize:11, color:tool.color, fontWeight:600 }}>{t("toolsOpen")}</div>
                   </div>
                 );
               })}
@@ -826,8 +834,8 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
   const[activePol, setActivePol] = useState(null);
   const policies = [
     {
-      id:"es_policy_stmt", icon:"📜", label:"E&S Policy Statement", color:C.navy,
-      desc:"Overarching Environmental & Social Policy. Required as ROGEAP Component 1.",
+      id:"es_policy_stmt", icon:"📜", label:t("policyLblES"), color:C.navy,
+      desc:t("policyDescES"),
       fields:[
         {id:"company_name",label:"Company Name",t:"text",req:true},
         {id:"mission",label:"Company Mission / Vision",t:"ta",rows:3,req:true,ph:"What does your company do and what impact does it aim to have?"},
@@ -864,8 +872,8 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
       ]
     },
     {
-      id:"hr_policy_stmt", icon:"👥", label:"HR Policy Statement", color:C.navyLight,
-      desc:"Human Resources Policy. Required as ROGEAP Component 5 (with Code of Conduct & worker grievance mechanism).",
+      id:"hr_policy_stmt", icon:"👥", label:t("policyLblHR"), color:C.navyLight,
+      desc:t("policyDescHR"),
       fields:[
         {id:"hr_scope",label:"Scope (who this policy applies to)",t:"ta",rows:2,ph:"All permanent employees, contract workers, casual workers, interns, trainees, and contractors"},
         {id:"eeo",label:"Equal Employment Opportunity",t:"cbl",items:[
@@ -899,8 +907,8 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
       ]
     },
     {
-      id:"hs_policy_stmt", icon:"⛑️", label:"Health & Safety Policy Statement", color:C.red,
-      desc:"Standalone OHS Policy. Required as part of ROGEAP Component 4 (Health and Safety Plan).",
+      id:"hs_policy_stmt", icon:"⛑️", label:t("policyLblHS"), color:C.red,
+      desc:t("policyDescHS"),
       fields:[
         {id:"hs_commitment",label:"Management Commitment Statement",t:"ta",rows:4,ph:"[Company Name] is committed to providing a safe and healthy working environment for all employees, contractors, and visitors. We believe all workplace accidents are preventable. Safety is a condition of employment."},
         {id:"hs_objectives",label:"OHS Objectives",t:"cbl",items:[
@@ -918,8 +926,8 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
       ]
     },
     {
-      id:"consumer_policy_stmt", icon:"🛡️", label:"Consumer Protection Policy", color:C.teal,
-      desc:"Consumer Protection Policy aligned with GOGLA Consumer Protection Code. Required under IFC PS4 and ROGEAP Component 4.",
+      id:"consumer_policy_stmt", icon:"🛡️", label:t("policyLblConsumer"), color:C.teal,
+      desc:t("policyDescConsumer"),
       fields:[
         {id:"cp_statement",label:"Policy Statement",t:"ta",rows:4,ph:"[Company Name] is committed to the fair, transparent, and respectful treatment of all customers. We adopt the GOGLA Consumer Protection Code as our baseline standard."},
         {id:"cp_principles",label:"Consumer Protection Commitments",t:"cbl",items:[
@@ -938,8 +946,8 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
       ]
     },
     {
-      id:"waste_policy_stmt", icon:"♻️", label:"Waste Management Policy Statement", color:C.green,
-      desc:"Waste Management Policy. Required as ROGEAP Component 6.",
+      id:"waste_policy_stmt", icon:"♻️", label:t("policyLblWaste"), color:C.green,
+      desc:t("policyDescWaste"),
       fields:[
         {id:"waste_statement",label:"Policy Statement",t:"ta",rows:4,ph:"[Company Name] is committed to minimising environmental and health impacts of waste from our operations and products through the 5R principles and Extended Producer Responsibility obligations."},
         {id:"waste_commitments",label:"Waste Management Commitments",t:"cbl",items:[
@@ -956,8 +964,8 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
       ]
     },
     {
-      id:"gender_policy_stmt", icon:"⚡", label:"Gender Equity & Inclusion Policy", color:C.purple,
-      desc:"Gender Equity and Anti-GBV/SEAH Policy. Required by most DFI investors and strongly encouraged by ROGEAP.",
+      id:"gender_policy_stmt", icon:"⚡", label:t("policyLblGender"), color:C.purple,
+      desc:t("policyDescGender"),
       fields:[
         {id:"gender_statement",label:"Policy Statement",t:"ta",rows:4,ph:"[Company Name] is committed to gender equity and social inclusion. We have zero tolerance for GBV and SEAH. We actively support women's participation in the off-grid solar sector."},
         {id:"gender_commitments",label:"Gender Equity Commitments",t:"cbl",items:[
@@ -1071,9 +1079,8 @@ const NAV_DEFS = [
 // (Simplified to keep total code within bounds — sub-plans with key fields)
 const PLAN_DEFS_SIMPLE = [
   {
-    id:"ohs", icon:"🦺", label:"OHS Plan", color:C.red,
+    id:"ohs", icon:"🦺", lk:"planLblOHS", ik:"planIntroOHS", color:C.red,
     required:"IFC PS2 / WB ESS2 | ROGEAP Component 4",
-    intro:"Documents how your company identifies, controls, and responds to occupational health and safety hazards. Must cover PPE, training, incident reporting, electrical safety (LOTO), working at heights, and GBV/SEAH as an OHS hazard.",
     linkedTools:["ppe_matrix","incident_log","training_register"],
     fields:[
       {id:"scope",label:"Scope & Management Commitment",t:"ta",rows:3,ph:"This plan applies to all employees, contractors, visitors at all company locations and field sites. Safety is a non-negotiable condition of employment."},
@@ -1085,9 +1092,8 @@ const PLAN_DEFS_SIMPLE = [
     ]
   },
   {
-    id:"community_hs", icon:"🏘️", label:"Community Health & Safety Plan", color:C.green,
+    id:"community_hs", icon:"🏘️", lk:"planLblCommunity", ik:"planIntroCommunity", color:C.green,
     required:"IFC PS4 / WB ESS4 | ROGEAP Component 4",
-    intro:"Addresses health, safety, and security risks your operations and products pose to surrounding communities and customers. Covers product safety, installation practices, waste disposal impacts, and traffic management.",
     linkedTools:["stakeholder_register"],
     fields:[
       {id:"community_map",label:"Affected Community Mapping",t:"ta",rows:4,ph:"List communities affected: location, type of impact, proximity, most affected groups (women, children, elderly)"},
@@ -1098,9 +1104,8 @@ const PLAN_DEFS_SIMPLE = [
     ]
   },
   {
-    id:"consumer", icon:"🛡️", label:"Consumer Protection Plan", color:C.teal,
+    id:"consumer", icon:"🛡️", lk:"planLblConsumer", ik:"planIntroConsumer", color:C.teal,
     required:"IFC PS4 | ROGEAP Component 4 | GOGLA Consumer Protection Code",
-    intro:"Ensures fair, transparent, and safe treatment of customers. Aligned with the GOGLA Consumer Protection Code's 6 principles: Transparency, Responsible Sales, Good Service, Product Quality, Data Privacy, and Fair Treatment.",
     linkedTools:["grievance_log"],
     fields:[
       {id:"gogla_status",label:"GOGLA CP Code Commitment Status",t:"ta",rows:2,ph:"Letter of commitment sent: [date] | Self-assessment completed: [date] | Last declaration sent: [date] | Next due: [date]"},
@@ -1111,9 +1116,8 @@ const PLAN_DEFS_SIMPLE = [
     ]
   },
   {
-    id:"waste", icon:"♻️", label:"Waste Management Plan", color:C.green,
+    id:"waste", icon:"♻️", lk:"planLblWaste", ik:"planIntroWaste", color:C.green,
     required:"IFC PS3 / WB ESS3 | ROGEAP Component 6",
-    intro:"Covers management of all waste streams from your operations and products, with particular focus on e-waste (batteries, panels, accessories). Applies the 5R hierarchy and establishes Extended Producer Responsibility systems.",
     linkedTools:["waste_register"],
     fields:[
       {id:"waste_streams",label:"Waste Streams & Volumes (from audit)",t:"ta",rows:4,ph:"Lead-acid batteries: ~[X] units/year | Lithium batteries: ~[X] units/year | Panels EOL: ~[X] units/year | Accessories: ~[X] units/year | Packaging: ~[X] kg/year"},
@@ -1125,9 +1129,8 @@ const PLAN_DEFS_SIMPLE = [
     ]
   },
   {
-    id:"epr", icon:"🚨", label:"Emergency Preparedness & Response Plan", color:C.red,
+    id:"epr", icon:"🚨", lk:"planLblEPR", ik:"planIntroEPR", color:C.red,
     required:"IFC PS2/PS4 | ROGEAP Component 11",
-    intro:"Ensures your team knows how to respond before emergencies happen. Covers electrical fires and incidents, battery emergencies, vehicle accidents, natural disasters, GBV/SEAH incidents, and security threats.",
     linkedTools:["incident_log"],
     fields:[
       {id:"scenarios_epr",label:"Emergency Scenarios & Priority",t:"ta",rows:5,ph:"SCENARIO | PROBABILITY | SEVERITY | PRIORITY\nElectrical fire | Medium | High | HIGH\nBattery acid spill | Medium | High | HIGH\nTechnician electrocution | Low | Critical | HIGH\nVehicle accident | Medium | Medium | MEDIUM\nGBV/SEAH incident | Low | High | HIGH\n[Add others from risk assessment]"},
@@ -1139,9 +1142,8 @@ const PLAN_DEFS_SIMPLE = [
     ]
   },
   {
-    id:"hr_plan", icon:"👷", label:"HR Management Plan", color:C.navyLight,
+    id:"hr_plan", icon:"👷", lk:"planLblHR", ik:"planIntroHR", color:C.navyLight,
     required:"IFC PS2 / WB ESS2 | ROGEAP Component 5",
-    intro:"Operationalises your HR Policy. Covers recruitment, employment conditions, worker rights, performance management, women's health and safety, and the Code of Conduct (which is a separate required ROGEAP document).",
     linkedTools:["training_register"],
     fields:[
       {id:"workforce",label:"Current Workforce Profile",t:"ta",rows:2,ph:"Permanent: [X] | Contract: [X] | Casual: [X] | Contractors: [X] | % Female: [X]%"},
@@ -1152,9 +1154,8 @@ const PLAN_DEFS_SIMPLE = [
     ]
   },
   {
-    id:"sep_plan", icon:"🤝", label:"Stakeholder Engagement Plan", color:C.purple,
+    id:"sep_plan", icon:"🤝", lk:"planLblSEP", ik:"planIntroSEP", color:C.purple,
     required:"WB ESS10 | IFC PS1 | ROGEAP Component 7",
-    intro:"Defines who your stakeholders are, how you will engage them, and how you will respond to their concerns. Required to be Free, Prior, Informed, and gender-inclusive. Must include a grievance mechanism accessible to all stakeholders.",
     linkedTools:["stakeholder_register","grievance_log"],
     fields:[
       {id:"sep_objectives",label:"Stakeholder Engagement Objectives",t:"ta",rows:2,ph:"1. Identify and address community concerns before they escalate\n2. Ensure women and vulnerable groups are meaningfully included\n3. Build trust and social licence to operate in service areas"},
@@ -1187,9 +1188,9 @@ function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
           <div style={{ display:"flex", gap:12, alignItems:"flex-start", flexWrap:"wrap" }}>
             <div style={{ fontSize:30 }}>{plan.icon}</div>
             <div style={{ flex:1 }}>
-              <h3 style={{ margin:0, fontFamily:F.d, color:C.text, fontSize:19 }}>{plan.label}</h3>
+              <h3 style={{ margin:0, fontFamily:F.d, color:C.text, fontSize:19 }}>{t(plan.lk)}</h3>
               <div style={{ marginTop:4 }}><Tag label={plan.required} col={plan.color} bg={`${plan.color}15`}/></div>
-              <p style={{ margin:"8px 0 0", color:C.muted, fontSize:13, lineHeight:1.5 }}>{plan.intro}</p>
+              <p style={{ margin:"8px 0 0", color:C.muted, fontSize:13, lineHeight:1.5 }}>{t(plan.ik)}</p>
             </div>
             <GuideBtn guideId="plans" onOpen={openGuide}/>
           </div>
@@ -1197,7 +1198,7 @@ function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
             <div style={{ marginTop:10, padding:"8px 12px", background:"#F8FAFD", borderRadius:7, fontSize:12 }}>
               <span style={{ fontWeight:700, color:C.navy }}>{t("plansSupportingTools")} </span>
               {plan.linkedTools.map(tk => TOOLS_REGISTRY[tk]).filter(Boolean).map(tk => (
-                <span key={tk.id} style={{ background:`${tk.color}18`, color:tk.color, borderRadius:5, padding:"2px 8px", marginLeft:6, fontWeight:600 }}>{tk.icon} {tk.label}</span>
+                <span key={tk.id} style={{ background:`${tk.color}18`, color:tk.color, borderRadius:5, padding:"2px 8px", marginLeft:6, fontWeight:600 }}>{tk.icon} {t(tk.lk)}</span>
               ))}
               <span style={{ color:C.muted, marginLeft:6 }}>{t("plansToolsNote")}</span>
             </div>
@@ -1215,14 +1216,14 @@ function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
         ))}
         <div style={{ marginTop:24, paddingTop:16, borderTop:`1.5px solid ${C.border}`, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:10 }}>
           <ExportBar
-            title={plan.label}
+            title={t(plan.lk)}
             filename={`Plan_${plan.id}`}
-            sections={buildSinglePlanSections(plan, d)}
+            sections={buildSinglePlanSections(plan, d, t)}
             esmsData={esmsData}
           />
           <div style={{display:"flex",gap:10}}>
-            {active > 0 && <button onClick={() => setActive(active-1)} style={S.outBtn}>← {PLAN_DEFS_SIMPLE[active-1].label}</button>}
-            {active < PLAN_DEFS_SIMPLE.length-1 && <button onClick={() => setActive(active+1)} style={S.btn}>{PLAN_DEFS_SIMPLE[active+1].label} →</button>}
+            {active > 0 && <button onClick={() => setActive(active-1)} style={S.outBtn}>← {t(PLAN_DEFS_SIMPLE[active-1].lk)}</button>}
+            {active < PLAN_DEFS_SIMPLE.length-1 && <button onClick={() => setActive(active+1)} style={S.btn}>{t(PLAN_DEFS_SIMPLE[active+1].lk)} →</button>}
           </div>
         </div>
       </div>
@@ -1250,15 +1251,15 @@ function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
               onMouseLeave={e => { e.currentTarget.style.boxShadow = ""; e.currentTarget.style.transform = ""; }}>
               {done && <span style={{ position:"absolute", top:10, right:10, fontSize:14 }}>✅</span>}
               <div style={{ fontSize:26, marginBottom:6 }}>{p.icon}</div>
-              <div style={{ fontWeight:700, color:C.text, fontSize:14, marginBottom:3 }}>{p.label}</div>
+              <div style={{ fontWeight:700, color:C.text, fontSize:14, marginBottom:3 }}>{t(p.lk)}</div>
               <div style={{ fontSize:11, color:p.color, marginBottom:5, fontWeight:600 }}>{p.required}</div>
-              <div style={{ fontSize:12, color:C.muted, lineHeight:1.4 }}>{p.intro.substring(0,80)}…</div>
+              <div style={{ fontSize:12, color:C.muted, lineHeight:1.4 }}>{t(p.ik).substring(0,80)}…</div>
               {p.linkedTools?.length > 0 && (
                 <div style={{ marginTop:8, fontSize:11, color:C.muted }}>
-                  🛠️ Tools: {p.linkedTools.map(t => TOOLS_REGISTRY[t]?.icon).filter(Boolean).join(" ")}
+                  🛠️ Tools: {p.linkedTools.map(tk => TOOLS_REGISTRY[tk]?.icon).filter(Boolean).join(" ")}
                 </div>
               )}
-              <div style={{ marginTop:8, fontSize:12, color:p.color, fontWeight:600 }}>Develop plan →</div>
+              <div style={{ marginTop:8, fontSize:12, color:p.color, fontWeight:600 }}>{t("plansDevelop")}</div>
             </div>
           );
         })}
@@ -2567,7 +2568,8 @@ function buildToolSection(toolId, esmsData, t) {
   if (!def) return [];
   const raw = esmsData[`tool_${toolId}`]?.data;
   const rows = Array.isArray(raw)?raw:[];
-  const title = TOOLS_REGISTRY[toolId]?.label||def.label;
+  const reg = TOOLS_REGISTRY[toolId];
+  const title = (reg?.lk ? t(reg.lk) : null) || def.label;
   return [{type:'heading',text:title},{type:'table',label:def.label,rows,cols:def.cols}];
 }
 
@@ -2665,11 +2667,11 @@ function buildSinglePolicySections(pol, d) {
 }
 
 // ── Per-plan section builder ──
-function buildSinglePlanSections(plan, d) {
+function buildSinglePlanSections(plan, d, t) {
   const out = [
-    {type:'heading', text: plan.label},
+    {type:'heading', text: t ? t(plan.lk) : (plan.label || '')},
     {type:'paragraph', text: `${plan.required || ''}`},
-    {type:'paragraph', text: plan.intro || ''}
+    {type:'paragraph', text: t ? t(plan.ik) : (plan.intro || '')}
   ];
   for (const f of plan.fields) {
     const v = d[f.id];

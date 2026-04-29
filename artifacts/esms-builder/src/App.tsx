@@ -55,6 +55,7 @@ const Tag=({label,col=C.teal,bg="#E8F8F5"})=><span style={{background:bg,color:c
 // ═══════════════ CUSTOM CHECKLIST BUILDER ═══════════════
 // Baseline items pre-populated from ROGEAP; user can check/uncheck & add own items
 function ChecklistBuilder({baseline,value,onChange,columns=1}){
+  const {t}=useLang();
   const sel=Array.isArray(value?.sel)?value.sel:[...baseline.map(b=>b.id)];
   const custom=Array.isArray(value?.custom)?value.custom:[];
   const[ni,sni]=useState("");const[editing,setEditing]=useState(null);
@@ -77,7 +78,7 @@ function ChecklistBuilder({baseline,value,onChange,columns=1}){
       ))}
     </div>
     {custom.length>0&&<div style={{marginTop:8,borderTop:`1px dashed ${C.border}`,paddingTop:8}}>
-      <div style={{fontSize:11,color:C.muted,marginBottom:4,fontWeight:600}}>YOUR ADDITIONS:</div>
+      <div style={{fontSize:11,color:C.muted,marginBottom:4,fontWeight:600}}>{t("checklistCustomLabel")}</div>
       {custom.map((c,i)=>(
         <div key={c.id||i} style={{display:"flex",alignItems:"center",gap:6,padding:"4px 8px",background:"#FFFBF0",borderRadius:6,marginBottom:4}}>
           <input type="checkbox" checked={!!c.checked} onChange={()=>toggleCust(i)} style={{accentColor:C.amber,flexShrink:0}}/>
@@ -89,10 +90,10 @@ function ChecklistBuilder({baseline,value,onChange,columns=1}){
       ))}
     </div>}
     <div style={{display:"flex",gap:8,marginTop:10}}>
-      <input value={ni} onChange={e=>sni(e.target.value)} onKeyDown={e=>e.key==="Enter"&&addCust()} placeholder="➕ Add your own item…" style={{...S.inp,flex:1,fontSize:12,background:"#FAFBFC",borderStyle:"dashed"}}/>
-      <button onClick={addCust} style={{...S.btn,padding:"8px 14px",fontSize:12,background:C.teal}}>Add</button>
+      <input value={ni} onChange={e=>sni(e.target.value)} onKeyDown={e=>e.key==="Enter"&&addCust()} placeholder={t("checklistPlaceholder")} style={{...S.inp,flex:1,fontSize:12,background:"#FAFBFC",borderStyle:"dashed"}}/>
+      <button onClick={addCust} style={{...S.btn,padding:"8px 14px",fontSize:12,background:C.teal}}>{t("checklistAdd")}</button>
     </div>
-    <div style={{fontSize:11,color:C.muted,marginTop:4}}>{(sel.length+custom.filter(c=>c.checked).length)} items checked</div>
+    <div style={{fontSize:11,color:C.muted,marginTop:4}}>{(sel.length+custom.filter(c=>c.checked).length)} {t("checklistCount")}</div>
   </div>);
 }
 
@@ -131,28 +132,30 @@ function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row"
 
 // ═══════════════ SCORED RISK MATRIX ═══════════════
 function RiskMatrix({baselineRisks,value,onChange}){
+  const {t}=useLang();
   const rows=Array.isArray(value)?value:(Array.isArray(baselineRisks)?baselineRisks:[]).map(r=>({...r,applies:"yes",prob:r.prob||"2",sev:r.sev||"2",mitigation:r.mitigation||"",responsible:"",status:"Planned"}));
   const update=(ri,k,v)=>{const r=[...rows];r[ri]={...r[ri],[k]:v};onChange(r);};
   const addRow=()=>onChange([...rows,{risk:"",category:"Other",applies:"yes",prob:"1",sev:"1",mitigation:"",responsible:"",status:"Planned"}]);
   const removeRow=i=>onChange(rows.filter((_,j)=>j!==i));
-  const ratingColor=(p,s)=>{const score=parseInt(p)*parseInt(s);if(score>=9)return{bg:"#FDECEA",c:C.red,label:"CRITICAL"};if(score>=6)return{bg:"#FFF3E0",c:"#E65100",label:"HIGH"};if(score>=3)return{bg:"#FFFDE7",c:"#F9A825",label:"MEDIUM"};return{bg:"#E8F5E9",c:C.green,label:"LOW"};};
+  const ratingColor=(p,s)=>{const score=parseInt(p)*parseInt(s);if(score>=9)return{bg:"#FDECEA",c:C.red,label:t("riskCritical")};if(score>=6)return{bg:"#FFF3E0",c:"#E65100",label:t("riskHigh")};if(score>=3)return{bg:"#FFFDE7",c:"#F9A825",label:t("riskMedium")};return{bg:"#E8F5E9",c:C.green,label:t("riskLow")};};
+  const colHeaders=[t("riskColHazard"),t("riskColCategory"),t("riskColApplies"),t("riskColProb"),t("riskColSev"),t("riskColRating"),t("riskColMitigation"),t("riskColResponsible"),t("riskColStatus")];
   return(<div style={{overflowX:"auto"}}>
     <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:900}}>
       <thead><tr>
-        {["Risk / Hazard","Category","Applies?","Probability (1-4)","Severity (1-4)","Rating","Mitigation Measures","Responsible","Status"].map((h,i)=>
+        {colHeaders.map((h,i)=>
           <th key={i} style={{...S.th,width:["22%","9%","7%","8%","8%","7%","22%","9%","8%"][i]}}>{h}</th>)}
         <th style={{...S.th,width:30}}></th>
       </tr></thead>
       <tbody>
         {rows.map((row,ri)=>{
-          const rc=row.applies==="yes"?ratingColor(row.prob||"1",row.sev||"1"):{bg:"white",c:C.muted,label:"N/A"};
+          const rc=row.applies==="yes"?ratingColor(row.prob||"1",row.sev||"1"):{bg:"white",c:C.muted,label:t("riskNA")};
           return(<tr key={ri} style={{background:row.applies==="no"?"#FAFAFA":"white"}}>
             <td style={S.td}><textarea value={row.risk||""} onChange={e=>update(ri,"risk",e.target.value)} rows={2} style={{...S.ta,padding:"4px 6px",fontSize:12}}/></td>
             <td style={S.td}><select value={row.category||""} onChange={e=>update(ri,"category",e.target.value)} style={{...S.inp,padding:"4px 6px",fontSize:11}}>
               {["OHS","E-Waste","Labour","Consumer","Community","Gender/SEAH","Supply Chain","Security","Environment","Other"].map(o=><option key={o}>{o}</option>)}
             </select></td>
             <td style={{...S.td,textAlign:"center"}}><select value={row.applies||"yes"} onChange={e=>update(ri,"applies",e.target.value)} style={{...S.inp,padding:"4px 5px",fontSize:11,width:60}}>
-              <option value="yes">Yes</option><option value="no">No</option></select></td>
+              <option value="yes">{t("riskAppliesYes")}</option><option value="no">{t("riskAppliesNo")}</option></select></td>
             <td style={{...S.td,textAlign:"center"}}><select value={row.prob||"2"} onChange={e=>update(ri,"prob",e.target.value)} style={{...S.inp,padding:"4px 5px",fontSize:11,width:55}}>
               {["1","2","3","4"].map(o=><option key={o}>{o}</option>)}</select></td>
             <td style={{...S.td,textAlign:"center"}}><select value={row.sev||"2"} onChange={e=>update(ri,"sev",e.target.value)} style={{...S.inp,padding:"4px 5px",fontSize:11,width:55}}>
@@ -161,18 +164,23 @@ function RiskMatrix({baselineRisks,value,onChange}){
             <td style={S.td}><textarea value={row.mitigation||""} onChange={e=>update(ri,"mitigation",e.target.value)} rows={2} style={{...S.ta,padding:"4px 6px",fontSize:12}}/></td>
             <td style={S.td}><input value={row.responsible||""} onChange={e=>update(ri,"responsible",e.target.value)} style={{...S.inp,padding:"4px 6px",fontSize:11}}/></td>
             <td style={S.td}><select value={row.status||"Planned"} onChange={e=>update(ri,"status",e.target.value)} style={{...S.inp,padding:"4px 5px",fontSize:11}}>
-              {["Planned","In Progress","Complete","Overdue","N/A"].map(o=><option key={o}>{o}</option>)}</select></td>
+              <option value="Planned">{t("riskPlanned")}</option>
+              <option value="In Progress">{t("riskInProgress")}</option>
+              <option value="Complete">{t("riskComplete")}</option>
+              <option value="Overdue">{t("riskOverdue")}</option>
+              <option value="N/A">{t("riskNA")}</option>
+            </select></td>
             <td style={{...S.td,textAlign:"center",padding:0}}><button onClick={()=>removeRow(ri)} aria-label="Remove risk row" className="remove-btn" style={{background:"none",border:"none",color:C.red,cursor:"pointer",fontSize:18,width:44,height:44}}>×</button></td>
           </tr>);
         })}
       </tbody>
     </table>
-    <button onClick={addRow} style={{...S.outBtn,marginTop:10,fontSize:12,color:C.teal,borderColor:C.teal}}>➕ Add Risk</button>
+    <button onClick={addRow} style={{...S.outBtn,marginTop:10,fontSize:12,color:C.teal,borderColor:C.teal}}>{t("riskAdd")}</button>
     <div style={{marginTop:14,display:"flex",gap:10,flexWrap:"wrap"}}>
-      {[{l:"CRITICAL (9-16)",bg:"#FDECEA",c:C.red},{l:"HIGH (6-8)",bg:"#FFF3E0",c:"#E65100"},{l:"MEDIUM (3-5)",bg:"#FFFDE7",c:"#F9A825"},{l:"LOW (1-2)",bg:"#E8F5E9",c:C.green}].map(r=>(
-        <div key={r.l} style={{background:r.bg,color:r.c,borderRadius:7,padding:"4px 12px",fontSize:11,fontWeight:700}}>{r.l}</div>
+      {[{lk:"riskCritical",range:"(9-16)",bg:"#FDECEA",c:C.red},{lk:"riskHigh",range:"(6-8)",bg:"#FFF3E0",c:"#E65100"},{lk:"riskMedium",range:"(3-5)",bg:"#FFFDE7",c:"#F9A825"},{lk:"riskLow",range:"(1-2)",bg:"#E8F5E9",c:C.green}].map(r=>(
+        <div key={r.lk} style={{background:r.bg,color:r.c,borderRadius:7,padding:"4px 12px",fontSize:11,fontWeight:700}}>{t(r.lk)} {r.range}</div>
       ))}
-      <div style={{fontSize:11,color:C.muted,alignSelf:"center"}}>Rating = Probability × Severity (1=Low, 4=Extreme)</div>
+      <div style={{fontSize:11,color:C.muted,alignSelf:"center"}}>{t("riskLegend")}</div>
     </div>
   </div>);
 }
@@ -326,6 +334,7 @@ function PPEMatrix({value,onChange}){
 
 // ═══════════════ COMPLIANCE TRACKER ═══════════════
 function ComplianceTracker({value,onChange}){
+  const {t}=useLang();
   const baseline=[
     {law:"[Country] Labour Act",authority:"Ministry of Labour",requirement:"Minimum wage, working hours, contracts, leave, non-discrimination",applies:"yes",status:"",expiry:"",responsible:"",evidence:""},
     {law:"[Country] Factories / OHS Act",authority:"Ministry of Labour / Factory Inspectorate",requirement:"Workplace safety, PPE, incident reporting, inspections",applies:"yes",status:"",expiry:"",responsible:"",evidence:""},
@@ -340,27 +349,28 @@ function ComplianceTracker({value,onChange}){
   ];
   const rows=Array.isArray(value)&&value.length>0?value:baseline;
   const cols=[
-    {id:"law",label:"Law / Regulation / Standard",w:"16%",ph:"Name"},
-    {id:"authority",label:"Issuing Authority",w:"12%",ph:"Body"},
-    {id:"requirement",label:"Key Requirement",w:"18%",type:"ta"},
-    {id:"applies",label:"Applies?",w:"6%",type:"sel",opts:["yes","no","unsure"]},
-    {id:"status",label:"Compliance Status",w:"9%",type:"sel",opts:["Compliant","Partial","Non-compliant","Under review","N/A"]},
-    {id:"expiry",label:"Permit Expiry",w:"7%",ph:"DD/MM/YY"},
-    {id:"responsible",label:"Responsible",w:"8%",ph:"Name"},
-    {id:"evidence",label:"Evidence / Document Ref",w:"14%",ph:"File name/location"},
-    {id:"action",label:"Action Needed",w:"12%",type:"ta"},
+    {id:"law",label:t("complianceColLaw"),w:"16%",ph:"Name"},
+    {id:"authority",label:t("complianceColAuthority"),w:"12%",ph:"Body"},
+    {id:"requirement",label:t("complianceColReq"),w:"18%",type:"ta"},
+    {id:"applies",label:t("complianceColApplies"),w:"6%",type:"sel",opts:["yes","no","unsure"]},
+    {id:"status",label:t("complianceColStatus"),w:"9%",type:"sel",opts:["Compliant","Partial","Non-compliant","Under review","N/A"]},
+    {id:"expiry",label:t("complianceColExpiry"),w:"7%",ph:"DD/MM/YY"},
+    {id:"responsible",label:t("complianceColResponsible"),w:"8%",ph:"Name"},
+    {id:"evidence",label:t("complianceColEvidence"),w:"14%",ph:"File name/location"},
+    {id:"action",label:t("complianceColAction"),w:"12%",type:"ta"},
   ];
   return(<div>
-    <InfoBox col={C.amber} bg="#FFF8ED">This register tracks all laws, regulations, and standards your company must comply with. Review quarterly and whenever new regulations are issued. Use national legal resources and industry associations to identify country-specific requirements.</InfoBox>
-    <TableBuilder columns={cols} baselineRows={baseline} value={rows} onChange={onChange} addRowLabel="Add Law / Regulation"/>
+    <InfoBox col={C.amber} bg="#FFF8ED">{t("complianceInfoBox")}</InfoBox>
+    <TableBuilder columns={cols} baselineRows={baseline} value={rows} onChange={onChange} addRowLabel={t("complianceAdd")}/>
   </div>);
 }
 
 // ═══════════════ SCREENING QUESTIONNAIRE ═══════════════
 // Directly from ROGEAP Table 6
 function ScreeningQuestionnaire({value,onChange}){
+  const {t}=useLang();
   const sections=[
-    {id:"excl",title:"Section C1 — Exclusion Criteria",subtitle:"A 'Yes' to any of these disqualifies the company from ROGEAP financing.",items:[
+    {id:"excl",title:t("screeningC1"),subtitle:t("screeningC1sub"),items:[
       {id:"forced_labour",text:"Has the company been involved in production or activities involving forced labour?",critical:true},
       {id:"child_labour",text:"Has the company been involved in production or activities involving child labour?",critical:true},
       {id:"ewaste_noncompliant",text:"Has the company been involved in cross-border trade in waste not compliant with the Basel Convention?",critical:true},
@@ -368,7 +378,7 @@ function ScreeningQuestionnaire({value,onChange}){
       {id:"gbv_cases",text:"Has the company had confirmed cases of Gender Based Violence / Sexual Exploitation and Abuse?",critical:true},
       {id:"discrimination",text:"Has the company had confirmed cases of discrimination of vulnerable groups (gender, disability)?",critical:true},
     ]},
-    {id:"esms",title:"Section C2 — ESMS & Policies",subtitle:"Assess the company's current E&S management maturity.",items:[
+    {id:"esms",title:t("screeningC2"),subtitle:t("screeningC2sub"),items:[
       {id:"has_es_policy",text:"Does the company have an Environmental and / or Social Policy?"},
       {id:"es_training",text:"Does the company conduct E&S, gender awareness, and SEA/SH training internally?"},
       {id:"hr_policy",text:"Does the company have a Human Resources Policy?"},
@@ -378,7 +388,7 @@ function ScreeningQuestionnaire({value,onChange}){
       {id:"hr_no_forced",text:"Does the HR Policy prohibit forced labour?"},
       {id:"worker_grievance",text:"Is there a workers' grievance mechanism in place?"},
     ]},
-    {id:"ohs",title:"Section C3 — Occupational Health & Safety",items:[
+    {id:"ohs",title:t("screeningC3"),items:[
       {id:"ohs_policy",text:"Does the company have a policy or guidelines on occupational health and safety?"},
       {id:"ohs_officer",text:"Does the company have designated internal OHS coordinators / staff?"},
       {id:"ppe_provided",text:"Does the company provide Personal Protective Equipment (PPE) to its workers?"},
@@ -388,14 +398,14 @@ function ScreeningQuestionnaire({value,onChange}){
       {id:"gbv_training",text:"Does the company provide internal training on Gender Based Violence?"},
       {id:"ohs_monitoring",text:"Does the company have a monitoring system for workplace conditions and safety?"},
     ]},
-    {id:"ewaste",title:"Section C4 — E-Waste and Environmental",items:[
+    {id:"ewaste",title:t("screeningC4"),items:[
       {id:"battery_collection",text:"Does the company have a policy or process for collecting used batteries from customers?"},
       {id:"battery_recycling",text:"Does the company have a process for recycling/disposal of used lead-acid and lithium-ion batteries?"},
       {id:"buyback",text:"Does the company have buy-back agreements with equipment manufacturers?"},
       {id:"systematic_collection",text:"Does the company systematically collect used batteries and/or units from consumers?"},
       {id:"ewaste_education",text:"Does the company inform end users about the e-waste issue and proper e-waste management?"},
     ]},
-    {id:"stakeholders",title:"Section C5 — Stakeholder Engagement & Grievance",items:[
+    {id:"stakeholders",title:t("screeningC5"),items:[
       {id:"sep_exists",text:"Does the company have a Stakeholder Engagement Plan (SEP)?"},
       {id:"public_education",text:"Does the company engage in consumer and public education about E&S aspects of solar energy?"},
       {id:"stakeholders_identified",text:"Has the company identified key external stakeholders for its business?"},
@@ -413,8 +423,9 @@ function ScreeningQuestionnaire({value,onChange}){
     return{background:"#F5F5F5",color:C.muted,border:`1px solid ${C.border}`};
   };
 
+  const ANS_LABELS={yes:t("screeningYes"),no:t("screeningNo"),partial:t("screeningPartial"),"n/a":t("screeningNA")};
   return(<div>
-    <InfoBox col={C.navy} bg="#EBF5FB">This questionnaire mirrors the ROGEAP Environmental and Social Screening Questionnaire (Table 6 of the ROGEAP ESMS Guidelines). Use it to assess your current ESMS maturity and identify gaps for your ESAP.</InfoBox>
+    <InfoBox col={C.navy} bg="#EBF5FB">{t("screeningInfoBox")}</InfoBox>
     {sections.map(sec=>(
       <div key={sec.id} style={{...S.card,marginBottom:16}}>
         <div style={{fontWeight:700,color:C.navy,fontSize:15,marginBottom:4,fontFamily:F.d}}>{sec.title}</div>
@@ -422,13 +433,13 @@ function ScreeningQuestionnaire({value,onChange}){
         {sec.items.map(item=>(
           <div key={item.id} style={{display:"flex",gap:12,alignItems:"flex-start",padding:"10px 12px",borderRadius:8,marginBottom:6,background:item.critical?"#FFF5F5":"#FAFBFC",border:`1px solid ${item.critical?"#FCCECE":C.border}`}}>
             <div style={{flex:1}}>
-              <div style={{fontSize:13,lineHeight:1.5}}>{item.critical&&<span style={{fontSize:10,color:C.red,fontWeight:700,marginRight:6}}>⛔ EXCLUSION</span>}{item.text}</div>
+              <div style={{fontSize:13,lineHeight:1.5}}>{item.critical&&<span style={{fontSize:10,color:C.red,fontWeight:700,marginRight:6}}>{t("screeningExclusion")}</span>}{item.text}</div>
               {d[item.id]?.notes&&<div style={{fontSize:12,color:C.muted,marginTop:4,fontStyle:"italic"}}>📝 {d[item.id].notes}</div>}
             </div>
             <div style={{display:"flex",gap:5,flexShrink:0}}>
               {["yes","no","partial","n/a"].map(ans=>(
-                <button key={ans} onClick={()=>setVal(item.id,"answer",ans)} style={{...yesNoStyle(d[item.id]?.answer===ans?ans:""),borderRadius:6,padding:"4px 10px",cursor:"pointer",fontSize:11,fontWeight:600,fontFamily:F.b,textTransform:"uppercase",background:d[item.id]?.answer===ans?yesNoStyle(ans).background:"white"}}>
-                  {ans}
+                <button key={ans} onClick={()=>setVal(item.id,"answer",ans)} style={{...yesNoStyle(d[item.id]?.answer===ans?ans:""),borderRadius:6,padding:"4px 10px",cursor:"pointer",fontSize:11,fontWeight:600,fontFamily:F.b,background:d[item.id]?.answer===ans?yesNoStyle(ans).background:"white"}}>
+                  {ANS_LABELS[ans]}
                 </button>
               ))}
             </div>
@@ -551,63 +562,62 @@ function SupplierAssessment({value,onChange}){
 // ═══════════════ ESAP TABLE ═══════════════
 // ROGEAP-aligned ESAP with all required columns
 function ESAPTable({value,onChange}){
+  const {t}=useLang();
   const rows=value||[];
   const STATUS={
-    "Not Started":{bg:"#F0F4F8",c:C.muted},
-    "In Progress":{bg:"#FFF8ED",c:C.amber},
-    "Completed":{bg:"#EAF7F1",c:C.green},
-    "Overdue":{bg:"#FDECEA",c:C.red},
-    "Deferred":{bg:"#F3E5F5",c:"#6C3483"},
+    "Not Started":{bg:"#F0F4F8",c:C.muted,lk:"notStarted"},
+    "In Progress":{bg:"#FFF8ED",c:C.amber,lk:"inProgress"},
+    "Completed":{bg:"#EAF7F1",c:C.green,lk:"completed"},
+    "Overdue":{bg:"#FDECEA",c:C.red,lk:"overdue"},
+    "Deferred":{bg:"#F3E5F5",c:"#6C3483",lk:"deferred"},
   };
   const categories=["ESMS / Policy","Labour & Working Conditions","OHS","E-Waste Management","Consumer/End User Health & Safety","Stakeholder Engagement & GRM","Gender / SEAH","HR Management","Compliance","Capacity & Training","Other"];
   const add=()=>onChange([...rows,{id:Date.now(),cat:"ESMS / Policy",objective:"",output:"",actions:"",kpi:"",baseline:"",target:"",deadline:"",responsible:"",budget:"",verifier:"",status:"Not Started"}]);
   const update=(i,k,v)=>{const r=[...rows];r[i]={...r[i],[k]:v};onChange(r);};
   const remove=i=>onChange(rows.filter((_,j)=>j!==i));
   return(<div>
-    <InfoBox col={C.navy} bg="#EBF5FB">
-      <strong>ROGEAP ESAP Requirements (Table 23 of Guidelines):</strong> Each action must include Objective, Output/Deliverable, Activities/Actions, KPI, Baseline Status, Target, Timeline, Responsible Person, and Budget estimate. The ESAP is submitted as part of the grant/loan agreement.
-    </InfoBox>
+    <InfoBox col={C.navy} bg="#EBF5FB">{t("esapInfoBox")}</InfoBox>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12,flexWrap:"wrap",gap:8}}>
       <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-        {Object.entries(STATUS).map(([s,st])=><span key={s} style={{background:st.bg,color:st.c,borderRadius:6,padding:"3px 10px",fontSize:11,fontWeight:700}}>{rows.filter(r=>r.status===s).length} {s}</span>)}
+        {Object.entries(STATUS).map(([s,st])=><span key={s} style={{background:st.bg,color:st.c,borderRadius:6,padding:"3px 10px",fontSize:11,fontWeight:700}}>{rows.filter(r=>r.status===s).length} {t(st.lk)}</span>)}
       </div>
-      <button onClick={add} style={S.btn}>➕ Add ESAP Action</button>
+      <button onClick={add} style={S.btn}>{t("esapAdd")}</button>
     </div>
     {rows.length===0&&<div style={{textAlign:"center",padding:50,background:C.bg,borderRadius:12,border:`2px dashed ${C.border}`}}>
       <div style={{fontSize:36,marginBottom:8}}>📋</div>
-      <div style={{fontWeight:700,color:C.text}}>No ESAP actions yet</div>
-      <div style={{fontSize:13,color:C.muted,marginTop:4}}>Add actions for each ESMS component gap or risk mitigation requirement.</div>
+      <div style={{fontWeight:700,color:C.text}}>{t("esapEmpty")}</div>
+      <div style={{fontSize:13,color:C.muted,marginTop:4}}>{t("esapEmptyNote")}</div>
     </div>}
     {rows.map((row,i)=>{
       const st=STATUS[row.status]||STATUS["Not Started"];
       return(<div key={row.id||i} style={{...S.card,marginBottom:12,borderLeft:`4px solid ${st.c}`}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12,gap:8,flexWrap:"wrap"}}>
           <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
-            <span style={{fontWeight:700,color:C.navy,fontSize:14}}>Action #{i+1}</span>
+            <span style={{fontWeight:700,color:C.navy,fontSize:14}}>{t("esapActionNo")}{i+1}</span>
             <select value={row.cat||""} onChange={e=>update(i,"cat",e.target.value)} style={{...S.inp,width:"auto",fontSize:12,padding:"4px 8px"}}>
               {categories.map(c=><option key={c}>{c}</option>)}
             </select>
           </div>
           <div style={{display:"flex",gap:8,alignItems:"center"}}>
             <select value={row.status} onChange={e=>update(i,"status",e.target.value)} style={{...S.inp,width:"auto",fontSize:12,padding:"4px 8px",background:st.bg,color:st.c,fontWeight:700,borderColor:st.c}}>
-              {Object.keys(STATUS).map(s=><option key={s}>{s}</option>)}
+              {Object.keys(STATUS).map(s=><option key={s} value={s}>{t(STATUS[s].lk)}</option>)}
             </select>
-            <button onClick={()=>remove(i)} style={{...S.outBtn,color:C.red,borderColor:C.red,padding:"5px 11px",fontSize:12}}>Remove</button>
+            <button onClick={()=>remove(i)} style={{...S.outBtn,color:C.red,borderColor:C.red,padding:"5px 11px",fontSize:12}}>{t("esapRemove")}</button>
           </div>
         </div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:10}}>
-          {[["objective","Objective (what do you want to achieve?)"],["output","Output / Deliverable"]].map(([k,l])=>(
+          {[["objective",t("esapObjective")],["output",t("esapOutput")]].map(([k,l])=>(
             <div key={k}><Lbl c={l}/><textarea value={row[k]||""} onChange={e=>update(i,k,e.target.value)} rows={2} style={S.ta}/></div>
           ))}
         </div>
-        <div style={{marginBottom:10}}><Lbl c="Activities / Actions (what specifically will be done?)"/><textarea value={row.actions||""} onChange={e=>update(i,"actions",e.target.value)} rows={2} style={S.ta}/></div>
+        <div style={{marginBottom:10}}><Lbl c={t("esapActions")}/><textarea value={row.actions||""} onChange={e=>update(i,"actions",e.target.value)} rows={2} style={S.ta}/></div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:10}}>
-          {[["kpi","Key Performance Indicator"],["baseline","Baseline Status (now)"],["target","Target"]].map(([k,l])=>(
+          {[["kpi",t("esapKpi")],["baseline",t("esapBaseline")],["target",t("esapTarget")]].map(([k,l])=>(
             <div key={k}><Lbl c={l}/><input value={row[k]||""} onChange={e=>update(i,k,e.target.value)} style={S.inp}/></div>
           ))}
         </div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr 1fr",gap:10}}>
-          {[["deadline","Deadline"],["responsible","Responsible Person / Role"],["budget","Budget (USD)"],["verifier","Verification Method"]].map(([k,l])=>(
+          {[["deadline",t("esapDeadline")],["responsible",t("esapResponsible")],["budget",t("esapBudget")],["verifier",t("esapVerifier")]].map(([k,l])=>(
             <div key={k}><Lbl c={l}/><input value={row[k]||""} onChange={e=>update(i,k,e.target.value)} placeholder={k==="budget"?"e.g. 500":""} style={S.inp}/></div>
           ))}
         </div>
@@ -711,6 +721,7 @@ const TOOL_GROUPS = [
 
 // ═══════════════ TOOLS SECTION ═══════════════
 function ToolsSection({ esmsData, setFieldValue, openGuide }) {
+  const {t}=useLang();
   const [activeTool, setActiveTool] = useState(null);
 
   const getVal = (id) => esmsData[`tool_${id}`];
@@ -723,7 +734,7 @@ function ToolsSection({ esmsData, setFieldValue, openGuide }) {
     return (
       <div>
         <button onClick={() => setActiveTool(null)} style={{ ...S.outBtn, marginBottom: 20, display:"flex", alignItems:"center", gap:6 }}>
-          ← Back to All Tools
+          {t("toolsBack")}
         </button>
         <div style={{ ...S.card, marginBottom: 18, borderLeft: `5px solid ${tool.color}` }}>
           <div style={{ display:"flex", gap:12, alignItems:"flex-start", flexWrap:"wrap" }}>
@@ -756,17 +767,13 @@ function ToolsSection({ esmsData, setFieldValue, openGuide }) {
       <div style={{ display:"flex", gap:14, alignItems:"flex-start", marginBottom:18, paddingBottom:18, borderBottom:`2px solid ${C.border}` }}>
         <div style={{ fontSize:34 }}>🛠️</div>
         <div style={{ flex:1 }}>
-          <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>Implementation Tools</h2>
-          <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>
-            Ready-to-use checklists, registers, logs, and forms for implementing each component of your ESMS. All tools are pre-populated with ROGEAP baseline requirements and are fully editable to match your company's context.
-          </p>
+          <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>{t("toolsTitle")}</h2>
+          <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>{t("toolsDesc")}</p>
         </div>
         <GuideBtn guideId="tools" onOpen={openGuide}/>
       </div>
 
-      <InfoBox col={C.amber} bg="#FFF8ED">
-        <strong>📌 How to use these tools:</strong> Each tool has baseline requirements drawn from the ROGEAP ESMS Guidelines, IFC Performance Standards, and best practice. You can check/uncheck items, add your own rows or items, and edit all content. Data is saved automatically to your browser.
-      </InfoBox>
+      <InfoBox col={C.amber} bg="#FFF8ED">{t("toolsInfoBox")}</InfoBox>
 
       {TOOL_GROUPS.map(grp => {
         const groupTools = Object.values(TOOLS_REGISTRY).filter(t => grp.tags.includes(t.tag));
@@ -808,6 +815,7 @@ function ToolsSection({ esmsData, setFieldValue, openGuide }) {
 
 // ═══════════════ POLICY BUILDER SECTION ═══════════════
 function PolicySection({ esmsData, setFieldValue, openGuide }) {
+  const {t}=useLang();
   const[activePol, setActivePol] = useState(null);
   const policies = [
     {
@@ -969,7 +977,7 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
     return (
       <div>
         <button onClick={() => setActivePol(null)} style={{ ...S.outBtn, marginBottom:20, display:"flex", alignItems:"center", gap:6 }}>
-          ← Back to Policies
+          {t("policiesBack")}
         </button>
         <div style={{ ...S.card, marginBottom:18, borderLeft:`5px solid ${pol.color}` }}>
           <div style={{ display:"flex", gap:12, alignItems:"flex-start", flexWrap:"wrap" }}>
@@ -1012,16 +1020,12 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
       <div style={{ display:"flex", gap:14, alignItems:"flex-start", marginBottom:18, paddingBottom:18, borderBottom:`2px solid ${C.border}` }}>
         <div style={{ fontSize:34 }}>📜</div>
         <div style={{ flex:1 }}>
-          <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>Organisational Policies</h2>
-          <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>
-            Develop each required policy using structured builders with ROGEAP baseline requirements. Policies are signed management commitments that underpin all ESMS plans and procedures.
-          </p>
+          <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>{t("policiesTitle")}</h2>
+          <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>{t("policiesDesc")}</p>
         </div>
         <GuideBtn guideId="policy" onOpen={openGuide}/>
       </div>
-      <InfoBox col={C.amber} bg="#FFF8ED">
-        <strong>ROGEAP requires the following policies at minimum:</strong> ① E&S Policy &nbsp;② HR Policy (incl. Code of Conduct) &nbsp;③ OHS/H&S Policy &nbsp;④ Consumer Protection Policy &nbsp;⑤ Waste Management Policy. A Gender Equity Policy is strongly encouraged and required by most DFI investors.
-      </InfoBox>
+      <InfoBox col={C.amber} bg="#FFF8ED">{t("policiesInfoBox")}</InfoBox>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(280px,1fr))", gap:14 }}>
         {policies.map((p,i) => {
           const done = !!(esmsData[`policy_${p.id}`] && Object.keys(esmsData[`policy_${p.id}`]||{}).length > 0);
@@ -1034,7 +1038,7 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
               <div style={{ fontSize:26, marginBottom:8 }}>{p.icon}</div>
               <div style={{ fontWeight:700, color:C.text, fontSize:14, marginBottom:4 }}>{p.label}</div>
               <div style={{ fontSize:12, color:C.muted, lineHeight:1.4 }}>{p.desc}</div>
-              <div style={{ marginTop:10, fontSize:12, color:p.color, fontWeight:600 }}>Develop policy →</div>
+              <div style={{ marginTop:10, fontSize:12, color:p.color, fontWeight:600 }}>{t("policiesDevelop")}</div>
             </div>
           );
         })}
@@ -1156,6 +1160,7 @@ const PLAN_DEFS_SIMPLE = [
 ];
 
 function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
+  const {t}=useLang();
   const [active, setActive] = useState(null);
 
   const hasData = (id) => {
@@ -1170,7 +1175,7 @@ function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
     const set = (k,v) => setFieldValue(dataKey, k, v);
     return (
       <div>
-        <button onClick={() => setActive(null)} style={{ ...S.outBtn, marginBottom:18, display:"flex", alignItems:"center", gap:6 }}>← Back to Plans</button>
+        <button onClick={() => setActive(null)} style={{ ...S.outBtn, marginBottom:18, display:"flex", alignItems:"center", gap:6 }}>{t("plansBack")}</button>
         <div style={{ ...S.card, marginBottom:18, borderLeft:`5px solid ${plan.color}` }}>
           <div style={{ display:"flex", gap:12, alignItems:"flex-start", flexWrap:"wrap" }}>
             <div style={{ fontSize:30 }}>{plan.icon}</div>
@@ -1183,17 +1188,15 @@ function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
           </div>
           {plan.linkedTools?.length > 0 && (
             <div style={{ marginTop:10, padding:"8px 12px", background:"#F8FAFD", borderRadius:7, fontSize:12 }}>
-              <span style={{ fontWeight:700, color:C.navy }}>🛠️ Supporting tools: </span>
-              {plan.linkedTools.map(t => TOOLS_REGISTRY[t]).filter(Boolean).map(t => (
-                <span key={t.id} style={{ background:`${t.color}18`, color:t.color, borderRadius:5, padding:"2px 8px", marginLeft:6, fontWeight:600 }}>{t.icon} {t.label}</span>
+              <span style={{ fontWeight:700, color:C.navy }}>{t("plansSupportingTools")} </span>
+              {plan.linkedTools.map(tk => TOOLS_REGISTRY[tk]).filter(Boolean).map(tk => (
+                <span key={tk.id} style={{ background:`${tk.color}18`, color:tk.color, borderRadius:5, padding:"2px 8px", marginLeft:6, fontWeight:600 }}>{tk.icon} {tk.label}</span>
               ))}
-              <span style={{ color:C.muted, marginLeft:6 }}> — use these in the Tools section to implement this plan</span>
+              <span style={{ color:C.muted, marginLeft:6 }}>{t("plansToolsNote")}</span>
             </div>
           )}
         </div>
-        <InfoBox col={C.amber} bg="#FFF8ED">
-          <strong>💡 Use the Tools section</strong> for the day-to-day implementation registers (PPE matrix, incident log, waste register etc.) that support this plan. This plan section captures your policy-level commitments and procedures.
-        </InfoBox>
+        <InfoBox col={C.amber} bg="#FFF8ED">{t("plansTip")}</InfoBox>
         {plan.fields.map(f => (
           <div key={f.id} style={{ marginBottom:20 }}>
             <Lbl c={f.label} req={f.req}/>
@@ -1224,14 +1227,12 @@ function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
       <div style={{ display:"flex", gap:14, alignItems:"flex-start", marginBottom:18, paddingBottom:18, borderBottom:`2px solid ${C.border}` }}>
         <div style={{ fontSize:34 }}>⚙️</div>
         <div style={{ flex:1 }}>
-          <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>Environmental & Social Management Plans</h2>
-          <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>Develop a dedicated plan for each key ESMS risk area. Each plan links to the Implementation Tools that support day-to-day delivery.</p>
+          <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>{t("plansTitle")}</h2>
+          <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>{t("plansDesc")}</p>
         </div>
         <GuideBtn guideId="plans" onOpen={openGuide}/>
       </div>
-      <InfoBox col={C.amber} bg="#FFF8ED">
-        <strong>ROGEAP ESMS Plans required:</strong> OHS Plan (incl. Community H&S + Consumer Protection) · Waste Management Plan · Emergency Preparedness Plan · HR Plan (incl. Code of Conduct) · Stakeholder Engagement Plan. Use the <strong>Implementation Tools (Section 6)</strong> for the registers and logs that support each plan.
-      </InfoBox>
+      <InfoBox col={C.amber} bg="#FFF8ED">{t("plansInfoBox")}</InfoBox>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(280px,1fr))", gap:14 }}>
         {PLAN_DEFS_SIMPLE.map((p, i) => {
           const done = hasData(p.id);
@@ -1279,6 +1280,7 @@ const BASELINE_RISKS = [
 ];
 
 function RiskSection({ esmsData, setFieldValue, openGuide }) {
+  const {t}=useLang();
   const val = esmsData["risk_register"]?.data;
   const set = (v) => setFieldValue("risk_register", "data", v);
   return (
@@ -1286,16 +1288,12 @@ function RiskSection({ esmsData, setFieldValue, openGuide }) {
       <div style={{ display:"flex", gap:14, alignItems:"flex-start", marginBottom:18, paddingBottom:18, borderBottom:`2px solid ${C.border}` }}>
         <div style={{ fontSize:34 }}>🔍</div>
         <div style={{ flex:1 }}>
-          <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>E&S Risk Register & Assessment</h2>
-          <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>
-            Identify, rate, and track all environmental, social, health, and safety risks. Pre-populated with ROGEAP baseline risks for OGS companies. Rate by probability and severity; assign mitigation and ownership. This is the foundation of your ESMS.
-          </p>
+          <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>{t("risksTitle")}</h2>
+          <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>{t("risksDesc")}</p>
         </div>
         <GuideBtn guideId="risks" onOpen={openGuide}/>
       </div>
-      <InfoBox col={C.red} bg="#FFF5F5">
-        <strong>Rating Scale:</strong> 1 = Low | 2 = Medium | 3 = High | 4 = Extreme &nbsp;|&nbsp; <strong>Priority</strong> = Probability × Severity &nbsp;|&nbsp; CRITICAL (9–16) = immediate action required
-      </InfoBox>
+      <InfoBox col={C.red} bg="#FFF5F5">{t("risksInfoBox")}</InfoBox>
       <div style={{display:"flex",justifyContent:"flex-end",marginBottom:14}}>
         <ExportBar title="Risk Register" filename="ESMS_Risk_Register"
           sections={buildRiskSections(esmsData)} csvToolId="risk_matrix" esmsData={esmsData}/>
@@ -1307,6 +1305,7 @@ function RiskSection({ esmsData, setFieldValue, openGuide }) {
 
 // ═══════════════ COMPLIANCE SECTION ═══════════════
 function ComplianceSection({ esmsData, setFieldValue, openGuide }) {
+  const {t}=useLang();
   const val = esmsData["compliance_tracker"]?.data;
   const set = (v) => setFieldValue("compliance_tracker", "data", v);
   return (
@@ -1314,8 +1313,8 @@ function ComplianceSection({ esmsData, setFieldValue, openGuide }) {
       <div style={{ display:"flex", gap:14, alignItems:"flex-start", marginBottom:18, paddingBottom:18, borderBottom:`2px solid ${C.border}` }}>
         <div style={{ fontSize:34 }}>⚖️</div>
         <div style={{ flex:1 }}>
-          <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>Legal & Regulatory Compliance Register</h2>
-          <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>Track all applicable laws, regulations, permits, and voluntary standards. Pre-loaded with baseline requirements for OGS companies. Review and update quarterly and whenever new regulations are issued.</p>
+          <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>{t("complianceTitle")}</h2>
+          <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>{t("complianceDesc")}</p>
         </div>
         <GuideBtn guideId="compliance" onOpen={openGuide}/>
       </div>
@@ -1330,6 +1329,7 @@ function ComplianceSection({ esmsData, setFieldValue, openGuide }) {
 
 // ═══════════════ SCREENING SECTION ═══════════════
 function ScreeningSection({ esmsData, setFieldValue, openGuide }) {
+  const {t}=useLang();
   const val = esmsData["screening_q"];
   const set = (v) => setFieldValue("screening_q", "data", v);
   return (
@@ -1337,10 +1337,8 @@ function ScreeningSection({ esmsData, setFieldValue, openGuide }) {
       <div style={{ display:"flex", gap:14, alignItems:"flex-start", marginBottom:18, paddingBottom:18, borderBottom:`2px solid ${C.border}` }}>
         <div style={{ fontSize:34 }}>📋</div>
         <div style={{ flex:1 }}>
-          <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>ROGEAP E&S Screening Questionnaire</h2>
-          <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>
-            Based directly on the ROGEAP Environmental and Social Screening Questionnaire (Table 6 of the Guidelines). Use this to assess your current ESMS maturity, identify exclusion criteria, and determine what gaps your ESAP must address.
-          </p>
+          <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>{t("screeningTitle")}</h2>
+          <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>{t("screeningDesc")}</p>
         </div>
         <GuideBtn guideId="screening" onOpen={openGuide}/>
       </div>
@@ -1355,6 +1353,7 @@ function ScreeningSection({ esmsData, setFieldValue, openGuide }) {
 
 // ═══════════════ WELCOME ═══════════════
 function Welcome({ esmsData, setActive, openGuide, nav }) {
+  const {t}=useLang();
   const navList = nav || NAV_DEFS;
   const completedSections = navList.filter(n => n.id !== "welcome").filter(n => {
     if (n.id === "tools") return Object.keys(TOOLS_REGISTRY).some(t => !!(esmsData[`tool_${t}`]?.data));
@@ -1377,27 +1376,23 @@ function Welcome({ esmsData, setActive, openGuide, nav }) {
           <div style={{ fontSize:11, opacity:0.7 }}>ROGEAP-aligned | IFC Performance Standards</div>
         </div>
         <div style={{ flex:"1 1 190px", ...S.card, padding:"20px 22px" }}>
-          <div style={{ fontWeight:700, fontSize:14, color:C.text, marginBottom:8 }}>Sections Active</div>
+          <div style={{ fontWeight:700, fontSize:14, color:C.text, marginBottom:8 }}>{t("welcomeSectionsActive")}</div>
           <div style={{ fontSize:36, fontWeight:700, color: completedSections===total ? C.green : C.navy }}>{completedSections} / {total}</div>
           <div style={{ background:C.bg, borderRadius:5, height:6, marginTop:8, overflow:"hidden" }}>
             <div style={{ width:`${(completedSections/total)*100}%`, background: completedSections===total ? C.green : C.amber, height:"100%", borderRadius:5 }}/>
           </div>
         </div>
         <div style={{ flex:"1 1 190px", ...S.card, padding:"20px 22px" }}>
-          <div style={{ fontWeight:700, fontSize:14, color:C.text, marginBottom:8 }}>Tools Used</div>
+          <div style={{ fontWeight:700, fontSize:14, color:C.text, marginBottom:8 }}>{t("welcomeToolsUsed")}</div>
           <div style={{ fontSize:36, fontWeight:700, color:C.teal }}>
-            {Object.keys(TOOLS_REGISTRY).filter(t => !!(esmsData[`tool_${t}`]?.data)).length} / {Object.keys(TOOLS_REGISTRY).length}
+            {Object.keys(TOOLS_REGISTRY).filter(tk => !!(esmsData[`tool_${tk}`]?.data)).length} / {Object.keys(TOOLS_REGISTRY).length}
           </div>
-          <div style={{ fontSize:12, color:C.muted, marginTop:4 }}>Implementation registers active</div>
+          <div style={{ fontSize:12, color:C.muted, marginTop:4 }}>{t("welcomeRegistersActive")}</div>
         </div>
       </div>
-      <h2 style={{ fontFamily:F.d, color:C.text, marginBottom:6, fontWeight:400 }}>ESMS Builder — ROGEAP Off-Grid Solar Edition</h2>
-      <p style={{ color:C.muted, lineHeight:1.7, fontSize:14, marginBottom:20 }}>
-        A comprehensive tool for building and implementing your ESMS, aligned with the <strong>ROGEAP ESMS Guidelines</strong> and <strong>IFC Performance Standards</strong>. Includes policies, management plans, risk assessment, compliance tracking, and ready-to-use implementation registers.
-      </p>
-      <InfoBox col={C.amber} bg="#FFF8ED">
-        <strong>📋 ROGEAP Minimum ESMS Components:</strong> ① E&S Policy &nbsp; ② Risk Assessment &nbsp; ③ Compliance &nbsp; ④ OHS Plan (incl. Community H&S + Consumer Protection) &nbsp; ⑤ HR Policy + Code of Conduct + Worker Grievance Mechanism &nbsp; ⑥ Waste Management Plan &nbsp; ⑦ Stakeholder Engagement Plan &nbsp; ⑧ Grievance Mechanism (incl. SEA/SH)
-      </InfoBox>
+      <h2 style={{ fontFamily:F.d, color:C.text, marginBottom:6, fontWeight:400 }}>{t("welcomeTitle")}</h2>
+      <p style={{ color:C.muted, lineHeight:1.7, fontSize:14, marginBottom:20 }}>{t("welcomeDesc")}</p>
+      <InfoBox col={C.amber} bg="#FFF8ED">{t("welcomeComponents")}</InfoBox>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(190px,1fr))", gap:10 }}>
         {navList.filter(n => n.id !== "welcome").map(n => {
           let done = false;
@@ -2823,8 +2818,8 @@ export default function App() {
           <div style={{ display:"flex", gap:14, alignItems:"flex-start", marginBottom:18, paddingBottom:18, borderBottom:`2px solid ${C.border}` }}>
             <div style={{ fontSize:34 }}>📝</div>
             <div style={{ flex:1 }}>
-              <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>Environmental & Social Action Plan (ESAP)</h2>
-              <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>ROGEAP-aligned ESAP (Table 23 of the Guidelines). Required for all ROGEAP applicants to document outstanding ESMS gaps and planned actions.</p>
+              <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>{t("esapTitle")}</h2>
+              <p style={{ margin:"8px 0 0", color:C.muted, fontSize:14, lineHeight:1.6 }}>{t("esapDesc")}</p>
             </div>
             <GuideBtn guideId="esap" onOpen={openGuide}/>
           </div>

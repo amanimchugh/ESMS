@@ -105,10 +105,31 @@ html, body { margin: 0; padding: 0; height: 100%; }
     transform: translateX(-110%) !important;
     transition: transform 0.27s cubic-bezier(0.4,0,0.2,1) !important;
     overflow-y: auto !important;
+    overflow-x: hidden !important;
+    /* Always-visible thin scrollbar so users know it's scrollable */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.25) transparent;
   }
+  .app-sidebar::-webkit-scrollbar { width: 4px; }
+  .app-sidebar::-webkit-scrollbar-track { background: transparent; }
+  .app-sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 4px; }
   .app-sidebar.sidebar-open {
     transform: translateX(0) !important;
     box-shadow: 6px 0 32px rgba(0,0,0,0.45) !important;
+  }
+
+  /* Gradient fade at bottom of sidebar — signals there is more to scroll */
+  .sidebar-scroll-fade {
+    display: block;
+    position: sticky;
+    bottom: 0;
+    height: 52px;
+    background: linear-gradient(to top, rgba(13,32,56,1) 0%, rgba(13,32,56,0.7) 55%, transparent 100%);
+    pointer-events: none;
+    /* Negative margin pulls it up so it overlaps content rather than pushing it */
+    margin-top: -52px;
+    flex-shrink: 0;
+    z-index: 4;
   }
 
   /* Backdrop */

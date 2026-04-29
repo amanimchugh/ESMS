@@ -2295,27 +2295,77 @@ ${body}
 </body></html>`;
 }
 
-function exportPDF(title, sections, strings={}) {
+async function exportPDF(title, sections, strings={}) {
+  const { jsPDF } = await import('jspdf');
+  const { default: html2canvas } = await import('html2canvas');
+
   const html = buildPrintHTML(title, sections, strings);
-  // Use Blob URL — works reliably in both standalone and embedded environments
-  const blob = new Blob([html], {type:'text/html'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.target = '_blank';
-  a.rel = 'noopener';
-  a.style.display = 'none';
-  document.body.appendChild(a);
+
+  // Pull the <style> block out so we can inject it into the main document
+  const styleMatch = html.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+  const cssText = styleMatch ? styleMatch[1] : '';
+
+  // Pull just the <body> contents (strip the wrapper document)
+  const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+  let bodyContent = bodyMatch ? bodyMatch[1] : html;
+  // Strip the fixed-position print button overlay and auto-print script
+  bodyContent = bodyContent.replace(/<div[^>]*position:fixed[\s\S]*?<\/div>/g, '');
+  bodyContent = bodyContent.replace(/<script[\s\S]*?<\/script>/g, '');
+
+  // Temporarily inject the PDF styles into the main document
+  const styleEl = document.createElement('style');
+  styleEl.id = '__pdf_export_style';
+  styleEl.textContent = cssText;
+  document.head.appendChild(styleEl);
+
+  // Render the body content in an off-screen A4-width container
+  const container = document.createElement('div');
+  container.style.cssText = 'position:absolute;left:-9999px;top:0;width:794px;background:#ffffff;';
+  container.innerHTML = bodyContent;
+  document.body.appendChild(container);
+
+  // Give fonts and layout time to settle
+  await new Promise(r => setTimeout(r, 700));
+
   try {
-    a.click();
-  } catch(e) {
-    // Last resort: direct window.open
-    try { window.open(url, '_blank'); } catch(e2) {}
+    const canvas = await html2canvas(container, {
+      scale: 1.5,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      width: 794,
+      windowWidth: 794,
+    });
+
+    const imgData = canvas.toDataURL('image/jpeg', 0.88);
+
+    // A4 in mm
+    const pdfW = 210, pdfH = 297;
+    const mmPerPx = pdfW / canvas.width;
+    const imgH = canvas.height * mmPerPx;
+
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+    // Tile the single tall image across multiple A4 pages
+    let remaining = imgH;
+    let y = 0;
+    pdf.addImage(imgData, 'JPEG', 0, y, pdfW, imgH);
+    remaining -= pdfH;
+    while (remaining > 0) {
+      y -= pdfH;
+      pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', 0, y, pdfW, imgH);
+      remaining -= pdfH;
+    }
+
+    const fname = title.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '_') || 'ESMS';
+    pdf.save(`${fname}.pdf`);
+  } finally {
+    document.body.removeChild(container);
+    const s = document.getElementById('__pdf_export_style');
+    if (s) document.head.removeChild(s);
   }
-  setTimeout(() => {
-    try { document.body.removeChild(a); } catch(e) {}
-    URL.revokeObjectURL(url);
-  }, 1500);
 }
 
 // ══════════════════════════════════════════════════
@@ -2419,21 +2469,21 @@ function buildRTF(title, sections) {
 function exportWord(title, sections, _strings={}) {
   const rtf = buildRTF(title, sections);
   const fname = title.replace(/[^a-zA-Z0-9\s]/g,'').trim().replace(/\s+/g,'_') || 'ESMS_Document';
-  const uri = 'data:application/rtf;charset=utf-8,' + encodeURIComponent(rtf);
   try {
+    const blob = new Blob([rtf], { type: 'application/rtf' });
+    const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = uri;
-    a.download = fname + '.rtf';
+    a.href = url;
+    a.download = `${fname}.rtf`;
     a.style.display = 'none';
     document.body.appendChild(a);
     a.click();
-    setTimeout(() => { document.body.removeChild(a); }, 100);
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 200);
   } catch(e) {
-    // Fallback: open in new tab as text
-    const w = window.open('', '_blank');
-    if (w) {
-      w.document.write('<pre style="font-family:monospace;font-size:11px;white-space:pre-wrap">' + esc(rtf.substring(0,2000)) + '...</pre><p>Copy all text and save as .rtf file</p>');
-    }
+    alert('Word/RTF download failed: ' + e.message);
   }
 }
 
@@ -2775,7 +2825,7 @@ function ExportBar({ title, sections, csvToolId, csvRows, csvCols, filename, esm
   const [busy, setBusy] = useState(null);
   const fname = (filename||title||'ESMS').replace(/[^a-zA-Z0-9]/g,'_');
 
-  const run = (type) => {
+  const run = async (type) => {
     setBusy(type);
     try {
       const secs = isFull ? buildFullESMSSections(esmsData, t) : (sections||[]);
@@ -2789,7 +2839,7 @@ function ExportBar({ title, sections, csvToolId, csvRows, csvCols, filename, esm
       };
 
       if (type==='pdf') {
-        exportPDF(docTitle, secs, strings);
+        await exportPDF(docTitle, secs, strings);
       } else if (type==='word') {
         exportWord(docTitle, secs, strings);
       } else if (type==='csv') {
@@ -2803,7 +2853,7 @@ function ExportBar({ title, sections, csvToolId, csvRows, csvCols, filename, esm
       console.error('Export error:', e);
       alert(`Export error: ${e.message}`);
     }
-    setTimeout(()=>setBusy(null), 800);
+    setBusy(null);
   };
 
   const hasCsv = !!(csvToolId||(csvCols&&csvRows));
@@ -3067,7 +3117,7 @@ export default function App() {
         </div>
 
         {/* Nav items */}
-        <nav aria-label="Sections" style={{ flex:1, padding:"9px 6px", overflowY:"auto" }}>
+        <nav aria-label="Sections" style={{ flex: isMobile ? 'none' : 1, padding:"9px 6px", overflowY: isMobile ? 'visible' : 'auto' }}>
           {NAV.map(item => {
             const isA = active === item.id;
             return (
@@ -3084,7 +3134,16 @@ export default function App() {
               </button>
             );
           })}
+          {/* Scroll hint on mobile — reminds new users to scroll down for more sections */}
+          {isMobile && sidebarOpen && (
+            <div aria-hidden="true" style={{ textAlign:"center", padding:"10px 0 6px", color:"rgba(255,255,255,0.28)", fontSize:10, letterSpacing:"0.4px", userSelect:"none" }}>
+              ↓ scroll to see downloads &amp; backup
+            </div>
+          )}
         </nav>
+
+        {/* Gradient fade — sticks to the bottom of the visible sidebar on mobile */}
+        {isMobile && <div className="sidebar-scroll-fade" aria-hidden="true"/>}
 
         {/* Bottom action buttons */}
         {sidebarOpen && (

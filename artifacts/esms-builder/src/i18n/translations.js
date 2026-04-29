@@ -13,7 +13,7 @@ export const TRANSLATIONS = {
     appTagline: "ROGEAP-aligned | IFC Performance Standards",
     collapseNav: "◀", expandNav: "▶",
     downloadFull: "📥 Download Full ESMS",
-    fullPdf: "📄 Full ESMS — Print/PDF",
+    fullPdf: "📄 Full ESMS — Download PDF",
     fullWord: "📝 Full ESMS — Word (RTF)",
     generating: "⏳ Generating…",
     resetData: "🗑 Reset All Data",
@@ -130,7 +130,7 @@ export const TRANSLATIONS = {
 
     // Export
     exportLabel: "⬇ Export:",
-    exportPdf: "📄 Print / PDF",
+    exportPdf: "📄 Download PDF",
     exportWord: "📝 Word (RTF)",
     exportCsv: "📊 CSV",
 
@@ -605,7 +605,7 @@ export const TRANSLATIONS = {
     appTagline: "Aligné ROGEAP | Normes de performance SFI",
     collapseNav: "◀", expandNav: "▶",
     downloadFull: "📥 Télécharger le SGSE complet",
-    fullPdf: "📄 SGSE complet — Imprimer/PDF",
+    fullPdf: "📄 SGSE complet — Télécharger PDF",
     fullWord: "📝 SGSE complet — Word (RTF)",
     generating: "⏳ Génération…",
     resetData: "🗑 Réinitialiser les données",
@@ -710,7 +710,7 @@ export const TRANSLATIONS = {
     tableRemove: "×",
 
     exportLabel: "⬇ Exporter :",
-    exportPdf: "📄 Imprimer / PDF",
+    exportPdf: "📄 Télécharger PDF",
     exportWord: "📝 Word (RTF)",
     exportCsv: "📊 CSV",
 
@@ -1177,7 +1177,7 @@ export const TRANSLATIONS = {
     appTagline: "Alinhado ao ROGEAP | Padrões de Desempenho IFC",
     collapseNav: "◀", expandNav: "▶",
     downloadFull: "📥 Baixar SGAS Completo",
-    fullPdf: "📄 SGAS Completo — Imprimir/PDF",
+    fullPdf: "📄 SGAS Completo — Baixar PDF",
     fullWord: "📝 SGAS Completo — Word (RTF)",
     generating: "⏳ Gerando…",
     resetData: "🗑 Redefinir Todos os Dados",
@@ -1282,7 +1282,7 @@ export const TRANSLATIONS = {
     tableRemove: "×",
 
     exportLabel: "⬇ Exportar:",
-    exportPdf: "📄 Imprimir / PDF",
+    exportPdf: "📄 Baixar PDF",
     exportWord: "📝 Word (RTF)",
     exportCsv: "📊 CSV",
 

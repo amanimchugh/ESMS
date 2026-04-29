@@ -830,10 +830,8 @@ function ToolsSection({ esmsData, setFieldValue, openGuide }) {
 }
 
 // ═══════════════ POLICY BUILDER SECTION ═══════════════
-function PolicySection({ esmsData, setFieldValue, openGuide }) {
-  const {t}=useLang();
-  const[activePol, setActivePol] = useState(null);
-  const policies = [
+function makePolicies(t) {
+  return [
     {
       id:"es_policy_stmt", icon:"📜", label:t("policyLblES"), color:C.navy,
       desc:t("policyDescES"),
@@ -984,6 +982,12 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
       ]
     },
   ];
+}
+
+function PolicySection({ esmsData, setFieldValue, openGuide }) {
+  const {t}=useLang();
+  const[activePol, setActivePol] = useState(null);
+  const policies = makePolicies(t);
 
   if (activePol !== null) {
     const pol = policies[activePol];
@@ -2147,9 +2151,17 @@ function buildPrintHTML(title, sections, strings={}) {
     } else if (sec.type === 'label_value') {
       const val = (sec.value||notCompleted);
       const lines = val.split('\n').map(l=>esc(l)).join('<br>');
-      body += `<div class="field"><div class="field-label">${esc(sec.label)}</div><div class="field-value">${lines}</div></div>`;
+      const labelHtml = sec.isPlaceholder
+        ? `${esc(sec.label)}<span class="sample-tag">sample</span>`
+        : esc(sec.label);
+      const valClass = sec.isPlaceholder ? 'field-value sample-content' : 'field-value';
+      body += `<div class="field"><div class="field-label">${labelHtml}</div><div class="${valClass}">${lines}</div></div>`;
     } else if (sec.type === 'checklist') {
-      body += `<div class="field"><div class="field-label">${esc(sec.label)}</div><ul class="checklist">`;
+      const labelHtml = sec.isPlaceholder
+        ? `${esc(sec.label)}<span class="sample-tag">sample</span>`
+        : esc(sec.label);
+      const listClass = sec.isPlaceholder ? 'checklist sample-content' : 'checklist';
+      body += `<div class="field"><div class="field-label">${labelHtml}</div><ul class="${listClass}">`;
       for (const item of (sec.items||[])) body += `<li>${esc(item)}</li>`;
       body += `</ul></div>`;
     } else if (sec.type === 'table') {
@@ -2201,9 +2213,15 @@ function buildPrintHTML(title, sections, strings={}) {
   .field-value { font-size: 10.5pt; color: #1A2B3C; background: ${LIGHT};
                   padding: 8px 12px; border-radius: 4px; white-space: pre-wrap;
                   border-left: 3px solid ${TEAL}; }
+  .sample-content { color: #5F7080; font-style: italic; border-left-color: #B0C4D4;
+                     background: #F7F9FC; }
   .checklist { margin: 4px 0 0 0; padding-left: 0; list-style: none; }
   .checklist li { padding: 3px 0 3px 22px; position: relative; font-size: 10.5pt; }
   .checklist li::before { content: "✓"; position: absolute; left: 4px; color: ${TEAL}; font-weight: 700; }
+  .checklist.sample-content li { color: #5F7080; font-style: italic; }
+  .checklist.sample-content li::before { color: #B0C4D4; }
+  .sample-tag { font-size: 7.5pt; font-weight: 600; color: #A0B0C0; margin-left: 6px;
+                font-style: normal; text-transform: uppercase; letter-spacing: 0.3px; }
   .infobox { background: #FFF8ED; border-left: 4px solid ${AMBER}; padding: 10px 14px;
               border-radius: 4px; font-style: italic; color: ${NAVY}; font-size: 10pt;
               margin: 10px 0; }
@@ -2309,15 +2327,19 @@ function buildRTF(title, sections) {
     } else if (sec.type === 'subheading') {
       rtf += `{\\pard\\sb180\\sa80\\f0\\fs22\\b\\cf2 ${escRTF(sec.text)}\\par}`;
     } else if (sec.type === 'label_value') {
-      rtf += `{\\pard\\sb100\\sa40\\fs18\\b\\cf5 ${escRTF((sec.label||'').toUpperCase())}\\par}`;
+      const sampleTag = sec.isPlaceholder ? '  [sample]' : '';
+      rtf += `{\\pard\\sb100\\sa40\\fs18\\b\\cf5 ${escRTF((sec.label||'').toUpperCase())}${escRTF(sampleTag)}\\par}`;
       const val = sec.value || '(not completed)';
+      const valFmt = sec.isPlaceholder ? `\\i\\cf5` : `\\cf0`;
       for (const line of val.split('\n')) {
-        rtf += `{\\pard\\sa40\\fs20\\cf0 ${escRTF(line)}\\par}`;
+        rtf += `{\\pard\\sa40\\fs20${valFmt} ${escRTF(line)}\\par}`;
       }
     } else if (sec.type === 'checklist') {
-      rtf += `{\\pard\\sb100\\sa40\\fs18\\b\\cf5 ${escRTF((sec.label||'').toUpperCase())}\\par}`;
+      const sampleTag = sec.isPlaceholder ? '  [sample]' : '';
+      rtf += `{\\pard\\sb100\\sa40\\fs18\\b\\cf5 ${escRTF((sec.label||'').toUpperCase())}${escRTF(sampleTag)}\\par}`;
+      const itemFmt = sec.isPlaceholder ? `\\i\\cf5` : `\\cf0`;
       for (const item of (sec.items||[])) {
-        rtf += `{\\pard\\li360\\sa40\\fs20\\cf0 \\bullet  ${escRTF(item)}\\par}`;
+        rtf += `{\\pard\\li360\\sa40\\fs20${itemFmt} \\bullet  ${escRTF(item)}\\par}`;
       }
     } else if (sec.type === 'table') {
       rtf += `{\\pard\\sb100\\sa60\\fs18\\b\\cf5 ${escRTF((sec.label||'').toUpperCase())}\\par}`;
@@ -2491,38 +2513,17 @@ function buildScreeningSections(esmsData) {
   return out;
 }
 
-function buildPolicySections(esmsData) {
-  const out = [{type:'heading',text:'Organisational Policies'}];
-  const defs = [
-    {key:'policy_es_policy_stmt',title:'E&S Policy Statement',
-     fields:[['company_name','Company Name'],['mission','Mission / Vision'],['env_commitments','Environmental Commitments'],['social_commitments','Social Commitments'],['governance','Governance & Standards'],['policy_text','Full Policy Statement'],['signatory','Signatory']]},
-    {key:'policy_hr_policy_stmt',title:'HR Policy',
-     fields:[['hr_scope','Scope'],['eeo','Equal Employment Opportunity'],['non_disc_pol','Non-Discrimination & Anti-Harassment'],['compensation_pol','Compensation & Benefits'],['working_hours_pol','Working Hours & Overtime'],['leave_pol','Leave Policy'],['foa_pol','Freedom of Association'],['no_forced_pol','Prohibition of Forced & Child Labour'],['grievance_hr','Worker Grievance Mechanism'],['hr_pol_sign','Signatory']]},
-    {key:'policy_hs_policy_stmt',title:'Health & Safety Policy',
-     fields:[['hs_commitment','Management Commitment'],['hs_objectives','OHS Objectives'],['hs_resp','Responsibilities'],['hs_sign','Signatory']]},
-    {key:'policy_consumer_policy_stmt',title:'Consumer Protection Policy',
-     fields:[['cp_statement','Policy Statement'],['cp_principles','Commitments'],['cp_resp','Responsibilities'],['cp_policy_sign','Signatory']]},
-    {key:'policy_waste_policy_stmt',title:'Waste Management Policy',
-     fields:[['waste_statement','Policy Statement'],['waste_commitments','Commitments'],['waste_pol_sign','Signatory']]},
-    {key:'policy_gender_policy_stmt',title:'Gender Equity & Inclusion Policy',
-     fields:[['gender_statement','Policy Statement'],['gender_commitments','Commitments'],['seah_procedure','GBV/SEAH Procedure'],['gender_signatory','Signatory']]},
-  ];
-  for (const pol of defs) {
-    const d = esmsData[pol.key]||{};
-    if (!Object.values(d).some(v=>v)) continue;
-    out.push({type:'subheading',text:pol.title});
-    for (const [fid,flabel] of pol.fields) {
-      const v = d[fid]; if (!v) continue;
-      if (typeof v==='object'&&v.sel) {
-        const items=[...(v.sel||[]),...(v.custom||[]).filter(c=>c.checked).map(c=>c.text||c)];
-        if (items.length) out.push({type:'checklist',label:flabel,items});
-      } else {
-        const vs=safe(v); if (vs.trim()) out.push({type:'label_value',label:flabel,value:vs});
-      }
-    }
+function buildPolicySections(esmsData, t) {
+  const out = [{type:'heading',text: t ? t('navPolicies') : 'Organisational Policies'}];
+  const policies = makePolicies(t || (k => k));
+  for (const pol of policies) {
+    const d = esmsData[`policy_${pol.id}`] || {};
+    const polSecs = buildSinglePolicySections(pol, d);
+    // polSecs[0]=heading, [1]=desc paragraph, [2]=infobox; use subheading instead
+    out.push({type:'subheading', text: pol.label});
+    out.push(...polSecs.slice(3));
     out.push({type:'spacer'});
   }
-  if (out.length===1) out.push({type:'paragraph',text:'(No policy content entered yet)'});
   return out;
 }
 
@@ -2555,30 +2556,17 @@ function buildComplianceSections(esmsData, t) {
   ];
 }
 
-const PLAN_FIELD_MAP = {
-  ohs:[['scope','Scope & Management Commitment'],['safety_committee','Safety Committee'],['hazard_summary','Key Hazards & Controls'],['training_ohs','Training Programme'],['incident_proc','Incident Reporting Procedure'],['ohs_targets','OHS Performance Targets']],
-  community_hs:[['community_map','Affected Communities'],['product_safety','Product Safety Standards'],['installation_safety','Installation Safety'],['waste_community','Community E-Waste Impacts'],['community_kpis','Targets']],
-  consumer:[['gogla_status','GOGLA CP Code Status'],['transparency_plan','Transparency'],['responsible_sales_plan','Responsible Sales'],['service_plan','Customer Service'],['consumer_kpis','Targets']],
-  waste:[['waste_streams','Waste Streams & Volumes'],['r5_strategy_wmp','5R Strategy'],['takeback_wmp','Take-Back Scheme'],['storage_wmp','E-Waste Storage'],['partners_wmp','Disposal Partners'],['waste_kpis','Targets']],
-  epr:[['scenarios_epr','Emergency Scenarios'],['ert','Emergency Response Team'],['fire_proc_epr','Fire Response'],['electrical_epr','Electrical Incident'],['battery_epr','Battery Emergency'],['drills_epr','Drill Schedule']],
-  hr_plan:[['workforce','Workforce Profile'],['recruitment_hr','Recruitment & Equal Opportunity'],['wages_hr','Wages, Hours & Benefits'],['women_plan',"Women's Health & Safety"],['coc_rollout','Code of Conduct Rollout']],
-  sep_plan:[['sep_objectives','Objectives'],['key_engagement','Engagement Activities'],['fpic_sep','FPIC Principles'],['gender_sep','Gender-Inclusive Engagement'],['sep_records','Documentation']],
-};
-const PLAN_TITLES = {ohs:'OHS Plan',community_hs:'Community Health & Safety Plan',consumer:'Consumer Protection Plan',waste:'Waste Management Plan',epr:'Emergency Preparedness & Response Plan',hr_plan:'HR Management Plan',sep_plan:'Stakeholder Engagement Plan'};
-
-function buildPlanSections(esmsData) {
-  const out = [{type:'heading',text:'E&S Management Plans'}];
-  for (const [pid,fields] of Object.entries(PLAN_FIELD_MAP)) {
-    const d = esmsData[`plan_${pid}`]||{};
-    if (!fields.some(([fid])=>d[fid]?.trim?.()||d[fid])) continue;
-    out.push({type:'subheading',text:PLAN_TITLES[pid]||pid});
-    for (const [fid,flabel] of fields) {
-      const v=d[fid]; if (!v?.trim?.()) continue;
-      out.push({type:'label_value',label:flabel,value:v});
-    }
+function buildPlanSections(esmsData, t) {
+  const out = [{type:'heading',text: t ? t('navPlans') : 'E&S Management Plans'}];
+  for (const plan of PLAN_DEFS_SIMPLE) {
+    const d = esmsData[`plan_${plan.id}`] || {};
+    const planSecs = buildSinglePlanSections(plan, d, t);
+    // planSecs[0]=heading, [1]=required para, [2]=intro para, [3]=infobox; use subheading instead
+    const planTitle = t ? t(plan.lk) : (plan.label || plan.id);
+    out.push({type:'subheading', text: planTitle});
+    out.push(...planSecs.slice(4));
     out.push({type:'spacer'});
   }
-  if (out.length===1) out.push({type:'paragraph',text:'(No management plan content entered yet)'});
   return out;
 }
 
@@ -2641,13 +2629,13 @@ function buildFullESMSSections(esmsData, t) {
   const company = esmsData?.policy_es_policy_stmt?.company_name||'Your Company';
   const out = [
     {type:'heading',text:`${company} — Full ESMS Document`},
-    {type:'infobox',text:'Generated by ROGEAP ESMS Builder. Contains all completed ESMS components. Empty sections are omitted.'},
+    {type:'infobox',text:'Generated by ROGEAP ESMS Builder. Fields shown in italic with a [sample] label contain pre-populated guidance text — replace with your organisation\'s specific content before finalising.'},
     {type:'pagebreak'},
     ...buildScreeningSections(esmsData),{type:'pagebreak'},
-    ...buildPolicySections(esmsData),{type:'pagebreak'},
+    ...buildPolicySections(esmsData,t),{type:'pagebreak'},
     ...buildRiskSections(esmsData),{type:'pagebreak'},
     ...buildComplianceSections(esmsData,t),{type:'pagebreak'},
-    ...buildPlanSections(esmsData),{type:'pagebreak'},
+    ...buildPlanSections(esmsData,t),{type:'pagebreak'},
     ...buildCOCSections(esmsData),
     ...buildToolSection('ppe_matrix',esmsData,t),
     ...buildToolSection('incident_log',esmsData,t),
@@ -2664,23 +2652,34 @@ function buildFullESMSSections(esmsData, t) {
 
 
 // ── Per-policy section builder ──
+// isPlaceholder=true means value came from pre-populated sample text, not user input
 function buildSinglePolicySections(pol, d) {
   const out = [
     {type:'heading', text: pol.label},
-    {type:'paragraph', text: pol.desc || ''}
+    {type:'paragraph', text: pol.desc || ''},
+    {type:'infobox', text: 'Fields marked [sample] contain pre-populated guidance text. Replace with your organisation\'s specific content before finalising.'}
   ];
   for (const f of pol.fields) {
     const v = d[f.id];
-    if (!v) continue;
-    if (typeof v === 'object' && Array.isArray(v.sel)) {
-      const items = [
-        ...(v.sel || []),
-        ...(v.custom || []).filter(c => c.checked).map(c => c.text || c)
-      ];
-      if (items.length) out.push({type:'checklist', label: f.label, items});
+    // For checklist fields: use saved value (sel), else fall back to all baseline items
+    if (f.t === 'cbl') {
+      if (v && typeof v === 'object' && Array.isArray(v.sel)) {
+        const items = [
+          ...(v.sel || []),
+          ...(v.custom || []).filter(c => c.checked).map(c => c.text || c)
+        ];
+        if (items.length) out.push({type:'checklist', label: f.label, items, isPlaceholder: false});
+      } else if (f.items?.length) {
+        // No saved value — include all baseline items as sample content
+        const items = f.items.map(i => i.text || i);
+        if (items.length) out.push({type:'checklist', label: f.label, items, isPlaceholder: true});
+      }
     } else {
-      const vs = safe(v);
-      if (vs.trim()) out.push({type:'label_value', label: f.label, value: vs});
+      const stored = safe(v);
+      const ph = f.ph || '';
+      const isPlaceholder = !stored.trim() && !!ph.trim();
+      const effectiveValue = stored.trim() ? stored : ph;
+      if (effectiveValue.trim()) out.push({type:'label_value', label: f.label, value: effectiveValue, isPlaceholder});
     }
   }
   return out;
@@ -2691,22 +2690,29 @@ function buildSinglePlanSections(plan, d, t) {
   const out = [
     {type:'heading', text: t ? t(plan.lk) : (plan.label || '')},
     {type:'paragraph', text: `${plan.required || ''}`},
-    {type:'paragraph', text: t ? t(plan.ik) : (plan.intro || '')}
+    {type:'paragraph', text: t ? t(plan.ik) : (plan.intro || '')},
+    {type:'infobox', text: 'Fields marked [sample] contain pre-populated guidance text. Replace with your organisation\'s specific content before finalising.'}
   ];
   for (const f of plan.fields) {
     const v = d[f.id];
-    if (!v) continue;
-    if (typeof v === 'object' && Array.isArray(v.sel)) {
-      const items = [
-        ...(v.sel || []),
-        ...(v.custom || []).filter(c => c.checked).map(c => c.text || c)
-      ];
-      const flabel = (t && f.lk) ? t(f.lk) : f.label;
-      if (items.length) out.push({type:'checklist', label: flabel, items});
+    const flabel = (t && f.lk) ? t(f.lk) : f.label;
+    if (f.t === 'cbl') {
+      if (v && typeof v === 'object' && Array.isArray(v.sel)) {
+        const items = [
+          ...(v.sel || []),
+          ...(v.custom || []).filter(c => c.checked).map(c => c.text || c)
+        ];
+        if (items.length) out.push({type:'checklist', label: flabel, items, isPlaceholder: false});
+      } else if (f.items?.length) {
+        const items = f.items.map(i => i.text || i);
+        if (items.length) out.push({type:'checklist', label: flabel, items, isPlaceholder: true});
+      }
     } else {
-      const vs = safe(v);
-      const flabel = (t && f.lk) ? t(f.lk) : f.label;
-      if (vs && vs.trim()) out.push({type:'label_value', label: flabel, value: vs});
+      const stored = safe(v);
+      const ph = (t && f.phk) ? t(f.phk) : (f.ph || '');
+      const isPlaceholder = !stored.trim() && !!ph.trim();
+      const effectiveValue = stored.trim() ? stored : ph;
+      if (effectiveValue.trim()) out.push({type:'label_value', label: flabel, value: effectiveValue, isPlaceholder});
     }
   }
   return out;

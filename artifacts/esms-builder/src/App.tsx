@@ -2074,10 +2074,29 @@ const esc = (s) => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').repl
 // ══════════════════════════════════════════════════
 //  CSV — data URI, opens in new tab (user saves)
 // ══════════════════════════════════════════════════
+const CSV_FORMULA_TRIGGERS = new Set(['=', '+', '-', '@', '\t', '\r', '\n']);
+
+function sanitizeCSVCell(value: string): string {
+  const s = value.replace(/"/g, '""');
+  // Prevent formula injection: prefix cells whose first character — or first
+  // non-whitespace character — is a known spreadsheet formula trigger.
+  // Checking the trimmed first char covers payloads padded with leading spaces
+  // (e.g. " =WEBSERVICE(...)") that some parsers still evaluate as formulas.
+  const firstChar = s[0];
+  const firstNonWs = s.trimStart()[0];
+  if (
+    (firstChar !== undefined && CSV_FORMULA_TRIGGERS.has(firstChar)) ||
+    (firstNonWs !== undefined && CSV_FORMULA_TRIGGERS.has(firstNonWs))
+  ) {
+    return '\t' + s;
+  }
+  return s;
+}
+
 function tableToCSV(columns, rows) {
   const hdr = columns.map(c=>`"${c.label}"`).join(',');
   const body = (rows||[]).map(row=>
-    columns.map(c=>`"${(row[c.id]||'').toString().replace(/"/g,'""')}"`).join(',')
+    columns.map(c=>`"${sanitizeCSVCell((row[c.id]||'').toString())}"`).join(',')
   );
   return [hdr,...body].join('\r\n');
 }
@@ -2826,11 +2845,45 @@ export default function App() {
 
   const restoreData = (file) => {
     if (!file) return;
+
+    // Reject files above 5 MB to prevent main-thread freeze from oversized payloads
+    const MAX_BACKUP_BYTES = 5 * 1024 * 1024;
+    if (file.size > MAX_BACKUP_BYTES) {
+      alert('Backup file is too large (maximum 5 MB). Please select a valid ESMS Builder backup file.');
+      return;
+    }
+
     const reader = new FileReader();
+    reader.onerror = () => {
+      alert('Could not read backup file. The file may be unreadable or corrupt.');
+    };
     reader.onload = (e) => {
       try {
-        const backup = JSON.parse(e.target.result);
-        if (backup && typeof backup.esmsData === 'object') {
+        const backup = JSON.parse(e.target.result as string);
+        if (backup && backup.esmsData !== null && typeof backup.esmsData === 'object' && !Array.isArray(backup.esmsData)) {
+          // Recursively validate structure bounds to prevent deeply nested oversized payloads
+          const MAX_DEPTH = 10;
+          const MAX_KEYS = 500;
+          const MAX_ARRAY_LENGTH = 10_000;
+          const MAX_STRING_LENGTH = 100_000;
+          const isSafe = (node: unknown, depth: number): boolean => {
+            if (depth > MAX_DEPTH) return false;
+            if (typeof node === 'string') return node.length <= MAX_STRING_LENGTH;
+            if (Array.isArray(node)) {
+              if (node.length > MAX_ARRAY_LENGTH) return false;
+              return node.every(item => isSafe(item, depth + 1));
+            }
+            if (node !== null && typeof node === 'object') {
+              const keys = Object.keys(node as object);
+              if (keys.length > MAX_KEYS) return false;
+              return keys.every(k => isSafe((node as Record<string, unknown>)[k], depth + 1));
+            }
+            return true;
+          };
+          if (!isSafe(backup.esmsData, 0)) {
+            alert('Backup file contains oversized data and cannot be restored. Please select a valid ESMS Builder backup file.');
+            return;
+          }
           if (window.confirm('Restore this backup? All current data will be replaced.')) {
             setEsmsData(backup.esmsData);
             if (backup.lang) setLang(backup.lang);
@@ -2985,9 +3038,9 @@ export default function App() {
                 style={{ width:"100%", background:"rgba(14,124,123,0.25)", border:"1px solid rgba(14,124,123,0.5)", borderRadius:6, padding:"9px 0", color:"rgba(150,230,228,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b }}>
                 {t("backupSave")}
               </button>
-              <label style={{ display:"block", width:"100%", background:"rgba(42,95,158,0.2)", border:"1px solid rgba(42,95,158,0.4)", borderRadius:6, padding:"9px 0", color:"rgba(160,200,255,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b, textAlign:"center" }}>
+              <label title="Restore from a .json backup file (max 5 MB)" style={{ display:"block", width:"100%", background:"rgba(42,95,158,0.2)", border:"1px solid rgba(42,95,158,0.4)", borderRadius:6, padding:"9px 0", color:"rgba(160,200,255,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b, textAlign:"center" }}>
                 {t("backupRestore")}
-                <input type="file" accept=".json" aria-label="Restore data from backup file" onChange={e => { if(e.target.files?.[0]) { restoreData(e.target.files[0]); e.target.value=''; } }} style={{ display:"none" }}/>
+                <input type="file" accept=".json" aria-label="Restore data from backup file (max 5 MB)" onChange={e => { if(e.target.files?.[0]) { restoreData(e.target.files[0]); e.target.value=''; } }} style={{ display:"none" }}/>
               </label>
               <button onClick={() => { if(window.confirm(t("resetConfirm"))) { setEsmsData({}); setActive("welcome"); } }}
                 style={{ width:"100%", background:"rgba(192,57,43,0.2)", border:"1px solid rgba(192,57,43,0.4)", borderRadius:6, padding:"9px 0", color:"rgba(255,180,180,0.85)", cursor:"pointer", fontSize:11, fontFamily:F.b }}>

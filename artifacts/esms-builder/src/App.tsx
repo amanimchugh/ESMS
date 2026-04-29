@@ -283,21 +283,21 @@ function TrainingRegister({value,onChange}){
 }
 
 // ═══════════════ STAKEHOLDER REGISTER ═══════════════
+const STAKEHOLDER_BASELINE=[
+  {group:"Customers (households / businesses)",interests:"Product reliability, affordability, safety, e-waste disposal",influence:"High",impact:"High",relationship:"Direct",method:"",frequency:"",responsible:""},
+  {group:"Employees (all categories)",interests:"Fair wages, safe conditions, job security, career development",influence:"High",impact:"High",relationship:"Direct",method:"",frequency:"",responsible:""},
+  {group:"Local communities (installation areas)",interests:"Safety, employment, environmental impacts, e-waste",influence:"Medium",impact:"High",relationship:"Indirect",method:"",frequency:"",responsible:""},
+  {group:"Regulators (NERC / NESREA / Labour Dept.)",interests:"Compliance, licensing, product standards, labour law",influence:"High",impact:"Low",relationship:"Compliance",method:"",frequency:"",responsible:""},
+  {group:"Investors / DFIs / ROGEAP",interests:"Financial returns, ESMS compliance, ESG performance",influence:"High",impact:"Medium",relationship:"Accountability",method:"",frequency:"",responsible:""},
+  {group:"Product suppliers / manufacturers",interests:"Commercial terms, EPR requirements, quality standards",influence:"Medium",impact:"High",relationship:"Supply chain",method:"",frequency:"",responsible:""},
+  {group:"Sales agents / distributors",interests:"Commission, training, support, consumer protection",influence:"Medium",impact:"High",relationship:"Commercial",method:"",frequency:"",responsible:""},
+  {group:"E-waste recyclers / service providers",interests:"Business volume, compliance, safe handling",influence:"Low",impact:"High",relationship:"Partnership",method:"",frequency:"",responsible:""},
+  {group:"NGOs / development partners",interests:"Community impact, gender equity, environmental outcomes",influence:"Low",impact:"Low",relationship:"Stakeholder",method:"",frequency:"",responsible:""},
+  {group:"Industry bodies (GOGLA / NAFSMA)",interests:"Sector standards, advocacy, code compliance",influence:"Low",impact:"Low",relationship:"Peer",method:"",frequency:"",responsible:""},
+];
 function StakeholderRegister({value,onChange}){
   const {t}=useLang();
-  const baseline=[
-    {group:"Customers (households / businesses)",interests:"Product reliability, affordability, safety, e-waste disposal",influence:"High",impact:"High",relationship:"Direct",method:"",frequency:"",responsible:""},
-    {group:"Employees (all categories)",interests:"Fair wages, safe conditions, job security, career development",influence:"High",impact:"High",relationship:"Direct",method:"",frequency:"",responsible:""},
-    {group:"Local communities (installation areas)",interests:"Safety, employment, environmental impacts, e-waste",influence:"Medium",impact:"High",relationship:"Indirect",method:"",frequency:"",responsible:""},
-    {group:"Regulators (NERC / NESREA / Labour Dept.)",interests:"Compliance, licensing, product standards, labour law",influence:"High",impact:"Low",relationship:"Compliance",method:"",frequency:"",responsible:""},
-    {group:"Investors / DFIs / ROGEAP",interests:"Financial returns, ESMS compliance, ESG performance",influence:"High",impact:"Medium",relationship:"Accountability",method:"",frequency:"",responsible:""},
-    {group:"Product suppliers / manufacturers",interests:"Commercial terms, EPR requirements, quality standards",influence:"Medium",impact:"High",relationship:"Supply chain",method:"",frequency:"",responsible:""},
-    {group:"Sales agents / distributors",interests:"Commission, training, support, consumer protection",influence:"Medium",impact:"High",relationship:"Commercial",method:"",frequency:"",responsible:""},
-    {group:"E-waste recyclers / service providers",interests:"Business volume, compliance, safe handling",influence:"Low",impact:"High",relationship:"Partnership",method:"",frequency:"",responsible:""},
-    {group:"NGOs / development partners",interests:"Community impact, gender equity, environmental outcomes",influence:"Low",impact:"Low",relationship:"Stakeholder",method:"",frequency:"",responsible:""},
-    {group:"Industry bodies (GOGLA / NAFSMA)",interests:"Sector standards, advocacy, code compliance",influence:"Low",impact:"Low",relationship:"Peer",method:"",frequency:"",responsible:""},
-  ];
-  const rows=Array.isArray(value)&&value.length>0?value:baseline;
+  const rows=Array.isArray(value)&&value.length>0?value:STAKEHOLDER_BASELINE;
   const cols=[
     {id:"group",label:t("csvColGroup"),w:"16%",ph:"Group name"},
     {id:"interests",label:t("csvColInterests"),w:"18%",type:"ta"},
@@ -311,24 +311,24 @@ function StakeholderRegister({value,onChange}){
   ];
   return(<div>
     <InfoBox col={C.purple} bg="#F9F0FF">{t("stakeholderInfoBox2")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={baseline} value={rows} onChange={onChange} addRowLabel={t("stakeholderAddRow")}/>
+    <TableBuilder columns={cols} baselineRows={STAKEHOLDER_BASELINE} value={rows} onChange={onChange} addRowLabel={t("stakeholderAddRow")}/>
   </div>);
 }
 
 // ═══════════════ PPE MATRIX ═══════════════
+const PPE_BASELINE=[
+  {task:"Rooftop / elevated installation work",hazard:"Falls from height",ppe_required:"Fall arrest harness (EN355), hard hat (Class E), non-slip safety boots, hi-vis vest, UV-protection gloves",standard:"EN355, EN397",provided:"",inspected:"",your_spec:""},
+  {task:"Electrical system work (live DC/AC)",hazard:"Electric shock, arc flash",ppe_required:"Insulated gloves (EN60903 Class 1 minimum), safety goggles, insulated footwear, no jewellery",standard:"EN60903 Class 1",provided:"",inspected:"",your_spec:""},
+  {task:"Lead-acid battery handling",hazard:"Acid burns, toxic gas, fire",ppe_required:"Acid-resistant gloves, safety goggles, chemical-resistant apron, safety boots",standard:"EN374",provided:"",inspected:"",your_spec:""},
+  {task:"Lithium battery handling / storage",hazard:"Thermal runaway, fire, toxic fumes",ppe_required:"Insulated gloves, safety goggles, fire-resistant apron",standard:"—",provided:"",inspected:"",your_spec:""},
+  {task:"Warehouse / loading / unloading",hazard:"Manual handling, falling objects",ppe_required:"Safety boots (steel-toed), hi-vis vest, back support if heavy lifting",standard:"EN20345",provided:"",inspected:"",your_spec:""},
+  {task:"Driving / field transportation",hazard:"Road accident, fatigue",ppe_required:"Seatbelt at all times; no mobile phone while driving",standard:"Road traffic law",provided:"",inspected:"",your_spec:""},
+  {task:"Remote / outdoor work",hazard:"Heat, sun exposure, wildlife",ppe_required:"Sun-protective clothing, hat, sunscreen, water supply, insect repellent where applicable",standard:"—",provided:"",inspected:"",your_spec:""},
+  {task:"Office / general work",hazard:"DSE, ergonomic",ppe_required:"No special PPE; ergonomic workstation",standard:"—",provided:"",inspected:"",your_spec:""},
+];
 function PPEMatrix({value,onChange}){
   const {t}=useLang();
-  const baseline=[
-    {task:"Rooftop / elevated installation work",hazard:"Falls from height",ppe_required:"Fall arrest harness (EN355), hard hat (Class E), non-slip safety boots, hi-vis vest, UV-protection gloves",standard:"EN355, EN397",provided:"",inspected:"",notes:""},
-    {task:"Electrical system work (live DC/AC)",hazard:"Electric shock, arc flash",ppe_required:"Insulated gloves (EN60903 Class 1 minimum), safety goggles, insulated footwear, no jewellery",standard:"EN60903 Class 1",provided:"",inspected:"",notes:""},
-    {task:"Lead-acid battery handling",hazard:"Acid burns, toxic gas, fire",ppe_required:"Acid-resistant gloves, safety goggles, chemical-resistant apron, safety boots",standard:"EN374",provided:"",inspected:"",notes:""},
-    {task:"Lithium battery handling / storage",hazard:"Thermal runaway, fire, toxic fumes",ppe_required:"Insulated gloves, safety goggles, fire-resistant apron",standard:"—",provided:"",inspected:"",notes:""},
-    {task:"Warehouse / loading / unloading",hazard:"Manual handling, falling objects",ppe_required:"Safety boots (steel-toed), hi-vis vest, back support if heavy lifting",standard:"EN20345",provided:"",inspected:"",notes:""},
-    {task:"Driving / field transportation",hazard:"Road accident, fatigue",ppe_required:"Seatbelt at all times; no mobile phone while driving",standard:"Road traffic law",provided:"",inspected:"",notes:""},
-    {task:"Remote / outdoor work",hazard:"Heat, sun exposure, wildlife",ppe_required:"Sun-protective clothing, hat, sunscreen, water supply, insect repellent where applicable",standard:"—",provided:"",inspected:"",notes:""},
-    {task:"Office / general work",hazard:"DSE, ergonomic",ppe_required:"No special PPE; ergonomic workstation",standard:"—",provided:"",inspected:"",notes:""},
-  ];
-  const rows=Array.isArray(value)&&value.length>0?value:baseline;
+  const rows=Array.isArray(value)&&value.length>0?value:PPE_BASELINE;
   const cols=[
     {id:"task",label:t("ppeColTask"),w:"15%",ph:"Describe task"},
     {id:"hazard",label:t("ppeColHazard"),w:"13%",ph:"Main hazard"},
@@ -340,26 +340,26 @@ function PPEMatrix({value,onChange}){
   ];
   return(<div>
     <InfoBox col={C.red} bg="#FFF5F5">{t("ppeInfoBox")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={baseline} value={rows} onChange={onChange} addRowLabel={t("ppeAddRow")}/>
+    <TableBuilder columns={cols} baselineRows={PPE_BASELINE} value={rows} onChange={onChange} addRowLabel={t("ppeAddRow")}/>
   </div>);
 }
 
 // ═══════════════ COMPLIANCE TRACKER ═══════════════
+const COMPLIANCE_BASELINE=[
+  {law:"[Country] Labour Act",authority:"Ministry of Labour",requirement:"Minimum wage, working hours, contracts, leave, non-discrimination",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+  {law:"[Country] Factories / OHS Act",authority:"Ministry of Labour / Factory Inspectorate",requirement:"Workplace safety, PPE, incident reporting, inspections",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+  {law:"[Country] Environmental Act / NESREA Regulations",authority:"NESREA / National EPA",requirement:"Waste management, e-waste, pollution prevention",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+  {law:"Consumer Protection Law",authority:"Consumer Protection Council",requirement:"Product safety, fair pricing, warranty, data privacy",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+  {law:"[Country] Companies Act",authority:"Corporate Affairs Commission",requirement:"Company registration, annual filings",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+  {law:"NERC Licensing Requirements",authority:"NERC / Rural Electrification Agency",requirement:"Operating licences for power activities above threshold",applies:"",status:"",expiry:"",responsible:"",evidence:"",action:""},
+  {law:"VeraSol / IEC Product Standards",authority:"IEC / GOGLA",requirement:"Product quality and safety standards (IEC 62509, etc.)",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+  {law:"Basel Convention (E-Waste)",authority:"National Environment Authority",requirement:"Cross-border e-waste management compliance",applies:"",status:"",expiry:"",responsible:"",evidence:"",action:""},
+  {law:"Gender-Based Violence / Domestic Violence Laws",authority:"Ministry of Justice / Police",requirement:"Reporting obligations for GBV incidents",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+  {law:"Income Tax / PAYE / VAT Obligations",authority:"Federal/State Revenue Authority",requirement:"Tax compliance — registration, filing, remittance",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+];
 function ComplianceTracker({value,onChange}){
   const {t}=useLang();
-  const baseline=[
-    {law:"[Country] Labour Act",authority:"Ministry of Labour",requirement:"Minimum wage, working hours, contracts, leave, non-discrimination",applies:"yes",status:"",expiry:"",responsible:"",evidence:""},
-    {law:"[Country] Factories / OHS Act",authority:"Ministry of Labour / Factory Inspectorate",requirement:"Workplace safety, PPE, incident reporting, inspections",applies:"yes",status:"",expiry:"",responsible:"",evidence:""},
-    {law:"[Country] Environmental Act / NESREA Regulations",authority:"NESREA / National EPA",requirement:"Waste management, e-waste, pollution prevention",applies:"yes",status:"",expiry:"",responsible:"",evidence:""},
-    {law:"Consumer Protection Law",authority:"Consumer Protection Council",requirement:"Product safety, fair pricing, warranty, data privacy",applies:"yes",status:"",expiry:"",responsible:"",evidence:""},
-    {law:"[Country] Companies Act",authority:"Corporate Affairs Commission",requirement:"Company registration, annual filings",applies:"yes",status:"",expiry:"",responsible:"",evidence:""},
-    {law:"NERC Licensing Requirements",authority:"NERC / Rural Electrification Agency",requirement:"Operating licences for power activities above threshold",applies:"",status:"",expiry:"",responsible:"",evidence:""},
-    {law:"VeraSol / IEC Product Standards",authority:"IEC / GOGLA",requirement:"Product quality and safety standards (IEC 62509, etc.)",applies:"yes",status:"",expiry:"",responsible:"",evidence:""},
-    {law:"Basel Convention (E-Waste)",authority:"National Environment Authority",requirement:"Cross-border e-waste management compliance",applies:"",status:"",expiry:"",responsible:"",evidence:""},
-    {law:"Gender-Based Violence / Domestic Violence Laws",authority:"Ministry of Justice / Police",requirement:"Reporting obligations for GBV incidents",applies:"yes",status:"",expiry:"",responsible:"",evidence:""},
-    {law:"Income Tax / PAYE / VAT Obligations",authority:"Federal/State Revenue Authority",requirement:"Tax compliance — registration, filing, remittance",applies:"yes",status:"",expiry:"",responsible:"",evidence:""},
-  ];
-  const rows=Array.isArray(value)&&value.length>0?value:baseline;
+  const rows=Array.isArray(value)&&value.length>0?value:COMPLIANCE_BASELINE;
   const cols=[
     {id:"law",label:t("complianceColLaw"),w:"16%",ph:"Name"},
     {id:"authority",label:t("complianceColAuthority"),w:"12%",ph:"Body"},
@@ -373,7 +373,7 @@ function ComplianceTracker({value,onChange}){
   ];
   return(<div>
     <InfoBox col={C.amber} bg="#FFF8ED">{t("complianceInfoBox")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={baseline} value={rows} onChange={onChange} addRowLabel={t("complianceAdd")}/>
+    <TableBuilder columns={cols} baselineRows={COMPLIANCE_BASELINE} value={rows} onChange={onChange} addRowLabel={t("complianceAdd")}/>
   </div>);
 }
 
@@ -738,8 +738,9 @@ function ToolsSection({ esmsData, setFieldValue, openGuide }) {
   const {t}=useLang();
   const [activeTool, setActiveTool] = useState(null);
 
-  const getVal = (id) => esmsData[`tool_${id}`];
-  const setVal = (id, v) => setFieldValue(`tool_${id}`, "data", v);
+  const TOOL_DATA_KEYS = { risk_matrix:"risk_register", compliance:"compliance_tracker", screening:"screening_q" };
+  const getVal = (id) => esmsData[TOOL_DATA_KEYS[id] || `tool_${id}`];
+  const setVal = (id, v) => setFieldValue(TOOL_DATA_KEYS[id] || `tool_${id}`, "data", v);
 
   if (activeTool) {
     const tool = TOOLS_REGISTRY[activeTool];
@@ -766,8 +767,20 @@ function ToolsSection({ esmsData, setFieldValue, openGuide }) {
         <div style={{display:"flex",justifyContent:"flex-end",marginBottom:12}}>
           <ExportBar
             title={t(tool.lk)} filename={`ESMS_${activeTool}`}
-            sections={buildToolSection(activeTool, esmsData, t)}
-            csvToolId={["risk_matrix","compliance","incident_log","waste_register","grievance_log","training_register","stakeholder_register","supplier_assessment","esap"].includes(activeTool) ? activeTool : null}
+            sections={
+              activeTool==='risk_matrix' ? buildRiskSections(esmsData) :
+              activeTool==='compliance' ? buildComplianceSections(esmsData,t) :
+              activeTool==='screening' ? buildScreeningSections(esmsData) :
+              buildToolSection(activeTool, esmsData, t)
+            }
+            csvToolId={["risk_matrix","compliance","ppe_matrix","incident_log","waste_register","grievance_log","training_register","stakeholder_register","supplier_assessment","esap"].includes(activeTool) ? activeTool : null}
+            csvRows={
+              activeTool==='risk_matrix' ? (esmsData.risk_register?.data?.length?esmsData.risk_register.data:BASELINE_RISKS) :
+              activeTool==='compliance' ? (esmsData.compliance_tracker?.data?.length?esmsData.compliance_tracker.data:COMPLIANCE_BASELINE) :
+              activeTool==='ppe_matrix' ? (esmsData.tool_ppe_matrix?.data?.length?esmsData.tool_ppe_matrix.data:PPE_BASELINE) :
+              activeTool==='stakeholder_register' ? (esmsData.tool_stakeholder_register?.data?.length?esmsData.tool_stakeholder_register.data:STAKEHOLDER_BASELINE) :
+              undefined
+            }
             esmsData={esmsData}
           />
         </div>
@@ -1308,8 +1321,11 @@ function RiskSection({ esmsData, setFieldValue, openGuide }) {
       </div>
       <InfoBox col={C.red} bg="#FFF5F5">{t("risksInfoBox")}</InfoBox>
       <div style={{display:"flex",justifyContent:"flex-end",marginBottom:14}}>
-        <ExportBar title="Risk Register" filename="ESMS_Risk_Register"
-          sections={buildRiskSections(esmsData)} csvToolId="risk_matrix" esmsData={esmsData}/>
+        <ExportBar title={t("risksTitle")} filename="ESMS_Risk_Register"
+          sections={buildRiskSections(esmsData)}
+          csvCols={getToolCSVDefs(t).risk_matrix.cols}
+          csvRows={esmsData.risk_register?.data?.length?esmsData.risk_register.data:BASELINE_RISKS}
+          esmsData={esmsData}/>
       </div>
       <RiskMatrix baselineRisks={BASELINE_RISKS} value={val} onChange={set}/>
     </div>
@@ -1332,8 +1348,11 @@ function ComplianceSection({ esmsData, setFieldValue, openGuide }) {
         <GuideBtn guideId="compliance" onOpen={openGuide}/>
       </div>
       <div style={{display:"flex",justifyContent:"flex-end",marginBottom:14}}>
-        <ExportBar title="Compliance Register" filename="ESMS_Compliance"
-          sections={buildComplianceSections(esmsData,t)} csvToolId="compliance" esmsData={esmsData}/>
+        <ExportBar title={t("complianceTitle")} filename="ESMS_Compliance"
+          sections={buildComplianceSections(esmsData,t)}
+          csvCols={getToolCSVDefs(t).compliance.cols}
+          csvRows={esmsData.compliance_tracker?.data?.length?esmsData.compliance_tracker.data:COMPLIANCE_BASELINE}
+          esmsData={esmsData}/>
       </div>
       <ComplianceTracker value={val} onChange={set}/>
     </div>
@@ -2166,11 +2185,13 @@ function buildPrintHTML(title, sections, strings={}) {
       body += `</ul></div>`;
     } else if (sec.type === 'table') {
       const cols = sec.cols||[], rows = sec.rows||[];
-      body += `<div class="field-label">${esc(sec.label)}</div>`;
+      const tblLabel = sec.isPlaceholder ? `${esc(sec.label)} <span class="sample-tag">[SAMPLE]</span>` : esc(sec.label);
+      body += `<div class="field-label">${tblLabel}</div>`;
       if (!rows.length) {
         body += `<p class="empty-note">${noEntries}</p>`;
       } else {
-        body += `<div class="table-wrap"><table><thead><tr>`;
+        const tblClass = sec.isPlaceholder ? 'table-wrap sample-table' : 'table-wrap';
+        body += `<div class="${tblClass}"><table><thead><tr>`;
         for (const c of cols) body += `<th>${esc(c.label)}</th>`;
         body += `</tr></thead><tbody>`;
         for (const row of rows) {
@@ -2226,6 +2247,9 @@ function buildPrintHTML(title, sections, strings={}) {
               border-radius: 4px; font-style: italic; color: ${NAVY}; font-size: 10pt;
               margin: 10px 0; }
   .table-wrap { overflow: visible; margin-bottom: 14px; }
+  .sample-table table { opacity: 0.85; }
+  .sample-table th { background: #7F8C9A; }
+  .sample-table td { color: #5F7080; font-style: italic; }
   table { width: 100%; border-collapse: collapse; font-size: 9pt; }
   th { background: ${NAVY}; color: white; padding: 6px 8px; text-align: left; font-size: 8.5pt;
        font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
@@ -2342,7 +2366,8 @@ function buildRTF(title, sections) {
         rtf += `{\\pard\\li360\\sa40\\fs20${itemFmt} \\bullet  ${escRTF(item)}\\par}`;
       }
     } else if (sec.type === 'table') {
-      rtf += `{\\pard\\sb100\\sa60\\fs18\\b\\cf5 ${escRTF((sec.label||'').toUpperCase())}\\par}`;
+      const sampleTag = sec.isPlaceholder ? '  [sample]' : '';
+      rtf += `{\\pard\\sb100\\sa60\\fs18\\b\\cf5 ${escRTF((sec.label||'').toUpperCase())}${escRTF(sampleTag)}\\par}`;
       const cols = sec.cols||[], rows = sec.rows||[];
       if (!rows.length) {
         rtf += `{\\pard\\fs18\\i\\cf5 (no entries recorded)\\par}`;
@@ -2362,12 +2387,13 @@ function buildRTF(title, sections) {
         }
         rtf += `\\row}`;
         // Data rows
+        const rowFmt = sec.isPlaceholder ? `\\i\\cf5` : `\\cf0`;
         for (const row of rows) {
           rtf += `{\\trowd\\trgaph80`;
           pos = 0;
           for (let i = 0; i < cols.length; i++) { pos += cw; rtf += `\\cellx${pos}`; }
           for (const c of cols) {
-            rtf += `{\\pard\\intbl\\fs18 ${escRTF(String(row[c.id]||''))}\\cell}`;
+            rtf += `{\\pard\\intbl\\fs18${rowFmt} ${escRTF(String(row[c.id]||''))}\\cell}`;
           }
           rtf += `\\row}`;
         }
@@ -2421,6 +2447,12 @@ function getToolCSVDefs(t) {
       {id:"applies",label:t("riskColApplies")},{id:"prob",label:t("riskColProb")},
       {id:"sev",label:t("riskColSev")},{id:"mitigation",label:t("riskColMitigation")},
       {id:"responsible",label:t("riskColResponsible")},{id:"status",label:t("riskColStatus")}
+    ]},
+    ppe_matrix: { label:t("toolLblPpe")||"PPE Matrix", cols:[
+      {id:"task",label:t("ppeColTask")},{id:"hazard",label:t("ppeColHazard")},
+      {id:"ppe_required",label:t("ppeColRequired")},{id:"standard",label:t("ppeColStandard")},
+      {id:"provided",label:t("ppeColProvided")},{id:"inspected",label:t("colLastInspected")},
+      {id:"your_spec",label:t("ppeColSpec")}
     ]},
     compliance: { label:t("csvLabelCompliance"), cols:[
       {id:"law",label:t("complianceColLaw")},{id:"authority",label:t("complianceColAuthority")},
@@ -2528,31 +2560,41 @@ function buildPolicySections(esmsData, t) {
 }
 
 function buildRiskSections(esmsData) {
-  const rows = (esmsData?.risk_register?.data)||[];
+  const stored = esmsData?.risk_register?.data;
+  const hasData = Array.isArray(stored) && stored.length > 0;
+  const rows = hasData ? stored : BASELINE_RISKS;
+  const isPlaceholder = !hasData;
   const rated = rows.map(r=>{
     const score=parseInt(r.prob||1)*parseInt(r.sev||1);
     return {...r,rating:score>=9?'CRITICAL':score>=6?'HIGH':score>=3?'MEDIUM':'LOW'};
   });
   return [
     {type:'heading',text:'E&S Risk Register & Assessment'},
-    {type:'infobox',text:'Risk Rating = Probability × Severity. CRITICAL (9-16) | HIGH (6-8) | MEDIUM (3-5) | LOW (1-2). Source: ROGEAP ESMS Guidelines §4.'},
+    {type:'infobox',text: isPlaceholder
+      ? 'No risk register data saved yet. The table below shows a ROGEAP baseline for off-grid solar companies — review, customise, and save in the Risk Assessment section. Rows marked [sample] are pre-populated guidance only.'
+      : 'Risk Rating = Probability × Severity. CRITICAL (9-16) | HIGH (6-8) | MEDIUM (3-5) | LOW (1-2). Source: ROGEAP ESMS Guidelines §4.'},
     {type:'table',label:'Risk Register',rows:rated,cols:[
       {id:'risk',label:'Risk / Hazard'},{id:'category',label:'Category'},
       {id:'prob',label:'Prob.'},{id:'sev',label:'Sev.'},{id:'rating',label:'Rating'},
       {id:'mitigation',label:'Mitigation'},{id:'responsible',label:'Responsible'},{id:'status',label:'Status'}
-    ]}
+    ],isPlaceholder}
   ];
 }
 
 function buildComplianceSections(esmsData, t) {
-  const rows = (esmsData?.compliance_tracker?.data)||[];
+  const stored = esmsData?.compliance_tracker?.data;
+  const hasData = Array.isArray(stored) && stored.length > 0;
+  const rows = hasData ? stored : COMPLIANCE_BASELINE;
+  const isPlaceholder = !hasData;
   const cols = t
     ? getToolCSVDefs(t).compliance.cols.slice(0,7)
     : [{id:'law',label:'Law'},{id:'authority',label:'Authority'},{id:'requirement',label:'Key Requirement'},{id:'applies',label:'Applies?'},{id:'status',label:'Status'},{id:'expiry',label:'Expiry'},{id:'responsible',label:'Responsible'}];
   return [
     {type:'heading',text:'Legal & Regulatory Compliance Register'},
-    {type:'infobox',text:'Tracks all applicable national laws, regulations, permits, and voluntary standards. Review quarterly.'},
-    {type:'table',label:t?t('csvLabelCompliance'):'Compliance Register',rows,cols}
+    {type:'infobox',text: isPlaceholder
+      ? 'No compliance data saved yet. The table below shows a ROGEAP baseline for off-grid solar companies — review, adapt, and save in the Compliance section. Rows marked [sample] are pre-populated guidance only.'
+      : 'Tracks all applicable national laws, regulations, permits, and voluntary standards. Review quarterly.'},
+    {type:'table',label:t?t('csvLabelCompliance'):'Compliance Register',rows,cols,isPlaceholder}
   ];
 }
 
@@ -2570,15 +2612,22 @@ function buildPlanSections(esmsData, t) {
   return out;
 }
 
+const TOOL_BASELINES = { ppe_matrix:PPE_BASELINE, stakeholder_register:STAKEHOLDER_BASELINE };
 function buildToolSection(toolId, esmsData, t) {
   const defs = getToolCSVDefs(t);
   const def = defs[toolId];
   if (!def) return [];
   const raw = esmsData[`tool_${toolId}`]?.data;
-  const rows = Array.isArray(raw)?raw:[];
+  const hasData = Array.isArray(raw) && raw.length > 0;
+  const baseline = TOOL_BASELINES[toolId] || [];
+  const rows = hasData ? raw : baseline;
+  const isPlaceholder = !hasData && rows.length > 0;
   const reg = TOOLS_REGISTRY[toolId];
   const title = (reg?.lk ? t(reg.lk) : null) || def.label;
-  return [{type:'heading',text:title},{type:'table',label:def.label,rows,cols:def.cols}];
+  const secs = [{type:'heading',text:title}];
+  if (isPlaceholder) secs.push({type:'infobox',text:`No data saved yet. The table below shows a pre-populated baseline — review and customise in the Implementation Tools section. Rows marked [sample] are pre-populated guidance only.`});
+  secs.push({type:'table',label:def.label,rows,cols:def.cols,isPlaceholder});
+  return secs;
 }
 
 function buildCOCSections(esmsData) {

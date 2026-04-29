@@ -152,7 +152,13 @@ function RiskMatrix({baselineRisks,value,onChange}){
           return(<tr key={ri} style={{background:row.applies==="no"?"#FAFAFA":"white"}}>
             <td style={S.td}><textarea value={row.risk||""} onChange={e=>update(ri,"risk",e.target.value)} rows={2} style={{...S.ta,padding:"4px 6px",fontSize:12}}/></td>
             <td style={S.td}><select value={row.category||""} onChange={e=>update(ri,"category",e.target.value)} style={{...S.inp,padding:"4px 6px",fontSize:11}}>
-              {["OHS","E-Waste","Labour","Consumer","Community","Gender/SEAH","Supply Chain","Security","Environment","Other"].map(o=><option key={o}>{o}</option>)}
+              <option value="">—</option>
+              {[
+                {v:"OHS",lk:"catOHS"},{v:"E-Waste",lk:"catEWaste"},{v:"Labour",lk:"catLabour"},
+                {v:"Consumer",lk:"catConsumer"},{v:"Community",lk:"catCommunity"},
+                {v:"Gender/SEAH",lk:"catGenderSEAH"},{v:"Supply Chain",lk:"catSupplyChain"},
+                {v:"Security",lk:"catSecurity"},{v:"Environment",lk:"catEnvironment"},{v:"Other",lk:"catOther"}
+              ].map(({v,lk})=><option key={v} value={v}>{t(lk)}</option>)}
             </select></td>
             <td style={{...S.td,textAlign:"center"}}><select value={row.applies||"yes"} onChange={e=>update(ri,"applies",e.target.value)} style={{...S.inp,padding:"4px 5px",fontSize:11,width:60}}>
               <option value="yes">{t("riskAppliesYes")}</option><option value="no">{t("riskAppliesNo")}</option></select></td>
@@ -752,8 +758,8 @@ function ToolsSection({ esmsData, setFieldValue, openGuide }) {
         <div style={{display:"flex",justifyContent:"flex-end",marginBottom:12}}>
           <ExportBar
             title={tool.label} filename={`ESMS_${activeTool}`}
-            sections={buildToolSection(activeTool, esmsData)}
-            csvToolId={TOOL_CSV_DEFS[activeTool] ? activeTool : null}
+            sections={buildToolSection(activeTool, esmsData, t)}
+            csvToolId={["risk_matrix","compliance","incident_log","waste_register","grievance_log","training_register","stakeholder_register","supplier_assessment","esap"].includes(activeTool) ? activeTool : null}
             esmsData={esmsData}
           />
         </div>
@@ -995,7 +1001,7 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
             {f.hint && <Hint c={f.hint}/>}
             {f.t === "text" && <input value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} placeholder={f.ph||""} style={S.inp}/>}
             {f.t === "ta" && <textarea value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} placeholder={f.ph||""} rows={f.rows||4} style={S.ta}/>}
-            {f.t === "sel" && <select value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} style={S.inp}><option value="">Select…</option>{f.opts.map(o=><option key={o}>{o}</option>)}</select>}
+            {f.t === "sel" && <select value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} style={S.inp}><option value="">{t("selectPlaceholder")}</option>{f.opts.map(o=><option key={o}>{o}</option>)}</select>}
             {f.t === "cbl" && <ChecklistBuilder baseline={f.items} value={d[f.id]} onChange={v=>set(f.id,v)}/>}
           </div>
         ))}
@@ -1320,7 +1326,7 @@ function ComplianceSection({ esmsData, setFieldValue, openGuide }) {
       </div>
       <div style={{display:"flex",justifyContent:"flex-end",marginBottom:14}}>
         <ExportBar title="Compliance Register" filename="ESMS_Compliance"
-          sections={buildComplianceSections(esmsData)} csvToolId="compliance" esmsData={esmsData}/>
+          sections={buildComplianceSections(esmsData,t)} csvToolId="compliance" esmsData={esmsData}/>
       </div>
       <ComplianceTracker value={val} onChange={set}/>
     </div>
@@ -1865,7 +1871,7 @@ function GuidelinesPanel({ guideId, onClose }) {
         }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:12 }}>
             <div>
-              <div style={{ fontSize:11, fontWeight:700, color:"rgba(255,255,255,0.65)", textTransform:"uppercase", letterSpacing:"1px", marginBottom:6 }}>📖 Guidelines & Background</div>
+              <div style={{ fontSize:11, fontWeight:700, color:"rgba(255,255,255,0.65)", textTransform:"uppercase", letterSpacing:"1px", marginBottom:6 }}>📖 {t("guideBgLabel")}</div>
               <h2 style={{ margin:0, color:"white", fontFamily:F.d, fontSize:20, lineHeight:1.3 }}>{guide.title}</h2>
             </div>
             <button ref={closeBtnRef} onClick={onClose} aria-label="Close guidelines panel" style={{
@@ -2099,7 +2105,12 @@ function exportCSV(filename, columns, rows) {
 //  PDF — printable HTML in new window
 //  User presses Ctrl+P / Cmd+P → Save as PDF
 // ══════════════════════════════════════════════════
-function buildPrintHTML(title, sections) {
+function buildPrintHTML(title, sections, strings={}) {
+  const noEntries = strings.noEntries || '(no entries recorded)';
+  const notCompleted = strings.notCompleted || '(not completed)';
+  const coverLine = strings.coverLine || 'Environmental & Social Management System  |  ROGEAP-aligned';
+  const footerLine = strings.footerLine || 'ROGEAP ESMS Builder  |  ROGEAP-aligned  |  IFC Performance Standards';
+  const generated = strings.generated || 'Generated';
   const NAVY = '#1A3A5C', TEAL = '#0E7C7B', AMBER = '#E8A020';
   const MUTED = '#5F7080', LIGHT = '#F0F4F8', RED = '#C0392B';
 
@@ -2110,7 +2121,7 @@ function buildPrintHTML(title, sections) {
     } else if (sec.type === 'subheading') {
       body += `<div class="heading2">${esc(sec.text)}</div>`;
     } else if (sec.type === 'label_value') {
-      const val = (sec.value||'(not completed)');
+      const val = (sec.value||notCompleted);
       const lines = val.split('\n').map(l=>esc(l)).join('<br>');
       body += `<div class="field"><div class="field-label">${esc(sec.label)}</div><div class="field-value">${lines}</div></div>`;
     } else if (sec.type === 'checklist') {
@@ -2121,7 +2132,7 @@ function buildPrintHTML(title, sections) {
       const cols = sec.cols||[], rows = sec.rows||[];
       body += `<div class="field-label">${esc(sec.label)}</div>`;
       if (!rows.length) {
-        body += `<p class="empty-note">(no entries recorded)</p>`;
+        body += `<p class="empty-note">${noEntries}</p>`;
       } else {
         body += `<div class="table-wrap"><table><thead><tr>`;
         for (const c of cols) body += `<th>${esc(c.label)}</th>`;
@@ -2196,11 +2207,11 @@ function buildPrintHTML(title, sections) {
 <div class="cover">
   <div class="cover-super">ROGEAP Off-Grid Solar ESMS Builder</div>
   <div class="cover-title">${esc(title)}</div>
-  <div class="cover-sub">Environmental &amp; Social Management System &nbsp;|&nbsp; Generated: ${new Date().toLocaleDateString('en-GB', {day:'2-digit',month:'long',year:'numeric'})}</div>
+  <div class="cover-sub">${esc(coverLine)} &nbsp;|&nbsp; ${esc(generated)}: ${new Date().toLocaleDateString('en-GB', {day:'2-digit',month:'long',year:'numeric'})}</div>
 </div>
 <div class="content">
 ${body}
-<footer>ROGEAP ESMS Builder &nbsp;|&nbsp; ROGEAP-aligned &nbsp;|&nbsp; IFC Performance Standards</footer>
+<footer>${esc(footerLine)}</footer>
 </div>
 <div style="position:fixed;top:12px;right:12px;z-index:999;display:flex;gap:8px;align-items:center;">
   <span style="font-size:12px;color:#5F7080;font-family:Arial">Use Ctrl+P / ⌘P to save as PDF</span>
@@ -2218,8 +2229,8 @@ ${body}
 </body></html>`;
 }
 
-function exportPDF(title, sections) {
-  const html = buildPrintHTML(title, sections);
+function exportPDF(title, sections, strings={}) {
+  const html = buildPrintHTML(title, sections, strings);
   // Use Blob URL — works reliably in both standalone and embedded environments
   const blob = new Blob([html], {type:'text/html'});
   const url = URL.createObjectURL(blob);
@@ -2333,7 +2344,7 @@ function buildRTF(title, sections) {
   return rtf;
 }
 
-function exportWord(title, sections) {
+function exportWord(title, sections, _strings={}) {
   const rtf = buildRTF(title, sections);
   const fname = title.replace(/[^a-zA-Z0-9\s]/g,'').trim().replace(/\s+/g,'_') || 'ESMS_Document';
   const uri = 'data:application/rtf;charset=utf-8,' + encodeURIComponent(rtf);
@@ -2357,73 +2368,75 @@ function exportWord(title, sections) {
 // ══════════════════════════════════════════════════
 //  CSV definitions for each tabular tool
 // ══════════════════════════════════════════════════
-const TOOL_CSV_DEFS = {
-  risk_matrix: { label:"Risk Register", cols:[
-    {id:"risk",label:"Risk / Hazard"},{id:"category",label:"Category"},
-    {id:"applies",label:"Applies?"},{id:"prob",label:"Probability (1-4)"},
-    {id:"sev",label:"Severity (1-4)"},{id:"mitigation",label:"Mitigation Measures"},
-    {id:"responsible",label:"Responsible"},{id:"status",label:"Status"}
-  ]},
-  compliance: { label:"Compliance Register", cols:[
-    {id:"law",label:"Law / Regulation"},{id:"authority",label:"Authority"},
-    {id:"requirement",label:"Key Requirement"},{id:"applies",label:"Applies?"},
-    {id:"status",label:"Compliance Status"},{id:"expiry",label:"Permit Expiry"},
-    {id:"responsible",label:"Responsible"},{id:"evidence",label:"Evidence"},
-    {id:"action",label:"Action Needed"}
-  ]},
-  incident_log: { label:"Incident Log", cols:[
-    {id:"date",label:"Date"},{id:"type",label:"Type"},
-    {id:"description",label:"Description"},{id:"location",label:"Location"},
-    {id:"persons",label:"Person(s) Involved"},{id:"cause",label:"Root Cause"},
-    {id:"action",label:"Corrective Action"},{id:"responsible",label:"Responsible"},
-    {id:"status",label:"Status"}
-  ]},
-  waste_register: { label:"Waste Register", cols:[
-    {id:"date",label:"Date"},{id:"waste_type",label:"Waste Type"},
-    {id:"qty_units",label:"Qty (units)"},{id:"qty_kg",label:"Weight (kg)"},
-    {id:"source",label:"Source / Region"},{id:"r5",label:"5R Action"},
-    {id:"disposal_route",label:"Disposal Route"},{id:"recycler",label:"Recycler"},
-    {id:"certificate",label:"Certificate No."},{id:"responsible",label:"Responsible"}
-  ]},
-  grievance_log: { label:"Grievance Log", cols:[
-    {id:"case_id",label:"Case No."},{id:"date_received",label:"Date Received"},
-    {id:"channel",label:"Channel"},{id:"complainant",label:"Complainant"},
-    {id:"category",label:"Category"},{id:"description",label:"Description"},
-    {id:"level",label:"Level"},{id:"assigned_to",label:"Assigned To"},
-    {id:"action",label:"Action Taken"},{id:"satisfied",label:"Satisfied?"},
-    {id:"date_closed",label:"Date Closed"}
-  ]},
-  training_register: { label:"Training Register", cols:[
-    {id:"date",label:"Date"},{id:"module",label:"Training Module"},
-    {id:"facilitator",label:"Facilitator"},{id:"participants",label:"No. Participants"},
-    {id:"target_group",label:"Target Group"},{id:"duration",label:"Duration"},
-    {id:"method",label:"Method"},{id:"assessment",label:"Assessment?"},
-    {id:"cert_no",label:"Certificate No."},{id:"notes",label:"Notes"}
-  ]},
-  stakeholder_register: { label:"Stakeholder Register", cols:[
-    {id:"group",label:"Stakeholder Group"},{id:"interests",label:"Interests / Concerns"},
-    {id:"influence",label:"Influence"},{id:"impact",label:"Impact"},
-    {id:"relationship",label:"Relationship"},{id:"method",label:"Engagement Method"},
-    {id:"frequency",label:"Frequency"},{id:"responsible",label:"Responsible"},
-    {id:"last_engaged",label:"Last Engaged"}
-  ]},
-  supplier_assessment: { label:"Supplier Assessment", cols:[
-    {id:"supplier",label:"Supplier"},{id:"country",label:"Country"},
-    {id:"category",label:"Category"},{id:"spend",label:"Annual Spend"},
-    {id:"es_policy",label:"E&S Policy?"},{id:"child_labour",label:"Child Labour Risk"},
-    {id:"forced_labour",label:"Forced Labour Risk"},{id:"ewaste",label:"E-Waste Policy?"},
-    {id:"certified",label:"Certified?"},{id:"last_review",label:"Last Reviewed"},
-    {id:"action",label:"Required Action"}
-  ]},
-  esap: { label:"ESAP", cols:[
-    {id:"cat",label:"Category"},{id:"objective",label:"Objective"},
-    {id:"output",label:"Output / Deliverable"},{id:"actions",label:"Actions"},
-    {id:"kpi",label:"KPI"},{id:"baseline",label:"Baseline"},
-    {id:"target",label:"Target"},{id:"deadline",label:"Deadline"},
-    {id:"responsible",label:"Responsible"},{id:"budget",label:"Budget (USD)"},
-    {id:"verifier",label:"Verification Method"},{id:"status",label:"Status"}
-  ]},
-};
+function getToolCSVDefs(t) {
+  return {
+    risk_matrix: { label:t("csvLabelRisk"), cols:[
+      {id:"risk",label:t("riskColHazard")},{id:"category",label:t("riskColCategory")},
+      {id:"applies",label:t("riskColApplies")},{id:"prob",label:t("riskColProb")},
+      {id:"sev",label:t("riskColSev")},{id:"mitigation",label:t("riskColMitigation")},
+      {id:"responsible",label:t("riskColResponsible")},{id:"status",label:t("riskColStatus")}
+    ]},
+    compliance: { label:t("csvLabelCompliance"), cols:[
+      {id:"law",label:t("complianceColLaw")},{id:"authority",label:t("complianceColAuthority")},
+      {id:"requirement",label:t("complianceColReq")},{id:"applies",label:t("complianceColApplies")},
+      {id:"status",label:t("complianceColStatus")},{id:"expiry",label:t("complianceColExpiry")},
+      {id:"responsible",label:t("complianceColResponsible")},{id:"evidence",label:t("complianceColEvidence")},
+      {id:"action",label:t("complianceColAction")}
+    ]},
+    incident_log: { label:t("csvLabelIncident"), cols:[
+      {id:"date",label:t("csvColDate")},{id:"type",label:t("csvColType")},
+      {id:"description",label:t("csvColDescription")},{id:"location",label:t("csvColLocation")},
+      {id:"persons",label:t("csvColPersons")},{id:"cause",label:t("csvColCause")},
+      {id:"action",label:t("csvColAction")},{id:"responsible",label:t("complianceColResponsible")},
+      {id:"status",label:t("riskColStatus")}
+    ]},
+    waste_register: { label:t("csvLabelWaste"), cols:[
+      {id:"date",label:t("csvColDate")},{id:"waste_type",label:t("csvColWasteType")},
+      {id:"qty_units",label:t("csvColQtyUnits")},{id:"qty_kg",label:t("csvColQtyKg")},
+      {id:"source",label:t("csvColSource")},{id:"r5",label:t("csv5R")},
+      {id:"disposal_route",label:t("csvColDisposalRoute")},{id:"recycler",label:t("csvColRecycler")},
+      {id:"certificate",label:t("csvColCertificate")},{id:"responsible",label:t("complianceColResponsible")}
+    ]},
+    grievance_log: { label:t("csvLabelGrievance"), cols:[
+      {id:"case_id",label:t("csvColCaseNo")},{id:"date_received",label:t("csvColDateReceived")},
+      {id:"channel",label:t("csvColChannel")},{id:"complainant",label:t("csvColComplainant")},
+      {id:"category",label:t("riskColCategory")},{id:"description",label:t("csvColDescription")},
+      {id:"level",label:t("csvColLevel")},{id:"assigned_to",label:t("csvColAssignedTo")},
+      {id:"action",label:t("csvColAction")},{id:"satisfied",label:t("csvColSatisfied")},
+      {id:"date_closed",label:t("csvColDateClosed")}
+    ]},
+    training_register: { label:t("csvLabelTraining"), cols:[
+      {id:"date",label:t("csvColDate")},{id:"module",label:t("csvColModule")},
+      {id:"facilitator",label:t("csvColFacilitator")},{id:"participants",label:t("csvColParticipants")},
+      {id:"target_group",label:t("csvColTargetGroup")},{id:"duration",label:t("csvColDuration")},
+      {id:"method",label:t("csvColMethod")},{id:"assessment",label:t("csvColAssessment")},
+      {id:"cert_no",label:t("csvColCertificate")},{id:"notes",label:t("csvColNotes")}
+    ]},
+    stakeholder_register: { label:t("csvLabelStakeholder"), cols:[
+      {id:"group",label:t("csvColGroup")},{id:"interests",label:t("csvColInterests")},
+      {id:"influence",label:t("csvColInfluence")},{id:"impact",label:t("csvColImpact")},
+      {id:"relationship",label:t("csvColRelationship")},{id:"method",label:t("csvColMethod")},
+      {id:"frequency",label:t("csvColFrequency")},{id:"responsible",label:t("complianceColResponsible")},
+      {id:"last_engaged",label:t("csvColLastEngaged")}
+    ]},
+    supplier_assessment: { label:t("csvLabelSupplier"), cols:[
+      {id:"supplier",label:t("csvColSupplier")},{id:"country",label:t("csvColCountry")},
+      {id:"category",label:t("riskColCategory")},{id:"spend",label:t("csvColSpend")},
+      {id:"es_policy",label:t("csvColESPolicy")},{id:"child_labour",label:t("csvColChildLabour")},
+      {id:"forced_labour",label:t("csvColForcedLabour")},{id:"ewaste",label:t("csvColEwaste")},
+      {id:"certified",label:t("csvColCertified")},{id:"last_review",label:t("csvColLastReview")},
+      {id:"action",label:t("complianceColAction")}
+    ]},
+    esap: { label:t("csvLabelEsap"), cols:[
+      {id:"cat",label:t("esapCategory")},{id:"objective",label:t("esapObjective")},
+      {id:"output",label:t("esapOutput")},{id:"actions",label:t("esapActions")},
+      {id:"kpi",label:t("esapKpi")},{id:"baseline",label:t("esapBaseline")},
+      {id:"target",label:t("esapTarget")},{id:"deadline",label:t("esapDeadline")},
+      {id:"responsible",label:t("esapResponsible")},{id:"budget",label:t("esapBudget")},
+      {id:"verifier",label:t("esapVerifier")},{id:"status",label:t("riskColStatus")}
+    ]},
+  };
+}
 
 // ══════════════════════════════════════════════════
 //  DATA → SECTIONS converters (same as before)
@@ -2506,12 +2519,15 @@ function buildRiskSections(esmsData) {
   ];
 }
 
-function buildComplianceSections(esmsData) {
+function buildComplianceSections(esmsData, t) {
   const rows = (esmsData?.compliance_tracker?.data)||[];
+  const cols = t
+    ? getToolCSVDefs(t).compliance.cols.slice(0,7)
+    : [{id:'law',label:'Law'},{id:'authority',label:'Authority'},{id:'requirement',label:'Key Requirement'},{id:'applies',label:'Applies?'},{id:'status',label:'Status'},{id:'expiry',label:'Expiry'},{id:'responsible',label:'Responsible'}];
   return [
     {type:'heading',text:'Legal & Regulatory Compliance Register'},
     {type:'infobox',text:'Tracks all applicable national laws, regulations, permits, and voluntary standards. Review quarterly.'},
-    {type:'table',label:'Compliance Register',rows,cols:TOOL_CSV_DEFS.compliance.cols.slice(0,7)}
+    {type:'table',label:t?t('csvLabelCompliance'):'Compliance Register',rows,cols}
   ];
 }
 
@@ -2542,8 +2558,9 @@ function buildPlanSections(esmsData) {
   return out;
 }
 
-function buildToolSection(toolId, esmsData) {
-  const def = TOOL_CSV_DEFS[toolId];
+function buildToolSection(toolId, esmsData, t) {
+  const defs = getToolCSVDefs(t);
+  const def = defs[toolId];
   if (!def) return [];
   const raw = esmsData[`tool_${toolId}`]?.data;
   const rows = Array.isArray(raw)?raw:[];
@@ -2595,7 +2612,7 @@ function buildESAPSections(esmsData) {
   ];
 }
 
-function buildFullESMSSections(esmsData) {
+function buildFullESMSSections(esmsData, t) {
   const company = esmsData?.policy_es_policy_stmt?.company_name||'Your Company';
   const out = [
     {type:'heading',text:`${company} — Full ESMS Document`},
@@ -2604,16 +2621,16 @@ function buildFullESMSSections(esmsData) {
     ...buildScreeningSections(esmsData),{type:'pagebreak'},
     ...buildPolicySections(esmsData),{type:'pagebreak'},
     ...buildRiskSections(esmsData),{type:'pagebreak'},
-    ...buildComplianceSections(esmsData),{type:'pagebreak'},
+    ...buildComplianceSections(esmsData,t),{type:'pagebreak'},
     ...buildPlanSections(esmsData),{type:'pagebreak'},
     ...buildCOCSections(esmsData),
-    ...buildToolSection('ppe_matrix',esmsData),
-    ...buildToolSection('incident_log',esmsData),
-    ...buildToolSection('training_register',esmsData),
-    ...buildToolSection('waste_register',esmsData),
-    ...buildToolSection('grievance_log',esmsData),
-    ...buildToolSection('stakeholder_register',esmsData),
-    ...buildToolSection('supplier_assessment',esmsData),{type:'pagebreak'},
+    ...buildToolSection('ppe_matrix',esmsData,t),
+    ...buildToolSection('incident_log',esmsData,t),
+    ...buildToolSection('training_register',esmsData,t),
+    ...buildToolSection('waste_register',esmsData,t),
+    ...buildToolSection('grievance_log',esmsData,t),
+    ...buildToolSection('stakeholder_register',esmsData,t),
+    ...buildToolSection('supplier_assessment',esmsData,t),{type:'pagebreak'},
     ...buildMonitoringSections(esmsData),{type:'pagebreak'},
     ...buildESAPSections(esmsData),
   ];
@@ -2679,15 +2696,23 @@ function ExportBar({ title, sections, csvToolId, csvRows, csvCols, filename, esm
   const run = (type) => {
     setBusy(type);
     try {
-      const secs = isFull ? buildFullESMSSections(esmsData) : (sections||[]);
+      const secs = isFull ? buildFullESMSSections(esmsData, t) : (sections||[]);
       const docTitle = isFull ? (esmsData?.policy_es_policy_stmt?.company_name ? `${esmsData.policy_es_policy_stmt.company_name} — Full ESMS` : 'Full ESMS Document') : (title||'ESMS Document');
+      const strings = {
+        noEntries: t('noEntries'),
+        notCompleted: t('notCompleted'),
+        coverLine: t('exportCoverLine'),
+        footerLine: t('exportFooterLine'),
+        generated: t('exportGenerated'),
+      };
 
       if (type==='pdf') {
-        exportPDF(docTitle, secs);
+        exportPDF(docTitle, secs, strings);
       } else if (type==='word') {
-        exportWord(docTitle, secs);
+        exportWord(docTitle, secs, strings);
       } else if (type==='csv') {
-        const cols = csvCols||(csvToolId?TOOL_CSV_DEFS[csvToolId]?.cols:null);
+        const toolDefs = getToolCSVDefs(t);
+        const cols = csvCols||(csvToolId?toolDefs[csvToolId]?.cols:null);
         const rows = csvRows||(csvToolId?(esmsData?.[`tool_${csvToolId}`]?.data||[]):[]);
         if (cols) exportCSV(`${fname}.csv`, cols, rows);
         else alert('No tabular data to export as CSV for this section.');
@@ -2753,6 +2778,11 @@ export default function App() {
   const [guideOpen, setGuideOpen] = useState(null);
   const [lang, setLang] = useLS("esms_lang", "en");
   const mainRef = useRef(null);
+
+  // Sync HTML lang attribute for browser translate / a11y
+  useEffect(() => {
+    document.documentElement.lang = lang === 'fr' ? 'fr' : lang === 'pt' ? 'pt' : 'en';
+  }, [lang]);
 
   // Translation function — falls back to English if key missing
   const t = (key) => TRANSLATIONS[lang]?.[key] ?? TRANSLATIONS.en[key] ?? key;

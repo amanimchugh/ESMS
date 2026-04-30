@@ -1467,13 +1467,21 @@ function BusinessProfileSection({ esmsData, setFieldValue }) {
             </div>
           );
         })}
-        <div style={{ marginTop:24, paddingTop:16, borderTop:`1.5px solid ${C.border}`, display:"flex", justifyContent:"flex-end", gap:10, flexWrap:"wrap" }}>
-          {activeCard > 0 && (
-            <button onClick={() => setActiveCard(activeCard-1)} style={S.outBtn}>← {t(BUSINESS_PROFILE_DEFS[activeCard-1].lk)}</button>
-          )}
-          {activeCard < BUSINESS_PROFILE_DEFS.length-1 && (
-            <button onClick={() => setActiveCard(activeCard+1)} style={S.btn}>{t(BUSINESS_PROFILE_DEFS[activeCard+1].lk)} →</button>
-          )}
+        <div style={{ marginTop:24, paddingTop:16, borderTop:`1.5px solid ${C.border}`, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:10 }}>
+          <ExportBar
+            title={`${t("bpTitle")} — ${t(def.lk)}`}
+            filename={`BP_${def.id}`}
+            sections={buildBPSections(esmsData, L, t, def)}
+            esmsData={esmsData}
+          />
+          <div style={{ display:"flex", gap:10 }}>
+            {activeCard > 0 && (
+              <button onClick={() => setActiveCard(activeCard-1)} style={S.outBtn}>← {t(BUSINESS_PROFILE_DEFS[activeCard-1].lk)}</button>
+            )}
+            {activeCard < BUSINESS_PROFILE_DEFS.length-1 && (
+              <button onClick={() => setActiveCard(activeCard+1)} style={S.btn}>{t(BUSINESS_PROFILE_DEFS[activeCard+1].lk)} →</button>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -1498,9 +1506,11 @@ function BusinessProfileSection({ esmsData, setFieldValue }) {
           const done = hasData(def.id);
           return (
             <div key={def.id} onClick={() => setActiveCard(i)}
-              style={{ ...S.card, cursor:"pointer", transition:"all 0.15s", position:"relative",
-                borderColor: done ? C.green : C.border, borderWidth:"1.5px 1.5px 1.5px 5px",
-                borderStyle:"solid", borderLeftColor: def.color, borderRadius:10 }}
+              style={{ background:"white", padding:18, borderRadius:10, cursor:"pointer", transition:"all 0.15s", position:"relative",
+                borderStyle:"solid",
+                borderTopWidth:"1.5px", borderRightWidth:"1.5px", borderBottomWidth:"1.5px", borderLeftWidth:"5px",
+                borderTopColor: done ? C.green : C.border, borderRightColor: done ? C.green : C.border,
+                borderBottomColor: done ? C.green : C.border, borderLeftColor: def.color }}
               onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 4px 14px rgba(0,0,0,0.1)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
               onMouseLeave={e => { e.currentTarget.style.boxShadow = ""; e.currentTarget.style.transform = ""; }}>
               {done && <span style={{ position:"absolute", top:10, right:10, fontSize:14 }}>✅</span>}
@@ -1511,6 +1521,14 @@ function BusinessProfileSection({ esmsData, setFieldValue }) {
             </div>
           );
         })}
+      </div>
+      <div style={{ marginTop:20, paddingTop:16, borderTop:`1.5px solid ${C.border}` }}>
+        <ExportBar
+          title={t("bpTitle")}
+          filename="Business_Profile"
+          sections={buildBPSections(esmsData, L, t)}
+          esmsData={esmsData}
+        />
       </div>
     </div>
   );
@@ -3154,6 +3172,34 @@ function buildSinglePolicySections(pol, d) {
 }
 
 // ── Per-plan section builder ──
+// ── Business Profile export sections builder ──────────────────────────────
+function buildBPSections(esmsData, L, t, singleDef) {
+  const out = [];
+  const defs = singleDef ? [singleDef] : BUSINESS_PROFILE_DEFS;
+  if (!singleDef) {
+    out.push({ type:'heading', text: t('bpTitle') });
+    out.push({ type:'paragraph', text: t('bpDesc') });
+  }
+  for (const def of defs) {
+    const d = esmsData[`bp_${def.id}`] || {};
+    out.push({ type:'heading', text:`${def.icon} ${t(def.lk)}` });
+    out.push({ type:'paragraph', text: t(def.dk) });
+    let hasContent = false;
+    for (const f of def.fields) {
+      const label = L[f.id] || f.id;
+      let rawVal = (d[f.id] != null) ? String(d[f.id]) : '';
+      if ((f.type === 'sel' || f.type === 'bool') && rawVal) rawVal = L[rawVal] || rawVal;
+      const val = rawVal.trim();
+      if (val) {
+        hasContent = true;
+        out.push({ type:'label_value', label, value:val, isPlaceholder:false });
+      }
+    }
+    if (!hasContent) out.push({ type:'paragraph', text:'(No data entered for this sub-section.)' });
+  }
+  return out;
+}
+
 function buildSinglePlanSections(plan, d, t) {
   const out = [
     {type:'heading', text: t ? t(plan.lk) : (plan.label || '')},

@@ -2784,7 +2784,9 @@ function buildRTF(title, sections) {
 
   for (const sec of sections) {
     if (sec.type === 'heading') {
-      rtf += `{\\pard\\sb240\\sa120\\f0\\fs24\\b\\cf1\\highlight6 ${escRTF(sec.text)}\\par}`;
+      // No \highlight — widely incompatible; use bold + navy color + ruling line instead
+      rtf += `{\\pard\\sb240\\sa60\\f0\\fs24\\b\\cf1 ${escRTF(sec.text)}\\par}`;
+      rtf += `{\\pard\\sb0\\sa120\\brdrb\\brdrs\\brdrw10\\brsp60 \\par}`;
     } else if (sec.type === 'subheading') {
       rtf += `{\\pard\\sb180\\sa80\\f0\\fs22\\b\\cf2 ${escRTF(sec.text)}\\par}`;
     } else if (sec.type === 'label_value') {
@@ -2793,14 +2795,14 @@ function buildRTF(title, sections) {
       const val = sec.value || '(not completed)';
       const valFmt = sec.isPlaceholder ? `\\i\\cf5` : `\\cf0`;
       for (const line of val.split('\n')) {
-        rtf += `{\\pard\\sa40\\fs20${valFmt} ${escRTF(line)}\\par}`;
+        rtf += `{\\pard\\sa40\\fs20 ${valFmt} ${escRTF(line)}\\par}`;
       }
     } else if (sec.type === 'checklist') {
       const sampleTag = sec.isPlaceholder ? '  [sample]' : '';
       rtf += `{\\pard\\sb100\\sa40\\fs18\\b\\cf5 ${escRTF((sec.label||'').toUpperCase())}${escRTF(sampleTag)}\\par}`;
       const itemFmt = sec.isPlaceholder ? `\\i\\cf5` : `\\cf0`;
       for (const item of (sec.items||[])) {
-        rtf += `{\\pard\\li360\\sa40\\fs20${itemFmt} \\bullet  ${escRTF(item)}\\par}`;
+        rtf += `{\\pard\\li360\\sa40\\fs20 ${itemFmt} \\u8226? ${escRTF(item)}\\par}`;
       }
     } else if (sec.type === 'table') {
       const sampleTag = sec.isPlaceholder ? '  [sample]' : '';
@@ -2809,33 +2811,31 @@ function buildRTF(title, sections) {
       if (!rows.length) {
         rtf += `{\\pard\\fs18\\i\\cf5 (no entries recorded)\\par}`;
       } else {
+        // RTF tables: \trowd defines row, \cellx defines cumulative column widths,
+        // \pard\intbl...\cell defines each cell, \row ends the row.
+        // IMPORTANT: trowd/row pairs must NOT be wrapped in curly braces.
         const cw = Math.floor(8640 / Math.max(cols.length, 1));
-        // Header row
-        rtf += `{\\trowd\\trgaph80`;
+        const rowFmt = sec.isPlaceholder ? `\\i\\cf5` : `\\cf0`;
+        // Header row — single correct trowd block with cells then \row
         let pos = 0;
-        for (let i = 0; i < cols.length; i++) { pos += cw; rtf += `\\cellx${pos}`; }
-        rtf += '\\row ';
-        // Header cells
-        rtf += '{\\trowd\\trgaph80\\trqc';
-        pos = 0;
+        rtf += `\\trowd\\trgaph80`;
         for (let i = 0; i < cols.length; i++) { pos += cw; rtf += `\\cellx${pos}`; }
         for (const c of cols) {
-          rtf += `{\\pard\\intbl\\b\\fs18\\cf1 ${escRTF(c.label)}\\cell}`;
+          rtf += `\\pard\\intbl\\b\\fs16\\cf1 ${escRTF(c.label)}\\cell `;
         }
-        rtf += `\\row}`;
+        rtf += `\\row\n`;
         // Data rows
-        const rowFmt = sec.isPlaceholder ? `\\i\\cf5` : `\\cf0`;
         for (const row of rows) {
-          rtf += `{\\trowd\\trgaph80`;
           pos = 0;
+          rtf += `\\trowd\\trgaph80`;
           for (let i = 0; i < cols.length; i++) { pos += cw; rtf += `\\cellx${pos}`; }
           for (const c of cols) {
-            rtf += `{\\pard\\intbl\\fs18${rowFmt} ${escRTF(String(row[c.id]||''))}\\cell}`;
+            rtf += `\\pard\\intbl\\fs16 ${rowFmt} ${escRTF(String(row[c.id]||''))}\\cell `;
           }
-          rtf += `\\row}`;
+          rtf += `\\row\n`;
         }
+        rtf += `{\\pard\\sa120\\par}\n`;
       }
-      rtf += `{\\pard\\sa120\\par}`;
     } else if (sec.type === 'paragraph') {
       for (const line of (sec.text||'').split('\n')) {
         rtf += `{\\pard\\sa60\\fs20 ${escRTF(line)}\\par}`;

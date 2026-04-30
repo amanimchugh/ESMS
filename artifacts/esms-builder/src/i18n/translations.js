@@ -108,7 +108,7 @@ export const TRANSLATIONS = {
     // Business Profile section
     bpTitle: "Business Profile",
     bpOptional: "Optional",
-    bpDesc: "Optional background about your company. Helps the ESMS Builder tailor content to your sector, size, and operational context.",
+    bpDesc: "Optional background about your company.",
     bpInfoBox: "📌 All fields are optional. Fill in as much or as little as applies. Data stays on your device and is never uploaded.",
     bpBack: "← Back to Business Profile",
     bpSampleLoad: "Load Example Data (BrightSun Distributors, Nigeria)",
@@ -716,7 +716,7 @@ export const TRANSLATIONS = {
     // Business Profile section
     bpTitle: "Profil d'entreprise",
     bpOptional: "Facultatif",
-    bpDesc: "Informations facultatives sur votre entreprise. Aide le Constructeur SGSE à adapter le contenu à votre secteur, taille et contexte opérationnel.",
+    bpDesc: "Informations facultatives sur votre entreprise.",
     bpInfoBox: "📌 Tous les champs sont facultatifs. Renseignez autant ou aussi peu que nécessaire. Les données restent sur votre appareil.",
     bpBack: "← Retour au Profil d'entreprise",
     bpSampleLoad: "Charger un exemple (BrightSun Distributeurs, Nigéria)",
@@ -1312,7 +1312,7 @@ export const TRANSLATIONS = {
     // Business Profile section
     bpTitle: "Perfil da Empresa",
     bpOptional: "Opcional",
-    bpDesc: "Contexto opcional sobre a sua empresa. Ajuda o Construtor SGAS a adaptar o conteúdo ao seu setor, dimensão e contexto operacional.",
+    bpDesc: "Contexto opcional sobre a sua empresa.",
     bpInfoBox: "📌 Todos os campos são opcionais. Preencha o que for aplicável. Os dados ficam apenas no seu dispositivo.",
     bpBack: "← Voltar ao Perfil da Empresa",
     bpSampleLoad: "Carregar Exemplo (BrightSun Distribuidores, Nigéria)",

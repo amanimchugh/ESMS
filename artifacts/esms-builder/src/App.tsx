@@ -101,7 +101,7 @@ function ChecklistBuilder({baseline,value,onChange,columns=1}){
 // ═══════════════ LIVE TABLE BUILDER ═══════════════
 // Users can edit cell content, add rows, remove rows
 function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row"}){
-  const rows=Array.isArray(value)?value:(Array.isArray(baselineRows)?baselineRows:[]);
+  const rows=(Array.isArray(value)&&value.length>0)?value:(Array.isArray(baselineRows)?baselineRows:[]);
   const updateCell=(ri,ci,v)=>{const r=[...rows];r[ri]={...r[ri],[ci]:v};onChange(r);};
   const addRow=()=>{const blank={};columns.forEach(c=>{blank[c.id]="";});onChange([...rows,blank]);};
   const removeRow=i=>onChange(rows.filter((_,j)=>j!==i));
@@ -134,7 +134,7 @@ function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row"
 // ═══════════════ SCORED RISK MATRIX ═══════════════
 function RiskMatrix({baselineRisks,value,onChange}){
   const {t}=useLang();
-  const rows=Array.isArray(value)?value:(Array.isArray(baselineRisks)?baselineRisks:[]).map(r=>({...r,applies:"yes",prob:r.prob||"2",sev:r.sev||"2",mitigation:r.mitigation||"",responsible:"",status:"Planned"}));
+  const rows=(Array.isArray(value)&&value.length>0)?value:(Array.isArray(baselineRisks)?baselineRisks:[]).map(r=>({...r,applies:"yes",prob:r.prob||"2",sev:r.sev||"2",mitigation:r.mitigation||"",responsible:"",status:"Planned"}));
   const update=(ri,k,v)=>{const r=[...rows];r[ri]={...r[ri],[k]:v};onChange(r);};
   const addRow=()=>onChange([...rows,{risk:"",category:"Other",applies:"yes",prob:"1",sev:"1",mitigation:"",responsible:"",status:"Planned"}]);
   const removeRow=i=>onChange(rows.filter((_,j)=>j!==i));

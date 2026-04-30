@@ -101,6 +101,7 @@ export const TRANSLATIONS = {
     toolsDesc: "Ready-to-use checklists, registers, logs, and forms for implementing each component of your ESMS. All tools are pre-populated with ROGEAP baseline requirements and are fully editable.",
     toolsInfoBox: "📌 How to use: Each tool has baseline requirements drawn from the ROGEAP ESMS Guidelines and IFC Performance Standards. Check/uncheck items, add your own rows, and edit all content. Data is saved automatically.",
     toolsOpen: "Open Tool →",
+    toolsGoToSection: "→ Go to Section",
     toolsBack: "← Back to All Tools",
 
     // ESAP
@@ -686,6 +687,7 @@ export const TRANSLATIONS = {
     toolsDesc: "Listes de contrôle, registres, journaux et formulaires prêts à l'emploi pour mettre en œuvre chaque composante de votre SGSE. Tous préremplis avec les exigences de base ROGEAP.",
     toolsInfoBox: "📌 Comment utiliser : Chaque outil contient des exigences de base tirées des Directives SGSE ROGEAP et des Normes de performance SFI. Cochez/décochez des éléments, ajoutez vos propres lignes et modifiez tout le contenu.",
     toolsOpen: "Ouvrir l'outil →",
+    toolsGoToSection: "→ Aller à la section",
     toolsBack: "← Retour à tous les outils",
 
     esapTitle: "Plan d'action environnemental et social (PGSE)",
@@ -1259,6 +1261,7 @@ export const TRANSLATIONS = {
     toolsDesc: "Listas de verificação, registros, logs e formulários prontos para uso para implementar cada componente do seu SGAS. Todas pré-preenchidas com os requisitos de linha de base ROGEAP.",
     toolsInfoBox: "📌 Como usar: Cada ferramenta contém requisitos de linha de base extraídos das Diretrizes SGAS ROGEAP e Padrões de Desempenho IFC. Marque/desmarque itens, adicione suas próprias linhas e edite todo o conteúdo.",
     toolsOpen: "Abrir Ferramenta →",
+    toolsGoToSection: "→ Ir para a Secção",
     toolsBack: "← Voltar a Todas as Ferramentas",
 
     esapTitle: "Plano de Ação Ambiental e Social (PAAS)",

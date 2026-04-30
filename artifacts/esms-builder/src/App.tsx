@@ -703,9 +703,9 @@ function CodeOfConductBuilder({value,onChange}){
 
 // ═══════════════ TOOLS REGISTRY ═══════════════
 const TOOLS_REGISTRY = {
-  screening: { id:"screening", icon:"📋", lk:"toolLblScreening", dk:"toolDescScreening", color:C.navy, tag:"Assessment", component:"ScreeningQuestionnaire" },
-  risk_matrix: { id:"risk_matrix", icon:"🔍", lk:"toolLblRisk", dk:"toolDescRisk", color:C.red, tag:"Risk Assessment", component:"RiskMatrix" },
-  compliance: { id:"compliance", icon:"⚖️", lk:"toolLblCompliance", dk:"toolDescCompliance", color:C.amber, tag:"Compliance", component:"ComplianceTracker" },
+  screening: { id:"screening", icon:"📋", lk:"toolLblScreening", dk:"toolDescScreening", color:C.navy, tag:"Assessment", component:"ScreeningQuestionnaire", redirectTo:"screening" },
+  risk_matrix: { id:"risk_matrix", icon:"🔍", lk:"toolLblRisk", dk:"toolDescRisk", color:C.red, tag:"Risk Assessment", component:"RiskMatrix", redirectTo:"risks" },
+  compliance: { id:"compliance", icon:"⚖️", lk:"toolLblCompliance", dk:"toolDescCompliance", color:C.amber, tag:"Compliance", component:"ComplianceTracker", redirectTo:"compliance" },
   ppe_matrix: { id:"ppe_matrix", icon:"🦺", lk:"toolLblPpe", dk:"toolDescPpe", color:C.red, tag:"OHS", component:"PPEMatrix" },
   incident_log: { id:"incident_log", icon:"🚑", lk:"toolLblIncident", dk:"toolDescIncident", color:C.red, tag:"OHS", component:"IncidentLog" },
   training_register: { id:"training_register", icon:"🎓", lk:"toolLblTraining", dk:"toolDescTraining", color:C.navyLight, tag:"Capacity", component:"TrainingRegister" },
@@ -735,7 +735,7 @@ const TOOL_GROUPS = [
 ];
 
 // ═══════════════ TOOLS SECTION ═══════════════
-function ToolsSection({ esmsData, setFieldValue, openGuide }) {
+function ToolsSection({ esmsData, setFieldValue, openGuide, setActive }) {
   const {t}=useLang();
   const [activeTool, setActiveTool] = useState(null);
 
@@ -814,15 +814,18 @@ function ToolsSection({ esmsData, setFieldValue, openGuide }) {
             </div>
             <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(290px,1fr))", gap:12 }}>
               {groupTools.map(tool => {
-                const hasData = !!(getVal(tool.id)?.data);
+                const isRedirect = !!tool.redirectTo;
+                const hasData = !isRedirect && !!(getVal(tool.id)?.data);
                 const toolLabel = t(tool.lk);
                 const toolDesc = t(tool.dk);
+                const handleClick = () => isRedirect ? setActive(tool.redirectTo) : setActiveTool(tool.id);
                 return (
-                  <div key={tool.id} onClick={() => setActiveTool(tool.id)}
-                    style={{ ...S.card, cursor:"pointer", borderLeft:`4px solid ${tool.color}`, position:"relative", transition:"all 0.15s", borderColor: hasData ? C.green : C.border, borderWidth:"1.5px 1.5px 1.5px 4px" }}
-                    onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 4px 14px rgba(0,0,0,0.1)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                    onMouseLeave={e => { e.currentTarget.style.boxShadow = ""; e.currentTarget.style.transform = ""; }}>
+                  <div key={tool.id} onClick={handleClick}
+                    style={{ ...S.card, cursor:"pointer", borderLeft:`4px solid ${tool.color}`, position:"relative", transition:"all 0.15s", borderColor: hasData ? C.green : C.border, borderWidth:"1.5px 1.5px 1.5px 4px", opacity: isRedirect ? 0.88 : 1 }}
+                    onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 4px 14px rgba(0,0,0,0.1)"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.opacity = "1"; }}
+                    onMouseLeave={e => { e.currentTarget.style.boxShadow = ""; e.currentTarget.style.transform = ""; e.currentTarget.style.opacity = isRedirect ? "0.88" : "1"; }}>
                     {hasData && <span style={{ position:"absolute", top:10, right:10, fontSize:14 }}>✅</span>}
+                    {isRedirect && <span title="Opens in its own section" style={{ position:"absolute", top:10, right:10, fontSize:11, color:C.muted, fontStyle:"italic" }}>↗ section</span>}
                     <div style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
                       <div style={{ fontSize:24, flexShrink:0 }}>{tool.icon}</div>
                       <div>
@@ -831,7 +834,9 @@ function ToolsSection({ esmsData, setFieldValue, openGuide }) {
                         <div style={{ fontSize:12, color:C.muted, marginTop:5, lineHeight:1.45 }}>{toolDesc.substring(0,85)}…</div>
                       </div>
                     </div>
-                    <div style={{ marginTop:10, fontSize:11, color:tool.color, fontWeight:600 }}>{t("toolsOpen")}</div>
+                    <div style={{ marginTop:10, fontSize:11, color:tool.color, fontWeight:600 }}>
+                      {isRedirect ? t("toolsGoToSection") : t("toolsOpen")}
+                    </div>
                   </div>
                 );
               })}
@@ -3053,7 +3058,7 @@ export default function App() {
       case "risks": return <RiskSection esmsData={esmsData} setFieldValue={setFieldValue} openGuide={openGuide}/>;
       case "compliance": return <ComplianceSection esmsData={esmsData} setFieldValue={setFieldValue} openGuide={openGuide}/>;
       case "plans": return <ManagementPlansSection esmsData={esmsData} setFieldValue={setFieldValue} openGuide={openGuide}/>;
-      case "tools": return <ToolsSection esmsData={esmsData} setFieldValue={setFieldValue} openGuide={openGuide}/>;
+      case "tools": return <ToolsSection esmsData={esmsData} setFieldValue={setFieldValue} openGuide={openGuide} setActive={goTo}/>;
       case "esap": return (
         <div>
           <div style={{ display:"flex", gap:14, alignItems:"flex-start", marginBottom:18, paddingBottom:18, borderBottom:`2px solid ${C.border}` }}>

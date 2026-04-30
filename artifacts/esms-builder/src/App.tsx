@@ -715,7 +715,7 @@ const TOOLS_REGISTRY = {
   grievance_log: { id:"grievance_log", icon:"📬", lk:"toolLblGrievance", dk:"toolDescGrievance", color:C.purple, tag:"Grievance Mechanism", component:"GrievanceLog" },
   supplier_assessment: { id:"supplier_assessment", icon:"🔗", lk:"toolLblSupplier", dk:"toolDescSupplier", color:C.orange, tag:"Supply Chain", component:"SupplierAssessment" },
   monitoring_form: { id:"monitoring_form", icon:"📊", lk:"toolLblMonitoring", dk:"toolDescMonitoring", color:C.teal, tag:"Monitoring", component:"MonitoringForm" },
-  esap: { id:"esap", icon:"📝", lk:"toolLblEsap", dk:"toolDescEsap", color:C.navy, tag:"ESAP", component:"ESAPTable" },
+  esap: { id:"esap", icon:"📝", lk:"toolLblEsap", dk:"toolDescEsap", color:C.navy, tag:"ESAP", component:"ESAPTable", redirectTo:"esap" },
 };
 
 const TOOL_COMPONENTS = {

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { useState, useEffect, useRef, createContext, useContext, useCallback } from "react";
 import { TRANSLATIONS, LangContext, useLang } from "./i18n/translations.js";
+import { GUIDE_TRANSLATIONS } from "./i18n/guideTranslations.js";
 
 // ═══════════════ TOKENS ═══════════════
 const C = {
@@ -1833,11 +1834,36 @@ const GUIDELINES_DB = {
 };
 
 // ═══════════════════════════════════════════════════════════
+//  GUIDE TRANSLATION HELPER
+// ═══════════════════════════════════════════════════════════
+function useGuide(id) {
+  const { lang } = useLang();
+  const base = GUIDELINES_DB[id];
+  if (!base || lang === "en") return base;
+  const tr = GUIDE_TRANSLATIONS[lang]?.[id];
+  if (!tr) return base;
+  return {
+    ...base,
+    title:    tr.title    ?? base.title,
+    summary:  tr.summary  ?? base.summary,
+    sections: base.sections.map((sec, i) => ({
+      ...sec,
+      heading: tr.sections?.[i]?.heading ?? sec.heading,
+      body:    tr.sections?.[i]?.body    ?? sec.body,
+    })),
+    resources: base.resources.map((res, i) => ({
+      ...res,
+      label: tr.resources?.[i]?.label ?? res.label,
+    })),
+  };
+}
+
+// ═══════════════════════════════════════════════════════════
 //  GUIDELINES PANEL COMPONENT
 // ═══════════════════════════════════════════════════════════
 function GuidelinesPanel({ guideId, onClose }) {
   const { t, lang } = useLang();
-  const guide = GUIDELINES_DB[guideId];
+  const guide = useGuide(guideId);
   const guidelinesPdfUrl = lang === "fr" ? "/ROGEAP_ESMS-Guidelines_FR.pdf" : "/ROGEAP_ESMS-Guidelines_EN.pdf";
   const guidelinesPdfLabel = lang === "fr"
     ? "Lignes directrices SGSE ROGEAP — Secteur solaire hors réseau (PDF)"

@@ -1,0 +1,744 @@
+// GUIDELINES_DB Translations — French (fr) and Portuguese (pt)
+// URLs are NOT translated — only title, summary, section headings, body, and resource labels.
+
+export const GUIDE_TRANSLATIONS = {
+
+// ═══════════════════════════════════════════════════════════════════
+//  FRENCH (fr)
+// ═══════════════════════════════════════════════════════════════════
+fr: {
+
+screening: {
+title: "Questionnaire de criblage E&S",
+summary: "Le questionnaire de criblage E&S ROGEAP est l'évaluation d'entrée pour toutes les entreprises sollicitant un financement ROGEAP. Il détermine la maturité du SGSE dans cinq domaines et signale tout critère d'exclusion pouvant disqualifier une entreprise. Il est directement reproduit du tableau 6 des Directives SGSE ROGEAP.",
+sections: [
+{
+heading: "Objectif et exigence ROGEAP",
+body: "Toutes les entreprises sollicitant des subventions ou prêts ROGEAP doivent remplir le questionnaire de criblage dans le cadre des étapes d'Expression d'intérêt (EOI) et de diligence raisonnable. Le questionnaire remplit deux fonctions : (1) identifier les critères de disqualification automatique (critères d'exclusion), et (2) évaluer la maturité SGSE existante de l'entreprise afin de déterminer ce qui doit être développé ou amélioré avant l'approbation du financement.\n\nLes entreprises sont classées comme : Non éligible (critères d'exclusion remplis), Catégorie B1 — Faible risque (impact négatif minimal ; composantes SGSE de base requises), ou Catégorie B2 — Risque moyen (nécessite un PGSE et un suivi rapproché)."
+},
+{
+heading: "Critères d'exclusion — Section C1",
+body: "Une seule réponse « Oui » à un critère d'exclusion disqualifie automatiquement l'entreprise du financement ROGEAP. Les critères comprennent : le travail forcé, le travail des enfants, le commerce transfrontalier de déchets non conforme à la Convention de Bâle, les incidents/accidents SST confirmés (sauf si correctement documentés et résolus), les cas confirmés de VFS/Exploitation et Abus Sexuels, et la discrimination confirmée envers des groupes vulnérables.\n\nNote sur les incidents SST : Les entreprises ayant des incidents SST confirmés peuvent toujours être éligibles SI elles peuvent démontrer avec des pièces justificatives que les problèmes ont été convenablement traités et vérifiés. Le même principe s'applique aux cas de VFS/HAS.\n\nSource : Directives SGSE ROGEAP, Tableau 6, Section C — pp.27-28."
+},
+{
+heading: "Évaluation du SGSE et des politiques — Section C2",
+body: "Cette section évalue si l'entreprise dispose des instruments E&S fondamentaux : une Politique E&S, une Politique RH (avec dispositions de non-discrimination, interdiction du travail des enfants et du travail forcé), et un mécanisme de réclamation pour les travailleurs. Les entreprises ne disposant pas de ces éléments doivent les développer dans le cadre des engagements du PGSE inclus dans le calendrier de l'accord de subvention.\n\nLa Boîte à outils SGSE SFI, Élément 1 (Politique) stipule qu'une politique écrite doit constituer le « fondement de votre SGSE » et doit inclure un engagement à se conformer à la législation applicable, à répondre aux exigences des Normes de performance, et à améliorer les performances E&S au fil du temps."
+},
+{
+heading: "Évaluation SST — Section C3",
+body: "L'évaluation SST vérifie si l'entreprise dispose : d'une politique ou de directives SST documentées, de personnel SST désigné, d'EPI fournis, d'une formation SST régulière, d'un système documenté de suivi des incidents/accidents, d'un Code de conduite, d'une formation sur la VFS, et d'un système de suivi des conditions de travail. Ces éléments correspondent directement aux exigences du Plan SST ROGEAP de la Section 8 des Directives.\n\nLa Norme de performance SFI 2 exige que les entreprises identifient et évaluent les risques pour la santé et la sécurité des travailleurs, mettent en œuvre des mesures de contrôle selon la hiérarchie (éliminer → substituer → engineering → administrer → EPI), et assurent un suivi des performances."
+},
+{
+heading: "Évaluation des déchets électroniques — Section C4",
+body: "Les déchets électroniques constituent le risque environnemental prioritaire dans le secteur solaire hors réseau. Le criblage vérifie : une politique/procédure de collecte des batteries, un processus de recyclage/élimination des batteries plomb-acide et lithium-ion, des accords de reprise avec les fabricants, une collecte systématique auprès des consommateurs, et la sensibilisation des clients aux déchets électroniques.\n\nLa NP SFI 3 (Efficacité des ressources et prévention de la pollution) exige que les entreprises évitent de libérer des polluants lors des opérations courantes, évitent la production de déchets dangereux, et assurent l'élimination responsable des déchets dangereux. L'élimination inappropriée des batteries plomb-acide est une violation directe de la NP 3 et peut représenter un dépôt illégal en vertu de la plupart des lois environnementales nationales dans les pays ROGEAP."
+},
+{
+heading: "Évaluation de l'engagement des parties prenantes et du MGR — Section C5",
+body: "La section PEPS/MGR évalue si l'entreprise dispose : d'un Plan d'engagement des parties prenantes, de processus d'identification des parties prenantes, d'activités d'éducation du public, d'événements d'engagement communautaire, et d'un mécanisme de réclamation écrit. L'ESS10 de la Banque Mondiale exige que toutes les entreprises soutenues disposent d'un PEPS et d'un mécanisme de réclamation, incluant un processus spécifique pour les plaintes de VFS/EAS.\n\nLe Manuel opérationnel ROGEAP précise que les plaintes relatives à la VFS/EAS/HAS doivent être traitées de manière confidentielle, rapidement (dans les 72 heures), selon une approche centrée sur le survivant, avec des voies d'orientation vers des services médicaux, psychosociaux et juridiques."
+}
+],
+resources: [
+{ label: "Directives SGSE ROGEAP pour les entreprises solaires hors réseau (PDF)" },
+{ label: "Normes de performance SFI (2012)" },
+{ label: "Boîte à outils SGSE SFI — Général (2015)" },
+{ label: "FIRST pour la durabilité — Gestion des risques E&S" },
+{ label: "Manuel opérationnel ROGEAP" },
+]
+},
+
+policy: {
+title: "Politiques organisationnelles",
+summary: "Les politiques constituent le fondement de gouvernance de votre SGSE. Elles communiquent l'engagement de la direction en matière de responsabilité environnementale et sociale à toutes les parties prenantes — le personnel, les clients, les investisseurs et les régulateurs. Les directives ROGEAP exigent au minimum : une Politique E&S, une Politique RH (avec Code de conduite), une politique ou procédure de santé et sécurité, une politique de gestion des déchets, et un engagement en matière de protection des consommateurs. Toutes doivent être signées par la direction.",
+sections: [
+{
+heading: "Ce qui rend une politique efficace",
+body: "La Boîte à outils SGSE SFI identifie trois conditions pour une politique efficace : (1) Sensibilisation — la direction, le personnel et les parties prenantes comprennent la politique E&S et les enjeux environnementaux et sociaux pertinents ; (2) Engagement — la direction et le personnel s'engagent à opérer conformément à la politique (« adhésion ») ; (3) Mise en œuvre — la politique se traduit dans la pratique quotidienne par des plans, des procédures, des responsabilités assignées, des formations et des ressources allouées.\n\nUne politique qui n'existe qu'en tant que document n'est pas une politique mise en œuvre. Les examinateurs ROGEAP et les investisseurs IFD demanderont des preuves que la politique a été communiquée au personnel, est affichée sur le lieu de travail, et se reflète dans les pratiques opérationnelles."
+},
+{
+heading: "Politique E&S — Exigences ROGEAP",
+body: "La Politique E&S est la Composante 1 de ROGEAP et doit être en place pour tous les candidats, bien que la complexité évolue avec la maturité de l'entreprise :\n\nStade 1 (Démarrage) : Engagement de durabilité de base et de haut niveau dans la documentation de l'entreprise.\nStade 2 (Début d'activité) : Politique documentée décrivant les principes, objectifs et engagements E&S clés reflétant les valeurs de l'entreprise.\nStade 3 (Croissance-Maturité) : Politique E&S complète alignée sur les normes internationales (ISO 14001), incluant des objectifs quantitatifs intégrés à la stratégie commerciale.\n\nAu minimum, la Politique E&S ROGEAP doit aborder : la conformité légale (lois nationales et normes ROGEAP), la gestion environnementale (déchets, ressources), la responsabilité sociale (travail, communauté, genre), et la gouvernance (anti-corruption, MGR). Une déclaration de tolérance zéro pour la VFS/HAS est explicitement requise.\n\nSource : Directives SGSE ROGEAP, Section 3, pp.15-18 ; Encadré 1 : exemple de déclaration de politique."
+},
+{
+heading: "Politique RH — Exigences NP SFI 2",
+body: "La Norme de performance SFI 2 (Conditions d'emploi et de travail) exige que les entreprises maintiennent une politique RH couvrant : les conditions générales d'emploi, la non-discrimination et l'égalité des chances, l'interdiction du travail des enfants et du travail forcé, la liberté d'association, les salaires équitables, les heures de travail, et un mécanisme de réclamation pour les travailleurs.\n\nLes directives ROGEAP précisent : la Politique RH doit inclure un Code de conduite pour tous les travailleurs et sous-traitants abordant la VFS/HAS, la non-discrimination et la conformité en matière de sécurité. Tous les travailleurs — y compris les contractuels et les travailleurs occasionnels — doivent signer le Code de conduite avant de commencer à travailler. Des copies signées doivent être conservées dans les dossiers.\n\nLa NP SFI 2 §7 définit les « travailleurs » comme incluant les employés directs, les travailleurs sous contrat, les travailleurs de la chaîne d'approvisionnement principale, et les travailleurs communautaires."
+},
+{
+heading: "Politique de gestion des déchets — NP SFI 3",
+body: "La Norme de performance SFI 3 (Efficacité des ressources et prévention et gestion de la pollution) exige que les entreprises évitent de produire des déchets dangereux et non dangereux ; lorsque les déchets ne peuvent être évités, il faut les réduire, les réutiliser, les récupérer, les recycler et les traiter avant l'élimination. Pour les entreprises solaires hors réseau, la principale préoccupation en matière de déchets concerne les batteries plomb-acide et lithium-ion, classées comme déchets dangereux dans la plupart des cadres nationaux et des conventions internationales.\n\nLa Politique de gestion des déchets doit démontrer un engagement envers : la Responsabilité élargie du producteur (REP), le partenariat avec des recycleurs certifiés, l'interdiction du dépôt sauvage ou de l'incinération non contrôlée, et la sensibilisation des clients à l'élimination responsable. Les directives ROGEAP citent la Boîte à outils déchets électroniques de GOGLA comme ressource clé pour les entreprises solaires hors réseau.\n\nSource : Directives SGSE ROGEAP, Section 10, pp.72-79."
+},
+{
+heading: "Politique de protection des consommateurs — Code GOGLA",
+body: "Le Code de protection des consommateurs GOGLA est la référence sectorielle pour les entreprises solaires hors réseau. Il repose sur six principes : Transparence, Ventes et tarification responsables, Bon service aux consommateurs, Bonne qualité des produits, Confidentialité des données, et Traitement équitable et respectueux. Les entreprises qui s'engagent dans le cadre du Code envoient une lettre signée à GOGLA (consumerprotection@gogla.org) et effectuent une auto-évaluation dans les trois mois.\n\nLa NP SFI 4 (Santé, sécurité et sûreté des communautés) sous-tend la protection des consommateurs dans le cadre du SGSE — exigeant que les entreprises identifient et préviennent de manière proactive les risques pour la santé et la sécurité des communautés découlant de leurs produits et services.\n\nSource : Directives SGSE ROGEAP, Section 8 (Protection des consommateurs), pp.61-63 ; Code de protection des consommateurs GOGLA."
+}
+],
+resources: [
+{ label: "Boîte à outils SGSE SFI Élément 1 — Politique" },
+{ label: "Norme de performance SFI 2 — Conditions d'emploi et de travail" },
+{ label: "Norme de performance SFI 3 — Efficacité des ressources et prévention de la pollution" },
+{ label: "Code de protection des consommateurs GOGLA" },
+{ label: "Directives SGSE GOGLA pour les entreprises solaires hors réseau" },
+{ label: "REA Nigeria — Modèle SGSE pour les entreprises solaires hors réseau" },
+]
+},
+
+risks: {
+title: "Identification et évaluation des risques E&S",
+summary: "L'évaluation des risques est le moteur de votre SGSE — elle détermine ce que vous devez gérer, avec quelle priorité et avec quelles ressources. Les directives ROGEAP utilisent une matrice probabilité × gravité pour évaluer les risques de FAIBLE (1) à CRITIQUE (16). Pour les entreprises solaires hors réseau, les risques prioritaires sont : les déchets de batteries, le travail en hauteur, les risques électriques, la VFS/HAS, et la vente abusive à des consommateurs vulnérables.",
+sections: [
+{
+heading: "Approche d'évaluation des risques ROGEAP",
+body: "Les directives ROGEAP décrivent un processus d'évaluation des risques en deux étapes : (1) Criblage — une évaluation simplifiée de type liste de contrôle pour catégoriser le niveau de risque E&S global de l'entreprise (Faible/Moyen/Élevé) ; (2) Évaluation détaillée — un registre des risques noté où chaque risque identifié se voit attribuer une note de Probabilité (1-4) et une note de Gravité/Impact (1-4).\n\nCote de risque = Probabilité × Gravité :\n• 1-2 : FAIBLE — surveiller, aucune mesure urgente\n• 3-5 : MOYEN — mettre en œuvre des contrôles dans les délais convenus\n• 6-8 : ÉLEVÉ — prioriser ; action dans les 30 jours\n• 9-16 : CRITIQUE — mesure immédiate requise\n\nSource : Directives SGSE ROGEAP, Section 4, pp.19-31 ; diagramme de la matrice de risques."
+},
+{
+heading: "Catégories de risques clés pour les entreprises solaires hors réseau",
+body: "Les Directives ROGEAP (Tableau 5, pp.23-26) identifient les catégories de risques clés suivantes :\n\n1. DÉCHETS ÉLECTRONIQUES (Probabilité élevée / Impact élevé) : L'élimination inappropriée des batteries plomb-acide et lithium-ion provoque un empoisonnement au plomb et une contamination du sol et de l'eau.\n\n2. SST — TRAVAIL EN HAUTEUR (Probabilité élevée / Impact élevé) : Les chutes lors de l'installation et de la maintenance sur les toits sont la cause la plus fréquente de blessures graves dans le secteur de l'installation solaire.\n\n3. SST — RISQUES ÉLECTRIQUES (Probabilité moyenne / Impact critique) : Choc électrique et arc électrique lors de l'installation et de la maintenance des systèmes CC/CA sous tension.\n\n4. GENRE / VFS / HAS (Probabilité moyenne / Impact élevé) : S'applique à la fois au sein du lieu de travail et lors des opérations sur le terrain impliquant des interactions avec les clients dans les communautés.\n\n5. TRAVAIL (Probabilité moyenne / Impact élevé) : Conditions d'emploi, risque de travail des enfants dans les chaînes d'approvisionnement, et absence de mécanismes de réclamation pour les travailleurs.\n\n6. PROTECTION DES CONSOMMATEURS (Probabilité élevée / Impact élevé) : Vente abusive à des clients ruraux à faibles revenus, notamment en surestimant la capacité du produit et en vendant à des clients qui ne peuvent pas se permettre les paiements."
+},
+{
+heading: "Analyse des causes profondes",
+body: "Les directives ROGEAP soulignent qu'après l'évaluation des risques, les entreprises doivent conduire une analyse des causes profondes (ACP) pour comprendre POURQUOI les risques existent, et pas seulement ce qu'ils sont. L'approche recommandée est la méthode des « 5 Pourquoi » ou le diagramme d'Ishikawa (arête de poisson).\n\nExemple — Risque d'élimination des batteries :\nPourquoi les batteries sont-elles éliminées de manière inappropriée ? → Les clients ne connaissent pas les dangers.\nPourquoi ne le savent-ils pas ? → Aucune instruction d'élimination fournie au point de vente.\nPourquoi pas ? → Aucune politique ne l'exige.\nPourquoi pas de politique ? → Personne n'a été désigné comme responsable.\nCause profonde : Absence d'assignation de responsabilité en matière de gestion des déchets.\n\nCela conduit à une action corrective ciblée plutôt qu'une réponse au niveau des symptômes. Source : Directives SGSE ROGEAP, pp.31-32."
+},
+{
+heading: "Exigences SFI en matière d'évaluation des risques",
+body: "La Norme de performance SFI 1 (Évaluation et gestion des risques et des impacts environnementaux et sociaux) exige que les entreprises : (1) identifient tous les risques et impacts E&S pertinents, directs et liés à la chaîne d'approvisionnement ; (2) évaluent l'importance de chaque risque selon la probabilité et la gravité ; (3) développent des mesures de gestion proportionnelles au niveau de risque ; (4) surveillent et réexaminent périodiquement l'état des risques.\n\nLa Boîte à outils SGSE SFI (Élément 2) fournit un processus structuré : identifier les aspects → évaluer les impacts → prioriser les aspects → développer des objectifs et des cibles. Le registre des risques est le résultat de ce processus et constitue le « document vivant » de votre SGSE, mis à jour au moins annuellement ou après tout incident significatif ou changement opérationnel."
+}
+],
+resources: [
+{ label: "Boîte à outils SGSE SFI Élément 2 — Identification des aspects et impacts" },
+{ label: "Norme de performance SFI 1 — Évaluation et gestion des risques E&S" },
+{ label: "Cadre environnemental et social de la Banque Mondiale (2017)" },
+{ label: "Guide ESRM CEDEAO sur le solaire hors réseau" },
+]
+},
+
+compliance: {
+title: "Conformité légale et réglementaire",
+summary: "La conformité — l'adhésion systématique à toutes les exigences légales, réglementaires, fiscales et contractuelles applicables — est une condition de base ROGEAP. Les entreprises doivent se conformer aux lois ESHS nationales dans tous les pays d'opération. Les directives ROGEAP distinguent quatre catégories de conformité : Légale, Réglementaire, Fiscale, et Autres engagements (normes volontaires, contrats).",
+sections: [
+{
+heading: "Catégories de conformité pour les entreprises solaires hors réseau",
+body: "La Section 5 des Directives SGSE ROGEAP (pp.32-36) identifie les catégories de conformité suivantes :\n\n1. LOIS ENVIRONNEMENTALES : Réglementations des agences environnementales nationales ; exigences d'EIE ; réglementations de gestion des déchets ; contrôle de la pollution ; gestion des substances chimiques/dangereuses.\n\n2. LOIS SOCIALES/DU TRAVAIL : Codes du travail nationaux (salaire minimum, horaires de travail, heures supplémentaires, non-discrimination, interdiction du travail des enfants, liberté d'association, procédures de licenciement) ; cotisations de sécurité sociale ; lois sur les relations communautaires.\n\n3. LOIS DE PROTECTION DES CONSOMMATEURS : Sécurité des produits, pratiques commerciales équitables, tarification transparente, obligations de garantie, confidentialité des données des consommateurs.\n\n4. LOIS SST : Codes SST nationaux ; évaluations des risques obligatoires ; fourniture d'EPI ; premiers secours ; comités de sécurité ; formation SST ; déclaration d'accidents.\n\n5. ENREGISTREMENT DES ENTREPRISES ET LICENCES : Constitution de la société ; dépôts annuels ; licences d'exploitation ; inscriptions auprès des ordres professionnels.\n\n6. RÉGLEMENTATIONS DU SECTEUR DE L'ÉNERGIE : Licences NERC/REA ; normes de produits (CEI, VeraSol) ; permis des collectivités locales.\n\n7. FISCALITÉ : Impôt sur les sociétés ; TVA/TPS ; PAYE ; retenue à la source ; droits de douane.\n\n8. NORMES VOLONTAIRES : NP SFI, ISO 14001/45001, Code GOGLA de protection des consommateurs, Principes directeurs de l'ONU, politiques anti-corruption (ABC)."
+},
+{
+heading: "Registre légal — Que suivre",
+body: "Pour chaque loi ou réglementation applicable, les directives ROGEAP (pp.36-37) recommandent de documenter : Nom et référence de la loi/réglementation ; Autorité émettrice ; Date d'entrée en vigueur et amendements ; Sections pertinentes aux opérations solaires hors réseau ; Exigences/obligations spécifiques ; Applicabilité aux opérations de l'entreprise ; Fréquence de conformité ; Preuves de conformité requises ; Personne/Département responsable ; Date de révision.\n\nCe registre doit être maintenu à jour. Désignez un « champion de la conformité » chargé de s'abonner aux journaux officiels du gouvernement, aux bulletins des agences nationales de l'énergie/de l'environnement, et aux mises à jour des associations professionnelles pour suivre les changements réglementaires.\n\nSource : Directives SGSE ROGEAP, pp.36-37 (procédures pour assurer la conformité)."
+},
+{
+heading: "Permis et licences",
+body: "Au-delà de la conformité légale, la Section 5 de ROGEAP (pp.38-39) exige une Matrice des permis et licences suivant : nom du permis, autorité émettrice, exigences de demande, période de validité, dates de renouvellement, frais associés, et la personne responsable de la demande/du renouvellement.\n\nPour les entreprises solaires hors réseau en Afrique de l'Ouest et Centrale, les permis clés comprennent généralement : la licence d'exploitation commerciale (collectivité locale), l'enregistrement d'entrepreneur électricien (pour les activités d'installation), l'approbation de gestion des déchets électroniques (NESREA ou équivalent), la licence NERC/REA (pour les activités d'énergie concernées), et les permis d'importation pour les équipements solaires.\n\nLe Tableau 7 (Liste de contrôle de suivi de la conformité) et le Tableau 8 (Modèle de registre légal et réglementaire) des directives ROGEAP fournissent des modèles prêts à l'emploi."
+},
+{
+heading: "Exigences SFI en matière de conformité",
+body: "La Boîte à outils SGSE SFI (Élément 3 — Exigences légales et autres) exige que les entreprises : (1) aient une procédure pour identifier les exigences légales applicables ; (2) s'assurent que ces exigences sont intégrées dans leur SGSE ; (3) effectuent des examens périodiques pour vérifier la conformité ; et (4) tiennent des registres du statut de conformité.\n\nLa NP SFI 1 §18 stipule : « Le client se conformera aux lois et réglementations applicables des juridictions dans lesquelles il opère concernant les exigences de travail, environnementales et sociales de cette Norme de performance. » La non-conformité avec la loi nationale est un déclencheur direct d'action des investisseurs, y compris des violations des clauses de prêt."
+}
+],
+resources: [
+{ label: "Boîte à outils SGSE SFI Élément 3 — Exigences légales" },
+{ label: "Normes de performance SFI (2012)" },
+{ label: "ISO 14001 — Systèmes de management environnemental" },
+{ label: "Code de protection des consommateurs GOGLA" },
+]
+},
+
+plans: {
+title: "Plans de gestion environnementale et sociale",
+summary: "Les Plans de gestion environnementale et sociale (PGES) constituent l'épine dorsale opérationnelle de votre SGSE. Ils traduisent les engagements des politiques et les évaluations des risques en procédures de gestion quotidienne, responsabilités et suivi. Les directives ROGEAP exigent sept plans de gestion pour les entreprises solaires hors réseau : Plan SST, Plan de santé et sécurité communautaire, Plan de protection des consommateurs, Plan de gestion des déchets, Plan de préparation aux urgences, Plan RH, et Plan d'engagement des parties prenantes.",
+sections: [
+{
+heading: "Structure d'un PGES",
+body: "Chaque PGES devrait inclure les composantes suivantes (ROGEAP §7, p.47) :\n• Analyse d'impact : Types d'impacts potentiels et moyens de les atténuer\n• Actions d'atténuation : Mesures spécifiques pour réduire ou compenser les impacts négatifs\n• Normes environnementales et sociales : Lignes directrices pour les produits et les opérations\n• Plan de suivi : Comment les performances seront suivies et quelles données collectées\n• Rôles et responsabilités : Qui est responsable de chaque tâche et activité\n• Stratégie de communication : Comment l'entreprise partagera les informations et gérera les réclamations\n• Calendrier et coûts : Calendrier de mise en œuvre et budget estimatif\n• Engagement communautaire : Comment les parties prenantes seront impliquées\n\nLa Boîte à outils SGSE SFI (Élément 4) présente cela comme l'étape « programmes et gestion » : convertir les engagements des politiques et les résultats de l'évaluation des risques en contrôles opérationnels spécifiques."
+},
+{
+heading: "Plan SST — ROGEAP §8",
+body: "Le Plan SST est requis conformément à la NP SFI 2/ESS2 de la BM. Éléments clés (ROGEAP, pp.49-56) :\n1. Déclaration d'engagement de la direction\n2. Identification des dangers et évaluation des risques (avec les dangers spécifiques au solaire hors réseau : chutes, électricité, batteries, véhicules, travail à distance, VFS/HAS)\n3. Mesures de contrôle des risques selon la hiérarchie : Éliminer → Substituer → Engineering → Administrer → EPI\n4. Exigences EPI par tâche\n5. Programme de formation (induction, formation certifiée pour les tâches à haut risque, causeries de sécurité)\n6. Procédure de déclaration et d'investigation des incidents\n7. Objectifs et KPI SST\n\nExigence ROGEAP critique : Les procédures de Cadenassage/Étiquetage (LOTO) doivent être en place avant tout travail électrique. La VFS/HAS doit être explicitement listée comme un danger SST avec une voie de signalement confidentielle. Source : ROGEAP §8, pp.49-56 + Tableau 11 (Formulaire de rapport d'incident) + Tableau 12 (Modèle de plan SST)."
+},
+{
+heading: "Plan de gestion des déchets — ROGEAP §10",
+body: "Le Plan de gestion des déchets est requis conformément à la NP SFI 3/ESS3 de la BM. Les directives ROGEAP (pp.72-79) placent les déchets électroniques au centre du plan — il s'agit du risque environnemental prioritaire pour le secteur solaire hors réseau.\n\nÉléments clés : (1) Audit des déchets — identifier les types et quantités ; (2) Stratégies de gestion des déchets appliquant la hiérarchie 5R (Réduire → Réutiliser → Réparer → Remettre en état → Recycler) ; (3) Mise en place d'un système de reprise avec des incitations pour les clients ; (4) Engagement auprès du secteur informel de recyclage là où il est présent ; (5) Suivi et révision.\n\nExigence critique NP SFI 3 : Les déchets dangereux (batteries) doivent être éliminés via des installations agréées et réglementées. L'entreprise doit tenir des registres (bordereaux de déchets, certificats de recyclage) démontrant une élimination responsable. Rejeter des déchets dangereux dans l'environnement par des voies informelles — même si c'est une « pratique courante » — constitue une non-conformité.\n\nSource : ROGEAP §10, pp.72-79 ; Tableau 15-16 (modèles de gestion des déchets)."
+},
+{
+heading: "Plan de préparation aux urgences — ROGEAP §11",
+body: "Le Plan de préparation et d'intervention en cas d'urgence (PPIU) est requis conformément aux NP SFI 2/4. Les directives ROGEAP (pp.80-85) décrivent un processus général de gestion des urgences : Identification des dangers → Procédures d'intervention d'urgence → Procédures d'arrêt → Équipements et installations → Contacts d'urgence → Plans d'évacuation → Formation et exercices → Révision et mise à jour.\n\nPour les entreprises solaires hors réseau, les scénarios prioritaires sont : les incendies et incidents électriques, la fuite thermique/déversement d'acide de batteries, les accidents de véhicules, les catastrophes naturelles (inondations, tempêtes), les incidents de sécurité (vol, troubles civils), et les incidents de VFS/HAS. Toutes les procédures doivent être écrites, testées régulièrement par des exercices, et mises à jour après chaque exercice ou incident réel.\n\nSource : ROGEAP §11, pp.80-85 + Tableau 16-17 (scénarios d'urgence et procédures)."
+},
+{
+heading: "Plan d'engagement des parties prenantes — ROGEAP §12",
+body: "Le PEPS est requis conformément à l'ESS10 de la BM et à la NP SFI 1. La bonne pratique SFI (référencée dans ROGEAP §12, pp.86-89) exige un engagement qui soit : Ciblé, Précoce, Informé, Bidirectionnel, Sensible au genre, Localisé, Documenté et Rendu compte.\n\nLe PEPS doit inclure : (1) identification et analyse des parties prenantes (cartographie par intérêt et influence) ; (2) planification de l'engagement (objectifs, méthodes, fréquence, budget) ; (3) mise en œuvre (divulgation proactive, canaux de feedback, mécanisme de réclamation) ; (4) suivi et évaluation (KPI, examens réguliers).\n\nExigence critique : L'engagement doit appliquer les principes de Consentement libre, préalable et éclairé (CLPE). Les femmes et les groupes vulnérables doivent être spécifiquement inclus — des forums séparés peuvent être nécessaires dans les contextes où la participation mixte est culturellement contrainte. Source : ROGEAP §12, pp.86-89 ; Tableau 17 (modèle de registre des parties prenantes)."
+}
+],
+resources: [
+{ label: "Boîte à outils SGSE SFI Éléments 4-6 — Programmes et suivi" },
+{ label: "NP SFI 2 — Conditions d'emploi et de travail" },
+{ label: "NP SFI 3 — Efficacité des ressources et prévention de la pollution" },
+{ label: "NP SFI 4 — Santé, sécurité et sûreté des communautés" },
+{ label: "Directives OIT SST pour l'industrie solaire" },
+{ label: "Boîte à outils déchets électroniques GOGLA" },
+{ label: "Plans directeurs GOGLA pour la gestion des déchets électroniques" },
+{ label: "Rapport ACE sur les gains rapides en matière de déchets électroniques" },
+]
+},
+
+tools: {
+title: "Outils de mise en œuvre",
+summary: "Les outils de mise en œuvre constituent la couche opérationnelle de votre SGSE — les listes de contrôle, registres, journaux et formulaires qui transforment les plans écrits en pratique quotidienne. Chaque outil de cette section est basé directement sur des modèles des Directives SGSE ROGEAP et de la Boîte à outils SGSE SFI. Ils sont préremplis avec les exigences de base ROGEAP et entièrement modifiables pour correspondre au contexte de votre entreprise.",
+sections: [
+{
+heading: "Pourquoi les outils de mise en œuvre sont importants",
+body: "La Boîte à outils SGSE SFI (Élément 7 — Revue de direction et amélioration continue) souligne qu'un SGSE ne délivre de valeur que lorsque les instruments de gestion sont réellement utilisés. Sans registres opérationnels — journaux d'incidents, registres de formation, suivi des déchets, journaux de réclamations — vous ne pouvez pas démontrer aux investisseurs, auditeurs ou régulateurs que vos plans sont mis en œuvre.\n\nLes examinateurs ROGEAP et les investisseurs IFD demandent spécifiquement : des Codes de conduite signés, des registres de formation, des rapports d'incidents, des certificats d'élimination des déchets, et des journaux de réclamations comme preuves de la mise en œuvre du SGSE. L'absence de registres est traitée comme une absence de mise en œuvre."
+},
+{
+heading: "Questionnaire de criblage ROGEAP (Outil 1)",
+body: "Directement reproduit du Tableau 6 de ROGEAP. Utilisez-le comme auto-évaluation pour identifier les lacunes du SGSE, préparer la diligence raisonnable des investisseurs, et déterminer ce qui doit être engagé dans votre PGSE. Le questionnaire couvre cinq domaines : Critères d'exclusion, SGSE/Politiques, SST, Déchets électroniques, et Engagement des parties prenantes/MGR."
+},
+{
+heading: "Registre et matrice des risques (Outil 2)",
+body: "Met en œuvre la méthodologie de cotation des risques probabilité × gravité de ROGEAP (décrite dans la Section 4, pp.22-23 des Directives). Prérempli avec 15 risques de base pour le solaire hors réseau du Tableau 5 (ROGEAP pp.23-26), couvrant : déchets électroniques, SST, genre/HAS, travail, protection des consommateurs, sécurité communautaire, et risques de chaîne d'approvisionnement. Ajoutez des risques spécifiques à l'entreprise et assignez des mesures d'atténuation et des personnes responsables."
+},
+{
+heading: "Journal des incidents et des presqu'accidents (Outil 5)",
+body: "Basé sur le Tableau 11 de ROGEAP (Formulaire type de rapport d'incident/accident, p.52). Tous les accidents, blessures, presqu'accidents et événements dangereux doivent être enregistrés dans les 24 heures. Les blessures graves et les décès doivent être signalés à l'autorité nationale du travail/SST dans les 48 heures (les délais spécifiques varient selon les pays). L'analyse des causes profondes doit être effectuée pour tous les incidents dans les 5 jours ouvrables.\n\nLa Boîte à outils SGSE SFI exige que les données sur les incidents soient examinées pour détecter les tendances et utilisées pour améliorer continuellement le Plan SST."
+},
+{
+heading: "Registre de suivi des déchets (Outil 8)",
+body: "Basé sur le Tableau 15 de ROGEAP (Modèle de gestion de l'élimination des déchets, p.73). Enregistre le type de déchets, la quantité, la source, l'action 5R appliquée, la voie d'élimination, le recycleur/partenaire, et le numéro de certificat. Les Certificats de recyclage des recycleurs agréés constituent la preuve principale de conformité à la NP SFI 3 pour les déchets dangereux. Conservez tous les certificats pendant au moins 5 ans.\n\nSuivez séparément : les batteries plomb-acide (classées dangereuses selon la Convention de Bâle), les batteries lithium, les panneaux solaires, et les accessoires. Les directives ROGEAP (p.72) citent le suivi correct des déchets comme essentiel pour démontrer la conformité à la Responsabilité élargie du producteur (REP)."
+},
+{
+heading: "Journal de réclamations (Outil 10)",
+body: "Basé sur les Tableaux 20 et 21 de ROGEAP (format du journal MGR, pp.92-94). Enregistre toutes les plaintes — des employés, clients et communautés — en utilisant le processus MGR ROGEAP en cinq étapes : Identification (Jour 1) → Évaluation et enregistrement (Jours 1-3) → Accusé de réception (dans les 3 jours) → Élaboration de la réponse (Jours 4-8) → Mise en œuvre et communication (Jours 5-15).\n\nClassification des niveaux : Niveau 1 (événement ponctuel) → processus standard ; Niveau 2 (répandu ou récurrent) → escalade vers la direction ; Niveau 3 (violation de loi ou de politique) → implication immédiate de la direction et potentielle notification réglementaire.\n\nPour les plaintes VFS/HAS : tenez un journal confidentiel séparé. Enregistrez uniquement la nature de la plainte et le résultat du traitement — jamais les données personnelles de la victime — dans le journal général. Source : ROGEAP §13, pp.90-94."
+},
+{
+heading: "Évaluation E&S des fournisseurs (Outil 11)",
+body: "La NP SFI 2 §27-29 exige une diligence raisonnable sur la chaîne d'approvisionnement, notamment en ce qui concerne le travail des enfants, le travail forcé et la santé et sécurité des travailleurs dans les chaînes d'approvisionnement principales. Pour les entreprises solaires hors réseau, le principal risque de chaîne d'approvisionnement est la fabrication des panneaux solaires — la chaîne de fabrication présente des cas documentés de travail forcé (notamment dans la production de polysilicium) et des risques de travail des enfants dans l'extraction des matériaux pour batteries.\n\nL'outil d'évaluation des fournisseurs vous aide à : identifier les fournisseurs à haut risque par catégorie et pays ; évaluer leurs politiques E&S ; et exiger des normes E&S contractuelles comme condition d'approvisionnement."
+},
+{
+heading: "Formulaire de suivi ROGEAP (Outil 12)",
+body: "Directement reproduit du Tableau 22 de ROGEAP (Formulaire de suivi des risques environnementaux et sociaux pour les entreprises solaires). Ce formulaire est utilisé pour les rapports de suivi trimestriels soumis dans le cadre des accords de subvention/prêt ROGEAP. Il couvre : le statut général du SGSE, les politiques et procédures, les capacités et la formation, les activités de suivi, les rapports, et la mise en œuvre du mécanisme de réclamation.\n\nRemplissez ce formulaire au minimum trimestriellement et conservez des copies comme preuves de la mise en œuvre continue du SGSE. La Boîte à outils SGSE SFI (Élément 7) décrit la revue de direction comme le mécanisme pour « boucler la boucle » — les données de suivi des performances doivent être examinées par la direction et utilisées pour prendre des décisions, pas seulement classées."
+}
+],
+resources: [
+{ label: "Boîte à outils SGSE SFI — Général (2015)" },
+{ label: "Manuel de mise en œuvre SGSE SFI — Général" },
+{ label: "Manuel opérationnel ROGEAP — Procédures MGR" },
+{ label: "Ressource CAO sur les réclamations" },
+{ label: "Boîte à outils SGSE Clean Energy CAMO" },
+]
+},
+
+esap: {
+title: "Plan d'action environnemental et social (PGSE)",
+summary: "Le PGSE est une feuille de route contraignante et responsable qui engage votre entreprise à développer ou améliorer des composantes spécifiques du SGSE à des dates précises. Il est requis par ROGEAP pour : (1) toutes les entreprises n'ayant pas encore toutes les composantes du SGSE en place, et (2) toutes les entreprises classées en risque E&S moyen/élevé (Catégorie B2). Le PGSE est inclus dans l'accord juridique de subvention/prêt avec ROGEAP.",
+sections: [
+{
+heading: "Ce qu'est un PGSE et quand il est requis",
+body: "Un Plan d'action environnemental et social (PGSE) comprend les mesures qu'une organisation met en œuvre ou prévoit de mettre en œuvre pour traiter les risques et impacts E&S associés à ses produits, services et opérations. Il fonctionne comme une feuille de route pour assurer la conformité aux exigences de protection E&S.\n\nROGEAP exige un PGSE pour :\n1. Les entreprises n'ayant pas encore toutes les composantes du SGSE requises en place — le PGSE s'engage à développer les composantes manquantes dans un délai d'un an\n2. Les entreprises classées Catégorie B2 (Risque moyen) en raison de leur taille, de leurs antécédents SST, des incidents VFS, ou des conditions de travail inéquitables\n\nLe PGSE est intégré dans l'accord de financement et sa mise en œuvre est suivie par des rapports E&S trimestriels. La non-mise en œuvre des engagements du PGSE constitue une violation de clause pouvant entraîner le rappel du prêt ou la suspension de la subvention.\n\nSource : Directives SGSE ROGEAP §15, pp.98-101."
+},
+{
+heading: "Structure du PGSE — Éléments requis",
+body: "Chaque action du PGSE doit inclure les éléments suivants (format du Tableau 23 ROGEAP, p.99) :\n\n• Action requise : Action spécifique et mesurable à entreprendre\n• Livrable/Résultat : Le résultat tangible qui attestera de l'achèvement\n• Indicateur clé de performance (ICP) : Comment le succès est mesuré\n• Situation de référence : Situation actuelle (ce qui existe maintenant)\n• Cible : L'état final souhaité\n• Calendrier/Échéance : Date précise à laquelle l'action sera terminée\n• Personne/Rôle responsable : Individu nommé responsable de la réalisation\n• Budget (USD) : Coût estimatif de la mise en œuvre de l'action\n\nLes actions du PGSE sont organisées par catégorie SGSE : Évaluation et système de gestion E&S ; Conditions d'emploi et de travail ; SST ; Gestion des déchets électroniques ; Santé et sécurité des utilisateurs finaux ; Engagement des parties prenantes et MGR ; Autres problèmes."
+},
+{
+heading: "Exemple de PGSE — Exemple ROGEAP (Tableau 24)",
+body: "Les directives ROGEAP (Tableau 24, pp.99-101) fournissent un exemple de PGSE pour une entreprise solaire hors réseau développant son SGSE depuis le début. Les actions clés et budgets indicatifs comprennent :\n\n• Politique E&S de l'entreprise : 500 USD — Rédiger, réviser et approuver la politique\n• Évaluation des risques E&S : 1 000 USD — Consultant évalue et rend compte des risques E&S\n• Plan de gestion E&S : 1 000 USD — Consultant rédige le PGES ; la direction révise et approuve\n• Capacité organisationnelle : 1 000 USD — Évaluer la sensibilisation E&S ; former tout le personnel ; recruter un spécialiste E&S\n• Plan de préparation aux urgences : 500 USD — Rédiger et approuver le PPIU ; former tout le personnel\n• PEPS et MGR : 500 USD chacun — Développer, approuver et opérationnaliser\n• Plan de suivi : 500 USD — Développer et mettre en œuvre le plan de S&E E&S\n\nBudget indicatif total pour un SGSE de base depuis le début : environ 5 000 à 8 000 USD."
+},
+{
+heading: "Développer un PGSE crédible",
+body: "La Boîte à outils SGSE SFI (Élément 4 — Objectifs, cibles et programmes) recommande que les objectifs et cibles du PGSE soient SMART : Spécifiques, Mesurables, Atteignables, Pertinents et limités dans le Temps. Des actions vagues comme « améliorer la gestion des déchets » ne sont pas acceptables — l'action doit préciser ce qui sera fait, par qui, et avant quelle date.\n\nErreurs courantes à éviter dans le PGSE :\n• Pas de personne responsable nommée (les noms de département sont insuffisants)\n• Pas d'échéance précise (trimestriel ou annuel n'est pas assez précis)\n• Des cibles qui ne peuvent pas être vérifiées (pas d'ICP mesurable)\n• Budgets non alloués (pas de budget = pas d'engagement crédible)\n• Actions trop ambitieuses pour le calendrier (signale une non-réalisation)\n\nMeilleure pratique : Examinez mensuellement l'avancement du PGSE au niveau de la direction ; rendez compte trimestriellement de l'état dans le Formulaire de suivi E&S ROGEAP ; escaladez les actions retardées ou bloquées au Conseil d'administration pour décision."
+},
+{
+heading: "Catégories du PGSE (Format du Tableau 23 ROGEAP)",
+body: "Organisez vos actions du PGSE selon les catégories ROGEAP suivantes pour assurer une couverture complète :\n\n1. Système d'évaluation et de gestion environnementale et sociale (SGSE global)\n2. Conditions d'emploi et de travail (Politique RH, contrats, salaires, Code de conduite)\n3. Santé et sécurité au travail (Plan SST, EPI, déclaration d'incidents, formation)\n4. Gestion des déchets électroniques (système de reprise, partenariats avec recycleurs, sensibilisation des clients)\n5. Santé et sécurité des utilisateurs finaux/consommateurs (sécurité des produits, protection des consommateurs)\n6. Engagement des parties prenantes et MGR (PEPS, mécanisme de réclamation, processus VFS/EAS)\n7. Problèmes fonciers (le cas échéant — consentement écrit des propriétaires fonciers pour les installations au sol)\n8. Autres problèmes (genre, chaîne d'approvisionnement, ressources en eau selon le cas)\n\nSource : Directives SGSE ROGEAP §15, p.99 ; Guide sectoriel ESRM CEDEAO."
+}
+],
+resources: [
+{ label: "Boîte à outils SGSE SFI Élément 4 — Objectifs, cibles et programmes" },
+{ label: "Modèle PGSE du Fonds Vert pour le Climat" },
+{ label: "Guide ESRM CEDEAO sur le solaire hors réseau" },
+{ label: "Normes de performance SFI (2012)" },
+{ label: "Principes de l'Équateur (2020)" },
+]
+},
+
+tool_risk_matrix: {
+title: "Registre et matrice des risques — Guide",
+summary: "Le registre des risques est le document analytique central de votre SGSE. Il liste chaque risque E&S significatif, l'évalue par probabilité et gravité, et consigne les contrôles en place et planifiés. Il doit être tenu à jour — révisé annuellement et après tout incident significatif ou changement opérationnel.",
+sections: [
+{
+heading: "Échelle de cotation probabilité × gravité",
+body: "1 = Faible : Peu probable de se produire ; impact minimal si cela se produit\n2 = Moyen : Peut se produire occasionnellement ; impact modéré\n3 = Élevé : Susceptible de se produire ; impact significatif\n4 = Extrême : Quasi-certain ; impact catastrophique\n\nCote de risque = Probabilité × Gravité :\n• CRITIQUE (9-16) : Mesure immédiate requise — ne pas procéder sans contrôles en place\n• ÉLEVÉ (6-8) : Priorité dans les 30 jours — personne responsable nommée et délai requis\n• MOYEN (3-5) : Gérer dans les délais convenus ; surveiller\n• FAIBLE (1-2) : Surveiller ; révision annuelle suffisante"
+},
+{
+heading: "Hiérarchie des contrôles",
+body: "Lors du développement des mesures d'atténuation, appliquez toujours les contrôles dans cet ordre :\n1. ÉLIMINATION — Supprimer entièrement le danger (ex. : choisir une chimie de batterie avec un risque de fuite thermique plus faible)\n2. SUBSTITUTION — Remplacer par quelque chose de plus sûr (ex. : câblage pré-assemblé pour réduire le travail électrique en hauteur)\n3. CONTRÔLES D'ENGINEERING — Barrières physiques et dispositifs de protection (ex. : garde-corps sur les toits, équipement LOTO)\n4. CONTRÔLES ADMINISTRATIFS — Procédures, formation, supervision (ex. : système de binôme, procédures LOTO, canal de signalement VFS)\n5. EPI — Dernier recours ; protège le travailleur mais n'élimine pas le danger\n\nL'EPI est toujours la dernière couche — jamais le contrôle principal. Source : NP SFI 2 ; ISO 45001."
+}
+],
+resources: [
+{ label: "Boîte à outils SGSE SFI Élément 2 — Identification des aspects et impacts" },
+{ label: "NP SFI 1 — Évaluation et gestion des risques E&S" },
+]
+},
+
+tool_grievance_log: {
+title: "Journal de réclamations — Guide",
+summary: "Le journal du Mécanisme de gestion des réclamations enregistre toutes les plaintes des travailleurs, clients et communautés. Les directives ROGEAP précisent un processus en 5 étapes avec des délais de réponse définis. Les plaintes de VFS/HAS nécessitent un processus confidentiel séparé.",
+sections: [
+{
+heading: "Processus MGR ROGEAP en 5 étapes",
+body: "ÉTAPE 1 — IDENTIFICATION (Jour 1) : Plainte reçue via n'importe quel canal (téléphone, e-mail, en personne, boîte à suggestions). Enregistrée immédiatement.\n\nÉTAPE 2 — ÉVALUATION ET ENREGISTREMENT (Jours 1-3) : Importance évaluée. Assignation d'un niveau : Niveau 1 (événement ponctuel), Niveau 2 (répandu/récurrent), Niveau 3 (violation de loi/politique). Enregistrée dans le journal MGR. Plaignant accusé de réception.\n\nÉTAPE 3 — ACCUSÉ DE RÉCEPTION (dans les 3 jours) : Accusé de réception formel envoyé au plaignant via le canal approprié.\n\nÉTAPE 4 — ÉLABORATION ET MISE EN ŒUVRE DE LA RÉPONSE (Jours 4-15) : Attribuée à la personne appropriée pour résolution. Réponse développée avec l'appui de la direction. Action corrective mise en œuvre. Résultat communiqué au plaignant.\n\nÉTAPE 5 — SUIVI : Résultats suivis. Données de réclamations examinées pour détecter les tendances. Mécanisme mis à jour sur la base des leçons apprises.\n\nSource : Tableau 18 de ROGEAP (p.92) et Tableaux 20-21 (format du journal MGR, pp.93-94)."
+},
+{
+heading: "Plaintes VFS/HAS — Protocole spécial",
+body: "Les plaintes VFS/HAS doivent suivre un processus séparé et confidentiel (ROGEAP §13, pp.91-92) :\n\n• ÉTHIQUE : Toutes les actions doivent respecter la dignité, les droits et l'autonomie du survivant\n• CONFIDENTIEL : Informations partagées uniquement sur la base du besoin d'en connaître\n• IMPARTIAL : Enquêteurs impartiaux formés à reconnaître leurs propres biais\n• RAPIDE : Réponse dans les 72 heures ; délais clairs communiqués au survivant\n• CENTRÉ SUR LE SURVIVANT : Besoins et bien-être du survivant au centre ; offrir une aide counseling, médicale, juridique\n\nDans le journal MGR général : enregistrer uniquement la NATURE de la plainte et le RÉSULTAT DU TRAITEMENT. Ne jamais enregistrer les données personnelles de la victime dans le journal général. Maintenir un registre séparé protégé par mot de passe pour les cas VFS/HAS.\n\nSource : ROGEAP §13, pp.91-92 ; Manuel opérationnel ROGEAP."
+}
+],
+resources: [
+{ label: "Manuel opérationnel ROGEAP — Procédures MGR" },
+{ label: "Ressource CAO sur la conception des réclamations" },
+{ label: "ESS10 BM — Engagement des parties prenantes" },
+]
+},
+
+tool_waste_register: {
+title: "Registre de suivi des déchets — Guide",
+summary: "Le registre de suivi des déchets constitue le document probatoire de vos performances en matière de gestion des déchets. Les certificats de recyclage des recycleurs agréés constituent la preuve principale de conformité à la NP SFI 3. Tous les déchets dangereux (batteries) doivent être traçables de leur génération jusqu'à l'élimination finale.",
+sections: [
+{
+heading: "Classification des déchets dangereux",
+body: "Batteries plomb-acide : Classées comme déchets dangereux selon la Convention de Bâle et la plupart des cadres nationaux. Doivent être manipulées, stockées, transportées et éliminées uniquement par des installations agréées. Le dépôt sauvage est illégal et constitue une violation de la NP SFI 3.\n\nBatteries lithium-ion : Classées comme marchandises dangereuses pour le transport (UN3480/UN3481). Le risque d'incendie lors du transport nécessite un emballage spécifique. Doivent être recyclées par des installations spécialisées.\n\nPanneaux solaires : Généralement non classés comme dangereux (bien que les panneaux contenant du telluride de cadmium soient une exception). La plupart peuvent être recyclés comme déchets électroniques.\n\nSource : Convention de Bâle ; ROGEAP §10, pp.72-79."
+},
+{
+heading: "Hiérarchie 5R appliquée aux déchets du solaire hors réseau",
+body: "Les directives ROGEAP (p.72, Figure 14) précisent la hiérarchie de gestion des déchets :\n\n1. RÉDUIRE : Prolonger la durée de vie des produits par la maintenance ; choisir des composants durables ; réduire les emballages\n2. RÉUTILISER : Remettre en état les systèmes retournés pour le marché secondaire ; réutiliser les panneaux récupérables dans des applications moins exigeantes\n3. RÉPARER : Offrir des services de réparation et de maintenance ; stocker des pièces de rechange pour tous les modèles actuels et récents\n4. REMETTRE EN ÉTAT : Reconditionner les batteries récupérables ; extraire les cellules utilisables pour des applications plus petites\n5. RECYCLER : Partenariat avec des recycleurs certifiés — dernier recours après que toutes les autres options aient été épuisées\n\nL'élimination (décharge, incinération) ne doit se produire que pour les matériaux véritablement irrécupérables et doit se faire via des installations agréées avec documentation."
+}
+],
+resources: [
+{ label: "Boîte à outils déchets électroniques GOGLA" },
+{ label: "Plans directeurs GOGLA pour la gestion des déchets électroniques" },
+{ label: "NP SFI 3 — Efficacité des ressources et prévention de la pollution" },
+{ label: "Rapport ACE sur les gains rapides en matière de déchets électroniques (Afrique de l'Ouest)" },
+]
+},
+
+tool_monitoring_form: {
+title: "Formulaire de suivi ROGEAP — Guide",
+summary: "Le formulaire de suivi des risques E&S (Tableau 22 de ROGEAP) est l'instrument de reporting trimestriel pour les titulaires de subventions/prêts ROGEAP. Il vérifie que le SGSE est mis en œuvre conformément aux engagements du PGSE et de l'accord de financement. Les formulaires complétés sont soumis au Gestionnaire financier partenaire (GFP) dans le cadre du suivi E&S standard.",
+sections: [
+{
+heading: "Processus de suivi et de révision",
+body: "L'approche de suivi ROGEAP suit le cadre Planifier-Faire-Vérifier-Agir (PFVA) :\n\nPLANIFIER : Définir les objectifs de suivi et les ICP alignés sur les engagements du SGSE\nFAIRE : Collecter des données par le biais d'inspections, d'audits, de registres d'incidents, de registres de formation, de journaux de réclamations\nVÉRIFIER : Analyser les données par rapport aux ICP ; identifier les lacunes et les actions correctives\nAGIR : Mettre en œuvre les actions correctives ; mettre à jour les plans ; rendre compte à la direction et aux investisseurs\n\nLa Boîte à outils SGSE SFI (Élément 7) décrit la revue de direction comme le mécanisme clé pour « boucler la boucle » — les données de performance doivent être examinées par la direction et utilisées pour prendre des décisions, pas seulement classées. Source : ROGEAP §14, pp.95-97."
+},
+{
+heading: "Indicateurs clés de performance",
+body: "Le processus de suivi ROGEAP suit à la fois des indicateurs de PROCESSUS (activités réalisées) et des indicateurs de PERFORMANCE (résultats obtenus).\n\nIndicateurs de processus : Nombre de sessions de formation dispensées ; Nombre d'inspections SST réalisées ; Nombre de réclamations reçues et résolues ; Déchets électroniques collectés (kg/unités).\n\nIndicateurs de performance : Taux de blessures avec arrêt de travail ; Score de satisfaction client ; Pourcentage d'actions du PGSE réalisées dans les délais ; Volume de déchets dangereux acheminé vers le recycleur agréé vs. déchets totaux.\n\nLes deux types d'indicateur sont nécessaires — les indicateurs de processus confirment l'activité ; les indicateurs de performance confirment les résultats."
+}
+],
+resources: [
+{ label: "Boîte à outils SGSE SFI Élément 7 — Revue de direction" },
+{ label: "Manuel de gestion axée sur les résultats du PNUD" },
+]
+},
+
+tool_coc: {
+title: "Code de conduite — Guide",
+summary: "Le Code de conduite est un élément requis de la Politique RH dans le cadre de la Composante 5 de ROGEAP. Tous les employés et sous-traitants doivent lire, comprendre et signer le Code avant de commencer à travailler. Les directives ROGEAP fournissent un modèle de Code (Encadré 2) spécialement conçu pour le secteur solaire hors réseau, incluant des interdictions explicites de la VFS/HAS.",
+sections: [
+{
+heading: "Pourquoi un Code de conduite est obligatoire",
+body: "Les directives ROGEAP exigent un Code de conduite en tant que document distinct parce que les déclarations de politique seules sont insuffisantes pour régir la conduite individuelle. Le Code doit être personnalisé — chaque travailleur doit le signer individuellement, dans une langue qu'il comprend — créant ainsi une responsabilité personnelle.\n\nLa NP SFI 2 §35-38 (sur les interactions avec les communautés et les travailleurs) exige que les entreprises « promeuvent et appliquent » des codes de conduite parmi tout le personnel et les contractuels travaillant dans les communautés. Cela est particulièrement critique pour les équipes d'installation solaires hors réseau qui travaillent à l'intérieur des maisons des clients et dans des communautés éloignées."
+},
+{
+heading: "Dispositions VFS/HAS — Non négociables",
+body: "Le Code de conduite de l'Encadré 2 de ROGEAP (pp.66-68) exige l'interdiction explicite de :\n• Harcèlement sexuel (avances sexuelles non désirées, demandes de faveurs sexuelles, comportement verbal/physique de nature sexuelle)\n• Exploitation sexuelle (abus d'une position de vulnérabilité ou de pouvoir à des fins sexuelles)\n• Abus sexuel (intrusion physique réelle ou menacée de nature sexuelle)\n• Activité sexuelle avec des personnes de moins de 18 ans en toutes circonstances\n\nCes interdictions doivent être énoncées en langage clair, pas en jargon juridique, afin que chaque travailleur les comprenne. Les violations doivent entraîner des conséquences spécifiques et déclarées, y compris le licenciement et le renvoi potentiel aux autorités chargées de l'application de la loi."
+}
+],
+resources: [
+{ label: "NP SFI 2 — Conditions d'emploi et de travail" },
+{ label: "Coalition mondiale pour les salaires décents" },
+]
+},
+
+tool_supplier_assessment: {
+title: "Évaluation E&S des fournisseurs — Guide",
+summary: "La diligence raisonnable sur la chaîne d'approvisionnement est requise conformément à la NP SFI 2. Pour les entreprises solaires hors réseau, les principaux risques de chaîne d'approvisionnement sont le travail des enfants dans l'extraction des matériaux de batteries (cobalt, lithium), le travail forcé dans la fabrication des panneaux solaires, et les impacts des déchets électroniques en fin de cycle de vie des produits.",
+sections: [
+{
+heading: "Risques de chaîne d'approvisionnement dans le solaire hors réseau",
+body: "Les directives ROGEAP (Tableau 5, pp.23-26) identifient la durabilité de la chaîne d'approvisionnement comme une catégorie de risque pour les entreprises solaires hors réseau, avec une probabilité faible mais un impact potentiellement élevé sur la réputation et les relations avec les investisseurs. La NP SFI 2 §27 stipule que lorsque les entreprises ont une « relation contractuelle directe » avec des fournisseurs principaux et qu'il existe un risque de travail des enfants ou forcé, les entreprises doivent périodiquement surveiller la conformité des fournisseurs.\n\nRisques clés dans la chaîne d'approvisionnement solaire hors réseau :\n• EXTRACTION DU COBALT (chaîne d'approvisionnement des batteries lithium) : Risques de travail des enfants et d'exploitation minière artisanale en RDC et dans d'autres pays d'extraction\n• PRODUCTION DE POLYSILICIUM (panneaux solaires) : Travail forcé signalé au Xinjiang, Chine — soumis à des restrictions d'importation sur plusieurs marchés\n• PLOMB (chaîne d'approvisionnement des batteries) : Impacts environnementaux et sanitaires de la fusion du plomb\n\nDemandez aux fournisseurs : l'adhésion à la RBA (Responsible Business Alliance) ; la conformité aux Conventions fondamentales de l'OIT ; la divulgation des minerais de conflits (Guide de diligence raisonnable de l'OCDE)."
+}
+],
+resources: [
+{ label: "NP SFI 2 — Conditions d'emploi et de travail (Chaîne d'approvisionnement)" },
+{ label: "Guide de diligence raisonnable de l'OCDE pour les chaînes d'approvisionnement responsables" },
+{ label: "Responsible Business Alliance (RBA)" },
+]
+},
+
+}, // end fr
+
+// ═══════════════════════════════════════════════════════════════════
+//  PORTUGUESE (pt)
+// ═══════════════════════════════════════════════════════════════════
+pt: {
+
+screening: {
+title: "Questionário de Triagem A&S",
+summary: "O Questionário de Triagem A&S ROGEAP é a avaliação inicial para todas as empresas que solicitam financiamento ROGEAP. Ele determina a maturidade do SGAS em cinco domínios e sinaliza quaisquer critérios de exclusão que possam desqualificar uma empresa. Ele é diretamente reproduzido da Tabela 6 das Diretrizes SGAS ROGEAP.",
+sections: [
+{
+heading: "Objetivo e requisito ROGEAP",
+body: "Todas as empresas que solicitam subvenções ou empréstimos ROGEAP devem preencher o Questionário de Triagem como parte das etapas de Manifestação de Interesse (EOI) e Diligência Devida. O questionário tem duas funções: (1) identificar critérios de desqualificação automática (critérios de exclusão), e (2) avaliar a maturidade do SGAS existente da empresa para informar o que deve ser desenvolvido ou melhorado antes da aprovação do financiamento.\n\nAs empresas são classificadas como: Não Elegível (critérios de exclusão atendidos), Categoria B1 — Baixo Risco (impacto adverso mínimo; componentes básicas do SGAS necessárias), ou Categoria B2 — Risco Médio (requer um PAAS e monitoramento rigoroso)."
+},
+{
+heading: "Critérios de exclusão — Seção C1",
+body: "Uma única resposta 'Sim' a qualquer critério de exclusão desqualifica automaticamente a empresa do financiamento ROGEAP. Os critérios incluem: trabalho forçado, trabalho infantil, comércio transfronteiriço de resíduos não conforme com a Convenção de Basileia, incidentes/acidentes de SSO confirmados (a menos que devidamente documentados e remediados), VBG/Exploração e Abuso Sexual confirmados, e discriminação confirmada contra grupos vulneráveis.\n\nNota sobre incidentes de SSO: Empresas com incidentes de SSO confirmados ainda podem se qualificar SE puderem demonstrar com documentação que os problemas foram adequadamente tratados e verificados. O mesmo princípio se aplica a casos de VBG/ASS.\n\nFonte: Diretrizes SGAS ROGEAP, Tabela 6, Seção C — pp.27-28."
+},
+{
+heading: "Avaliação do SGAS e Políticas — Seção C2",
+body: "Esta seção avalia se a empresa possui instrumentos fundamentais de gestão A&S: uma Política A&S, Política de RH (com disposições de não-discriminação, proibição de trabalho infantil e trabalho forçado), e um mecanismo de reclamação para trabalhadores. Empresas que não possuam esses elementos devem desenvolvê-los como compromissos do PAAS dentro do prazo estabelecido no acordo de subvenção.\n\nO Kit de Ferramentas SGAS IFC, Elemento 1 (Política) afirma que uma política escrita deve ser o 'fundamento do seu SGAS' e deve incluir um compromisso de cumprir a legislação aplicável, atender aos requisitos dos Padrões de Desempenho, e melhorar o desempenho A&S ao longo do tempo."
+},
+{
+heading: "Avaliação de SSO — Seção C3",
+body: "A avaliação de SSO verifica se a empresa possui: uma política ou diretrizes de SSO documentadas, pessoal de SSO designado, EPI fornecido, treinamento regular de SSO, um sistema documentado de rastreamento de incidentes/acidentes, um Código de Conduta, treinamento em VBG, e um sistema de monitoramento das condições de trabalho. Estes mapeiam diretamente para os requisitos do Plano de SSO ROGEAP na Seção 8 das Diretrizes.\n\nO Padrão de Desempenho IFC 2 exige que as empresas identifiquem e avaliem os riscos à saúde e segurança dos trabalhadores, implementem medidas de controle usando a hierarquia de controles (eliminar → substituir → engenharia → administrar → EPI), e monitorem o desempenho."
+},
+{
+heading: "Avaliação de Resíduos Eletrônicos — Seção C4",
+body: "Os resíduos eletrônicos constituem o risco ambiental de maior prioridade no setor solar fora da rede. A triagem verifica: uma política/processo de coleta de baterias, um processo de reciclagem/descarte de baterias de chumbo-ácido e lítio-íon, acordos de recompra com fabricantes, coleta sistemática dos consumidores, e educação dos clientes sobre resíduos eletrônicos.\n\nO PD IFC 3 (Eficiência de Recursos e Prevenção da Poluição) exige que as empresas evitem liberar poluentes devido a operações de rotina, evitem a geração de resíduos perigosos, e garantam o descarte responsável de resíduos perigosos. O descarte inadequado de baterias de chumbo-ácido é uma violação direta do PD 3 e pode constituir despejo ilegal sob a maioria das leis ambientais nacionais nos países ROGEAP."
+},
+{
+heading: "Avaliação do Engajamento de Partes Interessadas e MR — Seção C5",
+body: "A seção PEPI/MR avalia se a empresa possui: um Plano de Engajamento de Partes Interessadas, processos de identificação de partes interessadas, atividades de educação pública, eventos de engajamento comunitário, e um mecanismo de reclamação escrito. O ESS10 do Banco Mundial exige que todos os negócios apoiados tenham um PEPI e um Mecanismo de Reclamações, incluindo um processo específico para reclamações de VBG/EAS.\n\nO Manual Operacional ROGEAP especifica que as reclamações de VBG/EAS/ASS devem ser tratadas confidencialmente, rapidamente (dentro de 72 horas), sob uma abordagem centrada no sobrevivente, com vias de encaminhamento para serviços médicos, psicossociais e jurídicos."
+}
+],
+resources: [
+{ label: "Diretrizes SGAS ROGEAP para Empresas de Energia Solar Fora da Rede (PDF)" },
+{ label: "Padrões de Desempenho IFC (2012)" },
+{ label: "Kit de Ferramentas SGAS IFC — Geral (2015)" },
+{ label: "FIRST para Sustentabilidade — Gerenciamento de Riscos A&S" },
+{ label: "Manual Operacional ROGEAP" },
+]
+},
+
+policy: {
+title: "Políticas Organizacionais",
+summary: "As políticas constituem o fundamento de governança do seu SGAS. Elas comunicam o compromisso da gestão com a responsabilidade ambiental e social a todas as partes interessadas — funcionários, clientes, investidores e reguladores. As diretrizes ROGEAP exigem no mínimo: uma Política A&S, Política de RH (com Código de Conduta), uma política ou procedimento de saúde e segurança, uma política de gestão de resíduos, e um compromisso de proteção ao consumidor. Todas devem ser assinadas pela alta gestão.",
+sections: [
+{
+heading: "O que torna uma política eficaz",
+body: "O Kit de Ferramentas SGAS IFC identifica três condições para uma política eficaz: (1) Conscientização — a gestão, os funcionários e as partes interessadas compreendem a política A&S e as questões ambientais e sociais relevantes; (2) Comprometimento — a gestão e os funcionários estão comprometidos em operar de acordo com a política ('adesão'); (3) Implementação — a política é conduzida pela prática diária através de planos, procedimentos, responsabilidades atribuídas, treinamento e recursos alocados.\n\nUma política que existe apenas como documento não é uma política implementada. Os revisores ROGEAP e os investidores IFD solicitarão evidências de que a política foi comunicada aos funcionários, está exposta no local de trabalho e se reflete nas práticas operacionais."
+},
+{
+heading: "Política A&S — Requisitos ROGEAP",
+body: "A Política A&S é o Componente 1 do ROGEAP e deve estar em vigor para todos os candidatos, embora a complexidade aumente com a maturidade do negócio:\n\nEstágio 1 (Início): Compromisso básico de sustentabilidade em alto nível na documentação da empresa.\nEstágio 2 (Fase Inicial): Política documentada descrevendo os principais princípios, metas e compromissos A&S que refletem os valores da empresa.\nEstágio 3 (Crescimento-Maturidade): Política A&S abrangente alinhada com padrões internacionais (ISO 14001), incluindo metas quantitativas integradas à estratégia de negócios.\n\nNo mínimo, a Política A&S ROGEAP deve abordar: conformidade legal (leis nacionais e normas ROGEAP), gestão ambiental (resíduos, recursos), responsabilidade social (trabalho, comunidade, gênero), e governança (anticorrupção, MR). Uma declaração de tolerância zero para VBG/ASS é explicitamente exigida.\n\nFonte: Diretrizes SGAS ROGEAP, Seção 3, pp.15-18; Caixa 1: exemplo de declaração de política."
+},
+{
+heading: "Política de RH — Requisitos PD IFC 2",
+body: "O Padrão de Desempenho IFC 2 (Condições de Trabalho e Emprego) exige que as empresas mantenham uma política de RH cobrindo: termos e condições de emprego, não-discriminação e igualdade de oportunidades, proibição de trabalho infantil e trabalho forçado, liberdade de associação, salários justos, jornada de trabalho, e um mecanismo de reclamação para trabalhadores.\n\nAs diretrizes ROGEAP acrescentam: a Política de RH deve incluir um Código de Conduta para todos os trabalhadores e subcontratados abordando VBG/ASS, não-discriminação e conformidade de segurança. Todos os trabalhadores — incluindo contratados e trabalhadores eventuais — devem assinar o Código de Conduta antes de começar a trabalhar. Cópias assinadas devem ser mantidas em arquivo.\n\nO PD IFC 2 §7 define 'trabalhadores' como incluindo funcionários diretos, trabalhadores contratados, trabalhadores da cadeia de fornecimento primária e trabalhadores comunitários."
+},
+{
+heading: "Política de Gestão de Resíduos — PD IFC 3",
+body: "O Padrão de Desempenho IFC 3 (Eficiência de Recursos e Prevenção e Gestão da Poluição) exige que as empresas evitem gerar resíduos perigosos e não perigosos; quando os resíduos não puderem ser evitados, devem reduzir, reutilizar, recuperar, reciclar e tratar os resíduos antes do descarte. Para empresas de energia solar fora da rede, a principal preocupação com resíduos são as baterias de chumbo-ácido e lítio-íon, classificadas como resíduos perigosos na maioria dos marcos nacionais e convenções internacionais.\n\nA Política de Gestão de Resíduos deve demonstrar compromisso com: Responsabilidade do Produtor Estendida (RPE), parceria com recicladores certificados, proibição de despejo a céu aberto ou queima, e educação dos clientes sobre descarte responsável. As diretrizes ROGEAP citam o Kit de Ferramentas de Resíduos Eletrônicos da GOGLA como um recurso chave para empresas de energia solar fora da rede.\n\nFonte: Diretrizes SGAS ROGEAP, Seção 10, pp.72-79."
+},
+{
+heading: "Política de Proteção ao Consumidor — Código GOGLA",
+body: "O Código de Proteção ao Consumidor GOGLA é o referencial setorial para empresas de energia solar fora da rede. Ele se baseia em seis princípios: Transparência, Vendas e Preços Responsáveis, Bom Atendimento ao Consumidor, Boa Qualidade do Produto, Privacidade de Dados e Tratamento Justo e Respeitoso. As empresas que aderem ao Código enviam uma carta assinada à GOGLA (consumerprotection@gogla.org) e concluem uma autoavaliação em três meses.\n\nO PD IFC 4 (Saúde, Segurança e Proteção da Comunidade) fundamenta a proteção ao consumidor no arcabouço do SGAS — exigindo que as empresas identifiquem e previnam proativamente os riscos à saúde e segurança das comunidades decorrentes de seus produtos e serviços.\n\nFonte: Diretrizes SGAS ROGEAP, Seção 8 (Proteção ao Consumidor), pp.61-63; Código de Proteção ao Consumidor GOGLA."
+}
+],
+resources: [
+{ label: "Kit de Ferramentas SGAS IFC Elemento 1 — Política" },
+{ label: "Padrão de Desempenho IFC 2 — Condições de Trabalho e Emprego" },
+{ label: "Padrão de Desempenho IFC 3 — Eficiência de Recursos e Prevenção da Poluição" },
+{ label: "Código de Proteção ao Consumidor GOGLA" },
+{ label: "Diretrizes SGAS GOGLA para Empresas de Energia Solar Fora da Rede" },
+{ label: "REA Nigéria — Modelo SGAS para Energia Solar Fora da Rede" },
+]
+},
+
+risks: {
+title: "Identificação e Avaliação de Riscos A&S",
+summary: "A avaliação de riscos é o motor do seu SGAS — ela determina o que você precisa gerenciar, com qual prioridade e com quais recursos. As diretrizes ROGEAP usam uma matriz de probabilidade × gravidade para classificar os riscos de BAIXO (1) a CRÍTICO (16). Para empresas de energia solar fora da rede, os riscos de maior prioridade são: resíduos de baterias, trabalho em altura, riscos elétricos, VBG/ASS e venda abusiva a consumidores vulneráveis.",
+sections: [
+{
+heading: "Abordagem de avaliação de riscos ROGEAP",
+body: "As diretrizes ROGEAP descrevem um processo de avaliação de riscos em dois estágios: (1) Triagem — uma avaliação simplificada tipo lista de verificação para categorizar o nível de risco A&S geral da empresa (Baixo/Médio/Alto); (2) Avaliação Detalhada — um registro de riscos pontuado onde cada risco identificado recebe uma classificação de Probabilidade (1-4) e uma classificação de Gravidade/Impacto (1-4).\n\nClassificação de Risco = Probabilidade × Gravidade:\n• 1-2: BAIXO — monitorar, sem ação urgente\n• 3-5: MÉDIO — implementar controles dentro do prazo acordado\n• 6-8: ALTO — priorizar; ação em 30 dias\n• 9-16: CRÍTICO — ação imediata necessária\n\nFonte: Diretrizes SGAS ROGEAP, Seção 4, pp.19-31; diagrama da matriz de riscos."
+},
+{
+heading: "Principais categorias de risco para empresas de energia solar fora da rede",
+body: "As Diretrizes ROGEAP (Tabela 5, pp.23-26) identificam as seguintes categorias de risco para empresas de energia solar fora da rede:\n\n1. RESÍDUOS ELETRÔNICOS (Alta probabilidade / Alto impacto): O descarte inadequado de baterias de chumbo-ácido e lítio-íon causa envenenamento por chumbo e contaminação do solo e da água.\n\n2. SSO — TRABALHO EM ALTURA (Alta probabilidade / Alto impacto): Quedas durante a instalação e manutenção em telhados são a causa mais comum de lesões graves no setor de instalação solar.\n\n3. SSO — RISCOS ELÉTRICOS (Probabilidade média / Impacto crítico): Choque elétrico e arco elétrico durante a instalação e manutenção de sistemas CC/CA energizados.\n\n4. GÊNERO / VBG / ASS (Probabilidade média / Alto impacto): Aplica-se tanto dentro do local de trabalho quanto durante as operações de campo envolvendo interações com clientes nas comunidades.\n\n5. TRABALHO (Probabilidade média / Alto impacto): Condições de emprego, risco de trabalho infantil nas cadeias de fornecimento, e ausência de mecanismos de reclamação para trabalhadores.\n\n6. PROTEÇÃO AO CONSUMIDOR (Alta probabilidade / Alto impacto): Venda abusiva a clientes rurais de baixa renda, incluindo superestimar a capacidade do produto e vender a clientes que não podem arcar com os pagamentos."
+},
+{
+heading: "Análise de causa raiz",
+body: "As diretrizes ROGEAP enfatizam que após classificar os riscos, as empresas devem realizar uma análise de causa raiz (ACR) para entender POR QUE os riscos existem, não apenas o que são. A abordagem recomendada é o método dos '5 Porquês' ou o diagrama de Ishikawa (espinha de peixe).\n\nExemplo — Risco de descarte de baterias:\nPor que as baterias são descartadas inadequadamente? → Os clientes não conhecem os perigos.\nPor que não sabem? → Nenhuma instrução de descarte fornecida no ponto de venda.\nPor quê não? → Nenhuma política exigindo isso.\nPor que nenhuma política? → Ninguém foi designado como responsável.\nCausa raiz: Ausência de atribuição de responsabilidade pela gestão de resíduos.\n\nIsso leva a uma ação corretiva direcionada em vez de uma resposta no nível dos sintomas. Fonte: Diretrizes SGAS ROGEAP, pp.31-32."
+},
+{
+heading: "Requisitos IFC de avaliação de riscos",
+body: "O Padrão de Desempenho IFC 1 (Avaliação e Gestão de Riscos e Impactos Ambientais e Sociais) exige que as empresas: (1) identifiquem todos os riscos e impactos A&S relevantes, diretos e da cadeia de fornecimento; (2) avaliem a significância de cada risco usando probabilidade e gravidade; (3) desenvolvam medidas de gestão proporcionais ao nível de risco; (4) monitorem e revisem periodicamente o status dos riscos.\n\nO Kit de Ferramentas SGAS IFC (Elemento 2) fornece um processo estruturado: identificar aspectos → avaliar impactos → priorizar aspectos → desenvolver objetivos e metas. O registro de riscos é o resultado desse processo e é o 'documento vivo' do seu SGAS, atualizado no mínimo anualmente ou após qualquer incidente significativo ou mudança operacional."
+}
+],
+resources: [
+{ label: "Kit de Ferramentas SGAS IFC Elemento 2 — Identificação de Aspectos e Impactos" },
+{ label: "Padrão de Desempenho IFC 1 — Avaliação e Gestão de Riscos A&S" },
+{ label: "Marco Ambiental e Social do Banco Mundial (2017)" },
+{ label: "Guia ESRM da CEDEAO sobre Energia Solar Fora da Rede" },
+]
+},
+
+compliance: {
+title: "Conformidade Legal e Regulatória",
+summary: "A conformidade — a adesão sistemática a todos os requisitos legais, regulatórios, fiscais e contratuais aplicáveis — é uma condição básica do ROGEAP. As empresas devem cumprir as leis ASSA nacionais em todos os países de operação. As diretrizes ROGEAP distinguem quatro categorias de conformidade: Legal, Regulatória, Fiscal e Outros Compromissos (normas voluntárias, contratos).",
+sections: [
+{
+heading: "Categorias de conformidade para empresas de energia solar fora da rede",
+body: "A Seção 5 das Diretrizes SGAS ROGEAP (pp.32-36) identifica as seguintes categorias de conformidade:\n\n1. LEIS AMBIENTAIS: Regulamentos das agências ambientais nacionais; requisitos de AIA (raramente acionados por energia solar fora da rede, mas verificar); regulamentações de gestão de resíduos; controle de poluição; gestão de substâncias químicas/perigosas.\n\n2. LEIS SOCIAIS/TRABALHISTAS: Leis trabalhistas nacionais (salário mínimo, jornada de trabalho, horas extras, não-discriminação, proibição de trabalho infantil, liberdade de associação, procedimentos de demissão); contribuições previdenciárias; leis de relações comunitárias.\n\n3. LEIS DE PROTEÇÃO AO CONSUMIDOR: Segurança de produtos, práticas comerciais justas, precificação transparente, obrigações de garantia, privacidade de dados dos consumidores.\n\n4. LEIS DE SSO: Leis de SSO nacionais; avaliações de risco obrigatórias; fornecimento de EPI; primeiros socorros; comitês de segurança; treinamento de SSO; notificação de acidentes.\n\n5. REGISTRO DE EMPRESAS E LICENÇAS: Constituição da empresa; registros anuais; licenças de operação; registros em órgãos profissionais para funções técnicas.\n\n6. REGULAMENTAÇÕES DO SETOR DE ENERGIA: Licenciamento NERC/REA; normas de produtos (IEC, VeraSol); licenças municipais.\n\n7. IMPOSTOS: Imposto de renda corporativo; IVA/ICMS; IRRF; imposto retido na fonte; taxas aduaneiras.\n\n8. NORMAS VOLUNTÁRIAS: PD IFC, ISO 14001/45001, Código GOGLA de Proteção ao Consumidor, Princípios Orientadores da ONU, políticas anticorrupção (ABC)."
+},
+{
+heading: "Registro legal — O que rastrear",
+body: "Para cada lei ou regulamento aplicável, as diretrizes ROGEAP (pp.36-37) recomendam documentar: Nome e Citação da Lei/Regulamento; Autoridade Emissora; Data de Vigência e emendas; Seções Relevantes para as operações de energia solar fora da rede; Requisitos/Obrigações Específicas; Aplicabilidade às Operações da Empresa; Frequência de Conformidade; Evidências de Conformidade exigidas; Pessoa/Departamento Responsável; Data de Revisão.\n\nEste registro deve ser mantido atualizado. Designe um 'campeão da conformidade' responsável por assinar boletins oficiais do governo, newsletters de agências nacionais de energia/ambiente e atualizações de associações do setor para rastrear mudanças regulatórias.\n\nFonte: Diretrizes SGAS ROGEAP, pp.36-37 (procedimentos para garantir conformidade)."
+},
+{
+heading: "Licenças e autorizações",
+body: "Além da conformidade legal, a Seção 5 do ROGEAP (pp.38-39) exige uma Matriz de Licenças e Autorizações rastreando: nome da licença, autoridade emissora, requisitos de solicitação, período de validade, datas de renovação, taxas associadas e o indivíduo responsável pela solicitação/renovação.\n\nPara empresas de energia solar fora da rede na África Ocidental e Central, as licenças chave geralmente incluem: licença de operação comercial (governo municipal), registro de empreiteiro elétrico (para atividades de instalação), aprovação de manejo de resíduos eletrônicos (NESREA ou equivalente), licença NERC/REA (para atividades de energia relevantes), e licenças de importação para equipamentos solares.\n\nA Tabela 7 (Lista de Verificação de Rastreamento de Conformidade) e a Tabela 8 (Modelo de Registro Legal e Regulatório) das diretrizes ROGEAP fornecem modelos prontos para uso."
+},
+{
+heading: "Requisitos IFC de conformidade",
+body: "O Kit de Ferramentas SGAS IFC (Elemento 3 — Requisitos Legais e Outros) exige que as empresas: (1) tenham um procedimento para identificar os requisitos legais aplicáveis; (2) garantam que esses requisitos sejam incorporados ao seu SGAS; (3) realizem revisões periódicas para verificar a conformidade; e (4) mantenham registros do status de conformidade.\n\nO PD IFC 1 §18 afirma: 'O cliente cumprirá as leis e regulamentos aplicáveis das jurisdições nas quais opera que pertençam aos requisitos de trabalho, ambientais e sociais deste Padrão de Desempenho.' O não cumprimento da lei nacional é um gatilho direto para ação dos investidores, incluindo violações de cláusulas de empréstimo."
+}
+],
+resources: [
+{ label: "Kit de Ferramentas SGAS IFC Elemento 3 — Requisitos Legais" },
+{ label: "Padrões de Desempenho IFC (2012)" },
+{ label: "ISO 14001 — Sistemas de Gestão Ambiental" },
+{ label: "Código de Proteção ao Consumidor GOGLA" },
+]
+},
+
+plans: {
+title: "Planos de Gestão Ambiental e Social",
+summary: "Os Planos de Gestão Ambiental e Social (PGAS) constituem a espinha dorsal operacional do seu SGAS. Eles traduzem os compromissos das políticas e avaliações de riscos em procedimentos de gestão diária, responsabilidades e monitoramento. As diretrizes ROGEAP exigem sete planos de gestão para empresas de energia solar fora da rede: Plano de SSO, Plano de Saúde e Segurança Comunitária, Plano de Proteção ao Consumidor, Plano de Gestão de Resíduos, Plano de Preparação para Emergências, Plano de RH e Plano de Engajamento de Partes Interessadas.",
+sections: [
+{
+heading: "Estrutura de um PGAS",
+body: "Cada PGAS deve incluir os seguintes componentes (ROGEAP §7, p.47):\n• Análise de Impacto: Tipos de impactos potenciais e formas de mitigá-los\n• Ações de Mitigação: Etapas específicas para reduzir ou compensar impactos negativos\n• Padrões Ambientais e Sociais: Diretrizes para produtos e operações\n• Plano de Monitoramento: Como o desempenho será rastreado e quais dados coletados\n• Papéis e Responsabilidades: Quem é responsável por cada tarefa e atividade\n• Estratégia de Comunicação: Como a empresa compartilhará informações e tratará reclamações\n• Cronograma e Custos: Prazo de implementação e orçamento estimado\n• Engajamento Comunitário: Como as partes interessadas serão envolvidas ao longo do processo\n\nO Kit de Ferramentas SGAS IFC (Elemento 4) enquadra isso como a etapa de 'programas e gestão': converter os compromissos das políticas e os resultados da avaliação de riscos em controles operacionais específicos."
+},
+{
+heading: "Plano de SSO — ROGEAP §8",
+body: "O Plano de SSO é exigido sob o PD IFC 2/ESS2 do BM. Elementos chave (ROGEAP, pp.49-56):\n1. Declaração de compromisso da gestão\n2. Identificação de perigos e avaliação de riscos (com perigos específicos da energia solar fora da rede: quedas, elétrico, baterias, veículos, trabalho remoto, VBG/ASS)\n3. Medidas de controle de riscos usando a hierarquia: Eliminar → Substituir → Engenharia → Administrar → EPI\n4. Requisitos de EPI por tarefa\n5. Programa de treinamento (indução, treinamento certificado para tarefas de alto risco, diálogos de segurança)\n6. Procedimento de notificação e investigação de incidentes\n7. Metas e KPIs de SSO\n\nRequisito crítico ROGEAP: Os procedimentos de Bloqueio/Etiquetagem (LOTO) devem estar em vigor antes de qualquer trabalho elétrico. VBG/ASS deve ser explicitamente listada como um perigo de SSO com uma rota de notificação confidencial. Fonte: ROGEAP §8, pp.49-56 + Tabela 11 (Formulário de Relatório de Incidente) + Tabela 12 (Modelo de Plano de SSO)."
+},
+{
+heading: "Plano de Gestão de Resíduos — ROGEAP §10",
+body: "O Plano de Gestão de Resíduos é exigido sob o PD IFC 3/ESS3 do BM. As diretrizes ROGEAP (pp.72-79) colocam os resíduos eletrônicos no centro do plano — é o risco ambiental de maior prioridade para o setor de energia solar fora da rede.\n\nElementos chave: (1) Auditoria de resíduos — identificar tipos e quantidades; (2) Estratégias de gestão de resíduos aplicando a hierarquia 5R (Reduzir → Reutilizar → Reparar → Remanufaturar → Reciclar); (3) Implementação de um sistema de recolhimento com incentivos para os clientes; (4) Engajamento com o setor informal de reciclagem onde prevalente; (5) Monitoramento e revisão.\n\nRequisito crítico PD IFC 3: Os resíduos perigosos (baterias) devem ser descartados por meio de instalações licenciadas e reguladas. A empresa deve manter registros (manifestos de resíduos, certificados de reciclagem) demonstrando descarte responsável. Lançar resíduos perigosos no meio ambiente por canais informais — mesmo que seja 'prática comum' — constitui não conformidade.\n\nFonte: ROGEAP §10, pp.72-79; Tabela 15-16 (modelos de gestão de resíduos)."
+},
+{
+heading: "Plano de Preparação para Emergências — ROGEAP §11",
+body: "O Plano de Preparação e Resposta a Emergências (PPRE) é exigido sob os PD IFC 2/4. As diretrizes ROGEAP (pp.80-85) descrevem um processo geral de gestão de emergências: Identificação de Perigos → Procedimentos de Resposta a Emergências → Procedimentos de Desligamento → Equipamentos e Instalações → Contatos de Emergência → Planos de Evacuação → Treinamento e Simulações → Revisão e Atualização.\n\nPara empresas de energia solar fora da rede, os cenários prioritários são: incêndios e incidentes elétricos, ruptura térmica/derramamento de ácido de baterias, acidentes de veículos, desastres naturais (enchentes, tempestades), incidentes de segurança (furto, distúrbios civis) e incidentes de VBG/ASS. Todos os procedimentos devem estar por escrito, testados regularmente por meio de simulações e atualizados após cada simulação ou incidente real.\n\nFonte: ROGEAP §11, pp.80-85 + Tabela 16-17 (cenários de emergência e procedimentos)."
+},
+{
+heading: "Plano de Engajamento de Partes Interessadas — ROGEAP §12",
+body: "O PEPI é exigido sob o ESS10 do BM e o PD IFC 1. A boa prática IFC (referenciada no ROGEAP §12, pp.86-89) exige um engajamento que seja: Direcionado, Antecipado, Informado, Bidirecional, Sensível ao Gênero, Localizado, Documentado e Reportado.\n\nO PEPI deve incluir: (1) identificação e análise das partes interessadas (mapeamento por interesse e influência); (2) planejamento do engajamento (objetivos, métodos, frequência, orçamento); (3) implementação (divulgação proativa, canais de feedback, mecanismo de reclamação); (4) monitoramento e avaliação (KPIs, revisões regulares).\n\nRequisito crítico: O engajamento deve aplicar os princípios de Consentimento Livre, Prévio e Informado (CLPI). Mulheres e grupos vulneráveis devem ser especificamente incluídos — fóruns separados podem ser necessários em contextos onde a participação mista de gênero é culturalmente limitada. Fonte: ROGEAP §12, pp.86-89; Tabela 17 (modelo de registro de partes interessadas)."
+}
+],
+resources: [
+{ label: "Kit de Ferramentas SGAS IFC Elementos 4-6 — Programas e Monitoramento" },
+{ label: "PD IFC 2 — Condições de Trabalho e Emprego" },
+{ label: "PD IFC 3 — Eficiência de Recursos e Prevenção da Poluição" },
+{ label: "PD IFC 4 — Saúde, Segurança e Proteção da Comunidade" },
+{ label: "Diretrizes de SSO da OIT para a Indústria Solar" },
+{ label: "Kit de Ferramentas de Resíduos Eletrônicos GOGLA" },
+{ label: "Plantas de Negócios GOGLA para Gestão de Resíduos Eletrônicos" },
+{ label: "Relatório ACE de Ganhos Rápidos em Resíduos Eletrônicos" },
+]
+},
+
+tools: {
+title: "Ferramentas de Implementação",
+summary: "As Ferramentas de Implementação são a camada operacional do seu SGAS — as listas de verificação, registros, logs e formulários que transformam planos escritos em prática diária. Cada ferramenta nesta seção é baseada diretamente nos modelos das Diretrizes SGAS ROGEAP e do Kit de Ferramentas SGAS IFC. Elas são pré-preenchidas com os requisitos de linha de base ROGEAP e totalmente editáveis para corresponder ao contexto da sua empresa.",
+sections: [
+{
+heading: "Por que as ferramentas de implementação são importantes",
+body: "O Kit de Ferramentas SGAS IFC (Elemento 7 — Análise Crítica da Gestão e Melhoria Contínua) enfatiza que um SGAS só entrega valor quando os instrumentos de gestão são realmente utilizados. Sem registros operacionais — logs de incidentes, registros de treinamento, rastreamento de resíduos, logs de reclamações — você não pode demonstrar a investidores, auditores ou reguladores que seus planos estão sendo implementados.\n\nOs revisores ROGEAP e os investidores IFD solicitam especificamente: Códigos de Conduta assinados, registros de treinamento, relatórios de incidentes, certificados de descarte de resíduos e logs de reclamações como evidências de implementação do SGAS. A ausência de registros é tratada como ausência de implementação."
+},
+{
+heading: "Questionário de Triagem ROGEAP (Ferramenta 1)",
+body: "Diretamente reproduzido da Tabela 6 do ROGEAP. Use-o como uma autoavaliação para identificar lacunas do SGAS, preparar-se para a diligência devida dos investidores e determinar o que deve ser comprometido no seu PAAS. O questionário abrange cinco domínios: Critérios de Exclusão, SGAS/Políticas, SSO, Resíduos Eletrônicos e Engajamento de Partes Interessadas/MR."
+},
+{
+heading: "Registro e Matriz de Riscos (Ferramenta 2)",
+body: "Implementa a metodologia de classificação de riscos probabilidade × gravidade do ROGEAP (descrita na Seção 4, pp.22-23 das Diretrizes). Pré-preenchido com 15 riscos de linha de base para energia solar fora da rede da Tabela 5 (ROGEAP pp.23-26), cobrindo: resíduos eletrônicos, SSO, gênero/ASS, trabalho, proteção ao consumidor, segurança comunitária e riscos da cadeia de fornecimento. Adicione riscos específicos da empresa e atribua medidas de mitigação e pessoas responsáveis."
+},
+{
+heading: "Log de Incidentes e Quase-Acidentes (Ferramenta 5)",
+body: "Baseado na Tabela 11 do ROGEAP (Formulário Modelo de Relatório de Incidente/Acidente, p.52). Todos os acidentes, lesões, quase-acidentes e ocorrências perigosas devem ser registrados em 24 horas. Lesões graves e fatalidades devem ser notificadas à autoridade nacional de trabalho/SSO em 48 horas (os prazos específicos variam por país). A análise de causa raiz deve ser concluída para todos os incidentes em 5 dias úteis.\n\nO Kit de Ferramentas SGAS IFC exige que os dados de incidentes sejam revisados para tendências e usados para melhorar continuamente o Plano de SSO."
+},
+{
+heading: "Registro de Rastreamento de Resíduos (Ferramenta 8)",
+body: "Baseado na Tabela 15 do ROGEAP (Modelo de Gestão de Descarte de Resíduos, p.73). Registra tipo de resíduo, quantidade, fonte, ação 5R aplicada, rota de descarte, reciclador/parceiro e número do certificado. Os Certificados de Reciclagem de recicladores licenciados são a principal evidência de conformidade com o PD IFC 3 para resíduos perigosos. Mantenha todos os certificados por no mínimo 5 anos.\n\nRastreie separadamente: baterias de chumbo-ácido (classificadas como perigosas segundo a Convenção de Basileia), baterias de lítio, painéis solares e acessórios. As diretrizes ROGEAP (p.72) citam o rastreamento adequado de resíduos como essencial para demonstrar conformidade com a Responsabilidade do Produtor Estendida (RPE)."
+},
+{
+heading: "Log de Reclamações (Ferramenta 10)",
+body: "Baseado nas Tabelas 20 e 21 do ROGEAP (formato do log MR, pp.92-94). Registra todas as reclamações — de funcionários, clientes e comunidades — usando o processo MR ROGEAP de cinco estágios: Identificação (Dia 1) → Avaliação e Registro (Dias 1-3) → Reconhecimento (dentro de 3 dias) → Desenvolvimento da Resposta (Dias 4-8) → Implementação e Comunicação (Dias 5-15).\n\nClassificação por nível: Nível 1 (evento isolado) → processo padrão; Nível 2 (generalizado ou repetido) → escalonamento para a gestão; Nível 3 (violação de lei ou política) → envolvimento imediato da alta gestão e possível notificação regulatória.\n\nPara reclamações de VBG/ASS: mantenha um log confidencial separado. Registre apenas a natureza da reclamação e o resultado do processamento — nunca dados pessoais da vítima — no log geral. Fonte: ROGEAP §13, pp.90-94."
+},
+{
+heading: "Avaliação A&S de Fornecedores (Ferramenta 11)",
+body: "O PD IFC 2 §27-29 exige diligência devida na cadeia de fornecimento, particularmente em relação ao trabalho infantil, trabalho forçado e saúde e segurança dos trabalhadores nas cadeias de fornecimento primárias. Para empresas de energia solar fora da rede, o principal risco da cadeia de fornecimento é a fabricação de painéis solares — a cadeia de fabricação apresenta casos documentados de trabalho forçado (particularmente na produção de polissilício) e riscos de trabalho infantil na mineração de materiais para baterias.\n\nA ferramenta de Avaliação de Fornecedores ajuda você a: identificar fornecedores de alto risco por categoria e país; avaliar suas políticas A&S; e exigir padrões A&S contratuais como condição de fornecimento."
+},
+{
+heading: "Formulário de Monitoramento ROGEAP (Ferramenta 12)",
+body: "Diretamente reproduzido da Tabela 22 do ROGEAP (Formulário de Monitoramento de Riscos Ambientais e Sociais para Empresas de Energia Solar). Este formulário é usado para relatórios de monitoramento trimestrais submetidos sob acordos de subvenção/empréstimo ROGEAP. Ele cobre: status geral do SGAS, políticas e processos, capacidade e treinamento, atividades de monitoramento, relatórios e implementação do mecanismo de reclamação.\n\nPreencha este formulário no mínimo trimestralmente e mantenha cópias como evidência da implementação contínua do SGAS. O Kit de Ferramentas SGAS IFC (Elemento 7) descreve a análise crítica da gestão como o mecanismo para 'fechar o ciclo' — os dados de desempenho devem ser revisados pela gestão e usados para tomar decisões, não apenas arquivados."
+}
+],
+resources: [
+{ label: "Kit de Ferramentas SGAS IFC — Geral (2015)" },
+{ label: "Manual de Implementação SGAS IFC — Geral" },
+{ label: "Manual Operacional ROGEAP — Procedimentos MR" },
+{ label: "Recurso de Reclamações do CAO" },
+{ label: "Kit de Ferramentas SGAS Clean Energy CAMO" },
+]
+},
+
+esap: {
+title: "Plano de Ação Ambiental e Social (PAAS)",
+summary: "O PAAS é um roteiro vinculante e responsável que compromete sua empresa a desenvolver ou melhorar componentes específicas do SGAS em datas específicas. É exigido pelo ROGEAP para: (1) todas as empresas que ainda não possuem todas as componentes do SGAS em vigor, e (2) todas as empresas classificadas como risco A&S médio/alto (Categoria B2). O PAAS está incluído no acordo jurídico de subvenção/empréstimo com o ROGEAP.",
+sections: [
+{
+heading: "O que é um PAAS e quando é exigido",
+body: "Um Plano de Ação Ambiental e Social (PAAS) consiste em medidas que uma organização implementa ou planeja implementar para abordar riscos e impactos A&S associados a seus produtos, serviços e operações. Ele funciona como um roteiro para garantir conformidade com os requisitos de salvaguarda A&S.\n\nO ROGEAP exige um PAAS para:\n1. Empresas que ainda não possuem todos os componentes do SGAS exigidos — o PAAS compromete-se a desenvolver os componentes ausentes dentro de um ano\n2. Empresas classificadas como Categoria B2 (Risco Médio) devido ao tamanho, histórico de SSO, incidentes de VBG ou condições de trabalho injustas\n\nO PAAS está incorporado no acordo de financiamento e sua implementação é monitorada por meio de relatórios A&S trimestrais. A não implementação dos compromissos do PAAS é uma violação de cláusula que pode desencadear a rescisão do empréstimo ou suspensão da subvenção.\n\nFonte: Diretrizes SGAS ROGEAP §15, pp.98-101."
+},
+{
+heading: "Estrutura do PAAS — Elementos exigidos",
+body: "Cada ação do PAAS deve incluir os seguintes elementos (formato da Tabela 23 do ROGEAP, p.99):\n\n• Ação Exigida: Ação específica e mensurável a ser tomada\n• Entregável/Resultado: O resultado tangível que evidenciará a conclusão\n• Indicador Chave de Desempenho (ICD): Como o sucesso é medido\n• Situação de Referência: Situação atual (o que existe agora)\n• Meta: O estado final desejado\n• Cronograma/Prazo: Data específica até a qual a ação será concluída\n• Pessoa/Função Responsável: Indivíduo nomeado responsável pela entrega\n• Orçamento (USD): Custo estimado de implementação da ação\n\nAs ações do PAAS são organizadas por categoria do SGAS: Avaliação e Sistema de Gestão A&S; Condições de Trabalho e Emprego; SSO; Gestão de Resíduos Eletrônicos; Saúde e Segurança do Usuário Final; Engajamento de Partes Interessadas e MR; Outros Problemas."
+},
+{
+heading: "Exemplo de PAAS — Amostra ROGEAP (Tabela 24)",
+body: "As diretrizes ROGEAP (Tabela 24, pp.99-101) fornecem um PAAS de amostra para uma empresa de energia solar fora da rede desenvolvendo seu SGAS do zero. As ações chave e orçamentos indicativos incluem:\n\n• Política A&S da Empresa: USD 500 — Elaborar, revisar e aprovar a política\n• Avaliação de Riscos A&S: USD 1.000 — Consultor avalia e reporta os riscos A&S\n• Plano de Gestão A&S: USD 1.000 — Consultor elabora o PGAS; gestão revisa e aprova\n• Capacidade Organizacional: USD 1.000 — Avaliar a conscientização A&S; treinar todos os funcionários; recrutar especialista A&S\n• Plano de Preparação para Emergências: USD 500 — Elaborar e aprovar o PPRE; treinar todos os funcionários\n• PEPI e MR: USD 500 cada — Desenvolver, aprovar e operacionalizar\n• Plano de Monitoramento: USD 500 — Desenvolver e implementar o plano de M&A A&S\n\nOrçamento indicativo total para um SGAS básico do zero: aproximadamente USD 5.000–8.000."
+},
+{
+heading: "Desenvolvendo um PAAS crível",
+body: "O Kit de Ferramentas SGAS IFC (Elemento 4 — Objetivos, Metas e Programas) recomenda que os objetivos e metas do PAAS sejam SMART: Específicos, Mensuráveis, Atingíveis, Relevantes e com prazo determinado (Temporais). Ações vagas como 'melhorar a gestão de resíduos' não são aceitáveis — a ação deve especificar o que será feito, por quem e até quando.\n\nErros comuns de PAAS a evitar:\n• Nenhuma pessoa responsável nomeada (nomes de departamentos não são suficientes)\n• Nenhum prazo específico (trimestral ou anual não é específico o suficiente)\n• Metas que não podem ser verificadas (sem ICD mensurável)\n• Orçamentos não alocados (sem orçamento = sem compromisso crível)\n• Ações excessivamente ambiciosas para o cronograma (sinaliza não entrega)\n\nMelhor prática: Revise mensalmente o progresso do PAAS no nível de gestão; reporte trimestralmente o status no Formulário de Monitoramento A&S ROGEAP; escale ações atrasadas ou bloqueadas para o Conselho para decisão."
+},
+{
+heading: "Categorias do PAAS (Formato da Tabela 23 do ROGEAP)",
+body: "Organize suas ações do PAAS sob as seguintes categorias ROGEAP para garantir cobertura abrangente:\n\n1. Sistema de Avaliação e Gestão Ambiental e Social (SGAS geral)\n2. Condições de Trabalho e Emprego (Política de RH, contratos, salários, Código de Conduta)\n3. Saúde e Segurança Ocupacional (Plano de SSO, EPI, notificação de incidentes, treinamento)\n4. Gestão de Resíduos Eletrônicos (sistema de recolhimento, parcerias com recicladores, educação dos clientes)\n5. Saúde e Segurança do Usuário Final/Consumidor (segurança do produto, proteção ao consumidor)\n6. Engajamento de Partes Interessadas e MR (PEPI, mecanismo de reclamação, processo VBG/EAS)\n7. Questões Relacionadas à Terra (se relevante — consentimento escrito dos proprietários de terra para instalações no solo)\n8. Outros Problemas (gênero, cadeia de fornecimento, recursos hídricos conforme aplicável)\n\nFonte: Diretrizes SGAS ROGEAP §15, p.99; Guia Setorial ESRM da CEDEAO."
+}
+],
+resources: [
+{ label: "Kit de Ferramentas SGAS IFC Elemento 4 — Objetivos, Metas e Programas" },
+{ label: "Modelo PAAS do Fundo Verde para o Clima" },
+{ label: "Guia ESRM da CEDEAO sobre Energia Solar Fora da Rede" },
+{ label: "Padrões de Desempenho IFC (2012)" },
+{ label: "Princípios do Equador (2020)" },
+]
+},
+
+tool_risk_matrix: {
+title: "Registro e Matriz de Riscos — Guia",
+summary: "O registro de riscos é o documento analítico central do seu SGAS. Ele lista cada risco A&S significativo, pontua-o por probabilidade e gravidade, e registra os controles em vigor e planejados. Deve ser mantido atualizado — revisado anualmente e após qualquer incidente significativo ou mudança operacional.",
+sections: [
+{
+heading: "Escala de classificação probabilidade × gravidade",
+body: "1 = Baixo: Improvável de ocorrer; impacto mínimo se ocorrer\n2 = Médio: Pode ocorrer ocasionalmente; impacto moderado\n3 = Alto: Provável de ocorrer; impacto significativo\n4 = Extremo: Quase certo; impacto catastrófico\n\nClassificação de Risco = Probabilidade × Gravidade:\n• CRÍTICO (9-16): Ação imediata necessária — não prosseguir sem controles em vigor\n• ALTO (6-8): Prioridade em 30 dias — pessoa responsável nomeada e prazo necessários\n• MÉDIO (3-5): Gerenciar dentro do prazo acordado; monitorar\n• BAIXO (1-2): Monitorar; revisão anual suficiente"
+},
+{
+heading: "Hierarquia de controles",
+body: "Ao desenvolver medidas de mitigação, sempre aplique os controles nesta ordem:\n1. ELIMINAÇÃO — Remover completamente o perigo (ex.: escolher a química de bateria com menor risco de ruptura térmica)\n2. SUBSTITUIÇÃO — Substituir por algo mais seguro (ex.: cabeamento pré-montado para reduzir o trabalho elétrico em altura)\n3. CONTROLES DE ENGENHARIA — Barreiras físicas e proteções (ex.: grades de proteção em telhados, equipamento LOTO)\n4. CONTROLES ADMINISTRATIVOS — Procedimentos, treinamento, supervisão (ex.: sistema de dupla verificação, procedimentos LOTO, canal de notificação de VBG)\n5. EPI — Último recurso; protege o trabalhador, mas não elimina o perigo\n\nO EPI é sempre a última camada — nunca o controle primário. Fonte: PD IFC 2; ISO 45001."
+}
+],
+resources: [
+{ label: "Kit de Ferramentas SGAS IFC Elemento 2 — Identificação de Aspectos e Impactos" },
+{ label: "PD IFC 1 — Avaliação e Gestão de Riscos A&S" },
+]
+},
+
+tool_grievance_log: {
+title: "Log de Reclamações — Guia",
+summary: "O log do Mecanismo de Reclamações registra todas as reclamações de trabalhadores, clientes e comunidades. As diretrizes ROGEAP especificam um processo de 5 estágios com prazos de resposta definidos. As reclamações de VBG/ASS exigem um processo confidencial separado.",
+sections: [
+{
+heading: "Processo MR ROGEAP de 5 estágios",
+body: "ESTÁGIO 1 — IDENTIFICAÇÃO (Dia 1): Reclamação recebida por qualquer canal (telefone, e-mail, pessoalmente, caixa de sugestões). Registrada imediatamente.\n\nESTÁGIO 2 — AVALIAÇÃO E REGISTRO (Dias 1-3): Significância avaliada. Atribuído um Nível: Nível 1 (evento isolado), Nível 2 (generalizado/repetido), Nível 3 (violação de lei/política). Registrada no log MR. Reclamante reconhecido.\n\nESTÁGIO 3 — RECONHECIMENTO (dentro de 3 dias): Reconhecimento formal enviado ao reclamante pelo canal apropriado.\n\nESTÁGIO 4 — DESENVOLVIMENTO E IMPLEMENTAÇÃO DA RESPOSTA (Dias 4-15): Atribuída à pessoa adequada para resolução. Resposta desenvolvida com contribuição da gestão. Ação corretiva implementada. Resultado comunicado ao reclamante.\n\nESTÁGIO 5 — MONITORAMENTO: Resultados rastreados. Dados de reclamações revisados para tendências. Mecanismo atualizado com base nas lições aprendidas.\n\nFonte: Tabela 18 do ROGEAP (p.92) e Tabelas 20-21 (formato do log MR, pp.93-94)."
+},
+{
+heading: "Reclamações de VBG/ASS — Protocolo especial",
+body: "As reclamações de VBG/ASS devem seguir um processo separado e confidencial (ROGEAP §13, pp.91-92):\n\n• ÉTICO: Todas as ações devem respeitar a dignidade, direitos e autonomia do sobrevivente\n• CONFIDENCIAL: Informações compartilhadas apenas com base na necessidade de saber\n• IMPARCIAL: Investigadores imparciais treinados para reconhecer seus próprios preconceitos\n• RÁPIDO: Resposta em 72 horas; prazos claros comunicados ao sobrevivente\n• CENTRADO NO SOBREVIVENTE: Necessidades e bem-estar do sobrevivente no centro; oferecer aconselhamento, cuidados médicos, assistência jurídica\n\nNo log MR geral: registre apenas a NATUREZA da reclamação e o RESULTADO DO PROCESSAMENTO. Nunca registre dados pessoais da vítima no log geral. Mantenha um registro separado protegido por senha para casos de VBG/ASS.\n\nFonte: ROGEAP §13, pp.91-92; Manual Operacional ROGEAP."
+}
+],
+resources: [
+{ label: "Manual Operacional ROGEAP — Procedimentos MR" },
+{ label: "Recurso de Design de Reclamações CAO" },
+{ label: "ESS10 BM — Engajamento de Partes Interessadas" },
+]
+},
+
+tool_waste_register: {
+title: "Registro de Rastreamento de Resíduos — Guia",
+summary: "O Registro de Rastreamento de Resíduos é o registro probatório do seu desempenho de gestão de resíduos. Os Certificados de Reciclagem de recicladores licenciados são a principal evidência de conformidade com o PD IFC 3. Todos os resíduos perigosos (baterias) devem ser rastreáveis desde a geração até o descarte final.",
+sections: [
+{
+heading: "Classificação de resíduos perigosos",
+body: "Baterias de chumbo-ácido: Classificadas como resíduos perigosos segundo a Convenção de Basileia e a maioria dos marcos nacionais. Devem ser manuseadas, armazenadas, transportadas e descartadas apenas por instalações licenciadas. O descarte a céu aberto é ilegal e constitui uma violação do PD IFC 3.\n\nBaterias de lítio-íon: Classificadas como mercadorias perigosas para transporte (UN3480/UN3481). O risco de incêndio durante o transporte requer embalagem específica. Devem ser recicladas por instalações especializadas.\n\nPainéis solares: Geralmente não classificados como perigosos (embora painéis contendo telureto de cádmio sejam uma exceção). A maioria pode ser reciclada como resíduo eletrônico.\n\nFonte: Convenção de Basileia; ROGEAP §10, pp.72-79."
+},
+{
+heading: "Hierarquia 5R aplicada aos resíduos de energia solar fora da rede",
+body: "As diretrizes ROGEAP (p.72, Figura 14) especificam a hierarquia de gestão de resíduos:\n\n1. REDUZIR: Estender a vida útil do produto por meio de manutenção; escolher componentes duráveis; reduzir embalagens\n2. REUTILIZAR: Remanufaturar sistemas devolvidos para o mercado secundário; reutilizar painéis aproveitáveis em aplicações menos exigentes\n3. REPARAR: Oferecer serviços de reparo e manutenção; manter peças de reposição para todos os modelos atuais e recentes\n4. REMANUFATURAR: Recondicionas baterias aproveitáveis; extrair células utilizáveis para aplicações menores\n5. RECICLAR: Parceria com recicladores certificados — último recurso após todas as outras opções esgotadas\n\nO descarte (aterro, incineração) só deve ocorrer para materiais genuinamente irrecuperáveis e deve ser por meio de instalações licenciadas com documentação."
+}
+],
+resources: [
+{ label: "Kit de Ferramentas de Resíduos Eletrônicos GOGLA" },
+{ label: "Plantas de Negócios GOGLA para Gestão de Resíduos Eletrônicos" },
+{ label: "PD IFC 3 — Eficiência de Recursos e Prevenção da Poluição" },
+{ label: "Relatório ACE de Ganhos Rápidos em Resíduos Eletrônicos (África Ocidental)" },
+]
+},
+
+tool_monitoring_form: {
+title: "Formulário de Monitoramento ROGEAP — Guia",
+summary: "O Formulário de Monitoramento de Riscos A&S (Tabela 22 do ROGEAP) é o instrumento de reporte trimestral para detentores de subvenções/empréstimos ROGEAP. Ele verifica que o SGAS está sendo implementado conforme comprometido no PAAS e no acordo de financiamento. Os formulários preenchidos são submetidos ao Gestor Financeiro Parceiro (GFP) como parte do monitoramento A&S padrão.",
+sections: [
+{
+heading: "Processo de monitoramento e revisão",
+body: "A abordagem de monitoramento ROGEAP segue o framework Planejar-Fazer-Verificar-Agir (PFVA):\n\nPLANEJAR: Definir objetivos de monitoramento e ICDs alinhados com os compromissos do SGAS\nFAZER: Coletar dados por meio de inspeções, auditorias, registros de incidentes, registros de treinamento, logs de reclamações\nVERIFICAR: Analisar dados em relação aos ICDs; identificar lacunas e ações corretivas\nAGIR: Implementar ações corretivas; atualizar planos; reportar à gestão e investidores\n\nO Kit de Ferramentas SGAS IFC (Elemento 7) descreve a análise crítica da gestão como o mecanismo chave para 'fechar o ciclo' — os dados de desempenho devem ser revisados pela gestão e usados para tomar decisões, não apenas arquivados. Fonte: ROGEAP §14, pp.95-97."
+},
+{
+heading: "Indicadores chave de desempenho",
+body: "O processo de monitoramento ROGEAP rastreia tanto indicadores de PROCESSO (atividades concluídas) quanto indicadores de DESEMPENHO (resultados alcançados).\n\nIndicadores de processo: Número de sessões de treinamento realizadas; Número de inspeções de SSO conduzidas; Número de reclamações recebidas e resolvidas; Resíduos eletrônicos coletados (kg/unidades).\n\nIndicadores de desempenho: Taxa de lesões com afastamento; Pontuação de satisfação do cliente; Percentual de ações do PAAS concluídas no prazo; Volume de resíduos perigosos para reciclador licenciado vs. resíduos totais.\n\nAmbos os tipos de indicador são necessários — os indicadores de processo confirmam a atividade; os indicadores de desempenho confirmam os resultados."
+}
+],
+resources: [
+{ label: "Kit de Ferramentas SGAS IFC Elemento 7 — Análise Crítica da Gestão" },
+{ label: "Manual de Gestão Baseada em Resultados do PNUD" },
+]
+},
+
+tool_coc: {
+title: "Código de Conduta — Guia",
+summary: "O Código de Conduta é um elemento exigido da Política de RH sob o Componente 5 do ROGEAP. Todos os funcionários e subcontratados devem ler, entender e assinar o Código antes de começar a trabalhar. As diretrizes ROGEAP fornecem um Código de amostra (Caixa 2) especificamente projetado para o setor de energia solar fora da rede, incluindo proibições explícitas de VBG/ASS.",
+sections: [
+{
+heading: "Por que um Código de Conduta é obrigatório",
+body: "As diretrizes ROGEAP exigem um Código de Conduta como documento distinto porque as declarações de política por si só são insuficientes para governar a conduta individual. O Código deve ser personalizado — cada trabalhador deve assiná-lo individualmente, em um idioma que compreenda — criando responsabilidade pessoal.\n\nO PD IFC 2 §35-38 (sobre interações com comunidades e trabalhadores) exige que as empresas 'promovam e façam cumprir' códigos de conduta entre todo o pessoal e contratados que trabalham nas comunidades. Isso é particularmente crítico para as equipes de instalação de energia solar fora da rede que trabalham dentro das casas dos clientes e em comunidades remotas."
+},
+{
+heading: "Disposições VBG/ASS — Não negociáveis",
+body: "O Código de Conduta da Caixa 2 do ROGEAP (pp.66-68) exige a proibição explícita de:\n• Assédio Sexual (avanços sexuais indesejados, solicitações de favores sexuais, conduta verbal/física de natureza sexual)\n• Exploração Sexual (abuso de posição de vulnerabilidade ou poder para fins sexuais)\n• Abuso Sexual (intrusão física real ou ameaçada de natureza sexual)\n• Atividade sexual com pessoas menores de 18 anos em qualquer circunstância\n\nEssas proibições devem ser declaradas em linguagem clara, não em jargão jurídico, para que cada trabalhador as compreenda. As violações devem ter consequências específicas e declaradas, incluindo demissão e possível encaminhamento às autoridades policiais. As diretrizes ROGEAP afirmam que o Código 'especifica o comportamento que esperamos de todos os nossos funcionários e subcontratados' — isso inclui funcionários temporários e agentes, não apenas funcionários permanentes."
+}
+],
+resources: [
+{ label: "PD IFC 2 — Condições de Trabalho e Emprego" },
+{ label: "Coalizão Global de Salário Digno" },
+]
+},
+
+tool_supplier_assessment: {
+title: "Avaliação A&S de Fornecedores — Guia",
+summary: "A diligência devida na cadeia de fornecimento é exigida sob o PD IFC 2. Para empresas de energia solar fora da rede, os principais riscos da cadeia de fornecimento são o trabalho infantil na mineração de materiais para baterias (cobalto, lítio), o trabalho forçado na fabricação de painéis solares e os impactos de resíduos eletrônicos no final do ciclo de vida dos produtos.",
+sections: [
+{
+heading: "Risco da cadeia de fornecimento na energia solar fora da rede",
+body: "As diretrizes ROGEAP (Tabela 5, pp.23-26) identificam a sustentabilidade da cadeia de fornecimento como uma categoria de risco para empresas de energia solar fora da rede, com baixa probabilidade, mas potencialmente alto impacto para a reputação e as relações com investidores. O PD IFC 2 §27 afirma que onde as empresas têm uma 'relação contratual direta' com fornecedores primários e há risco de trabalho infantil ou forçado, as empresas devem monitorar periodicamente a conformidade dos fornecedores.\n\nPrincipais riscos da cadeia de fornecimento de energia solar fora da rede:\n• MINERAÇÃO DE COBALTO (cadeia de fornecimento de baterias de lítio): Riscos de trabalho infantil e mineração artesanal na RDC e outros países fornecedores\n• PRODUÇÃO DE POLISSILÍCIO (painéis solares): Trabalho forçado relatado em Xinjiang, China — sujeito a restrições de importação em vários mercados\n• CHUMBO (cadeia de fornecimento de baterias): Impactos ambientais e de saúde da fundição de chumbo\n\nSolicite aos fornecedores: adesão à RBA (Responsible Business Alliance); conformidade com as Convenções Fundamentais da OIT; divulgação de minerais de conflito (Orientação de Diligência Devida da OCDE)."
+}
+],
+resources: [
+{ label: "PD IFC 2 — Condições de Trabalho e Emprego (Cadeia de Fornecimento)" },
+{ label: "Orientação de Diligência Devida da OCDE para Cadeias de Fornecimento Responsáveis" },
+{ label: "Responsible Business Alliance (RBA)" },
+]
+},
+
+}, // end pt
+
+}; // end GUIDE_TRANSLATIONS

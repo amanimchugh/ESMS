@@ -1,0 +1,88 @@
+business‑basics fields (purpose‑aligned)
+These fields help the ESMS Builder:
+
+Classify the SME (sector, size, risk level).
+
+Pre‑populate standard clauses (e.g., applicable Performance Standards).
+
+Auto‑generate ESMS components (e.g., commitments, risk register, KPIs).
+
+1. Company & Context (for ESMS scoping)
+ts
+companyContext: {
+  companyName: string;
+  legalForm: string;           // e.g., "Sole Proprietor", "Ltd", "LLP"
+  registrationNumber: string;  // if applicable
+  sector: string;              // e.g., "Manufacturing – Food Processing"
+  subSector: string;           // e.g., "Beverages", "Textiles"
+  headcount: number;          // current employees
+  annualRevenueUsd: number;   // approximate, in USD
+  location: {
+    country: string;
+    state: string;
+    city: string;
+    address: string;
+  };
+  operationType: "new" | "existing" | "expansion";
+  ESMSDevelopmentStage: "draft" | "implementing" | "reviewing";
+}
+2. Environmental & Social Profile (for risk‑based ESMS design)
+ts
+esProfile: {
+  primaryESIssues: string[];   // auto‑suggested from sector, e.g., waste, water, community
+  workerTypes: string[];       // e.g., "permanent", "contractors", "seasonal"
+  vulnerableGroupsLikelyAffected: string; // e.g., women, youth, indigenous communities
+  existingCertifications: string[]; // e.g., ISO 14001, SMETA, SLCP
+  ESGReportingInitiatives: string[]; // e.g., GRI, SASB, local ESG frameworks
+}
+3. ESMS Governance & Capacity (for “management system” layer)
+ts
+esmsGovernance: {
+  esmsLeadName: string;       // name of E&S/ESMS focal point
+  esmsLeadRole: string;       // role
+  esmsLeadEmail: string;
+  esmsLeadPhone: string;
+  ESMSDocumentsAvailable: boolean;   // has policy, risk register, etc.?
+  ESMSDocumentsList: string[];       // e.g., "Policy", "Procedure – Waste Management"
+  currentAuditOrReviewCycle: string; // e.g., "2025 internal review"
+  externalCertificationsPlanned: boolean;
+  externalCertificationsPlannedList: string[];
+}
+4. Operations & Supply Chain (for risk register & controls)
+ts
+operationsSupplyChain: {
+  mainActivityDescription: string;   // 2–3 sentences describing what the business does
+  keyProcesses: string;             // bullet‑style or list
+  resourceUseSummary: string;       // energy, water, materials
+  wasteAndEmissionsSummary: string;
+  coreFacilities: string[];         // e.g., "Production facility – Lagos", "Warehouse – Abuja"
+  contractorsUsed: boolean;
+  mainContractorTypes: string[];    // e.g., "sub‑contracted labor", "construction contractor"
+  keySuppliers: string;             // list with brief description
+  highRiskSupplyChainNotes: string; // e.g., raw materials, artisanal mining inputs
+}
+5. Baseline & Compliance (for KPIs and targets)
+ts
+baselineCompliance: {
+  baselineIndicators: string;       // e.g., kWh/month, m³ water/year, kg waste/day
+  incidentHistorySummary: string;   // last 2–3 years
+  currentLegalComplianceStatus: string; // e.g., "Compliant", "Partial compliance – pending permits"
+  keyGapsVsLocalLaw: string[];      // e.g., "Incomplete waste discharge permits"
+  priorESMSImprovementActions: string[]; // e.g., "Installed waste bins & training"
+}
+6. ESMS Builder‑specific metadata (for UX & automation)
+ts
+uiHints: {
+  preferredLanguage: "en" | "fr" | "pt" | "es"; // for document generation
+  targetFinancierOrClient: string; // e.g., "IFC‑linked FI", "commercial bank ESG team"
+  preferredStandards: string[];     // e.g., "IFC PS 1–8", "EU CSRD", "local EIA law"
+  preferredOutputFormat: "html" | "docx" | "pdf";
+}
+How this improves integration with ESMS Builder
+Sector + operation type → the builder can pre‑select relevant IFC PS‑driven risk categories and default clauses.
+
+ESMS governance fields → the app can auto‑generate roles‑and‑responsibilities tables and assignees for actions.
+
+Baseline & compliance → supports auto‑creation of KPIs, targets, and improvement plans.
+
+UI hints → lets the builder tune the document language, style, and standard references to match client expectations.

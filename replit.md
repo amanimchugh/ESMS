@@ -39,7 +39,14 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
   - `src/i18n/guideTranslations.js` — full FR+PT translations for all 13 GUIDELINES_DB entries (title, summary, sections, resource labels)
   - `src/index.css` — responsive CSS (mobile layout, touch targets, skip link, iOS zoom fix)
   - `public/manifest.json` — PWA web app manifest
-- **Features**: E&S Screening, Policies, Risk Assessment, Compliance, Management Plans, Implementation Tools, ESAP, multilingual (EN/FR/PT), PDF/Word/CSV export, JSON backup/restore
+- **Features**: Business Profile (optional), E&S Screening, Policies, Risk Assessment, Compliance, Management Plans, Implementation Tools, ESAP, multilingual (EN/FR/PT), PDF/Word/CSV export, JSON backup/restore
+- **Business Profile section** (id: `business_profile`, optional:true):
+  - 6 sub-sections: Company & Context, E&S Profile, ESMS Governance, Operations & Supply Chain, Baseline & Compliance, ESMS Builder Settings
+  - Data stored under keys: `bp_companyContext`, `bp_esProfile`, `bp_esmsGovernance`, `bp_operationsSupplyChain`, `bp_baselineCompliance`, `bp_uiHints`
+  - Pre-populated sample data via `BP_SAMPLE_DATA` (BrightSun Distributors, Nigeria)
+  - Trilingual field labels via `BP_LABELS` object (EN/FR/PT) inline in App.tsx
+  - Excluded from required section count (0/7 counter only counts non-optional sections)
+  - Sidebar shows "OPT" amber badge; Overview card shows "Optional" tag with amber border
 - **Export engine**: PDF export uses jsPDF + html2canvas with explicit blob download (reliable in sandboxed iframes); Word export outputs RTF; CSV export with injection protection
 - **URL audit (last updated 2026-04)**: All 7 broken resource links fixed (GOGLA, REA Nigeria, ILO, ACE-TAF, ECOWAS, REPP, CAO); all remaining links verified live
 - **Responsive layout**:

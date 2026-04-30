@@ -1088,15 +1088,223 @@ function PolicySection({ esmsData, setFieldValue, openGuide }) {
 
 // ═══════════════ NAV CONFIG ═══════════════
 // NAV labels are resolved via t() at render time in App
+// ═══════════════ BUSINESS PROFILE — FIELD LABELS (trilingual) ═══════════════
+const BP_LABELS = {
+  en:{
+    companyName:"Company Name",legalForm:"Legal Form",regNumber:"Registration Number",
+    sector:"Sector",subSector:"Sub-Sector",headcount:"Number of Employees",
+    annualRevenue:"Annual Revenue (approx. USD)",country:"Country",
+    state:"State / Province / Region",city:"City",address:"Physical Address",
+    operationType:"Operation Type",esmsStage:"ESMS Development Stage",
+    primaryESIssues:"Primary E&S Issues (one per line)",workerTypes:"Worker Types (one per line)",
+    vulnerableGroups:"Vulnerable Groups Likely Affected",existingCerts:"Existing Certifications (one per line)",
+    esgReporting:"ESG Reporting Initiatives (one per line)",
+    leadName:"ESMS Focal Point — Name",leadRole:"Role / Title",
+    leadEmail:"Email Address",leadPhone:"Phone Number",
+    docsAvailable:"ESMS Documents Currently Available?",docsList:"List of Available E&S Documents",
+    auditCycle:"Current Audit / Review Cycle",certPlanned:"External Certifications Planned?",
+    certPlannedList:"Planned Certifications (one per line)",
+    mainActivity:"Main Business Activity Description",keyProcesses:"Key Operational Processes",
+    resourceUse:"Resource Use Summary (energy, water, materials)",wasteEmissions:"Waste & Emissions Summary",
+    coreFacilities:"Core Facilities / Sites (one per line)",contractorsUsed:"Contractors or Third Parties Used?",
+    contractorTypes:"Main Contractor / Sub-Contractor Types (one per line)",keySuppliers:"Key Suppliers",
+    highRiskNotes:"High-Risk Supply Chain Notes",
+    baselineIndicators:"Baseline Performance Indicators",incidentHistory:"Incident History (last 2–3 years)",
+    complianceStatus:"Current Legal Compliance Status",keyGaps:"Key Gaps vs. Local Law (one per line)",
+    priorActions:"Prior ESMS Improvement Actions (one per line)",
+    targetFinancier:"Target Financier or Client",preferredStandards:"Preferred Standards / Frameworks (one per line)",
+    outputFormat:"Preferred Output Format",
+    opNew:"New business",opExisting:"Existing business",opExpansion:"Expansion of existing operations",
+    stageDraft:"Draft — developing ESMS for the first time",
+    stageImplementing:"Implementing — ESMS in place and in active use",
+    stageReviewing:"Reviewing — existing ESMS under review or improvement",
+    yes:"Yes",no:"No",fmtPdf:"PDF",fmtDocx:"Word (RTF/DOCX)",fmtHtml:"HTML (web)",
+  },
+  fr:{
+    companyName:"Nom de l'entreprise",legalForm:"Forme juridique",regNumber:"Numéro d'enregistrement",
+    sector:"Secteur",subSector:"Sous-secteur",headcount:"Nombre d'employés",
+    annualRevenue:"Chiffre d'affaires annuel (USD approx.)",country:"Pays",
+    state:"État / Province / Région",city:"Ville",address:"Adresse physique",
+    operationType:"Type d'opération",esmsStage:"Stade de développement du SGSE",
+    primaryESIssues:"Principaux enjeux E&S (un par ligne)",workerTypes:"Types de travailleurs (un par ligne)",
+    vulnerableGroups:"Groupes vulnérables susceptibles d'être affectés",existingCerts:"Certifications existantes (une par ligne)",
+    esgReporting:"Initiatives de reporting ESG (une par ligne)",
+    leadName:"Point focal SGSE — Nom",leadRole:"Rôle / Titre",
+    leadEmail:"Adresse e-mail",leadPhone:"Numéro de téléphone",
+    docsAvailable:"Documents SGSE actuellement disponibles ?",docsList:"Liste des documents E&S disponibles",
+    auditCycle:"Cycle d'audit / révision actuel",certPlanned:"Certifications externes prévues ?",
+    certPlannedList:"Certifications prévues (une par ligne)",
+    mainActivity:"Description de l'activité principale",keyProcesses:"Processus opérationnels clés",
+    resourceUse:"Utilisation des ressources (énergie, eau, matériaux)",wasteEmissions:"Résumé des déchets et émissions",
+    coreFacilities:"Installations / Sites principaux (un par ligne)",contractorsUsed:"Sous-traitants ou tiers utilisés ?",
+    contractorTypes:"Types de sous-traitants / prestataires (un par ligne)",keySuppliers:"Principaux fournisseurs",
+    highRiskNotes:"Notes sur la chaîne d'approvisionnement à risque élevé",
+    baselineIndicators:"Indicateurs de performance de référence",incidentHistory:"Historique des incidents (2–3 dernières années)",
+    complianceStatus:"Statut actuel de conformité légale",keyGaps:"Lacunes par rapport à la loi locale (une par ligne)",
+    priorActions:"Actions d'amélioration SGSE antérieures (une par ligne)",
+    targetFinancier:"Financeur ou client cible",preferredStandards:"Normes / Référentiels préférés (un par ligne)",
+    outputFormat:"Format de sortie préféré",
+    opNew:"Nouvelle entreprise",opExisting:"Entreprise existante",opExpansion:"Expansion des opérations existantes",
+    stageDraft:"Ébauche — développement initial du SGSE",
+    stageImplementing:"Mise en œuvre — SGSE en place et utilisé",
+    stageReviewing:"Révision — SGSE existant en cours de révision",
+    yes:"Oui",no:"Non",fmtPdf:"PDF",fmtDocx:"Word (RTF/DOCX)",fmtHtml:"HTML (web)",
+  },
+  pt:{
+    companyName:"Nome da Empresa",legalForm:"Forma Jurídica",regNumber:"Número de Registo",
+    sector:"Setor",subSector:"Subsetor",headcount:"Número de Trabalhadores",
+    annualRevenue:"Volume de Negócios Anual (USD aprox.)",country:"País",
+    state:"Estado / Província / Região",city:"Cidade",address:"Endereço Físico",
+    operationType:"Tipo de Operação",esmsStage:"Fase de Desenvolvimento do SGAS",
+    primaryESIssues:"Principais Questões A&S (uma por linha)",workerTypes:"Tipos de Trabalhadores (um por linha)",
+    vulnerableGroups:"Grupos Vulneráveis Susceptíveis de Serem Afetados",existingCerts:"Certificações Existentes (uma por linha)",
+    esgReporting:"Iniciativas de Reporte ESG (uma por linha)",
+    leadName:"Ponto Focal do SGAS — Nome",leadRole:"Função / Cargo",
+    leadEmail:"Endereço de E-mail",leadPhone:"Número de Telefone",
+    docsAvailable:"Documentos SGAS Atualmente Disponíveis?",docsList:"Lista de Documentos A&S Disponíveis",
+    auditCycle:"Ciclo de Auditoria / Revisão Atual",certPlanned:"Certificações Externas Previstas?",
+    certPlannedList:"Certificações Previstas (uma por linha)",
+    mainActivity:"Descrição da Atividade Principal",keyProcesses:"Principais Processos Operacionais",
+    resourceUse:"Uso de Recursos (energia, água, materiais)",wasteEmissions:"Resumo de Resíduos e Emissões",
+    coreFacilities:"Principais Instalações / Locais (um por linha)",contractorsUsed:"Utiliza Empreiteiros ou Terceiros?",
+    contractorTypes:"Tipos de Empreiteiros / Subcontratados (um por linha)",keySuppliers:"Principais Fornecedores",
+    highRiskNotes:"Notas sobre Cadeia de Abastecimento de Alto Risco",
+    baselineIndicators:"Indicadores de Desempenho de Referência",incidentHistory:"Histórico de Incidentes (últimos 2–3 anos)",
+    complianceStatus:"Estado Atual de Conformidade Legal",keyGaps:"Principais Lacunas face à Lei Local (uma por linha)",
+    priorActions:"Ações de Melhoria SGAS Anteriores (uma por linha)",
+    targetFinancier:"Financiador ou Cliente Alvo",preferredStandards:"Normas / Referenciais Preferidos (um por linha)",
+    outputFormat:"Formato de Saída Preferido",
+    opNew:"Nova empresa",opExisting:"Empresa existente",opExpansion:"Expansão de operações existentes",
+    stageDraft:"Rascunho — desenvolvendo o SGAS pela primeira vez",
+    stageImplementing:"Implementação — SGAS estabelecido e em uso",
+    stageReviewing:"Revisão — SGAS existente em revisão ou melhoria",
+    yes:"Sim",no:"Não",fmtPdf:"PDF",fmtDocx:"Word (RTF/DOCX)",fmtHtml:"HTML (web)",
+  },
+};
+
+// ═══════════════ BUSINESS PROFILE — SAMPLE DATA (BrightSun Distributors, Nigeria) ═══════════════
+const BP_SAMPLE_DATA = {
+  bp_companyContext:{
+    companyName:"BrightSun Distributors Limited",legalForm:"Private Limited Company (Ltd)",regNumber:"BN 1234567",
+    sector:"Renewable Energy",subSector:"Off-Grid Solar Products",headcount:"24",annualRevenue:"350000",
+    country:"Nigeria",state:"Federal Capital Territory",city:"Abuja",
+    address:"No 12 Solar Avenue, Gwarinpa Estate, Abuja",
+    operationType:"opExisting",esmsStage:"stageDraft",
+  },
+  bp_esProfile:{
+    primaryESIssues:"Waste from batteries and damaged solar panels\nSafe handling and transport of solar equipment\nWorker safety during installation on rooftops and in remote areas\nCommunity access to energy and affordability",
+    workerTypes:"Permanent technical staff\nSales and logistics staff\nSub-contracted installers (rural partners)",
+    vulnerableGroups:"Rural households, women-led households, low-income communities",
+    existingCerts:"",
+    esgReporting:"Local ESG reporting to microfinance partner\nInternal sustainability dashboard",
+  },
+  bp_esmsGovernance:{
+    leadName:"Amina Bello",leadRole:"Sustainability and Operations Manager",
+    leadEmail:"amina.bello@brightsun.ng",leadPhone:"+234 803 123 4567",
+    docsAvailable:"no",docsList:"",
+    auditCycle:"None yet; planning first internal review for Q3 2026",
+    certPlanned:"yes",certPlannedList:"ISO 14001\nClean Energy Distribution Best Practices (national initiative)",
+  },
+  bp_operationsSupplyChain:{
+    mainActivity:"BrightSun Distributors resells and installs off-grid solar products (solar home systems, solar lanterns, and solar-powered water pumps) to rural and peri-urban households and small businesses in Nigeria. We source equipment from international manufacturers, maintain a central warehouse in Abuja, and deliver and install units via a network of trained technicians and local partner agents.",
+    keyProcesses:"Procurement → Warehouse handling → Logistics and delivery → On-site installation → Customer training and after-sales support",
+    resourceUse:"Electricity for office and showroom (grid and backup generator), moderate water use for staff facilities, paper and digital documents for sales and service records.",
+    wasteEmissions:"Dispose of packaging waste, occasional damaged panels or batteries through certified recyclers; minimal direct emissions from office operations.",
+    coreFacilities:"Office and showroom – Gwarinpa, Abuja\nWarehouse – Life Camp, Abuja",
+    contractorsUsed:"yes",contractorTypes:"Sub-contracted rural solar installers\nTransport and logistics providers",
+    keySuppliers:"Solar panel manufacturer – China; Lithium battery supplier – Kenya; Water pump motor supplier – South Africa; National distributor for solar lanterns – Nigeria",
+    highRiskNotes:"Battery and inverter components may involve complex supply chains; BrightSun screens suppliers for environmental and social minimum requirements and prefers partners with clear take-back or recycling policies.",
+  },
+  bp_baselineCompliance:{
+    baselineIndicators:"Annual waste: 1.2 tonnes packaging waste; 1 minor incident in 2025 (near-miss fall during rooftop installation); 95% of customer service tickets resolved within 7 days.",
+    incidentHistory:"2024: 0 recorded incidents; 2025: 1 near-miss fall from a rooftop during installation (no injury, toolbox talk and ladder training reinforced); 2026 so far: 0 incidents.",
+    complianceStatus:"Substantially compliant with local environmental, health, and safety regulations; ongoing alignment with national solar deployment and battery-handling guidelines.",
+    keyGaps:"Formalized waste management plan for batteries and e-waste under review\nFormal occupational health and safety training schedule under development",
+    priorActions:"Developed basic installation safety checklist and protective equipment policy\nImplemented a tracking system for customer complaints and follow-up visits",
+  },
+  bp_uiHints:{
+    targetFinancier:"IFC-linked financial institution, local ESG-focused bank",
+    preferredStandards:"IFC Performance Standards 1–8\nNigerian Solar Energy Access Regulations\nNational E-Waste Management Guidelines",
+    outputFormat:"fmtPdf",
+  },
+};
+
 const NAV_DEFS = [
-  { id:"welcome",    icon:"🏠", tKey:"navOverview"  },
-  { id:"screening",  icon:"📋", tKey:"navScreening" },
+  { id:"welcome",          icon:"🏠", tKey:"navOverview"                    },
+  { id:"business_profile", icon:"🏢", tKey:"navBizProfile", optional:true   },
+  { id:"screening",        icon:"📋", tKey:"navScreening"                   },
   { id:"policy",     icon:"📜", tKey:"navPolicies"  },
   { id:"risks",      icon:"🔍", tKey:"navRisks"     },
   { id:"compliance", icon:"⚖️", tKey:"navCompliance"},
   { id:"plans",      icon:"⚙️", tKey:"navPlans"     },
   { id:"tools",      icon:"🛠️", tKey:"navTools"     },
   { id:"esap",       icon:"📝", tKey:"navEsap"      },
+];
+
+// ═══════════════ BUSINESS PROFILE — SUB-SECTION DEFINITIONS ═══════════════
+const BUSINESS_PROFILE_DEFS = [
+  { id:"companyContext",        lk:"bpC1Label", dk:"bpC1Desc", icon:"🏢", color:C.navy,
+    fields:[
+      {id:"companyName",       type:"text"},
+      {id:"legalForm",         type:"text"},
+      {id:"regNumber",         type:"text"},
+      {id:"sector",            type:"text"},
+      {id:"subSector",         type:"text"},
+      {id:"headcount",         type:"number"},
+      {id:"annualRevenue",     type:"number"},
+      {id:"country",           type:"text"},
+      {id:"state",             type:"text"},
+      {id:"city",              type:"text"},
+      {id:"address",           type:"ta",rows:2},
+      {id:"operationType",     type:"sel",  opts:["opNew","opExisting","opExpansion"]},
+      {id:"esmsStage",         type:"sel",  opts:["stageDraft","stageImplementing","stageReviewing"]},
+    ]},
+  { id:"esProfile",             lk:"bpC2Label", dk:"bpC2Desc", icon:"🌿", color:C.green,
+    fields:[
+      {id:"primaryESIssues",   type:"ta",rows:4},
+      {id:"workerTypes",       type:"ta",rows:3},
+      {id:"vulnerableGroups",  type:"ta",rows:2},
+      {id:"existingCerts",     type:"ta",rows:2},
+      {id:"esgReporting",      type:"ta",rows:2},
+    ]},
+  { id:"esmsGovernance",        lk:"bpC3Label", dk:"bpC3Desc", icon:"👤", color:C.navyLight,
+    fields:[
+      {id:"leadName",          type:"text"},
+      {id:"leadRole",          type:"text"},
+      {id:"leadEmail",         type:"text"},
+      {id:"leadPhone",         type:"text"},
+      {id:"docsAvailable",     type:"bool"},
+      {id:"docsList",          type:"ta",rows:3},
+      {id:"auditCycle",        type:"text"},
+      {id:"certPlanned",       type:"bool"},
+      {id:"certPlannedList",   type:"ta",rows:2},
+    ]},
+  { id:"operationsSupplyChain", lk:"bpC4Label", dk:"bpC4Desc", icon:"⚙️", color:C.amber,
+    fields:[
+      {id:"mainActivity",      type:"ta",rows:4},
+      {id:"keyProcesses",      type:"ta",rows:3},
+      {id:"resourceUse",       type:"ta",rows:3},
+      {id:"wasteEmissions",    type:"ta",rows:3},
+      {id:"coreFacilities",    type:"ta",rows:2},
+      {id:"contractorsUsed",   type:"bool"},
+      {id:"contractorTypes",   type:"ta",rows:2},
+      {id:"keySuppliers",      type:"ta",rows:3},
+      {id:"highRiskNotes",     type:"ta",rows:3},
+    ]},
+  { id:"baselineCompliance",    lk:"bpC5Label", dk:"bpC5Desc", icon:"📊", color:C.teal,
+    fields:[
+      {id:"baselineIndicators",type:"ta",rows:3},
+      {id:"incidentHistory",   type:"ta",rows:3},
+      {id:"complianceStatus",  type:"text"},
+      {id:"keyGaps",           type:"ta",rows:3},
+      {id:"priorActions",      type:"ta",rows:3},
+    ]},
+  { id:"uiHints",               lk:"bpC6Label", dk:"bpC6Desc", icon:"🎯", color:C.muted,
+    fields:[
+      {id:"targetFinancier",   type:"text"},
+      {id:"preferredStandards",type:"ta",rows:3},
+      {id:"outputFormat",      type:"sel", opts:["fmtPdf","fmtDocx","fmtHtml"]},
+    ]},
 ];
 
 // ═══════════════ MANAGEMENT PLANS SECTION ═══════════════
@@ -1190,6 +1398,123 @@ const PLAN_DEFS_SIMPLE = [
     ]
   },
 ];
+
+// ═══════════════ BUSINESS PROFILE SECTION ═══════════════
+function BusinessProfileSection({ esmsData, setFieldValue }) {
+  const { lang, t } = useLang();
+  const L = BP_LABELS[lang] || BP_LABELS.en;
+  const [activeCard, setActiveCard] = useState(null);
+
+  const hasData = (id) => {
+    const d = esmsData[`bp_${id}`] || {};
+    return Object.keys(d).some(k => !!d[k]);
+  };
+
+  const loadSample = () => {
+    if (!window.confirm(t("bpSampleConfirm"))) return;
+    Object.entries(BP_SAMPLE_DATA).forEach(([key, val]) => {
+      Object.entries(val).forEach(([field, value]) => {
+        setFieldValue(key, field, value);
+      });
+    });
+  };
+
+  if (activeCard !== null) {
+    const def = BUSINESS_PROFILE_DEFS[activeCard];
+    const dataKey = `bp_${def.id}`;
+    const d = esmsData[dataKey] || {};
+    const set = (k, v) => setFieldValue(dataKey, k, v);
+    return (
+      <div>
+        <button onClick={() => setActiveCard(null)} style={{ ...S.outBtn, marginBottom:18, display:"flex", alignItems:"center", gap:6 }}>{t("bpBack")}</button>
+        <div style={{ ...S.card, marginBottom:18, borderLeft:`5px solid ${def.color}` }}>
+          <div style={{ display:"flex", gap:12, alignItems:"flex-start" }}>
+            <div style={{ fontSize:30 }}>{def.icon}</div>
+            <div style={{ flex:1 }}>
+              <h3 style={{ margin:0, fontFamily:F.d, color:C.text, fontSize:19 }}>{t(def.lk)}</h3>
+              <p style={{ margin:"8px 0 0", color:C.muted, fontSize:13, lineHeight:1.5 }}>{t(def.dk)}</p>
+            </div>
+          </div>
+        </div>
+        <InfoBox col={C.amber} bg="#FFF8ED">{t("bpInfoBox")}</InfoBox>
+        {def.fields.map(f => {
+          const label = L[f.id] || f.id;
+          return (
+            <div key={f.id} style={{ marginBottom:20 }}>
+              <Lbl c={label}/>
+              {f.type === "text" && (
+                <input value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} style={S.inp}/>
+              )}
+              {f.type === "number" && (
+                <input type="number" value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} style={S.inp}/>
+              )}
+              {f.type === "ta" && (
+                <textarea value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} rows={f.rows||3} style={S.ta}/>
+              )}
+              {f.type === "bool" && (
+                <select value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} style={S.inp}>
+                  <option value="">—</option>
+                  <option value="yes">{L.yes}</option>
+                  <option value="no">{L.no}</option>
+                </select>
+              )}
+              {f.type === "sel" && (
+                <select value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} style={S.inp}>
+                  <option value="">—</option>
+                  {f.opts.map(o => <option key={o} value={o}>{L[o]||o}</option>)}
+                </select>
+              )}
+            </div>
+          );
+        })}
+        <div style={{ marginTop:24, paddingTop:16, borderTop:`1.5px solid ${C.border}`, display:"flex", justifyContent:"flex-end", gap:10, flexWrap:"wrap" }}>
+          {activeCard > 0 && (
+            <button onClick={() => setActiveCard(activeCard-1)} style={S.outBtn}>← {t(BUSINESS_PROFILE_DEFS[activeCard-1].lk)}</button>
+          )}
+          {activeCard < BUSINESS_PROFILE_DEFS.length-1 && (
+            <button onClick={() => setActiveCard(activeCard+1)} style={S.btn}>{t(BUSINESS_PROFILE_DEFS[activeCard+1].lk)} →</button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div style={{ display:"flex", gap:14, alignItems:"flex-start", marginBottom:18, paddingBottom:18, borderBottom:`2px solid ${C.border}` }}>
+        <div style={{ fontSize:34 }}>🏢</div>
+        <div style={{ flex:1 }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:4, flexWrap:"wrap" }}>
+            <h2 style={{ margin:0, color:C.text, fontSize:22, fontFamily:F.d }}>{t("bpTitle")}</h2>
+            <Tag label={t("bpOptional")} col={C.amber} bg="#FFF3DC"/>
+          </div>
+          <p style={{ margin:0, color:C.muted, fontSize:14, lineHeight:1.6 }}>{t("bpDesc")}</p>
+        </div>
+        <button onClick={loadSample} style={{ ...S.outBtn, fontSize:11, whiteSpace:"nowrap", flexShrink:0, marginTop:2 }}>{t("bpSampleLoad")}</button>
+      </div>
+      <InfoBox col={C.amber} bg="#FFF8ED">{t("bpInfoBox")}</InfoBox>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(280px,1fr))", gap:14 }}>
+        {BUSINESS_PROFILE_DEFS.map((def, i) => {
+          const done = hasData(def.id);
+          return (
+            <div key={def.id} onClick={() => setActiveCard(i)}
+              style={{ ...S.card, cursor:"pointer", transition:"all 0.15s", position:"relative",
+                borderColor: done ? C.green : C.border, borderWidth:"1.5px 1.5px 1.5px 5px",
+                borderStyle:"solid", borderLeftColor: def.color, borderRadius:10 }}
+              onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 4px 14px rgba(0,0,0,0.1)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.boxShadow = ""; e.currentTarget.style.transform = ""; }}>
+              {done && <span style={{ position:"absolute", top:10, right:10, fontSize:14 }}>✅</span>}
+              <div style={{ fontSize:26, marginBottom:6 }}>{def.icon}</div>
+              <div style={{ fontWeight:700, color:C.text, fontSize:14, marginBottom:3 }}>{t(def.lk)}</div>
+              <div style={{ fontSize:12, color:C.muted, lineHeight:1.4, marginBottom:10 }}>{t(def.dk)}</div>
+              <div style={{ fontSize:11, color:def.color, fontWeight:600 }}>{t("toolsOpen")}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
   const {t}=useLang();
@@ -1393,7 +1718,11 @@ function ScreeningSection({ esmsData, setFieldValue, openGuide }) {
 function Welcome({ esmsData, setActive, openGuide, nav }) {
   const {t}=useLang();
   const navList = nav || NAV_DEFS;
-  const completedSections = navList.filter(n => n.id !== "welcome").filter(n => {
+  const isSectionDone = (n) => {
+    if (n.id === "business_profile") return BUSINESS_PROFILE_DEFS.some(d => {
+      const dat = esmsData[`bp_${d.id}`] || {};
+      return Object.keys(dat).some(k => !!dat[k]);
+    });
     if (n.id === "tools") return Object.keys(TOOLS_REGISTRY).some(t => !!(esmsData[`tool_${t}`]?.data));
     if (n.id === "policy") return PLAN_DEFS_SIMPLE.some(p => !!(esmsData[`policy_${p.id}`] && Object.keys(esmsData[`policy_${p.id}`]||{}).length > 0));
     if (n.id === "plans") return PLAN_DEFS_SIMPLE.some(p => !!(esmsData[`plan_${p.id}`] && Object.keys(esmsData[`plan_${p.id}`]||{}).length > 0));
@@ -1402,8 +1731,10 @@ function Welcome({ esmsData, setActive, openGuide, nav }) {
     if (n.id === "screening") return !!(esmsData["screening_q"]?.data);
     if (n.id === "esap") return !!(esmsData["tool_esap"]?.data?.length);
     return false;
-  }).length;
-  const total = navList.filter(n => n.id !== "welcome").length;
+  };
+  const requiredNav = navList.filter(n => n.id !== "welcome" && !n.optional);
+  const completedSections = requiredNav.filter(n => isSectionDone(n)).length;
+  const total = requiredNav.length;
 
   return (
     <div>
@@ -1433,19 +1764,15 @@ function Welcome({ esmsData, setActive, openGuide, nav }) {
       <InfoBox col={C.amber} bg="#FFF8ED">{t("welcomeComponents")}</InfoBox>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(190px,1fr))", gap:10 }}>
         {navList.filter(n => n.id !== "welcome").map(n => {
-          let done = false;
-          if (n.id === "tools") done = Object.keys(TOOLS_REGISTRY).some(t => !!(esmsData[`tool_${t}`]?.data));
-          else if (n.id === "plans") done = PLAN_DEFS_SIMPLE.some(p => !!(esmsData[`plan_${p.id}`] && Object.keys(esmsData[`plan_${p.id}`]||{}).length > 0));
-          else if (n.id === "policy") done = !!(esmsData["policy_es_policy_stmt"] && Object.keys(esmsData["policy_es_policy_stmt"]||{}).length > 0);
-          else if (n.id === "risks") done = !!(esmsData["risk_register"]?.data);
-          else if (n.id === "compliance") done = !!(esmsData["compliance_tracker"]?.data);
-          else if (n.id === "esap") done = !!(esmsData["tool_esap"]?.data?.length);
+          const done = isSectionDone(n);
+          const isOpt = !!n.optional;
           return (
             <div key={n.id} onClick={() => setActive(n.id)}
-              style={{ ...S.card, cursor:"pointer", border:`2px solid ${done ? C.green : C.border}`, transition:"all 0.12s", position:"relative", textAlign:"center", padding:"16px 14px" }}
+              style={{ ...S.card, cursor:"pointer", border:`2px solid ${done ? C.green : (isOpt ? C.amber : C.border)}`, transition:"all 0.12s", position:"relative", textAlign:"center", padding:"16px 14px" }}
               onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)"; }}
               onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}>
               {done && <span style={{ position:"absolute", top:8, right:8, fontSize:13 }}>✅</span>}
+              {isOpt && !done && <span style={{ position:"absolute", top:8, right:8, fontSize:9, background:"#FFF3DC", color:C.amber, borderRadius:4, padding:"1px 5px", fontWeight:700, letterSpacing:0.3 }}>{t("bpOptional")}</span>}
               <div style={{ fontSize:24, marginBottom:6 }}>{n.icon}</div>
               <div style={{ fontWeight:700, fontSize:12, color:C.text }}>{n.label}</div>
             </div>
@@ -3053,6 +3380,7 @@ export default function App() {
   const renderContent = () => {
     switch(active) {
       case "welcome": return <Welcome esmsData={esmsData} setActive={goTo} openGuide={openGuide} nav={NAV}/>;
+      case "business_profile": return <BusinessProfileSection esmsData={esmsData} setFieldValue={setFieldValue}/>;
       case "screening": return <ScreeningSection esmsData={esmsData} setFieldValue={setFieldValue} openGuide={openGuide}/>;
       case "policy": return <PolicySection esmsData={esmsData} setFieldValue={setFieldValue} openGuide={openGuide}/>;
       case "risks": return <RiskSection esmsData={esmsData} setFieldValue={setFieldValue} openGuide={openGuide}/>;
@@ -3172,7 +3500,8 @@ export default function App() {
                 onMouseEnter={e => { if(!isA) e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}
                 onMouseLeave={e => { if(!isA) e.currentTarget.style.background = "transparent"; }}>
                 <span style={{ fontSize:14, flexShrink:0 }} aria-hidden="true">{item.icon}</span>
-                {sidebarOpen && <span style={{ whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{item.label}</span>}
+                {sidebarOpen && <span style={{ whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", flex:1 }}>{item.label}</span>}
+                {sidebarOpen && item.optional && <span style={{ fontSize:8, background:"rgba(255,193,7,0.22)", color:"#FFD54F", borderRadius:3, padding:"1px 4px", fontWeight:700, letterSpacing:0.4, flexShrink:0 }}>OPT</span>}
               </button>
             );
           })}

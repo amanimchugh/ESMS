@@ -1,0 +1,272 @@
+Below are sample data entries for the updated ESMS‑builder–style form, using an SME that resells and installs off‑grid solar products (solar home systems, solar lanterns, solar‑powered water pumps). Each section is provided in:
+
+English
+
+French
+
+Portuguese
+
+You can drop these directly into the form fields or use them to seed example records in your app.
+
+English (Sample SME: “BrightSun Distributors – Nigeria”)
+json
+{
+  "companyContext": {
+    "companyName": "BrightSun Distributors Limited",
+    "legalForm": "Private Limited Company (Ltd)",
+    "registrationNumber": "BN 1234567",
+    "sector": "Renewable Energy",
+    "subSector": "Off‑Grid Solar Products",
+    "headcount": 24,
+    "annualRevenueUsd": 350000,
+    "location": {
+      "country": "Nigeria",
+      "state": "Federal Capital Territory",
+      "city": "Abuja",
+      "address": "No 12 Solar Avenue, Gwarinpa Estate, Abuja"
+    },
+    "operationType": "existing",
+    "ESMSDevelopmentStage": "draft"
+  },
+  "esProfile": {
+    "primaryESIssues": [
+      "Waste from batteries and damaged solar panels",
+      "Safe handling and transport of solar equipment",
+      "Worker safety during installation on rooftops and in remote areas",
+      "Community access to energy and affordability"
+    ],
+    "workerTypes": [
+      "Permanent technical staff",
+      "Sales and logistics staff",
+      "Sub‑contracted installers (rural partners)"
+    ],
+    "vulnerableGroupsLikelyAffected": "Rural households, women‑led households, low‑income communities",
+    "existingCertifications": [],
+    "ESGReportingInitiatives": [
+      "Local ESG reporting to microfinance partner",
+      "Internal sustainability dashboard"
+    ]
+  },
+  "esmsGovernance": {
+    "esmsLeadName": "Amina Bello",
+    "esmsLeadRole": "Sustainability and Operations Manager",
+    "esmsLeadEmail": "amina.bello@brightsun.ng",
+    "esmsLeadPhone": "+234 803 123 4567",
+    "ESMSDocumentsAvailable": false,
+    "ESMSDocumentsList": [],
+    "currentAuditOrReviewCycle": "None yet; planning first internal review for Q3 2026",
+    "externalCertificationsPlanned": true,
+    "externalCertificationsPlannedList": [
+      "ISO 14001",
+      "Clean Energy Distribution Best Practices (national initiative)"
+    ]
+  },
+  "operationsSupplyChain": {
+    "mainActivityDescription": "BrightSun Distributors resells and installs off‑grid solar products (solar home systems, solar lanterns, and solar‑powered water pumps) to rural and peri‑urban households and small businesses in Nigeria. We source equipment from international manufacturers, maintain a central warehouse in Abuja, and deliver and install units via a network of trained technicians and local partner agents.",
+    "keyProcesses": "Procurement → Warehouse handling → Logistics and delivery → On‑site installation → Customer training and after‑sales support",
+    "resourceUseSummary": "Electricity for office and showroom (grid and backup generator), moderate water use for staff facilities, paper and digital documents for sales and service records.",
+    "wasteAndEmissionsSummary": "Dispose of packaging waste, occasional damaged panels or batteries through certified recyclers; minimal direct emissions from office operations.",
+    "coreFacilities": [
+      "Office and showroom – Gwarinpa, Abuja",
+      "Warehouse – Life Camp, Abuja"
+    ],
+    "contractorsUsed": true,
+    "mainContractorTypes": [
+      "Sub‑contracted rural solar installers",
+      "Transport and logistics providers"
+    ],
+    "keySuppliers": "Solar panel manufacturer – China; Lithium battery supplier – Kenya; Water pump motor supplier – South Africa; National distributor for solar lanterns – Nigeria",
+    "highRiskSupplyChainNotes": "Battery and inverter components may involve complex supply chains; BrightSun screens suppliers for environmental and social minimum requirements and prefers partners with clear take‑back or recycling policies."
+  },
+  "baselineCompliance": {
+    "baselineIndicators": "Annual waste: 1.2 tonnes packaging waste; 1 minor incident in 2025 (near‑miss fall during rooftop installation); 95% of customer service tickets resolved within 7 days.",
+    "incidentHistorySummary": "2024: 0 recorded incidents; 2025: 1 near‑miss fall from a rooftop during installation (no injury, toolbox talk and ladder training reinforced); 2026 so far: 0 incidents.",
+    "currentLegalComplianceStatus": "Substantially compliant with local environmental, health, and safety regulations; ongoing alignment with national solar deployment and battery‑handling guidelines.",
+    "keyGapsVsLocalLaw": [
+      "Formalized waste management plan for batteries and e‑waste under review",
+      "Formal occupational health and safety training schedule under development"
+    ],
+    "priorESMSImprovementActions": [
+      "Developed basic installation safety checklist and protective equipment policy",
+      "Implemented a tracking system for customer complaints and follow‑up visits"
+    ]
+  },
+  "uiHints": {
+    "preferredLanguage": "en",
+    "targetFinancierOrClient": "IFC‑linked financial institution, local ESG‑focused bank",
+    "preferredStandards": [
+      "IFC Performance Standards 1–8",
+      "Nigerian Solar Energy Access Regulations",
+      "National E‑Waste Management Guidelines"
+    ],
+    "preferredOutputFormat": "pdf"
+  }
+}
+French (SME fictive : “BrightSun Distributeurs – Nigeria”)
+json
+{
+  "companyContext": {
+    "companyName": "BrightSun Distributeurs Limited",
+    "legalForm": "Société à responsabilité limitée (Ltd)",
+    "registrationNumber": "BN 1234567",
+    "sector": "Énergies renouvelables",
+    "subSector": "Produits solaires hors‑réseau",
+    "headcount": 24,
+    "annualRevenueUsd": 350000,
+    "location": {
+      "country": "Nigeria",
+      "state": "Territoire Fédéral de la Capitale",
+      "city": "Abuja",
+      "address": "N° 12 Solar Avenue, Gwarinpa Estate, Abuja"
+    },
+    "operationType": "existing",
+    "ESMSDevelopmentStage": "draft"
+  },
+  "esProfile": {
+    "primaryESIssues": [
+      "Déchets issus de batteries et de panneaux solaires endommagés",
+      "Manutention et transport sécurisés de l’équipement solaire",
+      "Sécurité des travailleurs lors de l’installation sur les toits et en zones reculées",
+      "Accès des communautés à l’énergie et à des solutions abordables"
+    ],
+    "workerTypes": [
+      "Personnel technique permanent",
+      "Personnel de vente et de logistique",
+      "Installateurs sous‑traités (partenaires ruraux)"
+    ],
+    "vulnerableGroupsLikelyAffected": "Ménages ruraux, ménages dirigés par des femmes, communautés à faible revenu",
+    "existingCertifications": [],
+    "ESGReportingInitiatives": [
+      "Rapport ESG local à l’institution financière partenaire",
+      "Tableau de bord interne de durabilité"
+    ]
+  },
+  "esmsGovernance": {
+    "esmsLeadName": "Amina Bello",
+    "esmsLeadRole": "Directrice de la durabilité et des opérations",
+    "esmsLeadEmail": "amina.bello@brightsun.ng",
+    "esmsLeadPhone": "+234 803 123 4567",
+    "ESMSDocumentsAvailable": false,
+    "ESMSDocumentsList": [],
+    "currentAuditOrReviewCycle": "Aucun audit encore; première revue interne prévue pour le T3 2026",
+    "externalCertificationsPlanned": true,
+    "externalCertificationsPlannedList": [
+      "ISO 14001",
+      "Bonne pratique de distribution d’énergies propres (initiative nationale)"
+    ]
+  },
+  "operationsSupplyChain": {
+    "mainActivityDescription": "BrightSun Distributeurs vend et installe des produits solaires hors‑réseau (systèmes solaires domestiques, lampes solaires et pompes à eau solaires) destinés aux ménages ruraux, périurbains et aux petites entreprises au Nigeria. Nous approvisionnons l’équipement auprès de fabricants internationaux, gérons un entrepôt central à Abuja, et livrons et installons les unités via un réseau de techniciens formés et d’agents partenaires locaux.",
+    "keyProcesses": "Approvisionnement → Stockage en entrepôt → Logistique et livraison → Installation sur site → Formation des clients et support après‑vente",
+    "resourceUseSummary": "Électricité pour bureau et showroom (réseau et générateur de secours), utilisation modérée d’eau pour les installations sanitaires du personnel, papier et documents numériques pour les dossiers de vente et de maintenance.",
+    "wasteAndEmissionsSummary": "Mise en décharge ou recyclage des déchets d’emballages, déchets occasionnels de panneaux ou de batteries via des recycleurs certifiés ; émissions directes minimales des opérations de bureau.",
+    "coreFacilities": [
+      "Bureau et showroom – Gwarinpa, Abuja",
+      "Entrepôt – Life Camp, Abuja"
+    ],
+    "contractorsUsed": true,
+    "mainContractorTypes": [
+      "Installateurs solaires sous‑traités ruraux",
+      "Fournisseurs de transport et de logistique"
+    ],
+    "keySuppliers": "Fabricant de panneaux solaires – Chine ; Fournisseur de batteries au lithium – Kenya ; Fournisseur de moteurs de pompes à eau – Afrique du Sud ; Distributeur national de lampes solaires – Nigeria",
+    "highRiskSupplyChainNotes": "Les composants de batteries et d’onduleurs peuvent impliquer des chaînes d’approvisionnement complexes ; BrightSun examine les fournisseurs selon des exigences minimales environnementales et sociales et privilégie les partenaires disposant de politiques de reprise ou de recyclage."
+  },
+  "baselineCompliance": {
+    "baselineIndicators": "Déchets annuels : 1,2 tonne de déchets d’emballage ; 1 incident mineur en 2025 (chute évitée sur un toit lors d’une installation, sans blessure) ; 95 % des tickets de service clients résolus en moins de 7 jours.",
+    "incidentHistorySummary": "2024 : 0 incident enregistré ; 2025 : 1 incident évité (chute d’un toit lors d’une installation, pas de blessure, renforcement de la formation et des consignes) ; 2026 jusqu’à présent : 0 incident.",
+    "currentLegalComplianceStatus": "Conformité globale aux réglementations locales environnementales, de santé et de sécurité ; adaptation continue aux directives nationales sur le déploiement solaire et la gestion des batteries.",
+    "keyGapsVsLocalLaw": [
+      "Plan de gestion des déchets formel pour batteries et déchets électroniques en cours d’élaboration",
+      "Programme de formation officiel en santé et sécurité au travail en développement"
+    ],
+    "priorESMSImprovementActions": [
+      "Développement d’une checklist de sécurité d’installation et d’une politique d’équipement de protection",
+      "Mise en place d’un système de suivi des plaintes clients et des visites de suivi"
+    ]
+  },
+  "uiHints": {
+    "preferredLanguage": "fr",
+    "targetFinancierOrClient": "Institution financière liée à la SFI, banque locale sensible à l’ESG",
+    "preferredStandards": [
+      "Standards de performance 1–8 de la SFI",
+      "Réglementations nigériennes sur l’accès à l’énergie solaire",
+      "Lignes directrices nationales sur la gestion des déchets électroniques"
+    ],
+    "preferredOutputFormat": "pdf"
+  }
+}
+Portuguese (Empresa fictícia: “BrightSun Distribuição – Nigéria”)
+json
+{
+  "companyContext": {
+    "companyName": "BrightSun Distribuidores Limited",
+    "legalForm": "Sociedade Limitada (Ltd)",
+    "registrationNumber": "BN 1234567",
+    "sector": "Energias Renováveis",
+    "subSector": "Produtos Solares Off‑Grid",
+    "headcount": 24,
+    "annualRevenueUsd": 350000,
+    "location": {
+      "country": "Nigéria",
+      "state": "Território Federal da Capital",
+      "city": "Abuja",
+      "address": "Nº 12 Solar Avenue, Gwarinpa Estate, Abuja"
+    },
+    "operationType": "existing",
+    "ESMSDevelopmentStage": "draft"
+  },
+  "esProfile": {
+    "primaryESIssues": [
+      "Resíduos de baterias e painéis solares danificados",
+      "Manuseio e transporte seguros de equipamentos solares",
+      "Segurança dos trabalhadores durante instalações em telhados e áreas remotas",
+      "Acesso das comunidades a energia e soluções acessíveis"
+    ],
+    "workerTypes": [
+      "Funcionários técnicos permanentes",
+      "Equipa de vendas e logística",
+      "Instaladores subcontratados (parceiros rurais)"
+    ],
+    "vulnerableGroupsLikelyAffected": "Agregados familiares rurais, agregados liderados por mulheres, comunidades de baixa renda",
+    "existingCertifications": [],
+    "ESGReportingInitiatives": [
+      "Relatório ESG local para instituição financeira parceira",
+      "Painel interno de sustentabilidade"
+    ]
+  },
+  "esmsGovernance": {
+    "esmsLeadName": "Amina Bello",
+    "esmsLeadRole": "Gestora de Sustentabilidade e Operações",
+    "esmsLeadEmail": "amina.bello@brightsun.ng",
+    "esmsLeadPhone": "+234 803 123 4567",
+    "ESMSDocumentsAvailable": false,
+    "ESMSDocumentsList": [],
+    "currentAuditOrReviewCycle": "Nenhum audit ainda; primeira revisão interna prevista para o T3 2026",
+    "externalCertificationsPlanned": true,
+    "externalCertificationsPlannedList": [
+      "ISO 14001",
+      "Boas práticas de distribuição de energia limpa (iniciativa nacional)"
+    ]
+  },
+  "operationsSupplyChain": {
+    "mainActivityDescription": "BrightSun Distribuidores revende e instala produtos solares off‑grid (sistemas solares domésticos, lanternas solares e bombas de água solares) para agregados familiares rurais, periurbanos e pequenos negócios na Nigéria. Adquirimos equipamentos de fabricantes internacionais, mantemos um armazém central em Abuja e entregamos e instalamos unidades através de uma rede de técnicos treinados e agentes parceiros locais.",
+    "keyProcesses": "Aquisição → Armazenamento em armazém → Logística e entrega → Instalação no local → Treinamento do cliente e suporte pós‑venda",
+    "resourceUseSummary": "Eletricidade para escritório e showroom (rede e gerador de reserva), uso moderado de água para instalações sanitárias dos funcionários, documentos em papel e digitais para registos de vendas e serviço.",
+    "wasteAndEmissionsSummary": "Eliminação de resíduos de embalagem, ocasionais painéis ou baterias danificados encaminhados para recicladores certificados; emissões diretas mínimas das operações de escritório.",
+    "coreFacilities": [
+      "Escritório e showroom – Gwarinpa, Abuja",
+      "Armazém – Life Camp, Abuja"
+    ],
+    "contractorsUsed": true,
+    "mainContractorTypes": [
+      "Instaladores solares subcontratados rurais",
+      "Provedores de transporte e logística"
+    ],
+    "keySuppliers": "Fabricante de painéis solares – China; Fornecedor de baterias de lítio – Quénia; Fornecedor de motores de bombas de água – África do Sul; Distribuidor nacional de lanternas solares – Nigéria",
+    "highRiskSupplyChainNotes": "Componentes de baterias e inversores podem envolver cadeias de abastecimento complexas; a BrightSun avalia fornecedores segundo requisitos mínimos ambientais e sociais e prefere parceiros com políticas claras de devolução ou reciclagem."
+  },
+  "baselineCompliance": {
+    "baselineIndicators": "Resíduos anuais: 1,2 tonelada de resíduos de embalagem; 1 incidente ligeiro em 2025 (quase queda de telhado durante instalação, sem ferimentos); 95% dos tickets de atendimento ao cliente resolvidos em menos de 7 dias.",
+    "incidentHistorySummary": "2024: 0 incidentes registados; 2025: 1 quase‑acidente (quase queda de telhado durante instalação, sem ferimentos, reforço de treino e inspeções em ferramentas); 2026 até agora: 0 incidentes.",
+    "currentLegalComplianceStatus": "Conformidade substancial com regulamentações locais de ambiente, saúde e

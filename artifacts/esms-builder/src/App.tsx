@@ -1538,8 +1538,8 @@ const GUIDELINES_DB = {
       { label: "IFC Performance Standard 2 — Labour and Working Conditions", url: "https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
       { label: "IFC Performance Standard 3 — Resource Efficiency & Pollution Prevention", url: "https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
       { label: "GOGLA Consumer Protection Code", url: "https://www.gogla.org/what-we-do/business-services-and-standards/consumer-protection-code/" },
-      { label: "GOGLA ESMS Guidelines for OGS Companies", url: "https://www.gogla.org/wp-content/uploads/2020/02/ESMS-Guidelines-for-Off-Grid-Solar-Companies.pdf" },
-      { label: "REA Nigeria — ESMS Template for OGS", url: "https://rea.gov.ng/NEP-ESMS-Template_REVISED-25022020.pdf" },
+      { label: "GOGLA ESMS Guidelines for Off-Grid Solar Companies (Standards Page)", url: "https://www.gogla.org/what-we-do/business-services-and-standards/" },
+      { label: "REA Nigeria — Rural Electrification Agency", url: "https://rea.gov.ng/" },
     ]
   },
 
@@ -1573,7 +1573,7 @@ const GUIDELINES_DB = {
       { label: "IFC ESMS Toolkit Element 2 — Risk Identification", url: "https://www.ifc.org/en/insights-reports/2015/publications-handbook-esms-general" },
       { label: "IFC Performance Standard 1 — Assessment & Management", url: "https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
       { label: "World Bank ESF (2017)", url: "https://thedocs.worldbank.org/en/doc/837721522762050108-0290022018/original/ESFFramework.pdf" },
-      { label: "ECOWAS ESRM Guide on Off-Grid Solar", url: "https://ecowas.int/wp-content/uploads/2022/08/ROGEAP-Annex7-ESRM-Section-Guide-on-Off-Grid-Solar-for-CFI_19Dec2020-final.pdf" },
+      { label: "ECOWAS ESRM Guide on Off-Grid Solar", url: "https://www.ecowas.int/wp-content/uploads/2022/08/ROGEAP-Annex7-ESRM-Section-Guide-on-Off-Grid-Solar-for-CFI_19Dec2020-final.pdf" },
     ]
   },
 
@@ -1646,10 +1646,10 @@ const GUIDELINES_DB = {
       { label: "IFC PS2 — Labour and Working Conditions", url: "https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
       { label: "IFC PS3 — Resource Efficiency & Pollution Prevention", url: "https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
       { label: "IFC PS4 — Community Health, Safety and Security", url: "https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
-      { label: "ILO Solar Industry OHS Guidelines", url: "https://www.ilo.org/wcmsp5/groups/public/---ed_protect/---protrav/---safework/documents/publication/wcms_655511.pdf" },
+      { label: "ILO Safety and Health at Work — Resources for Solar Sector", url: "https://www.ilo.org/global/topics/safety-and-health-at-work/" },
       { label: "GOGLA E-Waste Toolkit", url: "https://www.gogla.org/what-we-do/circularity/e-waste-toolkit/" },
       { label: "GOGLA Business Blueprints for E-Waste", url: "https://www.gogla.org/tools/business-blueprints-for-e-waste-management/" },
-      { label: "ACE E-Waste Quick Win Report", url: "https://www.ace-taf.org/wp-content/uploads/2019/11/ACE-EWaste-Quick-Win-Report20191029-SCREEN.pdf" },
+      { label: "ACE-TAF — E-Waste Resources for Off-Grid Solar", url: "https://www.ace-taf.org/" },
     ]
   },
 
@@ -1699,8 +1699,8 @@ const GUIDELINES_DB = {
       { label: "IFC ESMS Toolkit — General (2015)", url: "https://www.ifc.org/en/insights-reports/2015/publications-handbook-esms-general" },
       { label: "IFC ESMS Implementation Handbook — General", url: "https://www.ifc.org/en/insights-reports/2015/publications-handbook-esms-general" },
       { label: "ROGEAP Operational Manual (GRM)", url: "https://ecowas.rogeap.org/wp-content/uploads/2023/10/GRM-Operational-Manual-ROGEAP-ECOWAS.pdf" },
-      { label: "CAO Grievance Resource — Design Tools", url: "https://www.cao-ombudsman.org/accessing-cao/making-a-complaint/grievance-mechanism-resources" },
-      { label: "CAMO Clean Energy ESMS Toolkit", url: "https://repp.energy/wp-content/uploads/2020/10/Environmental-and-Social-Management-System-Toolkit.pdf" },
+      { label: "CAO Ombudsman — Grievance Mechanism Resources", url: "https://www.cao-ombudsman.org/resources" },
+      { label: "IFC ESMS Implementation Handbook — General (2015)", url: "https://www.ifc.org/en/insights-reports/2015/publications-handbook-esms-general" },
     ]
   },
 
@@ -1737,7 +1737,7 @@ const GUIDELINES_DB = {
     resources: [
       { label: "IFC ESMS Toolkit Element 4 — Objectives, Targets & Programs", url: "https://www.ifc.org/en/insights-reports/2015/publications-handbook-esms-general" },
       { label: "Green Climate Fund ESAP Template", url: "https://www.greenclimate.fund/document/environmental-and-social-action-plan-template-annex-12-simplified-approval-process-funding" },
-      { label: "ECOWAS ESRM Guide on Off-Grid Solar", url: "https://ecowas.int/wp-content/uploads/2022/08/ROGEAP-Annex7-ESRM-Section-Guide-on-Off-Grid-Solar-for-CFI_19Dec2020-final.pdf" },
+      { label: "ECOWAS ESRM Guide on Off-Grid Solar", url: "https://www.ecowas.int/wp-content/uploads/2022/08/ROGEAP-Annex7-ESRM-Section-Guide-on-Off-Grid-Solar-for-CFI_19Dec2020-final.pdf" },
       { label: "IFC Performance Standards (2012)", url: "https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
       { label: "Equator Principles (2020)", url: "https://equator-principles.com/wp-content/uploads/2020/05/The-Equator-Principles-July-2020-v2.pdf" },
     ]
@@ -1768,7 +1768,7 @@ const GUIDELINES_DB = {
     ],
     resources: [
       { label: "ROGEAP Operational Manual — GRM Procedures", url: "https://ecowas.rogeap.org/wp-content/uploads/2023/10/GRM-Operational-Manual-ROGEAP-ECOWAS.pdf" },
-      { label: "CAO Grievance Design Resource", url: "https://www.cao-ombudsman.org/accessing-cao/making-a-complaint/grievance-mechanism-resources" },
+      { label: "CAO Ombudsman — Grievance Mechanism Resources", url: "https://www.cao-ombudsman.org/resources" },
       { label: "WB ESS10 — Stakeholder Engagement", url: "https://www.worldbank.org/en/projects-operations/environmental-and-social-framework" },
     ]
   },
@@ -1785,7 +1785,7 @@ const GUIDELINES_DB = {
       { label: "GOGLA E-Waste Toolkit", url: "https://www.gogla.org/what-we-do/circularity/e-waste-toolkit/" },
       { label: "GOGLA Business Blueprints for E-Waste Management", url: "https://www.gogla.org/tools/business-blueprints-for-e-waste-management/" },
       { label: "IFC PS3 — Resource Efficiency & Pollution Prevention", url: "https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
-      { label: "ACE E-Waste Quick Win Report (West Africa)", url: "https://www.ace-taf.org/wp-content/uploads/2019/11/ACE-EWaste-Quick-Win-Report20191029-SCREEN.pdf" },
+      { label: "ACE-TAF — E-Waste Resources for Off-Grid Solar", url: "https://www.ace-taf.org/" },
     ]
   },
 
@@ -2030,7 +2030,7 @@ function GuidelinesPanel({ guideId, onClose }) {
                   { label:"IFC ESMS Implementation Handbook — General (2015)", url:"https://www.ifc.org/en/insights-reports/2015/publications-handbook-esms-general" },
                   { label:"IFC Performance Standards on Environmental and Social Sustainability (2012)", url:"https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
                   { label:"World Bank Environmental and Social Framework (2017)", url:"https://thedocs.worldbank.org/en/doc/837721522762050108-0290022018/original/ESFFramework.pdf" },
-                  { label:"GOGLA ESMS Guidelines for Off-Grid Solar Companies", url:"https://www.gogla.org/wp-content/uploads/2020/02/ESMS-Guidelines-for-Off-Grid-Solar-Companies.pdf" },
+                  { label:"GOGLA ESMS Guidelines for Off-Grid Solar Companies (Standards Page)", url:"https://www.gogla.org/what-we-do/business-services-and-standards/" },
                   { label:"FIRST for Sustainability — Managing E&S Risks", url:"https://firstforsustainability.org/managing-environmental-and-social-risk" },
                 ].map((r,i) => (
                   <a key={i} href={r.url} target="_blank" rel="noopener noreferrer" style={{
@@ -2386,7 +2386,18 @@ async function exportPDF(title, sections, strings={}) {
     }
 
     const fname = title.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '_') || 'ESMS';
-    pdf.save(`${fname}.pdf`);
+    const pdfBlob = pdf.output('blob');
+    const blobUrl = URL.createObjectURL(pdfBlob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = `${fname}.pdf`;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
+    }, 500);
   } finally {
     document.body.removeChild(container);
     const s = document.getElementById('__pdf_export_style');

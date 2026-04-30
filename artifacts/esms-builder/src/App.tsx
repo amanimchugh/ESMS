@@ -3201,6 +3201,9 @@ export default function App() {
                 {t("resetData")}
               </button>
             </div>
+            <div style={{ marginTop:8, padding:"7px 10px", background:"rgba(255,255,255,0.05)", borderRadius:6, fontSize:10, color:"rgba(255,255,255,0.38)", lineHeight:1.5, textAlign:"center" }}>
+              {t("dataPrivacyNotice")}
+            </div>
           </div>
         )}
       </div>

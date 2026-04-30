@@ -18,6 +18,7 @@ export const TRANSLATIONS = {
     generating: "⏳ Generating…",
     resetData: "🗑 Reset All Data",
     resetConfirm: "Clear all data? This cannot be undone.",
+    dataPrivacyNotice: "🔒 Your data is saved only on this device — never shared or uploaded to a server.",
     langLabel: "Language",
 
     // NAV
@@ -610,6 +611,7 @@ export const TRANSLATIONS = {
     generating: "⏳ Génération…",
     resetData: "🗑 Réinitialiser les données",
     resetConfirm: "Effacer toutes les données ? Cette action est irréversible.",
+    dataPrivacyNotice: "🔒 Vos données sont enregistrées uniquement sur cet appareil — jamais partagées ni envoyées à un serveur.",
     langLabel: "Langue",
 
     navOverview: "Aperçu",
@@ -1182,6 +1184,7 @@ export const TRANSLATIONS = {
     generating: "⏳ Gerando…",
     resetData: "🗑 Redefinir Todos os Dados",
     resetConfirm: "Apagar todos os dados? Esta ação não pode ser desfeita.",
+    dataPrivacyNotice: "🔒 Os seus dados são guardados apenas neste dispositivo — nunca partilhados nem enviados para um servidor.",
     langLabel: "Idioma",
 
     navOverview: "Visão Geral",

@@ -34,11 +34,14 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
 - **Description**: ROGEAP Off-Grid Solar ESMS Builder — a comprehensive tool for building and implementing an Environmental & Social Management System, aligned with ROGEAP Guidelines and IFC Performance Standards.
 - **Architecture**: Single-file React app (`src/App.tsx`). Uses `// @ts-nocheck` to allow plain JSX. No backend — all data persisted in localStorage via `useLS` hook.
 - **Key files**:
-  - `src/App.tsx` — main app (~2960 lines, all components, tools, export engine)
-  - `src/i18n/translations.js` — UI strings in English, Français, Português
+  - `src/App.tsx` — main app (~3250 lines, all components, tools, export engine, `useGuide()` translation hook)
+  - `src/i18n/translations.js` — UI strings in English, Français, Português (~510 keys per language)
+  - `src/i18n/guideTranslations.js` — full FR+PT translations for all 13 GUIDELINES_DB entries (title, summary, sections, resource labels)
   - `src/index.css` — responsive CSS (mobile layout, touch targets, skip link, iOS zoom fix)
   - `public/manifest.json` — PWA web app manifest
 - **Features**: E&S Screening, Policies, Risk Assessment, Compliance, Management Plans, Implementation Tools, ESAP, multilingual (EN/FR/PT), PDF/Word/CSV export, JSON backup/restore
+- **Export engine**: PDF export uses jsPDF + html2canvas with explicit blob download (reliable in sandboxed iframes); Word export outputs RTF; CSV export with injection protection
+- **URL audit (last updated 2026-04)**: All 7 broken resource links fixed (GOGLA, REA Nigeria, ILO, ACE-TAF, ECOWAS, REPP, CAO); all remaining links verified live
 - **Responsive layout**:
   - Desktop (>768px): sticky sidebar + main content
   - Mobile (≤768px): mobile top header (hamburger + title + language), off-screen sidebar drawer, mobile bottom navigation bar (5 tabs + More)

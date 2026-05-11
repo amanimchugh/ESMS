@@ -1352,11 +1352,58 @@ const PLAN_DEFS_SIMPLE = [
     required:"IFC PS3 / WB ESS3 | ROGEAP Component 6",
     linkedTools:["waste_register"],
     fields:[
-      {id:"waste_streams",lk:"plnfldWasteStreams",label:"Waste Streams & Volumes (from audit)",t:"ta",rows:4,phk:"phWasteStreams"},
-      {id:"r5_strategy_wmp",lk:"plnfldR5Strategy",label:"5R Strategy by Waste Stream",t:"ta",rows:6,phk:"phR5Strategy"},
+      {id:"waste_streams",lk:"plnfldWasteStreams",label:"Waste Streams & Volumes (from audit)",t:"table",
+       addRowLabel:"➕ Add Waste Stream",
+       cols:[
+         {id:"waste_type",label:"Waste Type",w:"16%"},
+         {id:"hazard_class",label:"Hazard Class",w:"13%"},
+         {id:"source",label:"Source / Process",w:"18%"},
+         {id:"volume_yr",label:"Est. Volume / Year",w:"13%"},
+         {id:"unit",label:"Unit",w:"8%"},
+         {id:"notes",label:"Notes",w:"22%"},
+       ],
+       baseline:[
+         {waste_type:"Lead-acid batteries",hazard_class:"Hazardous",source:"Customer returns / agent collection",volume_yr:"~200",unit:"units",notes:"Primary e-waste stream; Basel Convention listed; highest priority"},
+         {waste_type:"Lithium-ion batteries",hazard_class:"Hazardous",source:"Customer returns / EOL",volume_yr:"~50",unit:"units",notes:"Requires specialist disposal partner"},
+         {waste_type:"Solar panels (EOL)",hazard_class:"Non-hazardous",source:"EOL take-back programme",volume_yr:"~20",unit:"units",notes:"Low volumes now; track for future EPR obligation"},
+         {waste_type:"Inverters / charge controllers",hazard_class:"Hazardous (WEEE)",source:"Warranty replacement",volume_yr:"~15",unit:"units",notes:"Contains lead solder; WEEE classification"},
+         {waste_type:"Packaging (cardboard / plastic)",hazard_class:"Non-hazardous",source:"Inbound logistics",volume_yr:"~500",unit:"kg",notes:"Reduce at source; reuse cartons where possible"},
+       ]},
+      {id:"r5_strategy_wmp",lk:"plnfldR5Strategy",label:"5R Strategy by Waste Stream",t:"table",
+       addRowLabel:"➕ Add Strategy Row",
+       cols:[
+         {id:"waste_stream",label:"Waste Stream",w:"14%"},
+         {id:"reduce",label:"Reduce",w:"17%"},
+         {id:"reuse_repair",label:"Reuse / Repair / Refurbish",w:"20%"},
+         {id:"recycle",label:"Recycle",w:"18%"},
+         {id:"priority",label:"Priority Action",w:"14%"},
+         {id:"target_date",label:"Target Date",w:"9%"},
+       ],
+       baseline:[
+         {waste_stream:"Lead-acid batteries",reduce:"Source longer-life products; reduce over-ordering",reuse_repair:"Collect for secondary market; reconditioning via licensed partner",recycle:"Licensed recycler [Name TBC]; quarterly collection",priority:"HIGH — launch take-back scheme",target_date:"Q1"},
+         {waste_stream:"Lithium-ion batteries",reduce:"Longer-warranty products; quality procurement standards",reuse_repair:"Warranty repair programme; refurbishment where viable",recycle:"Specialist Li-ion recycler [Name TBC]",priority:"HIGH — identify partner",target_date:"Q1"},
+         {waste_stream:"Solar panels",reduce:"Maintenance programme to extend lifespan in field",reuse_repair:"Resell functional units on secondary market",recycle:"Manufacturer take-back / panel recycler [TBC]",priority:"MEDIUM — low volumes now",target_date:"Q2"},
+         {waste_stream:"Inverters / controllers",reduce:"Quality procurement; repair-first policy",reuse_repair:"Field repair; refurbish for resale",recycle:"WEEE-licensed partner [TBC]",priority:"MEDIUM",target_date:"Q2"},
+         {waste_stream:"Packaging",reduce:"Consolidate deliveries; negotiate reduced packaging with suppliers",reuse_repair:"Reuse cartons for spare parts storage",recycle:"Cardboard recycling / composting locally",priority:"LOW",target_date:"Q3"},
+       ]},
       {id:"takeback_wmp",lk:"plnfldTakeBack",label:"Take-Back Scheme",t:"ta",rows:3,phk:"phTakeBack"},
       {id:"storage_wmp",lk:"plnfldEWasteStorage",label:"E-Waste Storage",t:"ta",rows:3,phk:"phEWasteStorage"},
-      {id:"partners_wmp",lk:"plnfldWastePartners",label:"Disposal & Recycling Partners",t:"ta",rows:3,phk:"phWastePartners"},
+      {id:"partners_wmp",lk:"plnfldWastePartners",label:"Disposal & Recycling Partners",t:"table",
+       addRowLabel:"➕ Add Partner",
+       cols:[
+         {id:"waste_type",label:"Waste Type",w:"14%"},
+         {id:"partner_name",label:"Partner / Recycler",w:"17%"},
+         {id:"country",label:"Country",w:"9%"},
+         {id:"reg_no",label:"Regulatory Reg. No.",w:"15%"},
+         {id:"collection_freq",label:"Collection Frequency",w:"14%"},
+         {id:"evidence",label:"Evidence / Documentation",w:"21%"},
+       ],
+       baseline:[
+         {waste_type:"Lead-acid batteries",partner_name:"[Recycler TBC]",country:"Nigeria",reg_no:"NESREA Lic. No. [X]",collection_freq:"Quarterly",evidence:"Certificate of Recycling + Waste Transfer Note"},
+         {waste_type:"Lithium-ion batteries",partner_name:"[Recycler TBC]",country:"Nigeria",reg_no:"[TBC — verify with NESREA]",collection_freq:"Semi-annual",evidence:"Certificate of Recycling"},
+         {waste_type:"Solar panels",partner_name:"[Manufacturer take-back TBC]",country:"Nigeria",reg_no:"[TBC]",collection_freq:"Annual or on demand",evidence:"Waste Transfer Note"},
+         {waste_type:"General / office waste",partner_name:"Municipal collection service",country:"Nigeria",reg_no:"N/A",collection_freq:"Weekly / monthly",evidence:"Collection receipt"},
+       ]},
       {id:"waste_kpis",lk:"plnfldWasteKPIs",label:"Waste Management Targets",t:"ta",rows:3,phk:"phWasteKPIs"},
     ]
   },
@@ -1365,12 +1412,45 @@ const PLAN_DEFS_SIMPLE = [
     required:"IFC PS2/PS4 | ROGEAP Component 11",
     linkedTools:["incident_log"],
     fields:[
-      {id:"scenarios_epr",lk:"plnfldScenarios",label:"Emergency Scenarios & Priority",t:"ta",rows:5,phk:"phScenarios"},
+      {id:"scenarios_epr",lk:"plnfldScenarios",label:"Emergency Scenarios & Priority",t:"table",
+       addRowLabel:"➕ Add Scenario",
+       cols:[
+         {id:"scenario",label:"Emergency Scenario",w:"22%"},
+         {id:"probability",label:"Probability",w:"10%",type:"sel",opts:["Low","Medium","High"]},
+         {id:"severity",label:"Severity",w:"10%",type:"sel",opts:["Low","Medium","High","Critical"]},
+         {id:"priority",label:"Priority",w:"9%",type:"sel",opts:["LOW","MEDIUM","HIGH","CRITICAL"]},
+         {id:"response_lead",label:"Response Lead",w:"16%"},
+         {id:"procedure_ref",label:"Procedure Reference",w:"23%"},
+       ],
+       baseline:[
+         {scenario:"Electrical fire (office / warehouse)",probability:"Medium",severity:"High",priority:"HIGH",response_lead:"Warehouse / Office Manager",procedure_ref:"Fire Response Procedure (Section A)"},
+         {scenario:"Battery thermal runaway / acid spill",probability:"Medium",severity:"High",priority:"HIGH",response_lead:"OHS Officer",procedure_ref:"Battery Emergency Procedure (Section B)"},
+         {scenario:"Technician electrocution / electrical incident",probability:"Low",severity:"Critical",priority:"HIGH",response_lead:"Field Supervisor",procedure_ref:"Electrical Incident Procedure (Section C)"},
+         {scenario:"Vehicle accident during field operations",probability:"Medium",severity:"Medium",priority:"MEDIUM",response_lead:"Field Operations Manager",procedure_ref:"Incident Reporting Procedure"},
+         {scenario:"GBV / SEAH incident",probability:"Low",severity:"High",priority:"HIGH",response_lead:"SEAH Focal Point",procedure_ref:"SEAH Protocol (separate confidential procedure)"},
+         {scenario:"Natural disaster (flood / storm)",probability:"Low",severity:"High",priority:"MEDIUM",response_lead:"MD / CEO",procedure_ref:"Business Continuity Plan"},
+         {scenario:"Security incident (theft / civil unrest)",probability:"Low",severity:"Medium",priority:"MEDIUM",response_lead:"Security Officer / MD",procedure_ref:"Security Incident Procedure"},
+       ]},
       {id:"ert",lk:"plnfldERT",label:"Emergency Response Team",t:"ta",rows:4,phk:"phERT"},
       {id:"fire_proc_epr",lk:"plnfldFireProc",label:"Fire Response Procedure (key steps)",t:"ta",rows:6,phk:"phFireProc"},
       {id:"electrical_epr",lk:"plnfldElecProc",label:"Electrical Incident Procedure (key steps)",t:"ta",rows:5,phk:"phElecProc"},
       {id:"battery_epr",lk:"plnfldBatteryProc",label:"Battery Emergency Procedure (key steps)",t:"ta",rows:4,phk:"phBatteryProc"},
-      {id:"drills_epr",lk:"plnfldDrills",label:"Drill Schedule & Records",t:"ta",rows:2,phk:"phDrills"},
+      {id:"drills_epr",lk:"plnfldDrills",label:"Drill Schedule & Records",t:"table",
+       addRowLabel:"➕ Add Drill",
+       cols:[
+         {id:"drill_type",label:"Drill Type",w:"22%"},
+         {id:"frequency",label:"Frequency",w:"11%"},
+         {id:"last_completed",label:"Last Completed",w:"13%"},
+         {id:"next_scheduled",label:"Next Scheduled",w:"13%"},
+         {id:"participants",label:"Participants",w:"20%"},
+         {id:"outcome_notes",label:"Outcome / Lessons Learned",w:"21%"},
+       ],
+       baseline:[
+         {drill_type:"Full building / site evacuation drill",frequency:"Semi-annual",last_completed:"[Date]",next_scheduled:"[Date]",participants:"All office and warehouse staff",outcome_notes:"[Complete after drill — document gaps found]"},
+         {drill_type:"Battery / acid spill response drill",frequency:"Annual",last_completed:"[Date]",next_scheduled:"[Date]",participants:"Warehouse staff + OHS Officer",outcome_notes:"[Complete after drill]"},
+         {drill_type:"Electrical incident / LOTO drill",frequency:"Annual",last_completed:"[Date]",next_scheduled:"[Date]",participants:"All field technicians",outcome_notes:"[Complete after drill]"},
+         {drill_type:"Fire extinguisher use training",frequency:"Annual",last_completed:"[Date]",next_scheduled:"[Date]",participants:"All staff",outcome_notes:"[Complete after training session]"},
+       ]},
     ]
   },
   {
@@ -1610,6 +1690,7 @@ function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
             {f.t === "text" && <input value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} placeholder={f.phk ? t(f.phk) : (f.ph||"")} style={S.inp}/>}
             {f.t === "ta" && <textarea value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} placeholder={f.phk ? t(f.phk) : (f.ph||"")} rows={f.rows||4} style={S.ta}/>}
             {f.t === "cbl" && <ChecklistBuilder baseline={f.items||[]} value={d[f.id]} onChange={v=>set(f.id,v)}/>}
+            {f.t === "table" && <TableBuilder columns={f.cols||[]} baselineRows={f.baseline||[]} value={d[f.id]} onChange={v=>set(f.id,v)} addRowLabel={f.addRowLabel||"➕ Add Row"}/>}
           </div>
         ))}
         <div style={{ marginTop:24, paddingTop:16, borderTop:`1.5px solid ${C.border}`, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:10 }}>
@@ -3297,6 +3378,10 @@ function buildSinglePlanSections(plan, d, t) {
         const items = f.items.map(i => i.text || i);
         if (items.length) out.push({type:'checklist', label: flabel, items, isPlaceholder: true});
       }
+    } else if (f.t === 'table') {
+      const rows = Array.isArray(v) && v.length > 0 ? v : (f.baseline || []);
+      const isPlaceholder = !(Array.isArray(v) && v.length > 0);
+      if (rows.length > 0) out.push({type:'table', label: flabel, cols: f.cols || [], rows, isPlaceholder});
     } else {
       const stored = safe(v);
       const ph = (t && f.phk) ? t(f.phk) : (f.ph || '');

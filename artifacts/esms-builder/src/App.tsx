@@ -101,13 +101,14 @@ function ChecklistBuilder({baseline,value,onChange,columns=1}){
 // ═══════════════ LIVE TABLE BUILDER ═══════════════
 // Users can edit cell content, add rows, remove rows
 function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row"}){
+  const {t}=useLang();
   const rows=(Array.isArray(value)&&value.length>0)?value:(Array.isArray(baselineRows)?baselineRows:[]);
   const updateCell=(ri,ci,v)=>{const r=[...rows];r[ri]={...r[ri],[ci]:v};onChange(r);};
   const addRow=()=>{const blank={};columns.forEach(c=>{blank[c.id]="";});onChange([...rows,blank]);};
   const removeRow=i=>onChange(rows.filter((_,j)=>j!==i));
   return(<div style={{overflowX:"auto"}}>
     <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
-      <thead><tr>{columns.map(c=><th key={c.id} style={{...S.th,width:c.w||"auto"}}>{c.label}</th>)}<th style={{...S.th,width:40}}></th></tr></thead>
+      <thead><tr>{columns.map(c=><th key={c.id} style={{...S.th,width:c.w||"auto"}}>{c.lk?t(c.lk):c.label}</th>)}<th style={{...S.th,width:40}}></th></tr></thead>
       <tbody>
         {rows.map((row,ri)=>(
           <tr key={ri} style={{background:ri%2===0?"white":"#FAFBFC"}}>
@@ -115,7 +116,8 @@ function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row"
               <td key={c.id} style={S.td}>
                 {c.type==="sel"
                   ?<select value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} style={{...S.inp,padding:"5px 8px"}}>
-                    <option value="">—</option>{c.opts.map(o=><option key={o}>{o}</option>)}
+                    <option value="">—</option>
+                    {c.opts.map((o,i)=><option key={o} value={o}>{c.transOpts?c.transOpts[i]:o}</option>)}
                   </select>
                   :c.type==="ta"
                     ?<textarea value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} rows={2} style={{...S.ta,padding:"4px 8px",minWidth:c.minW||120}}/>
@@ -198,14 +200,14 @@ function IncidentLog({value,onChange}){
   const rows=value||[];
   const cols=[
     {id:"date",label:t("csvColDate"),w:"8%",ph:"DD/MM/YY"},
-    {id:"type",label:t("csvColType"),w:"9%",type:"sel",opts:["Injury","Near-Miss","Property Damage","Environmental","Security","SEAH","Other"]},
+    {id:"type",label:t("csvColType"),w:"9%",type:"sel",opts:["Injury","Near-Miss","Property Damage","Environmental","Security","SEAH","Other"],transOpts:[t("optIncidentInjury"),t("optIncidentNearMiss"),t("optIncidentPropertyDmg"),t("optIncidentEnvironmental"),t("optIncidentSecurity"),t("optIncidentSEAH"),t("optIncidentOther")]},
     {id:"description",label:t("csvColDescription"),w:"22%",type:"ta"},
     {id:"location",label:t("csvColLocation"),w:"10%",ph:"Site/area"},
     {id:"persons",label:t("csvColPersons"),w:"10%",ph:"Role only"},
     {id:"cause",label:t("csvColCause"),w:"15%",type:"ta"},
     {id:"action",label:t("csvColAction"),w:"15%",type:"ta"},
     {id:"responsible",label:t("colResponsible"),w:"8%",ph:"Name"},
-    {id:"status",label:t("colStatus"),w:"8%",type:"sel",opts:["Open","In Progress","Closed","Reported to Authority"]},
+    {id:"status",label:t("colStatus"),w:"8%",type:"sel",opts:["Open","In Progress","Closed","Reported to Authority"],transOpts:[t("optStatusOpen"),t("optStatusInProgress"),t("optStatusClosed"),t("optStatusReported")]},
   ];
   return(<div>
     <InfoBox col={C.red} bg="#FFF5F5">{t("incidentInfoBox")}</InfoBox>
@@ -219,11 +221,11 @@ function WasteRegister({value,onChange}){
   const rows=value||[];
   const cols=[
     {id:"date",label:t("csvColDate"),w:"8%",ph:"DD/MM/YY"},
-    {id:"waste_type",label:t("csvColWasteType"),w:"12%",type:"sel",opts:["Lead-acid battery","Lithium battery","Solar panel","Inverter/controller","Accessories","Packaging","Office waste","Workshop waste","Other"]},
+    {id:"waste_type",label:t("csvColWasteType"),w:"12%",type:"sel",opts:["Lead-acid battery","Lithium battery","Solar panel","Inverter/controller","Accessories","Packaging","Office waste","Workshop waste","Other"],transOpts:[t("optWasteLeadAcid"),t("optWasteLithium"),t("optWasteSolarPanel"),t("optWasteInverter"),t("optWasteAccessories"),t("optWastePackaging"),t("optWasteOffice"),t("optWasteWorkshop"),t("optWasteOther")]},
     {id:"qty_units",label:t("csvColQtyUnits"),w:"7%",ph:"#"},
     {id:"qty_kg",label:t("csvColQtyKg"),w:"7%",ph:"kg"},
     {id:"source",label:t("csvColSource"),w:"10%",ph:"Agent/area"},
-    {id:"r5",label:t("csv5R"),w:"9%",type:"sel",opts:["Reduce","Reuse","Repair","Refurbish","Recycle","Dispose"]},
+    {id:"r5",label:t("csv5R"),w:"9%",type:"sel",opts:["Reduce","Reuse","Repair","Refurbish","Recycle","Dispose"],transOpts:[t("optR5Reduce"),t("optR5Reuse"),t("optR5Repair"),t("optR5Refurbish"),t("optR5Recycle"),t("optR5Dispose")]},
     {id:"disposal_route",label:t("csvColDisposalRoute"),w:"13%",ph:"Recycler/landfill"},
     {id:"recycler",label:t("colWasteRecycler"),w:"12%",ph:"Name"},
     {id:"certificate",label:t("colCertNo"),w:"10%",ph:"Ref no."},
@@ -242,14 +244,14 @@ function GrievanceLog({value,onChange}){
   const cols=[
     {id:"case_id",label:t("csvColCaseNo"),w:"7%",ph:"GRM-001"},
     {id:"date_received",label:t("csvColDateReceived"),w:"7%",ph:"DD/MM/YY"},
-    {id:"channel",label:t("csvColChannel"),w:"8%",type:"sel",opts:["Phone/WhatsApp","Email","In-person","Suggestion box","Online form","Via agent","Anonymous","Other"]},
+    {id:"channel",label:t("csvColChannel"),w:"8%",type:"sel",opts:["Phone/WhatsApp","Email","In-person","Suggestion box","Online form","Via agent","Anonymous","Other"],transOpts:[t("optChanPhone"),t("optChanEmail"),t("optChanInPerson"),t("optChanBox"),t("optChanOnline"),t("optChanAgent"),t("optChanAnon"),t("optChanOther")]},
     {id:"complainant",label:t("colComplainantKnown"),w:"10%",ph:"Name or 'Anon'"},
-    {id:"category",label:t("riskColCategory"),w:"9%",type:"sel",opts:["Working conditions","Product quality","Consumer protection","Environmental","Community","Gender/SEAH","Payment dispute","Safety","Other"]},
+    {id:"category",label:t("riskColCategory"),w:"9%",type:"sel",opts:["Working conditions","Product quality","Consumer protection","Environmental","Community","Gender/SEAH","Payment dispute","Safety","Other"],transOpts:[t("optCatWorkCond"),t("optCatProduct"),t("optCatConsumerProt"),t("optCatEnvironment"),t("optCatCommunity"),t("optCatGender"),t("optCatPayment"),t("optCatSafety"),t("optCatOther")]},
     {id:"description",label:t("csvColDescription"),w:"18%",type:"ta"},
-    {id:"level",label:t("csvColLevel"),w:"6%",type:"sel",opts:["Level 1","Level 2","Level 3"]},
+    {id:"level",label:t("csvColLevel"),w:"6%",type:"sel",opts:["Level 1","Level 2","Level 3"],transOpts:[t("optGrmLvl1"),t("optGrmLvl2"),t("optGrmLvl3")]},
     {id:"assigned_to",label:t("csvColAssignedTo"),w:"8%",ph:"Name"},
     {id:"action",label:t("colActionTaken"),w:"13%",type:"ta"},
-    {id:"satisfied",label:t("csvColSatisfied"),w:"6%",type:"sel",opts:["Yes","No","Pending","N/A"]},
+    {id:"satisfied",label:t("csvColSatisfied"),w:"6%",type:"sel",opts:["Yes","No","Pending","N/A"],transOpts:[t("optSatisfiedYes"),t("optSatisfiedNo"),t("optSatisfiedPending"),t("optSatisfiedNA")]},
     {id:"date_closed",label:t("csvColDateClosed"),w:"7%",ph:"DD/MM/YY"},
   ];
   return(<div>
@@ -272,8 +274,8 @@ function TrainingRegister({value,onChange}){
     {id:"participants",label:t("colParticipantsNo"),w:"8%",ph:"#"},
     {id:"target_group",label:t("csvColTargetGroup"),w:"11%",ph:"e.g. Field techs"},
     {id:"duration",label:t("csvColDuration"),w:"7%",ph:"hrs/days"},
-    {id:"method",label:t("csvColMethod"),w:"9%",type:"sel",opts:["In-person","Workshop","On-the-job","Online","Toolbox talk","Certified course","Other"]},
-    {id:"assessment",label:t("csvColAssessment"),w:"7%",type:"sel",opts:["Yes","No","Planned"]},
+    {id:"method",label:t("csvColMethod"),w:"9%",type:"sel",opts:["In-person","Workshop","On-the-job","Online","Toolbox talk","Certified course","Other"],transOpts:[t("optMethInPerson"),t("optMethWorkshop"),t("optMethOJT"),t("optMethOnline"),t("optMethToolbox"),t("optMethCertified"),t("optMethOther")]},
+    {id:"assessment",label:t("csvColAssessment"),w:"7%",type:"sel",opts:["Yes","No","Planned"],transOpts:[t("optGenYes"),t("optGenNo"),t("optGenPlanned")]},
     {id:"cert_no",label:t("colCertNo"),w:"9%",ph:"Ref (if any)"},
     {id:"notes",label:t("colNotesGaps"),w:"12%",type:"ta"},
   ];
@@ -302,11 +304,11 @@ function StakeholderRegister({value,onChange}){
   const cols=[
     {id:"group",label:t("csvColGroup"),w:"16%",ph:"Group name"},
     {id:"interests",label:t("csvColInterests"),w:"18%",type:"ta"},
-    {id:"influence",label:t("csvColInfluence"),w:"7%",type:"sel",opts:["High","Medium","Low"]},
-    {id:"impact",label:t("colImpactThem"),w:"7%",type:"sel",opts:["High","Medium","Low"]},
+    {id:"influence",label:t("csvColInfluence"),w:"7%",type:"sel",opts:["High","Medium","Low"],transOpts:[t("optInflHigh"),t("optInflMedium"),t("optInflLow")]},
+    {id:"impact",label:t("colImpactThem"),w:"7%",type:"sel",opts:["High","Medium","Low"],transOpts:[t("optInflHigh"),t("optInflMedium"),t("optInflLow")]},
     {id:"relationship",label:t("csvColRelationship"),w:"9%",ph:"Type"},
     {id:"method",label:t("colEngagementMethod"),w:"14%",type:"ta"},
-    {id:"frequency",label:t("csvColFrequency"),w:"8%",type:"sel",opts:["Ongoing","Monthly","Quarterly","Annually","As needed"]},
+    {id:"frequency",label:t("csvColFrequency"),w:"8%",type:"sel",opts:["Ongoing","Monthly","Quarterly","Annually","As needed"],transOpts:[t("optFreqOngoing"),t("optFreqMonthly"),t("optFreqQuarterly"),t("optFreqAnnually"),t("optFreqAsNeeded")]},
     {id:"responsible",label:t("colResponsible"),w:"9%",ph:"Name"},
     {id:"last_engaged",label:t("colLastInspected"),w:"8%",ph:"DD/MM/YY"},
   ];
@@ -335,7 +337,7 @@ function PPEMatrix({value,onChange}){
     {id:"hazard",label:t("ppeColHazard"),w:"13%",ph:"Main hazard"},
     {id:"ppe_required",label:t("ppeColRequired"),w:"22%",type:"ta"},
     {id:"standard",label:t("ppeColStandard"),w:"8%",ph:"EN/ISO ref"},
-    {id:"provided",label:t("ppeColProvided"),w:"8%",type:"sel",opts:["Yes","No","Partial","Planned"]},
+    {id:"provided",label:t("ppeColProvided"),w:"8%",type:"sel",opts:["Yes","No","Partial","Planned"],transOpts:[t("optPpeYes"),t("optPpeNo"),t("optPpePartial"),t("optPpePlanned")]},
     {id:"inspected",label:t("colLastInspected"),w:"7%",ph:"DD/MM/YY"},
     {id:"your_spec",label:t("ppeColSpec"),w:"18%",type:"ta"},
   ];
@@ -365,8 +367,8 @@ function ComplianceTracker({value,onChange}){
     {id:"law",label:t("complianceColLaw"),w:"16%",ph:"Name"},
     {id:"authority",label:t("complianceColAuthority"),w:"12%",ph:"Body"},
     {id:"requirement",label:t("complianceColReq"),w:"18%",type:"ta"},
-    {id:"applies",label:t("complianceColApplies"),w:"6%",type:"sel",opts:["yes","no","unsure"]},
-    {id:"status",label:t("complianceColStatus"),w:"9%",type:"sel",opts:["Compliant","Partial","Non-compliant","Under review","N/A"]},
+    {id:"applies",label:t("complianceColApplies"),w:"6%",type:"sel",opts:["yes","no","unsure"],transOpts:[t("optAppliesYes"),t("optAppliesNo"),t("optAppliesUnsure")]},
+    {id:"status",label:t("complianceColStatus"),w:"9%",type:"sel",opts:["Compliant","Partial","Non-compliant","Under review","N/A"],transOpts:[t("optComplCompliant"),t("optComplPartial"),t("optComplNonCompliant"),t("optComplReview"),t("optComplNA")]},
     {id:"expiry",label:t("complianceColExpiry"),w:"7%",ph:"DD/MM/YY"},
     {id:"responsible",label:t("complianceColResponsible"),w:"8%",ph:"Name"},
     {id:"evidence",label:t("complianceColEvidence"),w:"14%",ph:"File name/location"},
@@ -557,12 +559,12 @@ function SupplierAssessment({value,onChange}){
   const cols=[
     {id:"supplier",label:t("supplierColName"),w:"13%",ph:"Company name"},
     {id:"country",label:t("csvColCountry"),w:"7%",ph:"Country"},
-    {id:"category",label:t("riskColCategory"),w:"10%",type:"sel",opts:["Panels / Modules","Batteries","Accessories","Logistics","Agent/Distributor","Service provider","Other"]},
+    {id:"category",label:t("riskColCategory"),w:"10%",type:"sel",opts:["Panels / Modules","Batteries","Accessories","Logistics","Agent/Distributor","Service provider","Other"],transOpts:[t("optSupPanels"),t("optSupBatteries"),t("optSupAccessories"),t("optSupLogistics"),t("optSupAgent"),t("optSupService"),t("optSupOther")]},
     {id:"spend",label:t("csvColSpend"),w:"8%",ph:"USD amount"},
-    {id:"es_policy",label:t("csvColESPolicy"),w:"7%",type:"sel",opts:["Yes","No","Partial","Unknown"]},
-    {id:"child_labour",label:t("csvColChildLabour"),w:"8%",type:"sel",opts:["Low","Medium","High","Unknown"]},
-    {id:"forced_labour",label:t("csvColForcedLabour"),w:"8%",type:"sel",opts:["Low","Medium","High","Unknown"]},
-    {id:"ewaste",label:t("csvColEwaste"),w:"7%",type:"sel",opts:["Yes","No","Partial","Unknown"]},
+    {id:"es_policy",label:t("csvColESPolicy"),w:"7%",type:"sel",opts:["Yes","No","Partial","Unknown"],transOpts:[t("optSupYes"),t("optSupNo"),t("optSupPartial"),t("optSupUnknown")]},
+    {id:"child_labour",label:t("csvColChildLabour"),w:"8%",type:"sel",opts:["Low","Medium","High","Unknown"],transOpts:[t("optInflLow"),t("optInflMedium"),t("optInflHigh"),t("optSupUnknown")]},
+    {id:"forced_labour",label:t("csvColForcedLabour"),w:"8%",type:"sel",opts:["Low","Medium","High","Unknown"],transOpts:[t("optInflLow"),t("optInflMedium"),t("optInflHigh"),t("optSupUnknown")]},
+    {id:"ewaste",label:t("csvColEwaste"),w:"7%",type:"sel",opts:["Yes","No","Partial","Unknown"],transOpts:[t("optSupYes"),t("optSupNo"),t("optSupPartial"),t("optSupUnknown")]},
     {id:"certified",label:t("csvColCertified"),w:"8%",ph:"e.g. RBA, ISO"},
     {id:"last_review",label:t("csvColLastReview"),w:"7%",ph:"DD/MM/YY"},
     {id:"action",label:t("complianceColAction"),w:"14%",type:"ta"},
@@ -1307,6 +1309,90 @@ const BUSINESS_PROFILE_DEFS = [
     ]},
 ];
 
+// ═══════════════ PLAN TABLE BASELINES — FR + PT ═══════════════
+const PLAN_TABLE_BASELINES = {
+  waste_streams: {
+    fr:[
+      {waste_type:"Batteries plomb-acide",hazard_class:"Dangereux",source:"Retour clients / collecte agent",volume_yr:"~200",unit:"unités",notes:"Principal flux de déchets électroniques ; classé Convention de Bâle ; priorité maximale"},
+      {waste_type:"Batteries lithium-ion",hazard_class:"Dangereux",source:"Retour clients / fin de vie",volume_yr:"~50",unit:"unités",notes:"Nécessite un partenaire d'élimination spécialisé"},
+      {waste_type:"Panneaux solaires (fin de vie)",hazard_class:"Non dangereux",source:"Programme de reprise fin de vie",volume_yr:"~20",unit:"unités",notes:"Faibles volumes actuellement ; à suivre pour obligations REP futures"},
+      {waste_type:"Onduleurs / régulateurs de charge",hazard_class:"Dangereux (DEEE)",source:"Remplacement sous garantie",volume_yr:"~15",unit:"unités",notes:"Contient de la soudure au plomb ; classification DEEE"},
+      {waste_type:"Emballages (carton / plastique)",hazard_class:"Non dangereux",source:"Logistique entrante",volume_yr:"~500",unit:"kg",notes:"Réduire à la source ; réutiliser les cartons si possible"},
+    ],
+    pt:[
+      {waste_type:"Baterias de chumbo-ácido",hazard_class:"Perigoso",source:"Devoluções de clientes / recolha por agente",volume_yr:"~200",unit:"unidades",notes:"Principal fluxo de resíduos eletrónicos; listado na Convenção de Basileia; máxima prioridade"},
+      {waste_type:"Baterias de lítio-ião",hazard_class:"Perigoso",source:"Devoluções de clientes / fim de vida",volume_yr:"~50",unit:"unidades",notes:"Requer parceiro especializado de eliminação"},
+      {waste_type:"Painéis solares (fim de vida)",hazard_class:"Não perigoso",source:"Programa de recolha de fim de vida",volume_yr:"~20",unit:"unidades",notes:"Baixos volumes atualmente; acompanhar para obrigações de REP futuras"},
+      {waste_type:"Inversores / controladores de carga",hazard_class:"Perigoso (REEE)",source:"Substituição em garantia",volume_yr:"~15",unit:"unidades",notes:"Contém soldadura de chumbo; classificação REEE"},
+      {waste_type:"Embalagens (cartão / plástico)",hazard_class:"Não perigoso",source:"Logística de entrada",volume_yr:"~500",unit:"kg",notes:"Reduzir na fonte; reutilizar caixas de cartão sempre que possível"},
+    ],
+  },
+  r5_strategy_wmp: {
+    fr:[
+      {waste_stream:"Batteries plomb-acide",reduce:"Approvisionner des produits plus durables ; réduire les commandes excessives",reuse_repair:"Collecter pour marché secondaire ; reconditionnement via partenaire agréé",recycle:"Recycleur agréé [Nom à confirmer] ; collecte trimestrielle",priority:"ÉLEVÉE — lancer un programme de reprise",target_date:"T1"},
+      {waste_stream:"Batteries lithium-ion",reduce:"Produits avec garantie plus longue ; critères d'approvisionnement qualité",reuse_repair:"Programme de réparation sous garantie ; remise en état si viable",recycle:"Recycleur Li-ion spécialisé [Nom à confirmer]",priority:"ÉLEVÉE — identifier partenaire",target_date:"T1"},
+      {waste_stream:"Panneaux solaires",reduce:"Programme d'entretien pour prolonger la durée de vie",reuse_repair:"Revendre les unités fonctionnelles sur le marché secondaire",recycle:"Reprise fabricant / recycleur de panneaux [à confirmer]",priority:"MOYENNE — faibles volumes actuellement",target_date:"T2"},
+      {waste_stream:"Onduleurs / contrôleurs",reduce:"Approvisionnement qualité ; politique de réparation en priorité",reuse_repair:"Réparation terrain ; remise en état pour revente",recycle:"Partenaire agréé DEEE [à confirmer]",priority:"MOYENNE",target_date:"T2"},
+      {waste_stream:"Emballages",reduce:"Consolider les livraisons ; négocier moins d'emballage avec fournisseurs",reuse_repair:"Réutiliser les cartons pour le stockage de pièces détachées",recycle:"Recyclage carton / compostage local",priority:"FAIBLE",target_date:"T3"},
+    ],
+    pt:[
+      {waste_stream:"Baterias de chumbo-ácido",reduce:"Procurar produtos de vida útil mais longa; reduzir sobre-encomendas",reuse_repair:"Coletar para mercado secundário; recondicionamento via parceiro licenciado",recycle:"Reciclador licenciado [Nome a confirmar]; recolha trimestral",priority:"ALTA — lançar programa de recolha",target_date:"T1"},
+      {waste_stream:"Baterias de lítio-ião",reduce:"Produtos com garantia mais longa; critérios de qualidade de aprovisionamento",reuse_repair:"Programa de reparação em garantia; recondicionamento se viável",recycle:"Reciclador especializado em lítio [Nome a confirmar]",priority:"ALTA — identificar parceiro",target_date:"T1"},
+      {waste_stream:"Painéis solares",reduce:"Programa de manutenção para prolongar vida útil em campo",reuse_repair:"Revender unidades funcionais no mercado secundário",recycle:"Recolha pelo fabricante / reciclador de painéis [a confirmar]",priority:"MÉDIA — baixos volumes atualmente",target_date:"T2"},
+      {waste_stream:"Inversores / controladores",reduce:"Aprovisionamento de qualidade; política de reparação prioritária",reuse_repair:"Reparação em campo; recondicionamento para revenda",recycle:"Parceiro licenciado REEE [a confirmar]",priority:"MÉDIA",target_date:"T2"},
+      {waste_stream:"Embalagens",reduce:"Consolidar entregas; negociar embalagem reduzida com fornecedores",reuse_repair:"Reutilizar caixas de cartão para armazenamento de peças",recycle:"Reciclagem de cartão / compostagem local",priority:"BAIXA",target_date:"T3"},
+    ],
+  },
+  partners_wmp: {
+    fr:[
+      {waste_type:"Batteries plomb-acide",partner_name:"[Recycleur à confirmer]",country:"Nigeria",reg_no:"Lic. NESREA N° [X]",collection_freq:"Trimestriel",evidence:"Certificat de recyclage + Bon de transfert de déchets"},
+      {waste_type:"Batteries lithium-ion",partner_name:"[Recycleur à confirmer]",country:"Nigeria",reg_no:"[À confirmer — vérifier avec NESREA]",collection_freq:"Semestriel",evidence:"Certificat de recyclage"},
+      {waste_type:"Panneaux solaires",partner_name:"[Reprise fabricant à confirmer]",country:"Nigeria",reg_no:"[À confirmer]",collection_freq:"Annuel ou à la demande",evidence:"Bon de transfert de déchets"},
+      {waste_type:"Déchets généraux / bureau",partner_name:"Service de collecte municipal",country:"Nigeria",reg_no:"N/A",collection_freq:"Hebdomadaire / mensuel",evidence:"Reçu de collecte"},
+    ],
+    pt:[
+      {waste_type:"Baterias de chumbo-ácido",partner_name:"[Reciclador a confirmar]",country:"Nigéria",reg_no:"Lic. NESREA N.º [X]",collection_freq:"Trimestral",evidence:"Certificado de reciclagem + Nota de transferência de resíduos"},
+      {waste_type:"Baterias de lítio-ião",partner_name:"[Reciclador a confirmar]",country:"Nigéria",reg_no:"[A confirmar — verificar com NESREA]",collection_freq:"Semestral",evidence:"Certificado de reciclagem"},
+      {waste_type:"Painéis solares",partner_name:"[Recolha pelo fabricante a confirmar]",country:"Nigéria",reg_no:"[A confirmar]",collection_freq:"Anual ou a pedido",evidence:"Nota de transferência de resíduos"},
+      {waste_type:"Resíduos gerais / escritório",partner_name:"Serviço de recolha municipal",country:"Nigéria",reg_no:"N/A",collection_freq:"Semanal / mensal",evidence:"Recibo de recolha"},
+    ],
+  },
+  scenarios_epr: {
+    fr:[
+      {scenario:"Incendie électrique (bureau / entrepôt)",probability:"Medium",severity:"High",priority:"HIGH",response_lead:"Responsable entrepôt / bureau",procedure_ref:"Procédure de réponse incendie (Section A)"},
+      {scenario:"Emballement thermique batterie / déversement d'acide",probability:"Medium",severity:"High",priority:"HIGH",response_lead:"Responsable SST",procedure_ref:"Procédure d'urgence batterie (Section B)"},
+      {scenario:"Électrocution technicien / incident électrique",probability:"Low",severity:"Critical",priority:"HIGH",response_lead:"Superviseur de terrain",procedure_ref:"Procédure d'incident électrique (Section C)"},
+      {scenario:"Accident de véhicule pendant les opérations de terrain",probability:"Medium",severity:"Medium",priority:"MEDIUM",response_lead:"Directeur des opérations de terrain",procedure_ref:"Procédure de rapport d'incident"},
+      {scenario:"Incident VBG / EAS/HS",probability:"Low",severity:"High",priority:"HIGH",response_lead:"Point focal EAS/HS",procedure_ref:"Protocole EAS/HS (procédure confidentielle séparée)"},
+      {scenario:"Catastrophe naturelle (inondation / tempête)",probability:"Low",severity:"High",priority:"MEDIUM",response_lead:"DG / PDG",procedure_ref:"Plan de continuité des activités"},
+      {scenario:"Incident de sécurité (vol / troubles civils)",probability:"Low",severity:"Medium",priority:"MEDIUM",response_lead:"Responsable de sécurité / DG",procedure_ref:"Procédure d'incident de sécurité"},
+    ],
+    pt:[
+      {scenario:"Incêndio elétrico (escritório / armazém)",probability:"Medium",severity:"High",priority:"HIGH",response_lead:"Gerente de armazém / escritório",procedure_ref:"Procedimento de resposta a incêndio (Secção A)"},
+      {scenario:"Fuga térmica de bateria / derrame de ácido",probability:"Medium",severity:"High",priority:"HIGH",response_lead:"Responsável por SST",procedure_ref:"Procedimento de emergência de bateria (Secção B)"},
+      {scenario:"Eletrocussão de técnico / incidente elétrico",probability:"Low",severity:"Critical",priority:"HIGH",response_lead:"Supervisor de campo",procedure_ref:"Procedimento de incidente elétrico (Secção C)"},
+      {scenario:"Acidente de viatura durante operações de campo",probability:"Medium",severity:"Medium",priority:"MEDIUM",response_lead:"Gerente de Operações de Campo",procedure_ref:"Procedimento de Relato de Incidente"},
+      {scenario:"Incidente VBG / EAS/AS",probability:"Low",severity:"High",priority:"HIGH",response_lead:"Ponto Focal EAS/AS",procedure_ref:"Protocolo EAS/AS (procedimento confidencial separado)"},
+      {scenario:"Catástrofe natural (inundação / tempestade)",probability:"Low",severity:"High",priority:"MEDIUM",response_lead:"DG / CEO",procedure_ref:"Plano de Continuidade de Negócio"},
+      {scenario:"Incidente de segurança (roubo / distúrbios civis)",probability:"Low",severity:"Medium",priority:"MEDIUM",response_lead:"Responsável de Segurança / DG",procedure_ref:"Procedimento de Incidente de Segurança"},
+    ],
+  },
+  drills_epr: {
+    fr:[
+      {drill_type:"Exercice d'évacuation complète du bâtiment / site",frequency:"Semi-annuel",last_completed:"[Date]",next_scheduled:"[Date]",participants:"Tout le personnel de bureau et d'entrepôt",outcome_notes:"[Compléter après l'exercice — documenter les lacunes constatées]"},
+      {drill_type:"Exercice de réponse batterie / déversement d'acide",frequency:"Annuel",last_completed:"[Date]",next_scheduled:"[Date]",participants:"Personnel entrepôt + Responsable SST",outcome_notes:"[Compléter après l'exercice]"},
+      {drill_type:"Exercice d'incident électrique / LOTO",frequency:"Annuel",last_completed:"[Date]",next_scheduled:"[Date]",participants:"Tous les techniciens de terrain",outcome_notes:"[Compléter après l'exercice]"},
+      {drill_type:"Formation utilisation extincteur",frequency:"Annuel",last_completed:"[Date]",next_scheduled:"[Date]",participants:"Tout le personnel",outcome_notes:"[Compléter après la session de formation]"},
+    ],
+    pt:[
+      {drill_type:"Simulacro completo de evacuação do edifício / local",frequency:"Semestral",last_completed:"[Data]",next_scheduled:"[Data]",participants:"Todo o pessoal de escritório e armazém",outcome_notes:"[Completar após simulacro — documentar lacunas encontradas]"},
+      {drill_type:"Simulacro de resposta a bateria / derrame de ácido",frequency:"Anual",last_completed:"[Data]",next_scheduled:"[Data]",participants:"Pessoal de armazém + Responsável por SST",outcome_notes:"[Completar após simulacro]"},
+      {drill_type:"Simulacro de incidente elétrico / LOTO",frequency:"Anual",last_completed:"[Data]",next_scheduled:"[Data]",participants:"Todos os técnicos de campo",outcome_notes:"[Completar após simulacro]"},
+      {drill_type:"Formação em utilização de extintor",frequency:"Anual",last_completed:"[Data]",next_scheduled:"[Data]",participants:"Todo o pessoal",outcome_notes:"[Completar após sessão de formação]"},
+    ],
+  },
+};
+
 // ═══════════════ MANAGEMENT PLANS SECTION ═══════════════
 // (Simplified to keep total code within bounds — sub-plans with key fields)
 const PLAN_DEFS_SIMPLE = [
@@ -1353,14 +1439,14 @@ const PLAN_DEFS_SIMPLE = [
     linkedTools:["waste_register"],
     fields:[
       {id:"waste_streams",lk:"plnfldWasteStreams",label:"Waste Streams & Volumes (from audit)",t:"table",
-       addRowLabel:"➕ Add Waste Stream",
+       addRowLabel:"➕ Add Waste Stream",addRowLk:"addWasteStream",
        cols:[
-         {id:"waste_type",label:"Waste Type",w:"16%"},
-         {id:"hazard_class",label:"Hazard Class",w:"13%"},
-         {id:"source",label:"Source / Process",w:"18%"},
-         {id:"volume_yr",label:"Est. Volume / Year",w:"13%"},
-         {id:"unit",label:"Unit",w:"8%"},
-         {id:"notes",label:"Notes",w:"22%"},
+         {id:"waste_type",lk:"tblColWasteType",label:"Waste Type",w:"16%"},
+         {id:"hazard_class",lk:"tblColHazardClass",label:"Hazard Class",w:"13%"},
+         {id:"source",lk:"tblColSource",label:"Source / Process",w:"18%"},
+         {id:"volume_yr",lk:"tblColVolumeYr",label:"Est. Volume / Year",w:"13%"},
+         {id:"unit",lk:"tblColUnit",label:"Unit",w:"8%"},
+         {id:"notes",lk:"tblColNotes",label:"Notes",w:"22%"},
        ],
        baseline:[
          {waste_type:"Lead-acid batteries",hazard_class:"Hazardous",source:"Customer returns / agent collection",volume_yr:"~200",unit:"units",notes:"Primary e-waste stream; Basel Convention listed; highest priority"},
@@ -1370,14 +1456,14 @@ const PLAN_DEFS_SIMPLE = [
          {waste_type:"Packaging (cardboard / plastic)",hazard_class:"Non-hazardous",source:"Inbound logistics",volume_yr:"~500",unit:"kg",notes:"Reduce at source; reuse cartons where possible"},
        ]},
       {id:"r5_strategy_wmp",lk:"plnfldR5Strategy",label:"5R Strategy by Waste Stream",t:"table",
-       addRowLabel:"➕ Add Strategy Row",
+       addRowLabel:"➕ Add Strategy Row",addRowLk:"addStrategyRow",
        cols:[
-         {id:"waste_stream",label:"Waste Stream",w:"14%"},
-         {id:"reduce",label:"Reduce",w:"17%"},
-         {id:"reuse_repair",label:"Reuse / Repair / Refurbish",w:"20%"},
-         {id:"recycle",label:"Recycle",w:"18%"},
-         {id:"priority",label:"Priority Action",w:"14%"},
-         {id:"target_date",label:"Target Date",w:"9%"},
+         {id:"waste_stream",lk:"tblColWasteStream",label:"Waste Stream",w:"14%"},
+         {id:"reduce",lk:"tblColReduce",label:"Reduce",w:"17%"},
+         {id:"reuse_repair",lk:"tblColReuseRepair",label:"Reuse / Repair / Refurbish",w:"20%"},
+         {id:"recycle",lk:"tblColRecycle",label:"Recycle",w:"18%"},
+         {id:"priority",lk:"tblColPriorityAction",label:"Priority Action",w:"14%"},
+         {id:"target_date",lk:"tblColTargetDate",label:"Target Date",w:"9%"},
        ],
        baseline:[
          {waste_stream:"Lead-acid batteries",reduce:"Source longer-life products; reduce over-ordering",reuse_repair:"Collect for secondary market; reconditioning via licensed partner",recycle:"Licensed recycler [Name TBC]; quarterly collection",priority:"HIGH — launch take-back scheme",target_date:"Q1"},
@@ -1389,14 +1475,14 @@ const PLAN_DEFS_SIMPLE = [
       {id:"takeback_wmp",lk:"plnfldTakeBack",label:"Take-Back Scheme",t:"ta",rows:3,phk:"phTakeBack"},
       {id:"storage_wmp",lk:"plnfldEWasteStorage",label:"E-Waste Storage",t:"ta",rows:3,phk:"phEWasteStorage"},
       {id:"partners_wmp",lk:"plnfldWastePartners",label:"Disposal & Recycling Partners",t:"table",
-       addRowLabel:"➕ Add Partner",
+       addRowLabel:"➕ Add Partner",addRowLk:"addPartner",
        cols:[
-         {id:"waste_type",label:"Waste Type",w:"14%"},
-         {id:"partner_name",label:"Partner / Recycler",w:"17%"},
-         {id:"country",label:"Country",w:"9%"},
-         {id:"reg_no",label:"Regulatory Reg. No.",w:"15%"},
-         {id:"collection_freq",label:"Collection Frequency",w:"14%"},
-         {id:"evidence",label:"Evidence / Documentation",w:"21%"},
+         {id:"waste_type",lk:"tblColWasteType",label:"Waste Type",w:"14%"},
+         {id:"partner_name",lk:"tblColPartner",label:"Partner / Recycler",w:"17%"},
+         {id:"country",lk:"tblColCountry",label:"Country",w:"9%"},
+         {id:"reg_no",lk:"tblColRegNo",label:"Regulatory Reg. No.",w:"15%"},
+         {id:"collection_freq",lk:"tblColCollFreq",label:"Collection Frequency",w:"14%"},
+         {id:"evidence",lk:"tblColEvidence",label:"Evidence / Documentation",w:"21%"},
        ],
        baseline:[
          {waste_type:"Lead-acid batteries",partner_name:"[Recycler TBC]",country:"Nigeria",reg_no:"NESREA Lic. No. [X]",collection_freq:"Quarterly",evidence:"Certificate of Recycling + Waste Transfer Note"},
@@ -1413,14 +1499,14 @@ const PLAN_DEFS_SIMPLE = [
     linkedTools:["incident_log"],
     fields:[
       {id:"scenarios_epr",lk:"plnfldScenarios",label:"Emergency Scenarios & Priority",t:"table",
-       addRowLabel:"➕ Add Scenario",
+       addRowLabel:"➕ Add Scenario",addRowLk:"addScenario",
        cols:[
-         {id:"scenario",label:"Emergency Scenario",w:"22%"},
-         {id:"probability",label:"Probability",w:"10%",type:"sel",opts:["Low","Medium","High"]},
-         {id:"severity",label:"Severity",w:"10%",type:"sel",opts:["Low","Medium","High","Critical"]},
-         {id:"priority",label:"Priority",w:"9%",type:"sel",opts:["LOW","MEDIUM","HIGH","CRITICAL"]},
-         {id:"response_lead",label:"Response Lead",w:"16%"},
-         {id:"procedure_ref",label:"Procedure Reference",w:"23%"},
+         {id:"scenario",lk:"tblColScenario",label:"Emergency Scenario",w:"22%"},
+         {id:"probability",lk:"tblColProbability",label:"Probability",w:"10%",type:"sel",opts:["Low","Medium","High"]},
+         {id:"severity",lk:"tblColSeverity",label:"Severity",w:"10%",type:"sel",opts:["Low","Medium","High","Critical"]},
+         {id:"priority",lk:"tblColPriority",label:"Priority",w:"9%",type:"sel",opts:["LOW","MEDIUM","HIGH","CRITICAL"]},
+         {id:"response_lead",lk:"tblColResponseLead",label:"Response Lead",w:"16%"},
+         {id:"procedure_ref",lk:"tblColProcRef",label:"Procedure Reference",w:"23%"},
        ],
        baseline:[
          {scenario:"Electrical fire (office / warehouse)",probability:"Medium",severity:"High",priority:"HIGH",response_lead:"Warehouse / Office Manager",procedure_ref:"Fire Response Procedure (Section A)"},
@@ -1436,14 +1522,14 @@ const PLAN_DEFS_SIMPLE = [
       {id:"electrical_epr",lk:"plnfldElecProc",label:"Electrical Incident Procedure (key steps)",t:"ta",rows:5,phk:"phElecProc"},
       {id:"battery_epr",lk:"plnfldBatteryProc",label:"Battery Emergency Procedure (key steps)",t:"ta",rows:4,phk:"phBatteryProc"},
       {id:"drills_epr",lk:"plnfldDrills",label:"Drill Schedule & Records",t:"table",
-       addRowLabel:"➕ Add Drill",
+       addRowLabel:"➕ Add Drill",addRowLk:"addDrill",
        cols:[
-         {id:"drill_type",label:"Drill Type",w:"22%"},
-         {id:"frequency",label:"Frequency",w:"11%"},
-         {id:"last_completed",label:"Last Completed",w:"13%"},
-         {id:"next_scheduled",label:"Next Scheduled",w:"13%"},
-         {id:"participants",label:"Participants",w:"20%"},
-         {id:"outcome_notes",label:"Outcome / Lessons Learned",w:"21%"},
+         {id:"drill_type",lk:"tblColDrillType",label:"Drill Type",w:"22%"},
+         {id:"frequency",lk:"tblColFrequency",label:"Frequency",w:"11%"},
+         {id:"last_completed",lk:"tblColLastCompleted",label:"Last Completed",w:"13%"},
+         {id:"next_scheduled",lk:"tblColNextScheduled",label:"Next Scheduled",w:"13%"},
+         {id:"participants",lk:"tblColParticipants",label:"Participants",w:"20%"},
+         {id:"outcome_notes",lk:"tblColOutcome",label:"Outcome / Lessons Learned",w:"21%"},
        ],
        baseline:[
          {drill_type:"Full building / site evacuation drill",frequency:"Semi-annual",last_completed:"[Date]",next_scheduled:"[Date]",participants:"All office and warehouse staff",outcome_notes:"[Complete after drill — document gaps found]"},
@@ -1484,28 +1570,17 @@ const PLAN_DEFS_SIMPLE = [
     intro:"Establishes your company's system for receiving, processing, and resolving complaints from workers, customers, and communities. The GRM Plan governs the design and governance of the mechanism; the Grievance Log tool (Section 6) provides the day-to-day operational register for recording cases.",
     linkedTools:["grievance_log","stakeholder_register"],
     fields:[
-      {id:"grm_scope",lk:"grmScope",label:"GRM Scope & Objectives",t:"ta",rows:3,
-       ph:"This GRM applies to all grievances from: employees, field agents, customers, community members, and third parties related to our operations. Objectives: (1) provide accessible, fair, and timely resolution; (2) identify and address systemic issues; (3) prevent escalation."},
-      {id:"grm_channels",lk:"grmChannels",label:"Complaint Channels (how to submit a grievance)",t:"ta",rows:5,
-       ph:"1. Phone/WhatsApp: [Number] — 8am–6pm Mon-Fri, [Language(s)]\n2. Email: [address]\n3. Written: Submit at [service centre / agent point]\n4. In-person: Request meeting with [Role] at [office address]\n5. Anonymous box: Located at [location]\n6. GBV/SEAH-specific channel: Direct to [Name/Role, different from line manager] — confidential"},
-      {id:"grm_process",lk:"grmProcess",label:"Five-Stage Processing Procedure (ROGEAP Table 18)",t:"ta",rows:8,
-       ph:"STAGE 1 — IDENTIFICATION (Day 1): Complaint received via any channel. GRM Officer logs immediately in the Grievance Log with case number, date, channel, and nature.\n\nSTAGE 2 — ASSESSMENT & LOGGING (Days 1-3): GRM Officer assesses significance and assigns Level (1/2/3). Complainant acknowledged in writing.\n\nSTAGE 3 — ACKNOWLEDGEMENT (within 3 days): Formal acknowledgement sent to complainant confirming receipt, case number, and expected timeline.\n\nSTAGE 4 — RESPONSE DEVELOPMENT & IMPLEMENTATION (Days 4-15): Assigned to appropriate team/manager. Response developed; redress action implemented; outcome communicated to complainant.\n\nSTAGE 5 — MONITORING & CLOSURE: Outcome recorded in log. Complainant asked if satisfied. Case closed. Data reviewed quarterly for systemic trends."},
-      {id:"grm_levels",lk:"grmLevels",label:"Grievance Level Classification & Escalation",t:"ta",rows:5,
-       ph:"LEVEL 1 — One-off, minor: Standard process; GRM Officer resolves within 15 days.\nLEVEL 2 — Widespread / repeated / PAYG: Escalate to Department Manager within 5 days. Resolution plan within 10 days.\nLEVEL 3 — Breach of law / serious harm / SEAH: Escalate immediately to MD. Potential external notification. Legal/HR involvement. GBV/SEAH protocol activated.\n\nExternal escalation: Complainant always retains right to approach regulator, court, or investor-level mechanism (CAO/IRM/ROGEAP Programme Office)."},
-      {id:"grm_seah_protocol",lk:"grmSeahProtocol",label:"GBV/SEAH Special Protocol",t:"ta",rows:6,
-       ph:"SEAH complaints are handled under a SEPARATE, CONFIDENTIAL protocol:\n• Dedicated reporting channel: [Name/Role — not line manager]\n• Ethical: Respect survivor's dignity, autonomy, and confidentiality at all times\n• Confidential: Need-to-know only; no victim details in general GRM log\n• Rapid: Acknowledge within 24 hours; provide safety information\n• Survivor-centred: Offer referral to medical, psychosocial, and legal services\n• Investigation: Separate, trained investigators; findings not shared without consent\n• Non-retaliation: Zero-tolerance for retaliation against complainants or witnesses\n\nSEAH Log: Maintained separately, password-protected, accessible only to GRM Officer and MD."},
-      {id:"grm_roles",lk:"grmRoles",label:"GRM Roles & Responsibilities",t:"ta",rows:4,
-       ph:"GRM Officer (primary): [Name, Role] — receives all complaints, maintains log, coordinates response\nDeputy GRM Officer: [Name, Role] — covers GRM Officer absence; handles Level 2+ cases\nMD/CEO: Receives Level 3 escalations; approves external notifications; quarterly GRM review\nSEAH Focal Point: [Name, Role — female officer preferred] — handles all GBV/SEAH complaints under separate protocol\nAll staff: Responsible for directing complaints to GRM Officer within 24 hours of receipt"},
-      {id:"grm_timeline",lk:"grmTimeline",label:"Response Timelines Commitment",t:"ta",rows:4,
-       ph:"Acknowledgement: within 3 calendar days of receipt\nInitial response (Level 1): within 15 calendar days\nInitial response (Level 2): within 10 calendar days\nInitial response (Level 3/SEAH): within 5 calendar days\nAll timelines communicated in writing to complainant at acknowledgement stage"},
-      {id:"grm_accessibility",lk:"grmAccessibility",label:"Accessibility & Inclusion",t:"ta",rows:4,
-       ph:"Languages: [List language(s) GRM operates in]\nLiteracy: Verbal complaints accepted via phone or in person (not required to write)\nAnonymity: Anonymous complaints accepted and investigated (response posted at complaint point if no contact details)\nGender: Female complainants may request female GRM Officer\nVulnerable groups: Trusted intermediary (e.g. community leader, NGO partner) may submit on behalf of complainant with written consent"},
-      {id:"grm_transparency",lk:"grmTransparency",label:"Transparency & Reporting",t:"ta",rows:3,
-       ph:"Internal: GRM summary report to MD monthly; full case log available for ROGEAP/investor review\nExternal: Grievance statistics published in Annual Sustainability Report; community feedback shared at quarterly community meetings\nROGEAP monitoring: GRM status reported in quarterly ROGEAP E&S Monitoring Form (Table 22)"},
-      {id:"grm_review",lk:"grmReview",label:"GRM Review, Improvement & Capacity",t:"ta",rows:3,
-       ph:"Annual review: Process effectiveness assessed; complainant satisfaction rates reviewed; mechanism updated\nTraining: GRM Officer trained in GRM procedures and GBV/SEAH protocol annually\nLessons learned: Systemic issues identified → corrective actions → update to ESMS / ESAP"},
-      {id:"grm_kpis",lk:"grmKpis",label:"GRM Performance Targets",t:"ta",rows:4,
-       ph:"• 100% of complaints acknowledged within 3 calendar days\n• ≥ 90% of Level 1 complaints resolved within 15 days\n• ≥ 85% complainant satisfaction rate (quarterly survey)\n• Zero complaints unanswered beyond 30 days\n• Zero retaliation incidents against complainants\n• GRM data reviewed at every quarterly management meeting"},
+      {id:"grm_scope",lk:"grmScope",label:"GRM Scope & Objectives",t:"ta",rows:3,phk:"phGrmScope"},
+      {id:"grm_channels",lk:"grmChannels",label:"Complaint Channels (how to submit a grievance)",t:"ta",rows:5,phk:"phGrmChannels"},
+      {id:"grm_process",lk:"grmProcess",label:"Five-Stage Processing Procedure (ROGEAP Table 18)",t:"ta",rows:8,phk:"phGrmProcess"},
+      {id:"grm_levels",lk:"grmLevels",label:"Grievance Level Classification & Escalation",t:"ta",rows:5,phk:"phGrmLevels"},
+      {id:"grm_seah_protocol",lk:"grmSeahProtocol",label:"GBV/SEAH Special Protocol",t:"ta",rows:6,phk:"phGrmSeahProtocol"},
+      {id:"grm_roles",lk:"grmRoles",label:"GRM Roles & Responsibilities",t:"ta",rows:4,phk:"phGrmRoles"},
+      {id:"grm_timeline",lk:"grmTimeline",label:"Response Timelines Commitment",t:"ta",rows:4,phk:"phGrmTimeline"},
+      {id:"grm_accessibility",lk:"grmAccessibility",label:"Accessibility & Inclusion",t:"ta",rows:4,phk:"phGrmAccessibility"},
+      {id:"grm_transparency",lk:"grmTransparency",label:"Transparency & Reporting",t:"ta",rows:3,phk:"phGrmTransparency"},
+      {id:"grm_review",lk:"grmReview",label:"GRM Review, Improvement & Capacity",t:"ta",rows:3,phk:"phGrmReview"},
+      {id:"grm_kpis",lk:"grmKpis",label:"GRM Performance Targets",t:"ta",rows:4,phk:"phGrmKpis"},
     ]
   },
 ];
@@ -1646,8 +1721,13 @@ function BusinessProfileSection({ esmsData, setFieldValue }) {
 }
 
 function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
-  const {t}=useLang();
+  const {t,lang}=useLang();
   const [active, setActive] = useState(null);
+  const translateCols = (cols) => cols.map(c => {
+    if (c.type !== "sel" || !c.opts) return c;
+    const m = {"Low":t("optLow"),"Medium":t("optMedium"),"High":t("optHigh"),"Critical":t("optCritical"),"LOW":t("optLOW"),"MEDIUM":t("optMEDIUM"),"HIGH":t("optHIGH"),"CRITICAL":t("optCRITICAL")};
+    return {...c, transOpts: c.opts.map(o => m[o]||o)};
+  });
 
   const hasData = (id) => {
     const d = esmsData[`plan_${id}`] || {};
@@ -1690,7 +1770,7 @@ function ManagementPlansSection({ esmsData, setFieldValue, openGuide }) {
             {f.t === "text" && <input value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} placeholder={f.phk ? t(f.phk) : (f.ph||"")} style={S.inp}/>}
             {f.t === "ta" && <textarea value={d[f.id]||""} onChange={e=>set(f.id,e.target.value)} placeholder={f.phk ? t(f.phk) : (f.ph||"")} rows={f.rows||4} style={S.ta}/>}
             {f.t === "cbl" && <ChecklistBuilder baseline={f.items||[]} value={d[f.id]} onChange={v=>set(f.id,v)}/>}
-            {f.t === "table" && <TableBuilder columns={f.cols||[]} baselineRows={f.baseline||[]} value={d[f.id]} onChange={v=>set(f.id,v)} addRowLabel={f.addRowLabel||"➕ Add Row"}/>}
+            {f.t === "table" && <TableBuilder columns={translateCols(f.cols||[])} baselineRows={PLAN_TABLE_BASELINES[f.id]?.[lang]||f.baseline||[]} value={d[f.id]} onChange={v=>set(f.id,v)} addRowLabel={f.addRowLk?t(f.addRowLk):(f.addRowLabel||t("addRow")||"➕ Add Row")}/>}
           </div>
         ))}
         <div style={{ marginTop:24, paddingTop:16, borderTop:`1.5px solid ${C.border}`, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:10 }}>

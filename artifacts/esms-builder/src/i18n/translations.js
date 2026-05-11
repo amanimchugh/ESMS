@@ -622,6 +622,105 @@ export const TRANSLATIONS = {
     phGenderSEP: "Separate forums for women in community meetings; female liaison officers deployed in areas with cultural barriers; meeting times suitable for women's schedules; female customer feedback tracked separately",
     phSEPRecords: "Engagement Register: date, location, attendees, topics discussed, concerns raised, company commitments, follow-up actions and dates\nReport back to communities on outcomes annually or after major engagements",
 
+    // Sidebar / export
+    downloadFullEsms: "Download Full ESMS",
+    addRow: "Add Row",
+
+    // Plan table: add-row button labels
+    addWasteStream: "Add Waste Stream",
+    addStrategyRow: "Add Strategy Row",
+    addPartner: "Add Partner",
+    addScenario: "Add Scenario",
+    addDrill: "Add Drill",
+
+    // Plan table: column header keys
+    tblColWasteType: "Waste Type", tblColHazardClass: "Hazard Class", tblColSource: "Source / Process",
+    tblColVolumeYr: "Est. Volume / Year", tblColUnit: "Unit", tblColNotes: "Notes",
+    tblColWasteStream: "Waste Stream", tblColReduce: "Reduce", tblColReuseRepair: "Reuse / Repair / Refurbish",
+    tblColRecycle: "Recycle", tblColPriorityAction: "Priority Action", tblColTargetDate: "Target Date",
+    tblColPartner: "Partner / Recycler", tblColCountry: "Country", tblColRegNo: "Regulatory Reg. No.",
+    tblColCollFreq: "Collection Frequency", tblColEvidence: "Evidence / Documentation",
+    tblColScenario: "Emergency Scenario", tblColProbability: "Probability", tblColSeverity: "Severity",
+    tblColPriority: "Priority", tblColResponseLead: "Response Lead", tblColProcRef: "Procedure Reference",
+    tblColDrillType: "Drill Type", tblColFrequency: "Frequency", tblColLastCompleted: "Last Completed",
+    tblColNextScheduled: "Next Scheduled", tblColParticipants: "Participants", tblColOutcome: "Outcome / Lessons Learned",
+
+    // Generic option values
+    optLow: "Low", optMedium: "Medium", optHigh: "High", optCritical: "Critical",
+    optLOW: "LOW", optMEDIUM: "MEDIUM", optHIGH: "HIGH", optCRITICAL: "CRITICAL",
+    optGenYes: "Yes", optGenNo: "No", optGenPartial: "Partial", optGenPending: "Pending",
+    optGenNA: "N/A", optGenUnknown: "Unknown", optGenPlanned: "Planned", optGenOngoing: "Ongoing",
+
+    // Incident log options
+    optIncidentInjury: "Injury", optIncidentNearMiss: "Near-Miss", optIncidentPropertyDmg: "Property Damage",
+    optIncidentEnvironmental: "Environmental", optIncidentSecurity: "Security", optIncidentSEAH: "SEAH", optIncidentOther: "Other",
+
+    // Status options
+    optStatusOpen: "Open", optStatusInProgress: "In Progress", optStatusClosed: "Closed",
+    optStatusReported: "Reported to Authority",
+
+    // Waste type options
+    optWasteLeadAcid: "Lead-acid battery", optWasteLithium: "Lithium battery", optWasteSolarPanel: "Solar panel",
+    optWasteInverter: "Inverter/controller", optWasteAccessories: "Accessories", optWastePackaging: "Packaging",
+    optWasteOffice: "Office waste", optWasteWorkshop: "Workshop waste", optWasteOther: "Other",
+
+    // 5R options
+    optR5Reduce: "Reduce", optR5Reuse: "Reuse", optR5Repair: "Repair",
+    optR5Refurbish: "Refurbish", optR5Recycle: "Recycle", optR5Dispose: "Dispose",
+
+    // GRM channel options
+    optChanPhone: "Phone/WhatsApp", optChanEmail: "Email", optChanInPerson: "In-person",
+    optChanBox: "Suggestion box", optChanOnline: "Online form", optChanAgent: "Via agent",
+    optChanAnon: "Anonymous", optChanOther: "Other",
+
+    // GRM category options
+    optCatWorkCond: "Working conditions", optCatProduct: "Product quality", optCatConsumerProt: "Consumer protection",
+    optCatEnvironment: "Environmental", optCatCommunity: "Community", optCatGender: "Gender/SEAH",
+    optCatPayment: "Payment dispute", optCatSafety: "Safety", optCatOther: "Other",
+
+    // GRM level options
+    optGrmLvl1: "Level 1", optGrmLvl2: "Level 2", optGrmLvl3: "Level 3",
+
+    // Satisfaction options
+    optSatisfiedYes: "Yes", optSatisfiedNo: "No", optSatisfiedPending: "Pending", optSatisfiedNA: "N/A",
+
+    // Training method options
+    optMethInPerson: "In-person", optMethWorkshop: "Workshop", optMethOJT: "On-the-job",
+    optMethOnline: "Online", optMethToolbox: "Toolbox talk", optMethCertified: "Certified course", optMethOther: "Other",
+
+    // Stakeholder frequency options
+    optFreqOngoing: "Ongoing", optFreqMonthly: "Monthly", optFreqQuarterly: "Quarterly",
+    optFreqAnnually: "Annually", optFreqAsNeeded: "As needed",
+
+    // Compliance options
+    optAppliesYes: "Yes", optAppliesNo: "No", optAppliesUnsure: "Unsure",
+    optComplCompliant: "Compliant", optComplPartial: "Partial", optComplNonCompliant: "Non-compliant",
+    optComplReview: "Under review", optComplNA: "N/A",
+
+    // PPE provided options
+    optPpeYes: "Yes", optPpeNo: "No", optPpePartial: "Partial", optPpePlanned: "Planned",
+
+    // Influence / impact options
+    optInflHigh: "High", optInflMedium: "Medium", optInflLow: "Low",
+
+    // Supplier options
+    optSupPanels: "Panels / Modules", optSupBatteries: "Batteries", optSupAccessories: "Accessories",
+    optSupLogistics: "Logistics", optSupAgent: "Agent/Distributor", optSupService: "Service provider", optSupOther: "Other",
+    optSupYes: "Yes", optSupNo: "No", optSupPartial: "Partial", optSupUnknown: "Unknown",
+
+    // GRM plan placeholder texts
+    phGrmScope: "This GRM applies to all grievances from: employees, field agents, customers, community members, and third parties related to our operations. Objectives: (1) provide accessible, fair, and timely resolution; (2) identify and address systemic issues; (3) prevent escalation.",
+    phGrmChannels: "1. Phone/WhatsApp: [Number] — 8am–6pm Mon-Fri, [Language(s)]\n2. Email: [address]\n3. Written: Submit at [service centre / agent point]\n4. In-person: Request meeting with [Role] at [office address]\n5. Anonymous box: Located at [location]\n6. GBV/SEAH-specific channel: Direct to [Name/Role, different from line manager] — confidential",
+    phGrmProcess: "STAGE 1 — IDENTIFICATION (Day 1): Complaint received via any channel. GRM Officer logs immediately in the Grievance Log with case number, date, channel, and nature.\n\nSTAGE 2 — ASSESSMENT & LOGGING (Days 1-3): GRM Officer assesses significance and assigns Level (1/2/3). Complainant acknowledged in writing.\n\nSTAGE 3 — ACKNOWLEDGEMENT (within 3 days): Formal acknowledgement sent to complainant confirming receipt, case number, and expected timeline.\n\nSTAGE 4 — RESPONSE DEVELOPMENT & IMPLEMENTATION (Days 4-15): Assigned to appropriate team/manager. Response developed; redress action implemented; outcome communicated to complainant.\n\nSTAGE 5 — MONITORING & CLOSURE: Outcome recorded in log. Complainant asked if satisfied. Case closed. Data reviewed quarterly for systemic trends.",
+    phGrmLevels: "LEVEL 1 — One-off, minor: Standard process; GRM Officer resolves within 15 days.\nLEVEL 2 — Widespread / repeated / PAYG: Escalate to Department Manager within 5 days. Resolution plan within 10 days.\nLEVEL 3 — Breach of law / serious harm / SEAH: Escalate immediately to MD. Potential external notification. Legal/HR involvement. GBV/SEAH protocol activated.\n\nExternal escalation: Complainant always retains right to approach regulator, court, or investor-level mechanism (CAO/IRM/ROGEAP Programme Office).",
+    phGrmSeahProtocol: "SEAH complaints are handled under a SEPARATE, CONFIDENTIAL protocol:\n• Dedicated reporting channel: [Name/Role — not line manager]\n• Ethical: Respect survivor's dignity, autonomy, and confidentiality at all times\n• Confidential: Need-to-know only; no victim details in general GRM log\n• Rapid: Acknowledge within 24 hours; provide safety information\n• Survivor-centred: Offer referral to medical, psychosocial, and legal services\n• Investigation: Separate, trained investigators; findings not shared without consent\n• Non-retaliation: Zero-tolerance for retaliation against complainants or witnesses\n\nSEAH Log: Maintained separately, password-protected, accessible only to GRM Officer and MD.",
+    phGrmRoles: "GRM Officer (primary): [Name, Role] — receives all complaints, maintains log, coordinates response\nDeputy GRM Officer: [Name, Role] — covers GRM Officer absence; handles Level 2+ cases\nMD/CEO: Receives Level 3 escalations; approves external notifications; quarterly GRM review\nSEAH Focal Point: [Name, Role — female officer preferred] — handles all GBV/SEAH complaints under separate protocol\nAll staff: Responsible for directing complaints to GRM Officer within 24 hours of receipt",
+    phGrmTimeline: "Acknowledgement: within 3 calendar days of receipt\nInitial response (Level 1): within 15 calendar days\nInitial response (Level 2): within 10 calendar days\nInitial response (Level 3/SEAH): within 5 calendar days\nAll timelines communicated in writing to complainant at acknowledgement stage",
+    phGrmAccessibility: "Languages: [List language(s) GRM operates in]\nLiteracy: Verbal complaints accepted via phone or in person (not required to write)\nAnonymity: Anonymous complaints accepted and investigated (response posted at complaint point if no contact details)\nGender: Female complainants may request female GRM Officer\nVulnerable groups: Trusted intermediary (e.g. community leader, NGO partner) may submit on behalf of complainant with written consent",
+    phGrmTransparency: "Internal: GRM summary report to MD monthly; full case log available for ROGEAP/investor review\nExternal: Grievance statistics published in Annual Sustainability Report; community feedback shared at quarterly community meetings\nROGEAP monitoring: GRM status reported in quarterly ROGEAP E&S Monitoring Form (Table 22)",
+    phGrmReview: "Annual review: Process effectiveness assessed; complainant satisfaction rates reviewed; mechanism updated\nTraining: GRM Officer trained in GRM procedures and GBV/SEAH protocol annually\nLessons learned: Systemic issues identified → corrective actions → update to ESMS / ESAP",
+    phGrmKpis: "• 100% of complaints acknowledged within 3 calendar days\n• ≥ 90% of Level 1 complaints resolved within 15 days\n• ≥ 85% complainant satisfaction rate (quarterly survey)\n• Zero complaints unanswered beyond 30 days\n• Zero retaliation incidents against complainants\n• GRM data reviewed at every quarterly management meeting",
+
     // GRM Plan fields
     grmScope: "GRM Scope & Objectives",
     grmChannels: "Complaint Channels",
@@ -1233,6 +1332,105 @@ export const TRANSLATIONS = {
     phGenderSEP: "Forums séparés pour les femmes dans les réunions communautaires ; agents de liaison féminins déployés dans les zones à barrières culturelles ; horaires de réunion adaptés aux emplois du temps des femmes ; feedback des clients féminins suivi séparément",
     phSEPRecords: "Registre d'engagement : date, lieu, participants, sujets discutés, préoccupations soulevées, engagements de l'entreprise, actions de suivi et dates\nRendre compte aux communautés des résultats annuellement ou après les engagements majeurs",
 
+    // Bouton sidebar / export
+    downloadFullEsms: "Télécharger le SGSE complet",
+    addRow: "Ajouter une ligne",
+
+    // Plan table: libellés du bouton Ajouter
+    addWasteStream: "Ajouter un flux de déchets",
+    addStrategyRow: "Ajouter une ligne de stratégie",
+    addPartner: "Ajouter un partenaire",
+    addScenario: "Ajouter un scénario",
+    addDrill: "Ajouter un exercice",
+
+    // Plan table: en-têtes de colonnes
+    tblColWasteType: "Type de déchet", tblColHazardClass: "Classe de danger", tblColSource: "Source / Procédé",
+    tblColVolumeYr: "Volume est. / An", tblColUnit: "Unité", tblColNotes: "Remarques",
+    tblColWasteStream: "Flux de déchets", tblColReduce: "Réduire", tblColReuseRepair: "Réutiliser / Réparer / Rénover",
+    tblColRecycle: "Recycler", tblColPriorityAction: "Action prioritaire", tblColTargetDate: "Date cible",
+    tblColPartner: "Partenaire / Recycleur", tblColCountry: "Pays", tblColRegNo: "N° d'autorisation réglementaire",
+    tblColCollFreq: "Fréquence de collecte", tblColEvidence: "Preuve / Documentation",
+    tblColScenario: "Scénario d'urgence", tblColProbability: "Probabilité", tblColSeverity: "Gravité",
+    tblColPriority: "Priorité", tblColResponseLead: "Responsable de la réponse", tblColProcRef: "Référence procédure",
+    tblColDrillType: "Type d'exercice", tblColFrequency: "Fréquence", tblColLastCompleted: "Dernière réalisation",
+    tblColNextScheduled: "Prochain prévu", tblColParticipants: "Participants", tblColOutcome: "Résultat / Leçons tirées",
+
+    // Valeurs génériques
+    optLow: "Faible", optMedium: "Moyen", optHigh: "Élevé", optCritical: "Critique",
+    optLOW: "FAIBLE", optMEDIUM: "MOYEN", optHIGH: "ÉLEVÉ", optCRITICAL: "CRITIQUE",
+    optGenYes: "Oui", optGenNo: "Non", optGenPartial: "Partiel", optGenPending: "En attente",
+    optGenNA: "N/A", optGenUnknown: "Inconnu", optGenPlanned: "Prévu", optGenOngoing: "Continu",
+
+    // Options : registre d'incidents
+    optIncidentInjury: "Blessure", optIncidentNearMiss: "Quasi-accident", optIncidentPropertyDmg: "Dommages matériels",
+    optIncidentEnvironmental: "Environnemental", optIncidentSecurity: "Sécurité", optIncidentSEAH: "EAS/HS", optIncidentOther: "Autre",
+
+    // Options : statut
+    optStatusOpen: "Ouvert", optStatusInProgress: "En cours", optStatusClosed: "Fermé",
+    optStatusReported: "Signalé à l'autorité",
+
+    // Options : type de déchet
+    optWasteLeadAcid: "Batterie plomb-acide", optWasteLithium: "Batterie lithium", optWasteSolarPanel: "Panneau solaire",
+    optWasteInverter: "Onduleur/contrôleur", optWasteAccessories: "Accessoires", optWastePackaging: "Emballage",
+    optWasteOffice: "Déchets de bureau", optWasteWorkshop: "Déchets d'atelier", optWasteOther: "Autre",
+
+    // Options : 5R
+    optR5Reduce: "Réduire", optR5Reuse: "Réutiliser", optR5Repair: "Réparer",
+    optR5Refurbish: "Rénover", optR5Recycle: "Recycler", optR5Dispose: "Éliminer",
+
+    // Options : canaux MGR
+    optChanPhone: "Téléphone/WhatsApp", optChanEmail: "Email", optChanInPerson: "En personne",
+    optChanBox: "Boîte à suggestions", optChanOnline: "Formulaire en ligne", optChanAgent: "Via agent",
+    optChanAnon: "Anonyme", optChanOther: "Autre",
+
+    // Options : catégorie MGR
+    optCatWorkCond: "Conditions de travail", optCatProduct: "Qualité du produit", optCatConsumerProt: "Protection des consommateurs",
+    optCatEnvironment: "Environnemental", optCatCommunity: "Communauté", optCatGender: "Genre/EAS",
+    optCatPayment: "Litige de paiement", optCatSafety: "Sécurité", optCatOther: "Autre",
+
+    // Options : niveau MGR
+    optGrmLvl1: "Niveau 1", optGrmLvl2: "Niveau 2", optGrmLvl3: "Niveau 3",
+
+    // Options : satisfaction
+    optSatisfiedYes: "Oui", optSatisfiedNo: "Non", optSatisfiedPending: "En attente", optSatisfiedNA: "N/A",
+
+    // Options : méthode de formation
+    optMethInPerson: "En présentiel", optMethWorkshop: "Atelier", optMethOJT: "Formation sur le tas",
+    optMethOnline: "En ligne", optMethToolbox: "Causerie sécurité", optMethCertified: "Formation certifiée", optMethOther: "Autre",
+
+    // Options : fréquence parties prenantes
+    optFreqOngoing: "Continu", optFreqMonthly: "Mensuel", optFreqQuarterly: "Trimestriel",
+    optFreqAnnually: "Annuellement", optFreqAsNeeded: "Selon les besoins",
+
+    // Options : conformité
+    optAppliesYes: "Oui", optAppliesNo: "Non", optAppliesUnsure: "Incertain",
+    optComplCompliant: "Conforme", optComplPartial: "Partiel", optComplNonCompliant: "Non conforme",
+    optComplReview: "En cours d'examen", optComplNA: "N/A",
+
+    // Options : EPI
+    optPpeYes: "Oui", optPpeNo: "Non", optPpePartial: "Partiel", optPpePlanned: "Prévu",
+
+    // Options : influence / impact
+    optInflHigh: "Élevé", optInflMedium: "Moyen", optInflLow: "Faible",
+
+    // Options : fournisseurs
+    optSupPanels: "Panneaux / Modules", optSupBatteries: "Batteries", optSupAccessories: "Accessoires",
+    optSupLogistics: "Logistique", optSupAgent: "Agent/Distributeur", optSupService: "Prestataire de services", optSupOther: "Autre",
+    optSupYes: "Oui", optSupNo: "Non", optSupPartial: "Partiel", optSupUnknown: "Inconnu",
+
+    // Textes indicatifs — champs du Plan MGR
+    phGrmScope: "Ce MGR s'applique à toutes les réclamations émanant de : employés, agents de terrain, clients, membres de la communauté et tiers liés à nos opérations. Objectifs : (1) fournir une résolution accessible, équitable et rapide ; (2) identifier et traiter les problèmes systémiques ; (3) prévenir l'escalade.",
+    phGrmChannels: "1. Téléphone/WhatsApp : [Numéro] — 8h–18h Lun-Ven, [Langue(s)]\n2. Email : [adresse]\n3. Écrit : Soumettre au [centre de service / point d'agent]\n4. En personne : Demander un entretien avec [Rôle] à [adresse bureau]\n5. Boîte anonyme : Située à [emplacement]\n6. Canal spécifique VBG/EAS/HS : Adresser à [Nom/Rôle, différent du responsable direct] — confidentiel",
+    phGrmProcess: "ÉTAPE 1 — IDENTIFICATION (Jour 1) : Réclamation reçue via tout canal. L'agent MGR enregistre immédiatement dans le Registre des Réclamations avec numéro de dossier, date, canal et nature.\n\nÉTAPE 2 — ÉVALUATION ET ENREGISTREMENT (Jours 1-3) : L'agent MGR évalue l'importance et attribue un niveau (1/2/3). Le plaignant reçoit un accusé de réception écrit.\n\nÉTAPE 3 — ACCUSÉ DE RÉCEPTION (dans les 3 jours) : Accusé de réception formel envoyé au plaignant confirmant la réception, le numéro de dossier et le délai prévu.\n\nÉTAPE 4 — DÉVELOPPEMENT ET MISE EN ŒUVRE DE LA RÉPONSE (Jours 4-15) : Assigné à l'équipe/responsable approprié. Réponse développée ; mesure corrective mise en œuvre ; résultat communiqué au plaignant.\n\nÉTAPE 5 — SUIVI ET CLÔTURE : Résultat enregistré dans le journal. Plaignant interrogé sur sa satisfaction. Dossier clos. Données examinées trimestriellement pour les tendances systémiques.",
+    phGrmLevels: "NIVEAU 1 — Isolé, mineur : Procédure standard ; agent MGR résout dans les 15 jours.\nNIVEAU 2 — Répandu / récurrent / PAYG : Escalade au Responsable de département dans les 5 jours. Plan de résolution dans les 10 jours.\nNIVEAU 3 — Violation de la loi / préjudice grave / EAS/HS : Escalade immédiate au DG. Possible notification externe. Implication juridique/RH. Protocole VBG/EAS/HS activé.\n\nEscalade externe : Le plaignant conserve toujours le droit de saisir le régulateur, le tribunal ou un mécanisme au niveau de l'investisseur (CAO/IRM/Bureau du Programme ROGEAP).",
+    phGrmSeahProtocol: "Les plaintes EAS/HS sont traitées selon un protocole SÉPARÉ ET CONFIDENTIEL :\n• Canal de signalement dédié : [Nom/Rôle — différent du supérieur hiérarchique]\n• Éthique : Respecter la dignité, l'autonomie et la confidentialité du survivant en tout temps\n• Confidentiel : Besoin de savoir uniquement ; aucun détail de la victime dans le registre MGR général\n• Rapide : Accusé de réception dans les 24 heures ; fournir des informations de sécurité\n• Centré sur le survivant : Proposer une orientation vers des services médicaux, psychosociaux et juridiques\n• Enquête : Enquêteurs séparés et formés ; résultats non partagés sans consentement\n• Non-représailles : Tolérance zéro pour les représailles contre les plaignants ou témoins\n\nRegistre EAS/HS : Conservé séparément, protégé par mot de passe, accessible uniquement à l'agent MGR et au DG.",
+    phGrmRoles: "Agent MGR (principal) : [Nom, Rôle] — reçoit toutes les plaintes, tient le registre, coordonne la réponse\nAgent MGR adjoint : [Nom, Rôle] — remplace l'agent MGR en son absence ; traite les cas de niveau 2+\nDG/PDG : Reçoit les escalades de niveau 3 ; approuve les notifications externes ; révision MGR trimestrielle\nPoint focal EAS/HS : [Nom, Rôle — agent féminin préféré] — traite toutes les plaintes VBG/EAS/HS selon le protocole séparé\nTout le personnel : Responsable de diriger les plaintes vers l'agent MGR dans les 24 heures suivant la réception",
+    phGrmTimeline: "Accusé de réception : dans les 3 jours calendaires suivant la réception\nRéponse initiale (Niveau 1) : dans les 15 jours calendaires\nRéponse initiale (Niveau 2) : dans les 10 jours calendaires\nRéponse initiale (Niveau 3/EAS/HS) : dans les 5 jours calendaires\nTous les délais communiqués par écrit au plaignant lors de l'accusé de réception",
+    phGrmAccessibility: "Langues : [Liste des langues dans lesquelles le MGR opère]\nAlphabétisation : Plaintes verbales acceptées par téléphone ou en personne (pas d'obligation d'écrire)\nAnonymat : Plaintes anonymes acceptées et examinées (réponse affichée au point de dépôt si pas de coordonnées)\nGenre : Les plaignantes peuvent demander un agent MGR féminin\nGroupes vulnérables : Un intermédiaire de confiance (ex. : chef communautaire, partenaire ONG) peut soumettre au nom du plaignant avec consentement écrit",
+    phGrmTransparency: "Interne : Rapport de synthèse MGR au DG mensuel ; registre complet disponible pour l'examen ROGEAP/investisseur\nExterne : Statistiques de réclamations publiées dans le Rapport annuel de durabilité ; retour communautaire partagé lors des réunions communautaires trimestrielles\nSuivi ROGEAP : Statut MGR rapporté dans le Formulaire de suivi E&S ROGEAP trimestriel (Tableau 22)",
+    phGrmReview: "Révision annuelle : Efficacité du processus évaluée ; taux de satisfaction des plaignants examinés ; mécanisme mis à jour\nFormation : Agent MGR formé aux procédures MGR et au protocole VBG/EAS/HS annuellement\nLeçons apprises : Problèmes systémiques identifiés → mesures correctives → mise à jour du SGSE / PGSE",
+    phGrmKpis: "• 100 % des plaintes accusées de réception dans les 3 jours calendaires\n• ≥ 90 % des plaintes de niveau 1 résolues dans les 15 jours\n• ≥ 85 % de taux de satisfaction des plaignants (enquête trimestrielle)\n• Zéro plainte sans réponse au-delà de 30 jours\n• Zéro incident de représailles contre les plaignants\n• Données MGR examinées à chaque réunion de direction trimestrielle",
+
     // Plan MGR — libellés des champs
     grmScope: "Champ d'application et objectifs du MGR",
     grmChannels: "Canaux de soumission des plaintes",
@@ -1843,6 +2041,105 @@ export const TRANSLATIONS = {
     phFPIC: "Livre: Sem coerção; envolvimento em momentos razoáveis; desequilíbrio de poder gerido\nPrévio: Comunidades envolvidas antes do início das actividades de instalação em novas áreas\nInformado: Informação em línguas locais; formatos visuais para baixa literacia; perguntas bem-vindas",
     phGenderSEP: "Fóruns separados para as mulheres nas reuniões comunitárias; agentes de ligação femininas implantadas em áreas com barreiras culturais; horários de reunião adequados às agendas das mulheres; feedback de clientes femininos registado separadamente",
     phSEPRecords: "Registo de envolvimento: data, local, participantes, tópicos discutidos, preocupações levantadas, compromissos da empresa, acções de seguimento e datas\nReportar às comunidades sobre os resultados anualmente ou após envolvimentos importantes",
+
+    // Botão sidebar / exportação
+    downloadFullEsms: "Baixar SGAS Completo",
+    addRow: "Adicionar linha",
+
+    // Plan table: rótulos do botão Adicionar
+    addWasteStream: "Adicionar Fluxo de Resíduo",
+    addStrategyRow: "Adicionar Linha de Estratégia",
+    addPartner: "Adicionar Parceiro",
+    addScenario: "Adicionar Cenário",
+    addDrill: "Adicionar Simulacro",
+
+    // Plan table: cabeçalhos de colunas
+    tblColWasteType: "Tipo de Resíduo", tblColHazardClass: "Classe de Perigo", tblColSource: "Fonte / Processo",
+    tblColVolumeYr: "Volume est. / Ano", tblColUnit: "Unidade", tblColNotes: "Notas",
+    tblColWasteStream: "Fluxo de Resíduos", tblColReduce: "Reduzir", tblColReuseRepair: "Reutilizar / Reparar / Recuperar",
+    tblColRecycle: "Reciclar", tblColPriorityAction: "Ação Prioritária", tblColTargetDate: "Data-Alvo",
+    tblColPartner: "Parceiro / Reciclador", tblColCountry: "País", tblColRegNo: "N.º de Licença Regulatória",
+    tblColCollFreq: "Frequência de Recolha", tblColEvidence: "Evidência / Documentação",
+    tblColScenario: "Cenário de Emergência", tblColProbability: "Probabilidade", tblColSeverity: "Gravidade",
+    tblColPriority: "Prioridade", tblColResponseLead: "Responsável pela Resposta", tblColProcRef: "Referência do Procedimento",
+    tblColDrillType: "Tipo de Simulacro", tblColFrequency: "Frequência", tblColLastCompleted: "Última Realização",
+    tblColNextScheduled: "Próximo Agendado", tblColParticipants: "Participantes", tblColOutcome: "Resultado / Lições Aprendidas",
+
+    // Valores genéricos
+    optLow: "Baixo", optMedium: "Médio", optHigh: "Alto", optCritical: "Crítico",
+    optLOW: "BAIXO", optMEDIUM: "MÉDIO", optHIGH: "ALTO", optCRITICAL: "CRÍTICO",
+    optGenYes: "Sim", optGenNo: "Não", optGenPartial: "Parcial", optGenPending: "Pendente",
+    optGenNA: "N/D", optGenUnknown: "Desconhecido", optGenPlanned: "Planeado", optGenOngoing: "Contínuo",
+
+    // Opções: registo de incidentes
+    optIncidentInjury: "Lesão", optIncidentNearMiss: "Quase-Acidente", optIncidentPropertyDmg: "Danos Materiais",
+    optIncidentEnvironmental: "Ambiental", optIncidentSecurity: "Segurança", optIncidentSEAH: "EAS/AS", optIncidentOther: "Outro",
+
+    // Opções: estado
+    optStatusOpen: "Aberto", optStatusInProgress: "Em Curso", optStatusClosed: "Fechado",
+    optStatusReported: "Reportado à Autoridade",
+
+    // Opções: tipo de resíduo
+    optWasteLeadAcid: "Bateria de chumbo-ácido", optWasteLithium: "Bateria de lítio", optWasteSolarPanel: "Painel solar",
+    optWasteInverter: "Inversor/controlador", optWasteAccessories: "Acessórios", optWastePackaging: "Embalagem",
+    optWasteOffice: "Resíduo de escritório", optWasteWorkshop: "Resíduo de oficina", optWasteOther: "Outro",
+
+    // Opções: 5R
+    optR5Reduce: "Reduzir", optR5Reuse: "Reutilizar", optR5Repair: "Reparar",
+    optR5Refurbish: "Recuperar", optR5Recycle: "Reciclar", optR5Dispose: "Eliminar",
+
+    // Opções: canais MR
+    optChanPhone: "Telefone/WhatsApp", optChanEmail: "Email", optChanInPerson: "Presencialmente",
+    optChanBox: "Caixa de sugestões", optChanOnline: "Formulário online", optChanAgent: "Via agente",
+    optChanAnon: "Anónimo", optChanOther: "Outro",
+
+    // Opções: categoria MR
+    optCatWorkCond: "Condições de trabalho", optCatProduct: "Qualidade do produto", optCatConsumerProt: "Proteção do consumidor",
+    optCatEnvironment: "Ambiental", optCatCommunity: "Comunidade", optCatGender: "Género/EAS",
+    optCatPayment: "Litígio de pagamento", optCatSafety: "Segurança", optCatOther: "Outro",
+
+    // Opções: nível MR
+    optGrmLvl1: "Nível 1", optGrmLvl2: "Nível 2", optGrmLvl3: "Nível 3",
+
+    // Opções: satisfação
+    optSatisfiedYes: "Sim", optSatisfiedNo: "Não", optSatisfiedPending: "Pendente", optSatisfiedNA: "N/D",
+
+    // Opções: método de formação
+    optMethInPerson: "Presencial", optMethWorkshop: "Workshop", optMethOJT: "No trabalho",
+    optMethOnline: "Online", optMethToolbox: "Reunião de segurança", optMethCertified: "Curso certificado", optMethOther: "Outro",
+
+    // Opções: frequência partes interessadas
+    optFreqOngoing: "Contínuo", optFreqMonthly: "Mensal", optFreqQuarterly: "Trimestral",
+    optFreqAnnually: "Anualmente", optFreqAsNeeded: "Conforme necessário",
+
+    // Opções: conformidade
+    optAppliesYes: "Sim", optAppliesNo: "Não", optAppliesUnsure: "Incerto",
+    optComplCompliant: "Conforme", optComplPartial: "Parcial", optComplNonCompliant: "Não conforme",
+    optComplReview: "Em revisão", optComplNA: "N/D",
+
+    // Opções: EPI
+    optPpeYes: "Sim", optPpeNo: "Não", optPpePartial: "Parcial", optPpePlanned: "Planeado",
+
+    // Opções: influência / impacto
+    optInflHigh: "Alto", optInflMedium: "Médio", optInflLow: "Baixo",
+
+    // Opções: fornecedores
+    optSupPanels: "Painéis / Módulos", optSupBatteries: "Baterias", optSupAccessories: "Acessórios",
+    optSupLogistics: "Logística", optSupAgent: "Agente/Distribuidor", optSupService: "Prestador de serviços", optSupOther: "Outro",
+    optSupYes: "Sim", optSupNo: "Não", optSupPartial: "Parcial", optSupUnknown: "Desconhecido",
+
+    // Textos indicativos — campos do Plano MR
+    phGrmScope: "Este MR aplica-se a todas as reclamações de: funcionários, agentes de campo, clientes, membros da comunidade e terceiros relacionados com as nossas operações. Objetivos: (1) fornecer uma resolução acessível, justa e atempada; (2) identificar e resolver questões sistémicas; (3) prevenir o escalonamento.",
+    phGrmChannels: "1. Telefone/WhatsApp: [Número] — 8h–18h Seg-Sex, [Idioma(s)]\n2. Email: [endereço]\n3. Escrito: Submeter no [centro de serviço / ponto de agente]\n4. Presencialmente: Solicitar reunião com [Função] em [endereço do escritório]\n5. Caixa anónima: Localizada em [localização]\n6. Canal específico VBG/EAS/AS: Dirigir a [Nome/Função, diferente do superior direto] — confidencial",
+    phGrmProcess: "ESTÁGIO 1 — IDENTIFICAÇÃO (Dia 1): Reclamação recebida por qualquer canal. Responsável pelo MR regista imediatamente no Registo de Reclamações com número de processo, data, canal e natureza.\n\nESTÁGIO 2 — AVALIAÇÃO E REGISTO (Dias 1-3): Responsável pelo MR avalia a significância e atribui um Nível (1/2/3). Reclamante recebe confirmação por escrito.\n\nESTÁGIO 3 — CONFIRMAÇÃO DE RECEÇÃO (em 3 dias): Confirmação formal enviada ao reclamante confirmando receção, número de processo e prazo esperado.\n\nESTÁGIO 4 — DESENVOLVIMENTO E IMPLEMENTAÇÃO DA RESPOSTA (Dias 4-15): Atribuído à equipa/responsável adequado. Resposta desenvolvida; medida corretiva implementada; resultado comunicado ao reclamante.\n\nESTÁGIO 5 — ACOMPANHAMENTO E ENCERRAMENTO: Resultado registado no registo. Reclamante questionado se está satisfeito. Processo encerrado. Dados revistos trimestralmente para tendências sistémicas.",
+    phGrmLevels: "NÍVEL 1 — Isolado, menor: Processo padrão; Responsável pelo MR resolve em 15 dias.\nNÍVEL 2 — Generalizado / repetido / PAYG: Escalada ao Gestor de Departamento em 5 dias. Plano de resolução em 10 dias.\nNÍVEL 3 — Violação da lei / dano grave / EAS/AS: Escalada imediata ao Diretor Geral. Possível notificação externa. Envolvimento jurídico/RH. Protocolo VBG/EAS/AS ativado.\n\nEscalada externa: O reclamante mantém sempre o direito de recorrer ao regulador, tribunal ou mecanismo ao nível do investidor (CAO/IRM/Gabinete do Programa ROGEAP).",
+    phGrmSeahProtocol: "As queixas EAS/AS são tratadas ao abrigo de um protocolo SEPARADO E CONFIDENCIAL:\n• Canal de denúncia dedicado: [Nome/Função — diferente do superior hierárquico]\n• Ético: Respeitar a dignidade, a autonomia e a confidencialidade do sobrevivente em todo o momento\n• Confidencial: Necessidade de saber apenas; sem detalhes da vítima no registo geral do MR\n• Rápido: Confirmar receção em 24 horas; fornecer informações de segurança\n• Centrado no sobrevivente: Oferecer encaminhamento para serviços médicos, psicossociais e jurídicos\n• Investigação: Investigadores separados e treinados; resultados não partilhados sem consentimento\n• Não-retaliação: Tolerância zero para retaliação contra reclamantes ou testemunhas\n\nRegisto EAS/AS: Mantido separadamente, protegido por palavra-passe, acessível apenas ao Responsável pelo MR e ao DG.",
+    phGrmRoles: "Responsável pelo MR (principal): [Nome, Função] — recebe todas as reclamações, mantém o registo, coordena a resposta\nResponsável pelo MR adjunto: [Nome, Função] — cobre ausências; trata casos de nível 2+\nDG/CEO: Recebe escaladas de nível 3; aprova notificações externas; revisão trimestral do MR\nPonto Focal EAS/AS: [Nome, Função — funcionária feminina preferida] — trata todas as queixas VBG/EAS/AS ao abrigo do protocolo separado\nTodo o pessoal: Responsável por encaminhar reclamações ao Responsável pelo MR em 24 horas após receção",
+    phGrmTimeline: "Confirmação de receção: em 3 dias calendário após receção\nResposta inicial (Nível 1): em 15 dias calendário\nResposta inicial (Nível 2): em 10 dias calendário\nResposta inicial (Nível 3/EAS/AS): em 5 dias calendário\nTodos os prazos comunicados por escrito ao reclamante na confirmação de receção",
+    phGrmAccessibility: "Idiomas: [Lista de idiomas em que o MR opera]\nLiteracia: Reclamações verbais aceites por telefone ou presencialmente (não é necessário escrever)\nAnonimato: Reclamações anónimas aceites e investigadas (resposta afixada no ponto de reclamação se sem dados de contacto)\nGénero: Reclamantes femininas podem solicitar Responsável pelo MR feminina\nGrupos vulneráveis: Um intermediário de confiança (ex.: líder comunitário, parceiro ONG) pode submeter em nome do reclamante com consentimento escrito",
+    phGrmTransparency: "Interno: Relatório de síntese do MR ao DG mensalmente; registo completo disponível para revisão ROGEAP/investidor\nExterno: Estatísticas de reclamações publicadas no Relatório Anual de Sustentabilidade; feedback da comunidade partilhado nas reuniões comunitárias trimestrais\nMonitorização ROGEAP: Estado do MR reportado no Formulário de Monitorização A&S ROGEAP trimestral (Tabela 22)",
+    phGrmReview: "Revisão anual: Eficácia do processo avaliada; taxas de satisfação dos reclamantes revistas; mecanismo atualizado\nFormação: Responsável pelo MR formado em procedimentos do MR e protocolo VBG/EAS/AS anualmente\nLições aprendidas: Problemas sistémicos identificados → ações corretivas → atualização do SGAS / PAAS",
+    phGrmKpis: "• 100% das reclamações com confirmação de receção em 3 dias calendário\n• ≥ 90% das reclamações de nível 1 resolvidas em 15 dias\n• ≥ 85% de taxa de satisfação dos reclamantes (inquérito trimestral)\n• Zero reclamações sem resposta além de 30 dias\n• Zero incidentes de retaliação contra reclamantes\n• Dados do MR revistos em cada reunião trimestral de gestão",
 
     // Plano MR — rótulos dos campos
     grmScope: "Âmbito e objetivos do MR",

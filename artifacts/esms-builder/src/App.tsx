@@ -3442,17 +3442,20 @@ function ExportBar({ title, sections, csvToolId, csvRows, csvCols, filename, esm
   };
 
   if (isFull) {
+    const compactBtn = {border:'none',borderRadius:6,padding:'5px 6px',cursor:'pointer',fontSize:10,fontWeight:700,fontFamily:F.b,display:'flex',alignItems:'center',justifyContent:'center',gap:4,flex:1,opacity:busy?0.65:1,pointerEvents:busy?'none':'auto'};
     return (
-      <div style={{display:'flex',flexDirection:'column',gap:5}}>
-        <div style={{fontSize:10,color:'rgba(255,255,255,0.5)',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.5px',marginBottom:2}}>
-          📥 Download Full ESMS
+      <div style={{display:'flex',flexDirection:'column',gap:3}}>
+        <div style={{fontSize:9,color:'rgba(255,255,255,0.45)',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.5px'}}>
+          📥 {t('downloadFullEsms')||'Download Full ESMS'}
         </div>
-        <button onClick={()=>run('pdf')} style={{...base,background:'rgba(192,57,43,0.25)',color:'rgba(255,200,200,0.9)',border:'1px solid rgba(192,57,43,0.4)',justifyContent:'center'}}>
-          {busy==='pdf'?t('generating'):t('fullPdf')}
-        </button>
-        <button onClick={()=>run('word')} style={{...base,background:'rgba(42,95,158,0.3)',color:'rgba(180,210,255,0.9)',border:'1px solid rgba(42,95,158,0.5)',justifyContent:'center'}}>
-          {busy==='word'?t('generating'):t('fullWord')}
-        </button>
+        <div style={{display:'flex',gap:4}}>
+          <button onClick={()=>run('pdf')} style={{...compactBtn,background:'rgba(192,57,43,0.28)',color:'rgba(255,200,200,0.95)',border:'1px solid rgba(192,57,43,0.45)'}}>
+            {busy==='pdf'?'⏳':''} {busy==='pdf'?t('generating'):'📄 PDF'}
+          </button>
+          <button onClick={()=>run('word')} style={{...compactBtn,background:'rgba(42,95,158,0.32)',color:'rgba(180,210,255,0.95)',border:'1px solid rgba(42,95,158,0.5)'}}>
+            {busy==='word'?'⏳':''} {busy==='word'?t('generating'):'📝 Word'}
+          </button>
+        </div>
       </div>
     );
   }
@@ -3485,6 +3488,7 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(() => typeof window !== "undefined" ? window.innerWidth > 768 : true);
   const [guideOpen, setGuideOpen] = useState(null);
   const [lang, setLang] = useLS("esms_lang", "en");
+  const [navKey, setNavKey] = useState(0);
   const mainRef = useRef(null);
 
   // Sync HTML lang attribute for browser translate / a11y
@@ -3500,7 +3504,7 @@ export default function App() {
   const setFieldValue = (compId, fieldId, value) => {
     setEsmsData(prev => ({ ...prev, [compId]: { ...(prev[compId]||{}), [fieldId]: value } }));
   };
-  const goTo = (id) => { setActive(id); if (mainRef.current) mainRef.current.scrollTop = 0; };
+  const goTo = (id) => { setNavKey(k => k + 1); setActive(id); if (mainRef.current) mainRef.current.scrollTop = 0; };
   const openGuide = (id) => setGuideOpen(id);
   const closeGuide = () => setGuideOpen(null);
 
@@ -3725,24 +3729,26 @@ export default function App() {
 
         {/* Bottom action buttons */}
         {sidebarOpen && (
-          <div style={{ padding:"10px 12px", borderTop:"1px solid rgba(255,255,255,0.1)", display:"flex", flexDirection:"column", gap:5 }}>
+          <div style={{ padding:"8px 10px", borderTop:"1px solid rgba(255,255,255,0.1)", display:"flex", flexDirection:"column", gap:4 }}>
             <ExportBar isFull={true} esmsData={esmsData} filename="Full_ESMS_Document" title="Full ESMS Document" sections={[]}/>
-            <div style={{ borderTop:"1px solid rgba(255,255,255,0.08)", paddingTop:7, display:"flex", flexDirection:"column", gap:5 }}>
-              <div style={{ fontSize:9, color:"rgba(255,255,255,0.4)", fontWeight:600, textTransform:"uppercase", letterSpacing:"0.5px", marginBottom:1 }}>{t("backupLabel")}</div>
-              <button onClick={backupData}
-                style={{ width:"100%", background:"rgba(14,124,123,0.25)", border:"1px solid rgba(14,124,123,0.5)", borderRadius:6, padding:"9px 0", color:"rgba(150,230,228,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b }}>
-                {t("backupSave")}
-              </button>
-              <label title="Restore from a .json backup file (max 5 MB)" style={{ display:"block", width:"100%", background:"rgba(42,95,158,0.2)", border:"1px solid rgba(42,95,158,0.4)", borderRadius:6, padding:"9px 0", color:"rgba(160,200,255,0.9)", cursor:"pointer", fontSize:11, fontFamily:F.b, textAlign:"center" }}>
-                {t("backupRestore")}
-                <input type="file" accept=".json" aria-label="Restore data from backup file (max 5 MB)" onChange={e => { if(e.target.files?.[0]) { restoreData(e.target.files[0]); e.target.value=''; } }} style={{ display:"none" }}/>
-              </label>
+            <div style={{ borderTop:"1px solid rgba(255,255,255,0.08)", paddingTop:5, display:"flex", flexDirection:"column", gap:3 }}>
+              <div style={{ fontSize:9, color:"rgba(255,255,255,0.4)", fontWeight:600, textTransform:"uppercase", letterSpacing:"0.5px" }}>{t("backupLabel")}</div>
+              <div style={{ display:"flex", gap:3 }}>
+                <button onClick={backupData}
+                  style={{ flex:1, background:"rgba(14,124,123,0.25)", border:"1px solid rgba(14,124,123,0.5)", borderRadius:6, padding:"5px 4px", color:"rgba(150,230,228,0.9)", cursor:"pointer", fontSize:10, fontFamily:F.b, fontWeight:600 }}>
+                  {t("backupSave")}
+                </button>
+                <label title="Restore from a .json backup file (max 5 MB)" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", background:"rgba(42,95,158,0.2)", border:"1px solid rgba(42,95,158,0.4)", borderRadius:6, padding:"5px 4px", color:"rgba(160,200,255,0.9)", cursor:"pointer", fontSize:10, fontFamily:F.b, fontWeight:600, textAlign:"center" }}>
+                  {t("backupRestore")}
+                  <input type="file" accept=".json" aria-label="Restore data from backup file (max 5 MB)" onChange={e => { if(e.target.files?.[0]) { restoreData(e.target.files[0]); e.target.value=''; } }} style={{ display:"none" }}/>
+                </label>
+              </div>
               <button onClick={() => { if(window.confirm(t("resetConfirm"))) { setEsmsData({}); setActive("welcome"); } }}
-                style={{ width:"100%", background:"rgba(192,57,43,0.2)", border:"1px solid rgba(192,57,43,0.4)", borderRadius:6, padding:"9px 0", color:"rgba(255,180,180,0.85)", cursor:"pointer", fontSize:11, fontFamily:F.b }}>
+                style={{ width:"100%", background:"rgba(192,57,43,0.2)", border:"1px solid rgba(192,57,43,0.4)", borderRadius:6, padding:"5px 0", color:"rgba(255,180,180,0.85)", cursor:"pointer", fontSize:10, fontFamily:F.b, fontWeight:600 }}>
                 {t("resetData")}
               </button>
             </div>
-            <div style={{ marginTop:8, padding:"7px 10px", background:"rgba(255,255,255,0.05)", borderRadius:6, fontSize:10, color:"rgba(255,255,255,0.38)", lineHeight:1.5, textAlign:"center" }}>
+            <div style={{ padding:"4px 8px", background:"rgba(255,255,255,0.04)", borderRadius:5, fontSize:9, color:"rgba(255,255,255,0.32)", lineHeight:1.4, textAlign:"center" }}>
               {t("dataPrivacyNotice")}
             </div>
           </div>
@@ -3751,7 +3757,7 @@ export default function App() {
 
       {/* ── MAIN CONTENT ── */}
       <main id="main-content" ref={mainRef} className="app-main" role="main" style={{ flex:1, padding:"28px 32px 48px", overflowX:"hidden", overflowY:"auto", maxHeight:"100vh" }}>
-        <div className="app-content-inner" style={{ maxWidth:1000, margin:"0 auto" }}>
+        <div key={`${active}-${navKey}`} className="app-content-inner" style={{ maxWidth:1000, margin:"0 auto" }}>
           {renderContent()}
           {active !== "welcome" && (
             <div style={{ marginTop:32, paddingTop:18, borderTop:`2px solid ${C.border}`, display:"flex", gap:10, flexWrap:"wrap" }}>

@@ -1397,6 +1397,37 @@ const PLAN_DEFS_SIMPLE = [
       {id:"sep_records",lk:"plnfldSEPRecords",label:"Documentation & Reporting Back",t:"ta",rows:3,phk:"phSEPRecords"},
     ]
   },
+  {
+    id:"grm_plan", icon:"📣", label:"Grievance Redress Mechanism Plan", color:"#6C3483",
+    lk:"planLblGRM", ik:"planIntroGRM",
+    required:"WB ESS10 | IFC PS1 | ROGEAP §13 (pp.90-94) | ROGEAP GRM Operational Manual",
+    intro:"Establishes your company's system for receiving, processing, and resolving complaints from workers, customers, and communities. The GRM Plan governs the design and governance of the mechanism; the Grievance Log tool (Section 6) provides the day-to-day operational register for recording cases.",
+    linkedTools:["grievance_log","stakeholder_register"],
+    fields:[
+      {id:"grm_scope",lk:"grmScope",label:"GRM Scope & Objectives",t:"ta",rows:3,
+       ph:"This GRM applies to all grievances from: employees, field agents, customers, community members, and third parties related to our operations. Objectives: (1) provide accessible, fair, and timely resolution; (2) identify and address systemic issues; (3) prevent escalation."},
+      {id:"grm_channels",lk:"grmChannels",label:"Complaint Channels (how to submit a grievance)",t:"ta",rows:5,
+       ph:"1. Phone/WhatsApp: [Number] — 8am–6pm Mon-Fri, [Language(s)]\n2. Email: [address]\n3. Written: Submit at [service centre / agent point]\n4. In-person: Request meeting with [Role] at [office address]\n5. Anonymous box: Located at [location]\n6. GBV/SEAH-specific channel: Direct to [Name/Role, different from line manager] — confidential"},
+      {id:"grm_process",lk:"grmProcess",label:"Five-Stage Processing Procedure (ROGEAP Table 18)",t:"ta",rows:8,
+       ph:"STAGE 1 — IDENTIFICATION (Day 1): Complaint received via any channel. GRM Officer logs immediately in the Grievance Log with case number, date, channel, and nature.\n\nSTAGE 2 — ASSESSMENT & LOGGING (Days 1-3): GRM Officer assesses significance and assigns Level (1/2/3). Complainant acknowledged in writing.\n\nSTAGE 3 — ACKNOWLEDGEMENT (within 3 days): Formal acknowledgement sent to complainant confirming receipt, case number, and expected timeline.\n\nSTAGE 4 — RESPONSE DEVELOPMENT & IMPLEMENTATION (Days 4-15): Assigned to appropriate team/manager. Response developed; redress action implemented; outcome communicated to complainant.\n\nSTAGE 5 — MONITORING & CLOSURE: Outcome recorded in log. Complainant asked if satisfied. Case closed. Data reviewed quarterly for systemic trends."},
+      {id:"grm_levels",lk:"grmLevels",label:"Grievance Level Classification & Escalation",t:"ta",rows:5,
+       ph:"LEVEL 1 — One-off, minor: Standard process; GRM Officer resolves within 15 days.\nLEVEL 2 — Widespread / repeated / PAYG: Escalate to Department Manager within 5 days. Resolution plan within 10 days.\nLEVEL 3 — Breach of law / serious harm / SEAH: Escalate immediately to MD. Potential external notification. Legal/HR involvement. GBV/SEAH protocol activated.\n\nExternal escalation: Complainant always retains right to approach regulator, court, or investor-level mechanism (CAO/IRM/ROGEAP Programme Office)."},
+      {id:"grm_seah_protocol",lk:"grmSeahProtocol",label:"GBV/SEAH Special Protocol",t:"ta",rows:6,
+       ph:"SEAH complaints are handled under a SEPARATE, CONFIDENTIAL protocol:\n• Dedicated reporting channel: [Name/Role — not line manager]\n• Ethical: Respect survivor's dignity, autonomy, and confidentiality at all times\n• Confidential: Need-to-know only; no victim details in general GRM log\n• Rapid: Acknowledge within 24 hours; provide safety information\n• Survivor-centred: Offer referral to medical, psychosocial, and legal services\n• Investigation: Separate, trained investigators; findings not shared without consent\n• Non-retaliation: Zero-tolerance for retaliation against complainants or witnesses\n\nSEAH Log: Maintained separately, password-protected, accessible only to GRM Officer and MD."},
+      {id:"grm_roles",lk:"grmRoles",label:"GRM Roles & Responsibilities",t:"ta",rows:4,
+       ph:"GRM Officer (primary): [Name, Role] — receives all complaints, maintains log, coordinates response\nDeputy GRM Officer: [Name, Role] — covers GRM Officer absence; handles Level 2+ cases\nMD/CEO: Receives Level 3 escalations; approves external notifications; quarterly GRM review\nSEAH Focal Point: [Name, Role — female officer preferred] — handles all GBV/SEAH complaints under separate protocol\nAll staff: Responsible for directing complaints to GRM Officer within 24 hours of receipt"},
+      {id:"grm_timeline",lk:"grmTimeline",label:"Response Timelines Commitment",t:"ta",rows:4,
+       ph:"Acknowledgement: within 3 calendar days of receipt\nInitial response (Level 1): within 15 calendar days\nInitial response (Level 2): within 10 calendar days\nInitial response (Level 3/SEAH): within 5 calendar days\nAll timelines communicated in writing to complainant at acknowledgement stage"},
+      {id:"grm_accessibility",lk:"grmAccessibility",label:"Accessibility & Inclusion",t:"ta",rows:4,
+       ph:"Languages: [List language(s) GRM operates in]\nLiteracy: Verbal complaints accepted via phone or in person (not required to write)\nAnonymity: Anonymous complaints accepted and investigated (response posted at complaint point if no contact details)\nGender: Female complainants may request female GRM Officer\nVulnerable groups: Trusted intermediary (e.g. community leader, NGO partner) may submit on behalf of complainant with written consent"},
+      {id:"grm_transparency",lk:"grmTransparency",label:"Transparency & Reporting",t:"ta",rows:3,
+       ph:"Internal: GRM summary report to MD monthly; full case log available for ROGEAP/investor review\nExternal: Grievance statistics published in Annual Sustainability Report; community feedback shared at quarterly community meetings\nROGEAP monitoring: GRM status reported in quarterly ROGEAP E&S Monitoring Form (Table 22)"},
+      {id:"grm_review",lk:"grmReview",label:"GRM Review, Improvement & Capacity",t:"ta",rows:3,
+       ph:"Annual review: Process effectiveness assessed; complainant satisfaction rates reviewed; mechanism updated\nTraining: GRM Officer trained in GRM procedures and GBV/SEAH protocol annually\nLessons learned: Systemic issues identified → corrective actions → update to ESMS / ESAP"},
+      {id:"grm_kpis",lk:"grmKpis",label:"GRM Performance Targets",t:"ta",rows:4,
+       ph:"• 100% of complaints acknowledged within 3 calendar days\n• ≥ 90% of Level 1 complaints resolved within 15 days\n• ≥ 85% complainant satisfaction rate (quarterly survey)\n• Zero complaints unanswered beyond 30 days\n• Zero retaliation incidents against complainants\n• GRM data reviewed at every quarterly management meeting"},
+    ]
+  },
 ];
 
 // ═══════════════ BUSINESS PROFILE SECTION ═══════════════
@@ -2178,6 +2209,51 @@ const GUIDELINES_DB = {
       { label: "IFC PS2 — Labour and Working Conditions (Supply Chain)", url: "https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
       { label: "OECD Due Diligence Guidance for Responsible Supply Chains", url: "https://www.oecd.org/investment/due-diligence-guidance-for-responsible-supply-chains.htm" },
       { label: "Responsible Business Alliance (RBA)", url: "https://www.responsiblebusiness.org/" },
+    ]
+  },
+
+  // ── GRM PLAN ───────────────────────────────────────────────────────
+  grm_plan: {
+    id: "grm_plan",
+    title: "Grievance Redress Mechanism Plan",
+    color: "#6C3483",
+    rogeapRef: "ROGEAP §13 (pp.90-94); Tables 18-21; ROGEAP GRM Operational Manual",
+    ifcRef: "IFC PS1; IFC ESMS Toolkit Element 6; WB ESS10",
+    summary: "The GRM Plan establishes the governance, design, and operating procedures of your company's Grievance Redress Mechanism (GRM) — the formal system through which workers, customers, and community members can raise concerns, seek remediation, and have their complaints addressed fairly and in a timely manner. The GRM is required by ROGEAP, WB ESS10, and IFC PS1. It complements the Grievance Log (Section 6 tool) which records day-to-day case management.",
+    sections: [
+      {
+        heading: "What a GRM Plan must contain",
+        body: "ROGEAP §13 (pp.90-94) and the ROGEAP GRM Operational Manual specify that a company's GRM must include the following design elements:\n\n1. SCOPE: Who can use it (workers, customers, communities, contractors) and what types of complaints are covered\n2. CHANNELS: How complaints can be submitted (phone, email, in-person, written, anonymous box) — multiple channels are required to ensure accessibility\n3. PROCESS: The five-stage processing procedure (Identification → Assessment → Acknowledgement → Response → Monitoring) with defined timelines at each stage\n4. ESCALATION LEVELS: Level 1 (one-off/minor), Level 2 (widespread/repeated), Level 3 (breach of law or serious harm) — each with different response requirements\n5. SEAH PROTOCOL: A separate, confidential process for GBV/Sexual Exploitation, Abuse, and Harassment complaints\n6. ROLES: Named individuals responsible for operating the GRM\n7. TIMELINES: Committed response timelines communicated to complainants\n8. ACCESSIBILITY: Provisions for illiterate, anonymous, and vulnerable complainants\n9. TRANSPARENCY: How GRM performance will be reported internally and externally\n10. REVIEW: How the mechanism will be assessed and improved over time\n\nThe ROGEAP GRM Operational Manual is the authoritative document for design standards. Source: ROGEAP §13, pp.90-94; ROGEAP GRM Operational Manual (2023)."
+      },
+      {
+        heading: "Five-Stage ROGEAP Process (Tables 18-21)",
+        body: "ROGEAP Table 18 (p.92) specifies a five-stage GRM process:\n\nSTAGE 1 — IDENTIFICATION (Day 1): Complaint received via any channel and logged immediately by the GRM Officer. A unique case number is assigned.\n\nSTAGE 2 — ASSESSMENT & LOGGING (Days 1-3): Significance of complaint assessed. Assigned a Level: Level 1 (one-off event), Level 2 (widespread or repeated), Level 3 (breach of law or company policy). Recorded in GRM log. Complainant acknowledged.\n\nSTAGE 3 — ACKNOWLEDGEMENT (within 3 days): Formal written acknowledgement sent to complainant confirming receipt, case number, and expected timeline.\n\nSTAGE 4 — RESPONSE DEVELOPMENT & IMPLEMENTATION (Days 4-15): Complaint assigned to appropriate person for resolution. Response developed with management input as needed. Redress action implemented. Outcome communicated to complainant in writing.\n\nSTAGE 5 — MONITORING: Outcomes tracked. Complainant satisfaction confirmed. Grievance data reviewed quarterly for systemic trends. Mechanism updated based on lessons learned.\n\nSource: ROGEAP Tables 18-21, pp.92-94; ROGEAP GRM Operational Manual."
+      },
+      {
+        heading: "GBV/SEAH Complaints — Mandatory Special Protocol",
+        body: "GBV/Sexual Exploitation, Abuse, and Harassment (SEAH) complaints must follow a completely separate, confidential process. The ROGEAP GRM Operational Manual specifies five non-negotiable principles:\n\n• ETHICAL: All actions must respect the dignity, rights, and autonomy of the survivor at all times\n• CONFIDENTIAL: Information shared only on a strict need-to-know basis; personal details never in the general GRM log\n• NON-BIASED: Dedicated, trained investigators who recognise and manage their own biases\n• RAPID: Initial response within 24-72 hours; clear timelines communicated to survivor\n• SURVIVOR-CENTRED: Survivor's safety, needs, and well-being take priority; proactive referral to medical, psychosocial, and legal services\n\nThe SEAH log must be maintained separately, password-protected, and accessible only to designated personnel. In the general GRM log, record only the NATURE of complaint (e.g. 'SEAH') and PROCESSING OUTCOME — never victim personal details.\n\nThe company must designate a dedicated, trained SEAH Focal Point who is different from the complainant's line manager. Female focal points are strongly recommended in mixed-gender workplaces.\n\nSource: ROGEAP §13, pp.91-92; ROGEAP GRM Operational Manual, Section 4."
+      },
+      {
+        heading: "Relationship between GRM Plan and Grievance Log",
+        body: "The GRM Plan (this section) and the Grievance Log tool (Section 6) are complementary but distinct components of your ESMS:\n\nGRM PLAN sets out the SYSTEM DESIGN:\n• Governance structure (who is responsible, what authority they have)\n• Complaint channels and intake procedures\n• Processing stages and timelines\n• Level classification and escalation rules\n• SEAH special protocol\n• Accessibility and inclusion provisions\n• Reporting and review commitments\n\nGRIEVANCE LOG is the OPERATIONAL RECORD:\n• Individual case register (one row per complaint)\n• Fields for case number, date, complainant, nature, level, assigned to, action taken, outcome, satisfaction\n• Evidences that the GRM Plan is being implemented\n• Used for quarterly ROGEAP monitoring reports\n\nInvestors, auditors, and ROGEAP reviewers will ask to see BOTH: the Plan (to verify the system is properly designed) and the Log (to verify it is being used). Absence of the Log is treated as absence of implementation even if the Plan exists."
+      },
+      {
+        heading: "IFC Requirements and Design Principles",
+        body: "IFC Performance Standard 1 (Assessment and Management of Environmental and Social Risks) requires that companies establish a 'grievance mechanism for Affected Communities' that meets these criteria:\n\n• PROPORTIONALITY: Scaled to the risks and adverse impacts of the project\n• ACCESSIBILITY: Accessible to all affected people without cost, and without fear of retaliation\n• TRANSPARENT: Affected communities are informed of how the mechanism works\n• LEGITIMATE: Operated in a culturally appropriate manner and with appropriate authority\n• CULTURALLY APPROPRIATE: Methods and channels suitable to local context\n• GENDER-SENSITIVE: Specific design features for women and vulnerable groups\n• CONFIDENTIAL: Personal information protected\n\nThe IFC ESMS Toolkit Element 6 (Operational Control) frames grievance management as an operational control measure — not just a complaint box, but a systematic process integrated into company management.\n\nWB ESS10 adds that the grievance mechanism must be established early in project implementation, before activities begin in new communities. It must provide for GBV/SEA/SH complaints via a separate, safe channel.\n\nSource: IFC PS1 §35-36; IFC ESMS Toolkit Element 6; WB ESS10 §§20-24."
+      },
+      {
+        heading: "Practical Guidance for OGS Companies",
+        body: "For off-grid solar companies operating in West and Central Africa, the following practical points apply:\n\nMULTIPLE CHANNELS ARE ESSENTIAL: Many customers in rural areas are more comfortable using WhatsApp or calling than submitting written complaints. Phone and WhatsApp channels are typically the most used by OGS customers.\n\nANONYMITY: A significant proportion of complaints — particularly those involving SEAH, agent misconduct, or sensitive issues — will only be submitted if anonymity is possible. An anonymous channel (suggestion box, anonymous email, or anonymous WhatsApp) must be available and communicated.\n\nLANGUAGE: The GRM must operate in the languages your customers and workers actually speak — not just the official national language. Verbal complaints must be accepted for customers with low literacy.\n\nAGENT MISCONDUCT: A common complaint category for OGS companies is agent misconduct (mis-selling, harassment, false promises). The GRM must be accessible to customers independently of the agent who sold to them — customers must be able to contact the company directly.\n\nROGEAP MONITORING: Grievance data (number received, resolved, pending, by category) must be reported in every quarterly ROGEAP E&S Monitoring Form (Table 22). The ROGEAP Programme Office treats a non-functional or under-reported GRM as a significant compliance gap.\n\nSource: ROGEAP GRM Operational Manual; ROGEAP §13; IFC PS1."
+      }
+    ],
+    resources: [
+      { label: "ROGEAP GRM Operational Manual (2023)", url: "https://ecowas.rogeap.org/wp-content/uploads/2023/10/GRM-Operational-Manual-ROGEAP-ECOWAS.pdf" },
+      { label: "ROGEAP ESMS Guidelines (PDF) — §13 Grievance Mechanism", url: "https://ecowas.rogeap.org/wp-content/uploads/2023/10/ROGEAP_ESMS-Guidelines_v_01.pdf" },
+      { label: "IFC PS1 — Assessment & Management of E&S Risks (§35-36 GRM)", url: "https://www.ifc.org/en/insights-reports/2012/ifc-performance-standards" },
+      { label: "IFC ESMS Toolkit Element 6 — Operational Control", url: "https://www.ifc.org/en/insights-reports/2015/publications-handbook-esms-general" },
+      { label: "WB ESS10 — Stakeholder Engagement & GRM", url: "https://www.worldbank.org/en/projects-operations/environmental-and-social-framework" },
+      { label: "CAO Grievance Mechanism Design Resources", url: "https://www.cao-ombudsman.org/accessing-cao/making-a-complaint/grievance-mechanism-resources" },
+      { label: "OHCHR — Operational-level Grievance Mechanisms", url: "https://www.ohchr.org/sites/default/files/Documents/Publications/Guiding_Principles_Business_HR_EN.pdf" },
     ]
   },
 

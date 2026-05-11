@@ -34,12 +34,17 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
 - **Description**: ROGEAP Off-Grid Solar ESMS Builder — a comprehensive tool for building and implementing an Environmental & Social Management System, aligned with ROGEAP Guidelines and IFC Performance Standards.
 - **Architecture**: Single-file React app (`src/App.tsx`). Uses `// @ts-nocheck` to allow plain JSX. No backend — all data persisted in localStorage via `useLS` hook.
 - **Key files**:
-  - `src/App.tsx` — main app (~3250 lines, all components, tools, export engine, `useGuide()` translation hook)
-  - `src/i18n/translations.js` — UI strings in English, Français, Português (~510 keys per language)
-  - `src/i18n/guideTranslations.js` — full FR+PT translations for all 13 GUIDELINES_DB entries (title, summary, sections, resource labels)
+  - `src/App.tsx` — main app (~3700+ lines, all components, tools, export engine, `useGuide()` translation hook)
+  - `src/i18n/translations.js` — UI strings in English, Français, Português (~525 keys per language)
+  - `src/i18n/guideTranslations.js` — full FR+PT translations for all 14 GUIDELINES_DB entries (title, summary, sections, resource labels)
   - `src/index.css` — responsive CSS (mobile layout, touch targets, skip link, iOS zoom fix)
   - `public/manifest.json` — PWA web app manifest
-- **Features**: Business Profile (optional), E&S Screening, Policies, Risk Assessment, Compliance, Management Plans, Implementation Tools, ESAP, multilingual (EN/FR/PT), PDF/Word/CSV export, JSON backup/restore
+- **Features**: Business Profile (optional), E&S Screening, Policies, Risk Assessment, Compliance, Management Plans (8 sub-plans incl. GRM), Implementation Tools, ESAP, multilingual (EN/FR/PT), PDF/Word/CSV export, JSON backup/restore
+- **Management Plans sub-plans** (8 total, in `PLAN_DEFS_SIMPLE`): OHS, Consumer Protection, Waste Management, Supplier Assessment, HR, SEP, and **GRM Plan** (id: `grm_plan`, icon 📣, color `#6C3483`)
+  - GRM Plan: 11 fields (`grm_scope`, `grm_channels`, `grm_process`, `grm_levels`, `grm_seah_protocol`, `grm_roles`, `grm_timeline`, `grm_accessibility`, `grm_transparency`, `grm_review`, `grm_kpis`)
+  - Translation keys: `planLblGRM`, `planIntroGRM`, and 11 `grm*` field label keys (all 3 languages)
+  - Guide entry: `grm_plan` in `GUIDELINES_DB` (6 sections, 7 resources); FR+PT guide translations in `guideTranslations.js`
+  - Covers: ROGEAP §13 (pp.90-94), Tables 18-21, ROGEAP GRM Operational Manual, WB ESS10, IFC PS1
 - **Business Profile section** (id: `business_profile`, optional:true):
   - 6 sub-sections: Company & Context, E&S Profile, ESMS Governance, Operations & Supply Chain, Baseline & Compliance, ESMS Builder Settings
   - Data stored under keys: `bp_companyContext`, `bp_esProfile`, `bp_esmsGovernance`, `bp_operationsSupplyChain`, `bp_baselineCompliance`, `bp_uiHints`

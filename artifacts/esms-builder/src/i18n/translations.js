@@ -621,6 +621,21 @@ export const TRANSLATIONS = {
     phFPIC: "Free: No coercion; engagement at reasonable times; power imbalance managed\nPrior: Communities engaged before installation activities begin in new areas\nInformed: Information in local languages; visual formats for low literacy; questions welcomed",
     phGenderSEP: "Separate forums for women in community meetings; female liaison officers deployed in areas with cultural barriers; meeting times suitable for women's schedules; female customer feedback tracked separately",
     phSEPRecords: "Engagement Register: date, location, attendees, topics discussed, concerns raised, company commitments, follow-up actions and dates\nReport back to communities on outcomes annually or after major engagements",
+
+    // GRM Plan fields
+    grmScope: "GRM Scope & Objectives",
+    grmChannels: "Complaint Channels",
+    grmProcess: "Five-Stage Processing Procedure",
+    grmLevels: "Grievance Level Classification & Escalation",
+    grmSeahProtocol: "GBV/SEAH Special Protocol",
+    grmRoles: "GRM Roles & Responsibilities",
+    grmTimeline: "Response Timelines Commitment",
+    grmAccessibility: "Accessibility & Inclusion",
+    grmTransparency: "Transparency & Reporting",
+    grmReview: "GRM Review, Improvement & Capacity",
+    grmKpis: "GRM Performance Targets",
+    planLblGRM: "Grievance Redress Mechanism Plan",
+    planIntroGRM: "Establishes your company's system for receiving, processing, and resolving complaints from workers, customers, and communities.",
   },
 
   fr: {
@@ -1217,6 +1232,21 @@ export const TRANSLATIONS = {
     phFPIC: "Libre : Pas de coercition ; engagement à des moments raisonnables ; déséquilibre de pouvoir géré\nPréalable : Les communautés sont impliquées avant le début des activités d'installation dans de nouvelles zones\nÉclairé : Informations dans les langues locales ; formats visuels pour les faibles niveaux d'alphabétisation ; questions bienvenues",
     phGenderSEP: "Forums séparés pour les femmes dans les réunions communautaires ; agents de liaison féminins déployés dans les zones à barrières culturelles ; horaires de réunion adaptés aux emplois du temps des femmes ; feedback des clients féminins suivi séparément",
     phSEPRecords: "Registre d'engagement : date, lieu, participants, sujets discutés, préoccupations soulevées, engagements de l'entreprise, actions de suivi et dates\nRendre compte aux communautés des résultats annuellement ou après les engagements majeurs",
+
+    // Plan MGR — libellés des champs
+    grmScope: "Champ d'application et objectifs du MGR",
+    grmChannels: "Canaux de soumission des plaintes",
+    grmProcess: "Procédure de traitement en cinq étapes",
+    grmLevels: "Classification des réclamations et escalade",
+    grmSeahProtocol: "Protocole spécial VFS/HAS",
+    grmRoles: "Rôles et responsabilités du MGR",
+    grmTimeline: "Engagement sur les délais de réponse",
+    grmAccessibility: "Accessibilité et inclusion",
+    grmTransparency: "Transparence et rapportage",
+    grmReview: "Révision, amélioration et capacité du MGR",
+    grmKpis: "Objectifs de performance du MGR",
+    planLblGRM: "Plan du Mécanisme de Gestion des Réclamations",
+    planIntroGRM: "Établit le système de votre entreprise pour recevoir, traiter et résoudre les plaintes des travailleurs, clients et communautés.",
   },
 
   pt: {
@@ -1813,6 +1843,21 @@ export const TRANSLATIONS = {
     phFPIC: "Livre: Sem coerção; envolvimento em momentos razoáveis; desequilíbrio de poder gerido\nPrévio: Comunidades envolvidas antes do início das actividades de instalação em novas áreas\nInformado: Informação em línguas locais; formatos visuais para baixa literacia; perguntas bem-vindas",
     phGenderSEP: "Fóruns separados para as mulheres nas reuniões comunitárias; agentes de ligação femininas implantadas em áreas com barreiras culturais; horários de reunião adequados às agendas das mulheres; feedback de clientes femininos registado separadamente",
     phSEPRecords: "Registo de envolvimento: data, local, participantes, tópicos discutidos, preocupações levantadas, compromissos da empresa, acções de seguimento e datas\nReportar às comunidades sobre os resultados anualmente ou após envolvimentos importantes",
+
+    // Plano MR — rótulos dos campos
+    grmScope: "Âmbito e objetivos do MR",
+    grmChannels: "Canais de submissão de reclamações",
+    grmProcess: "Procedimento de processamento em cinco estágios",
+    grmLevels: "Classificação das reclamações e escalonamento",
+    grmSeahProtocol: "Protocolo especial VBG/ASS",
+    grmRoles: "Papéis e responsabilidades do MR",
+    grmTimeline: "Compromisso com prazos de resposta",
+    grmAccessibility: "Acessibilidade e inclusão",
+    grmTransparency: "Transparência e reporte",
+    grmReview: "Revisão, melhoria e capacidade do MR",
+    grmKpis: "Metas de desempenho do MR",
+    planLblGRM: "Plano do Mecanismo de Reclamações",
+    planIntroGRM: "Estabelece o sistema da sua empresa para receber, processar e resolver reclamações de trabalhadores, clientes e comunidades.",
   },
 };
 

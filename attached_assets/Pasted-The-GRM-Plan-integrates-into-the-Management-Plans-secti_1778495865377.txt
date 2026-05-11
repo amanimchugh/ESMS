@@ -1,0 +1,20 @@
+The GRM Plan integrates into the Management Plans section as a complete 8th plan alongside OHS, Community H&S, Consumer Protection, Waste, Emergency Preparedness, HR, and SEP.
+Plan definition in PLAN_DEFS_SIMPLE — 11 structured fields:
+FieldContentScope & ObjectivesWho the GRM covers, what it aims to achieveComplaint ChannelsAll intake channels including the dedicated GBV/SEAH channelFive-Stage ProcessROGEAP Table 18 procedure (Identification → Assessment → Acknowledgement → Response → Monitoring)Level Classification & EscalationLevel 1/2/3 criteria with response requirements and external escalation rightsGBV/SEAH Special ProtocolThe 5 non-negotiable principles with separate log requirementsRoles & ResponsibilitiesGRM Officer, Deputy, MD, SEAH Focal Point, all staffResponse TimelinesCommitted timelines per level (3 days acknowledgement through 15 days resolution)Accessibility & InclusionLanguage, literacy, anonymity, gender, vulnerable groupsTransparency & ReportingInternal/external reporting and ROGEAP quarterly monitoringReview, Improvement & CapacityAnnual review, annual GRM Officer training, lessons learnedPerformance Targets6 quantified KPIs including zero unanswered complaints
+Links to: Grievance Log tool + Stakeholder Register tool (in Implementation Tools, Section 6)
+Guide entry in GUIDELINES_DB — 6 detailed sections, 7 resource links:
+
+What a GRM Plan must contain (10 required elements)
+Five-Stage ROGEAP Process (Tables 18-21)
+GBV/SEAH Mandatory Special Protocol
+Relationship between GRM Plan and Grievance Log (explains why both are needed)
+IFC Requirements and Design Principles
+Practical Guidance for OGS Companies (WhatsApp channels, anonymity, agent misconduct, ROGEAP monitoring)
+
+Resources linked: ROGEAP GRM Operational Manual, ROGEAP ESMS Guidelines §13, IFC PS1, IFC ESMS Toolkit Element 6, WB ESS10, CAO GRM Design Resources, OHCHR Operational-level Grievance Mechanisms
+Translations — all three languages:
+
+translations.js: 11 field label keys added in EN/FR/PT
+guideTranslations.js: Full FR and PT translations of all 6 guide sections including ÉTAPE 1–5 (FR) and ESTÁGIO 1–5 (PT), correct abbreviations (MGR/PGSE in FR, MR/PAAS in PT), survivor-centred terminology
+
+The patch file (grm_plan_patch.js) is also included as a standalone reference with all four code blocks clearly labelled with exact insertion instructions for any future Replit session.

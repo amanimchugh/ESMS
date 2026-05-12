@@ -4037,18 +4037,39 @@ export default function App() {
         style={{ width:sidebarOpen?260:56, flexShrink:0, background:C.navyDark, display:"flex", flexDirection:"column", transition:"width 0.2s ease", overflow:"hidden" }}>
 
         {/* Sidebar header */}
-        <div style={{ padding:sidebarOpen?"16px 12px":"16px 9px", borderBottom:"1px solid rgba(255,255,255,0.1)" }}>
-          <div style={{ display:"flex", alignItems:"center", gap:9 }}>
-            <span style={{ fontSize:19, flexShrink:0 }}>🌿</span>
+        <div style={{ padding:sidebarOpen?"16px 12px":"12px 6px", borderBottom:"1px solid rgba(255,255,255,0.1)" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:9, justifyContent:sidebarOpen?"flex-start":"center" }}>
+            {sidebarOpen && <span style={{ fontSize:19, flexShrink:0 }}>🌿</span>}
             {sidebarOpen && <span style={{ color:"white", fontWeight:700, fontSize:14, fontFamily:F.d, whiteSpace:"nowrap", flex:1 }}>{t("appName")}</span>}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               aria-label={sidebarOpen ? t("collapseNav") : t("expandNav")}
               aria-expanded={sidebarOpen}
-              style={{ background:"none", border:"none", color:"rgba(255,255,255,0.5)", cursor:"pointer", fontSize:15, padding:6, flexShrink:0, minWidth:36, minHeight:36, display:"flex", alignItems:"center", justifyContent:"center" }}>
-              {sidebarOpen ? t("collapseNav") : t("expandNav")}
+              title={sidebarOpen ? "Collapse navigation" : "Expand navigation panel"}
+              style={{
+                background: sidebarOpen ? "none" : "rgba(14,124,123,0.4)",
+                border: sidebarOpen ? "none" : "1.5px solid rgba(14,124,123,0.7)",
+                color: sidebarOpen ? "rgba(255,255,255,0.5)" : "white",
+                cursor:"pointer",
+                fontSize: sidebarOpen ? 15 : 20,
+                padding: sidebarOpen ? 6 : 8,
+                flexShrink:0,
+                minWidth: sidebarOpen ? 36 : 42,
+                minHeight: sidebarOpen ? 36 : 42,
+                display:"flex", alignItems:"center", justifyContent:"center",
+                borderRadius:9,
+                fontWeight: sidebarOpen ? 400 : 700,
+                boxShadow: sidebarOpen ? "none" : "0 0 0 3px rgba(14,124,123,0.18)",
+                transition:"all 0.2s",
+              }}>
+              {sidebarOpen ? "◀" : "▶"}
             </button>
           </div>
+          {!sidebarOpen && (
+            <div style={{ textAlign:"center", marginTop:6, fontSize:8, color:"rgba(255,255,255,0.38)", letterSpacing:"0.6px", userSelect:"none", fontWeight:600, textTransform:"uppercase" }}>
+              expand
+            </div>
+          )}
           {sidebarOpen && <div style={{ marginTop:9, background:"rgba(255,255,255,0.09)", borderRadius:7, padding:"6px 10px", fontSize:11, color:"rgba(255,255,255,0.6)" }}>{t("appEdition")}</div>}
           {sidebarOpen && (
             <select value={lang} onChange={e => setLang(e.target.value)}

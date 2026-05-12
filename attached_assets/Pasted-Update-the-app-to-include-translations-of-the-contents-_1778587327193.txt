@@ -1,0 +1,32 @@
+Update the app to include translations of the contents for all the following Sections and Subsections in which the specified contents are currenlty only available in English and need to be translated/available in French and Portuguese as well:
+
+E&S Screening section questions in all subsections C1 - C5.
+ 
+Risk Assessment Section sample respose contents under Risk/Hazard column and Mitigation Measures column.
+
+Compliance Section sample response data across all columns and rows in the matrix.
+
+Management Plans Section: Waste Management Plan subsection: 
+1. Waste Streams & Volumes (from audit) Question/Data table headings and sample data in the matrix.
+2. 5R Strategy by Waste Stream Question/Data table headings and sample data in the matrix.
+3. Disposal & Recycling Partners Question/Data table headings and sample data in the matrix.
+
+Management Plans Section: Emergency Preparedness & Response Plan subsection: 
+1. Emergency Scenarios & Priority Question/Data table headings and sample data in the matrix.
+2. Drills Schedule & Records Question/Data table headings and sample data in the matrix.
+
+Management Plans Section: Grievance Redress Mechanism Plan subsection: All contents in this subsection, including plan description, questions and sample response contents in this section.
+
+Implementation Tools Section: PPE Requirements Matrix: sample responses in the matrix (all columns and rows)
+
+Implementation Tools Section: Incident & Near-Miss Log subsection: sample responses in the matrix (all columns and rows)
+
+Implementation Tools Section: Training Register subsection: sample responses in the matrix (all columns and rows)
+
+Implementation Tools Section: Stakeholder Register & Engagement Tracker subsection: sample responses in the matrix (all columns and rows)
+
+Implementation Tools Section: Grievance Log (GRM) subsection: sample responses in the matrix (all columns and rows)
+
+Implementation Tools Section: Supplier E&S Assessment subsection: sample responses in the matrix (all columns and rows)
+
+Implementation Tools Section: ROGEAP E&S Monitoring Form: All contents in this subsection, including plan description, questions and sample response contents in this section.

@@ -196,8 +196,8 @@ function RiskMatrix({baselineRisks,value,onChange}){
 
 // ═══════════════ INCIDENT LOG ═══════════════
 function IncidentLog({value,onChange}){
-  const {t}=useLang();
-  const rows=value||[];
+  const {t,lang}=useLang();
+  const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.incident[lang]||[]);
   const cols=[
     {id:"date",label:t("csvColDate"),w:"8%",ph:"DD/MM/YY"},
     {id:"type",label:t("csvColType"),w:"9%",type:"sel",opts:["Injury","Near-Miss","Property Damage","Environmental","Security","SEAH","Other"],transOpts:[t("optIncidentInjury"),t("optIncidentNearMiss"),t("optIncidentPropertyDmg"),t("optIncidentEnvironmental"),t("optIncidentSecurity"),t("optIncidentSEAH"),t("optIncidentOther")]},
@@ -239,8 +239,8 @@ function WasteRegister({value,onChange}){
 
 // ═══════════════ GRIEVANCE LOG ═══════════════
 function GrievanceLog({value,onChange}){
-  const {t}=useLang();
-  const rows=value||[];
+  const {t,lang}=useLang();
+  const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.grievance[lang]||[]);
   const cols=[
     {id:"case_id",label:t("csvColCaseNo"),w:"7%",ph:"GRM-001"},
     {id:"date_received",label:t("csvColDateReceived"),w:"7%",ph:"DD/MM/YY"},
@@ -265,8 +265,8 @@ function GrievanceLog({value,onChange}){
 
 // ═══════════════ TRAINING REGISTER ═══════════════
 function TrainingRegister({value,onChange}){
-  const {t}=useLang();
-  const rows=value||[];
+  const {t,lang}=useLang();
+  const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.training[lang]||[]);
   const cols=[
     {id:"date",label:t("csvColDate"),w:"8%",ph:"DD/MM/YY"},
     {id:"module",label:t("csvColModule"),w:"18%",ph:"e.g. OHS Induction"},
@@ -286,6 +286,174 @@ function TrainingRegister({value,onChange}){
 }
 
 // ═══════════════ STAKEHOLDER REGISTER ═══════════════
+// ═══════════════ MULTILINGUAL BASELINES ═══════════════
+const BASELINES_I18N = {
+  risks: {
+    fr:[
+      {risk:"Chute de travailleurs depuis les toits lors d'installation ou de maintenance",category:"OHS",prob:"3",sev:"4",mitigation:"Harnais antichute ; formation certifiée travail en hauteur ; système de binôme ; liste de contrôle des échelles",responsible:"",status:"Planned"},
+      {risk:"Choc électrique / électrocution par système CC ou CA sous tension",category:"OHS",prob:"2",sev:"4",mitigation:"Procédures LOTO ; outils isolés ; gants EN60903 Classe 1 ; pas de travail électrique seul",responsible:"",status:"Planned"},
+      {risk:"Brûlures par acide de batterie plomb-acide ou exposition chimique",category:"OHS",prob:"2",sev:"3",mitigation:"EPI résistant aux acides ; stockage avec rétention ; kit anti-déversement ; formation manipulation sûre",responsible:"",status:"Planned"},
+      {risk:"Emballement thermique ou incendie de batterie lithium-ion",category:"OHS",prob:"1",sev:"4",mitigation:"Stockage sûr (température contrôlée) ; emballage ignifugé ; extincteur CO2 ; éviter perforation/écrasement",responsible:"",status:"Planned"},
+      {risk:"Accident de véhicule lors du transport terrain",category:"OHS",prob:"3",sev:"3",mitigation:"Formation conducteurs ; géolocalisation ; politique d'heures de conduite maximum ; planning d'entretien véhicules",responsible:"",status:"Planned"},
+      {risk:"VBG / Exploitation, abus et harcèlement sexuels (EAS/HS) au travail",category:"Gender/SEAH",prob:"2",sev:"4",mitigation:"Politique de tolérance zéro ; Code de conduite ; canal de signalement confidentiel ; formation ; procédure d'enquête",responsible:"",status:"Planned"},
+      {risk:"Élimination inappropriée de batteries plomb-acide causant contamination sol/eau",category:"E-Waste",prob:"3",sev:"4",mitigation:"Programme de reprise ; incitations collecte agents ; partenariat recycleur agréé ; sensibilisation clients",responsible:"",status:"Planned"},
+      {risk:"Élimination inappropriée des panneaux solaires en fin de vie",category:"E-Waste",prob:"2",sev:"3",mitigation:"Programme de reprise panneaux ; partenariat recycleur ; conseils élimination clients",responsible:"",status:"Planned"},
+      {risk:"Vente abusive de produits à des clients ne pouvant se permettre les paiements",category:"Consumer",prob:"3",sev:"3",mitigation:"Évaluation capacité remboursement ; liste pratiques vente interdites ; formation agents ; enquêtes satisfaction",responsible:"",status:"Planned"},
+      {risk:"Produits vendus sans instructions de sécurité adéquates",category:"Consumer",prob:"2",sev:"3",mitigation:"Guide démarrage rapide multilingue ; carte de sécurité dans chaque boîte ; formation agent à la remise client",responsible:"",status:"Planned"},
+      {risk:"Travailleurs payés en dessous du salaire minimum ou sans contrats écrits",category:"Labour",prob:"2",sev:"3",mitigation:"Contrats écrits pour tous ; révision salariale par rapport au minimum national ; audit RH",responsible:"",status:"Planned"},
+      {risk:"Absence de mécanisme de réclamation accessible aux travailleurs",category:"Labour",prob:"2",sev:"3",mitigation:"Mécanisme de griefs établi ; option anonyme disponible ; politique anti-représailles",responsible:"",status:"Planned"},
+      {risk:"Travail des enfants dans la chaîne d'approvisionnement (fabrication panneaux)",category:"Supply Chain",prob:"1",sev:"4",mitigation:"Évaluation E&S fournisseurs ; fournisseurs conformes RBA/OIT prioritaires ; questionnaire de diligence raisonnable",responsible:"",status:"Planned"},
+      {risk:"Blessure communautaire par chute d'objets lors d'installation",category:"Community",prob:"2",sev:"3",mitigation:"Barrières de chantier ; accès interdit pendant travaux en toiture ; notification communauté ; inspection post-installation",responsible:"",status:"Planned"},
+      {risk:"Violation de données ou utilisation abusive des données personnelles clients",category:"Consumer",prob:"1",sev:"3",mitigation:"Politique de confidentialité ; contrôles d'accès ; minimisation des données ; procédures de consentement client",responsible:"",status:"Planned"},
+    ],
+    pt:[
+      {risk:"Queda de trabalhadores do telhado durante instalação ou manutenção",category:"OHS",prob:"3",sev:"4",mitigation:"Arnês anticaída; formação certificada para trabalho em altura; sistema de parceiro; lista de verificação de escadas",responsible:"",status:"Planned"},
+      {risk:"Choque elétrico / eletrocussão por sistema CC ou CA sob tensão",category:"OHS",prob:"2",sev:"4",mitigation:"Procedimentos LOTO; ferramentas isoladas; luvas EN60903 Classe 1; sem trabalho elétrico individual",responsible:"",status:"Planned"},
+      {risk:"Queimaduras por ácido de bateria de chumbo-ácido ou exposição química",category:"OHS",prob:"2",sev:"3",mitigation:"EPI resistente a ácidos; armazenamento com dique de contenção; kit anti-derrame; formação em manuseamento seguro",responsible:"",status:"Planned"},
+      {risk:"Fuga térmica ou incêndio de bateria de lítio-ião",category:"OHS",prob:"1",sev:"4",mitigation:"Armazenamento seguro (temperatura controlada); embalagem resistente ao fogo; extintor CO2; evitar perfuração/esmagamento",responsible:"",status:"Planned"},
+      {risk:"Acidente de viatura durante transporte de campo",category:"OHS",prob:"3",sev:"3",mitigation:"Formação de condutores; rastreamento GPS; política de horas máximas de condução; plano de manutenção de viaturas",responsible:"",status:"Planned"},
+      {risk:"VBG / Exploração, abuso e assédio sexual (EAS/AS) no local de trabalho",category:"Gender/SEAH",prob:"2",sev:"4",mitigation:"Política de tolerância zero; Código de Conduta; canal de denúncia confidencial; formação; procedimento de investigação",responsible:"",status:"Planned"},
+      {risk:"Eliminação inadequada de baterias de chumbo causando contaminação do solo/água",category:"E-Waste",prob:"3",sev:"4",mitigation:"Programa de recolha; incentivos de recolha por agentes; parceria com reciclador licenciado; educação de clientes",responsible:"",status:"Planned"},
+      {risk:"Eliminação inadequada de painéis solares no fim de vida",category:"E-Waste",prob:"2",sev:"3",mitigation:"Programa de recolha de painéis; parceria com reciclador; orientação de eliminação para clientes",responsible:"",status:"Planned"},
+      {risk:"Venda abusiva de produtos a clientes que não podem pagar",category:"Consumer",prob:"3",sev:"3",mitigation:"Avaliação de acessibilidade; lista de práticas de venda proibidas; formação de agentes; inquéritos de satisfação",responsible:"",status:"Planned"},
+      {risk:"Produtos vendidos sem instruções de segurança adequadas",category:"Consumer",prob:"2",sev:"3",mitigation:"Guia de início rápido multilingue; cartão de segurança em cada caixa; formação do agente na entrega ao cliente",responsible:"",status:"Planned"},
+      {risk:"Trabalhadores pagos abaixo do salário mínimo ou sem contratos escritos",category:"Labour",prob:"2",sev:"3",mitigation:"Contratos escritos para todos; revisão salarial face ao mínimo nacional; auditoria de RH",responsible:"",status:"Planned"},
+      {risk:"Ausência de mecanismo de reclamação acessível aos trabalhadores",category:"Labour",prob:"2",sev:"3",mitigation:"Mecanismo de queixas estabelecido; opção anónima disponível; política anti-retaliação",responsible:"",status:"Planned"},
+      {risk:"Trabalho infantil na cadeia de abastecimento (fabrico de painéis)",category:"Supply Chain",prob:"1",sev:"4",mitigation:"Avaliação A&S de fornecedores; priorizar fornecedores conformes com RBA/OIT; questionário de due diligence",responsible:"",status:"Planned"},
+      {risk:"Lesão na comunidade por queda de objetos durante instalação",category:"Community",prob:"2",sev:"3",mitigation:"Barreiras no local; proibição de acesso durante trabalho em telhado; notificação da comunidade; inspeção pós-instalação",responsible:"",status:"Planned"},
+      {risk:"Violação de dados ou uso indevido de dados pessoais de clientes",category:"Consumer",prob:"1",sev:"3",mitigation:"Política de privacidade de dados; controlos de acesso; minimização de dados; procedimentos de consentimento do cliente",responsible:"",status:"Planned"},
+    ],
+  },
+  compliance: {
+    fr:[
+      {law:"Loi travail [Pays]",authority:"Ministère du travail",requirement:"Salaire minimum, horaires, contrats, congés, non-discrimination",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Loi sur les usines / SST [Pays]",authority:"Ministère du travail / Inspection du travail",requirement:"Sécurité au travail, EPI, déclaration d'incidents, inspections",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Loi sur l'environnement [Pays] / Réglementations NESREA",authority:"NESREA / Agence nationale de l'environnement",requirement:"Gestion des déchets, déchets électroniques, prévention de la pollution",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Loi sur la protection des consommateurs",authority:"Conseil de protection des consommateurs",requirement:"Sécurité des produits, tarification équitable, garantie, confidentialité des données",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Loi sur les sociétés [Pays]",authority:"Commission des affaires corporatives",requirement:"Immatriculation de l'entreprise, dépôts annuels",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Exigences de licence NERC",authority:"NERC / Agence d'électrification rurale",requirement:"Licences d'exploitation pour activités électriques au-dessus du seuil",applies:"",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Normes produits VeraSol / IEC",authority:"IEC / GOGLA",requirement:"Normes de qualité et de sécurité des produits (IEC 62509, etc.)",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Convention de Bâle (déchets électroniques)",authority:"Autorité nationale de l'environnement",requirement:"Conformité à la gestion transfrontalière des déchets électroniques",applies:"",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Lois sur les VBG / violences domestiques",authority:"Ministère de la justice / Police",requirement:"Obligations de signalement pour les incidents VBG",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Impôt sur le revenu / PAYE / TVA",authority:"Autorité fiscale fédérale/d'état",requirement:"Conformité fiscale — immatriculation, déclaration, versement",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+    ],
+    pt:[
+      {law:"Lei do Trabalho [País]",authority:"Ministério do Trabalho",requirement:"Salário mínimo, horários, contratos, licenças, não discriminação",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Lei de Fábricas / SST [País]",authority:"Ministério do Trabalho / Inspeção do Trabalho",requirement:"Segurança no trabalho, EPI, relato de incidentes, inspeções",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Lei Ambiental [País] / Regulamentos NESREA",authority:"NESREA / Agência Nacional do Ambiente",requirement:"Gestão de resíduos, resíduos eletrónicos, prevenção de poluição",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Lei de Defesa do Consumidor",authority:"Conselho de Defesa do Consumidor",requirement:"Segurança do produto, preços justos, garantia, privacidade de dados",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Lei das Sociedades [País]",authority:"Comissão de Assuntos Corporativos",requirement:"Registo da empresa, declarações anuais",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Requisitos de licenciamento NERC",authority:"NERC / Agência de Eletrificação Rural",requirement:"Licenças de operação para atividades elétricas acima do limite",applies:"",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Normas de produto VeraSol / IEC",authority:"IEC / GOGLA",requirement:"Normas de qualidade e segurança de produtos (IEC 62509, etc.)",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Convenção de Basileia (Resíduos Eletrónicos)",authority:"Autoridade Nacional do Ambiente",requirement:"Conformidade na gestão transfronteiriça de resíduos eletrónicos",applies:"",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Leis sobre VBG / Violência Doméstica",authority:"Ministério da Justiça / Polícia",requirement:"Obrigações de reporte de incidentes VBG",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+      {law:"Imposto de Renda / PAYE / IVA",authority:"Autoridade Fiscal Federal/Estadual",requirement:"Conformidade fiscal — registo, declaração, pagamento",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
+    ],
+  },
+  ppe: {
+    fr:[
+      {task:"Travaux en toiture / en hauteur",hazard:"Chutes de hauteur",ppe_required:"Harnais antichute (EN355), casque (Classe E), chaussures de sécurité antidérapantes, gilet haute visibilité, gants protection UV",standard:"EN355, EN397",provided:"",inspected:"",your_spec:""},
+      {task:"Travaux sur systèmes électriques (CC/CA sous tension)",hazard:"Électrocution, arc électrique",ppe_required:"Gants isolants (EN60903 Classe 1 minimum), lunettes de protection, chaussures isolantes, pas de bijoux",standard:"EN60903 Classe 1",provided:"",inspected:"",your_spec:""},
+      {task:"Manipulation de batteries plomb-acide",hazard:"Brûlures par acide, gaz toxique, incendie",ppe_required:"Gants résistants aux acides, lunettes de protection, tablier résistant aux produits chimiques, chaussures de sécurité",standard:"EN374",provided:"",inspected:"",your_spec:""},
+      {task:"Manipulation / stockage de batteries lithium",hazard:"Emballement thermique, incendie, fumées toxiques",ppe_required:"Gants isolants, lunettes de protection, tablier ignifugé",standard:"—",provided:"",inspected:"",your_spec:""},
+      {task:"Entrepôt / chargement / déchargement",hazard:"Manutention manuelle, chutes d'objets",ppe_required:"Chaussures de sécurité (embout acier), gilet haute visibilité, soutien lombaire si manutention lourde",standard:"EN20345",provided:"",inspected:"",your_spec:""},
+      {task:"Conduite / transport terrain",hazard:"Accident de la route, fatigue",ppe_required:"Ceinture de sécurité en permanence ; téléphone interdit pendant la conduite",standard:"Code de la route",provided:"",inspected:"",your_spec:""},
+      {task:"Travail à distance / en extérieur",hazard:"Chaleur, exposition solaire, faune",ppe_required:"Vêtements solaires de protection, chapeau, crème solaire, eau, répulsif insectes si nécessaire",standard:"—",provided:"",inspected:"",your_spec:""},
+      {task:"Bureau / travail général",hazard:"Écran, ergonomie",ppe_required:"Pas d'EPI spécial ; poste de travail ergonomique",standard:"—",provided:"",inspected:"",your_spec:""},
+    ],
+    pt:[
+      {task:"Trabalho em telhado / elevado",hazard:"Queda em altura",ppe_required:"Arnês anticaída (EN355), capacete (Classe E), botas de segurança antiderrapantes, colete refletor, luvas proteção UV",standard:"EN355, EN397",provided:"",inspected:"",your_spec:""},
+      {task:"Trabalho em sistemas elétricos (CC/CA sob tensão)",hazard:"Choque elétrico, arco elétrico",ppe_required:"Luvas isolantes (EN60903 Classe 1 mínimo), óculos de proteção, calçado isolante, sem joias",standard:"EN60903 Classe 1",provided:"",inspected:"",your_spec:""},
+      {task:"Manuseamento de baterias de chumbo-ácido",hazard:"Queimaduras por ácido, gás tóxico, incêndio",ppe_required:"Luvas resistentes a ácidos, óculos de proteção, avental resistente a produtos químicos, botas de segurança",standard:"EN374",provided:"",inspected:"",your_spec:""},
+      {task:"Manuseamento / armazenamento de baterias de lítio",hazard:"Fuga térmica, incêndio, fumos tóxicos",ppe_required:"Luvas isolantes, óculos de proteção, avental resistente ao fogo",standard:"—",provided:"",inspected:"",your_spec:""},
+      {task:"Armazém / carga / descarga",hazard:"Manuseamento manual, queda de objetos",ppe_required:"Botas de segurança (biqueira de aço), colete refletor, suporte lombar para cargas pesadas",standard:"EN20345",provided:"",inspected:"",your_spec:""},
+      {task:"Condução / transporte de campo",hazard:"Acidente rodoviário, fadiga",ppe_required:"Cinto de segurança sempre; proibido telemóvel durante a condução",standard:"Código da Estrada",provided:"",inspected:"",your_spec:""},
+      {task:"Trabalho remoto / ao ar livre",hazard:"Calor, exposição solar, fauna",ppe_required:"Roupa de proteção solar, chapéu, protetor solar, abastecimento de água, repelente de insetos se necessário",standard:"—",provided:"",inspected:"",your_spec:""},
+      {task:"Escritório / trabalho geral",hazard:"Monitor, ergonomia",ppe_required:"Sem EPI especial; posto de trabalho ergonómico",standard:"—",provided:"",inspected:"",your_spec:""},
+    ],
+  },
+  stakeholder: {
+    fr:[
+      {group:"Clients (ménages / entreprises)",interests:"Fiabilité des produits, accessibilité, sécurité, élimination des déchets électroniques",influence:"High",impact:"High",relationship:"Direct",method:"",frequency:"",responsible:""},
+      {group:"Employés (toutes catégories)",interests:"Salaires équitables, conditions sûres, sécurité de l'emploi, développement de carrière",influence:"High",impact:"High",relationship:"Direct",method:"",frequency:"",responsible:""},
+      {group:"Communautés locales (zones d'installation)",interests:"Sécurité, emploi, impacts environnementaux, déchets électroniques",influence:"Medium",impact:"High",relationship:"Indirect",method:"",frequency:"",responsible:""},
+      {group:"Régulateurs (NERC / NESREA / Ministère du travail)",interests:"Conformité, licences, normes produits, droit du travail",influence:"High",impact:"Low",relationship:"Conformité",method:"",frequency:"",responsible:""},
+      {group:"Investisseurs / IFD / ROGEAP",interests:"Rendements financiers, conformité SGSE, performance ESG",influence:"High",impact:"Medium",relationship:"Responsabilité",method:"",frequency:"",responsible:""},
+      {group:"Fournisseurs / fabricants de produits",interests:"Conditions commerciales, exigences REP, normes qualité",influence:"Medium",impact:"High",relationship:"Chaîne appro.",method:"",frequency:"",responsible:""},
+      {group:"Agents commerciaux / distributeurs",interests:"Commission, formation, soutien, protection des consommateurs",influence:"Medium",impact:"High",relationship:"Commercial",method:"",frequency:"",responsible:""},
+      {group:"Recycleurs déchets élec. / prestataires",interests:"Volume d'activité, conformité, manutention sûre",influence:"Low",impact:"High",relationship:"Partenariat",method:"",frequency:"",responsible:""},
+      {group:"ONG / partenaires de développement",interests:"Impact communautaire, équité de genre, résultats environnementaux",influence:"Low",impact:"Low",relationship:"Parties prenantes",method:"",frequency:"",responsible:""},
+      {group:"Organisations sectorielles (GOGLA / NAFSMA)",interests:"Normes sectorielles, plaidoyer, conformité au code",influence:"Low",impact:"Low",relationship:"Pairs",method:"",frequency:"",responsible:""},
+    ],
+    pt:[
+      {group:"Clientes (domésticos / empresas)",interests:"Fiabilidade dos produtos, acessibilidade, segurança, eliminação de resíduos eletrónicos",influence:"High",impact:"High",relationship:"Direto",method:"",frequency:"",responsible:""},
+      {group:"Trabalhadores (todas as categorias)",interests:"Salários justos, condições seguras, segurança no emprego, desenvolvimento de carreira",influence:"High",impact:"High",relationship:"Direto",method:"",frequency:"",responsible:""},
+      {group:"Comunidades locais (zonas de instalação)",interests:"Segurança, emprego, impactos ambientais, resíduos eletrónicos",influence:"Medium",impact:"High",relationship:"Indireto",method:"",frequency:"",responsible:""},
+      {group:"Reguladores (NERC / NESREA / Min. Trabalho)",interests:"Conformidade, licenciamento, normas de produto, legislação laboral",influence:"High",impact:"Low",relationship:"Conformidade",method:"",frequency:"",responsible:""},
+      {group:"Investidores / IFD / ROGEAP",interests:"Retornos financeiros, conformidade SGAS, desempenho ASG",influence:"High",impact:"Medium",relationship:"Prestação de contas",method:"",frequency:"",responsible:""},
+      {group:"Fornecedores / fabricantes de produtos",interests:"Condições comerciais, requisitos REP, normas de qualidade",influence:"Medium",impact:"High",relationship:"Cadeia de fornecimento",method:"",frequency:"",responsible:""},
+      {group:"Agentes de vendas / distribuidores",interests:"Comissão, formação, suporte, proteção ao consumidor",influence:"Medium",impact:"High",relationship:"Comercial",method:"",frequency:"",responsible:""},
+      {group:"Recicladores resíd. elec. / prestadores",interests:"Volume de negócio, conformidade, manuseamento seguro",influence:"Low",impact:"High",relationship:"Parceria",method:"",frequency:"",responsible:""},
+      {group:"ONG / parceiros de desenvolvimento",interests:"Impacto comunitário, equidade de género, resultados ambientais",influence:"Low",impact:"Low",relationship:"Partes interessadas",method:"",frequency:"",responsible:""},
+      {group:"Organismos sectoriais (GOGLA / NAFSMA)",interests:"Normas sectoriais, defesa, conformidade com código",influence:"Low",impact:"Low",relationship:"Pares",method:"",frequency:"",responsible:""},
+    ],
+  },
+  incident: {
+    en:[
+      {date:"",type:"Near-Miss",description:"Technician's boot splashed with battery acid during lead-acid battery handling — no injury",location:"Warehouse",persons:"Warehouse technician",cause:"Inadequate PPE: acid-resistant gloves and apron not worn",action:"PPE immediately supplied. Corrective: mandatory PPE protocol and toolbox talk delivered to all warehouse staff.",responsible:"OHS Officer",status:"In Progress"},
+      {date:"",type:"Near-Miss",description:"Technician slipped on ladder during rooftop panel installation — caught by safety line; no injury",location:"Customer site",persons:"Field technician",cause:"Ladder not properly secured; wet surface after rain",action:"Ladder inspection checklist implemented; no installation immediately after rain; fall arrest harness now mandatory for all rooftop work.",responsible:"Field Supervisor",status:"In Progress"},
+      {date:"",type:"Environmental",description:"Small lead-acid battery acid spill (~2 litres) in battery storage area",location:"Warehouse — battery store",persons:"None injured",cause:"Cracked battery casing: battery arrived damaged from supplier",action:"Neutralised with baking soda; area cleaned; bunded storage trays installed; supplier notified and replacement arranged.",responsible:"OHS Officer",status:"Closed"},
+    ],
+    fr:[
+      {date:"",type:"Near-Miss",description:"La botte d'un technicien a été éclaboussée d'acide de batterie lors de la manipulation — aucun blessé",location:"Entrepôt",persons:"Technicien entrepôt",cause:"EPI inadéquats : gants et tablier résistants aux acides non portés",action:"EPI fournis immédiatement. Correctif : protocole EPI obligatoire et causerie sécurité dispensée à tout le personnel.",responsible:"Responsable SST",status:"In Progress"},
+      {date:"",type:"Near-Miss",description:"Technicien glissé sur une échelle lors d'une installation en toiture — rattrapé par la ligne de sécurité ; aucun blessé",location:"Site client",persons:"Technicien terrain",cause:"Échelle mal fixée ; surface mouillée après pluie",action:"Liste de contrôle de l'échelle mise en place ; pas d'installation immédiatement après la pluie ; harnais antichute désormais obligatoire pour tous les travaux en toiture.",responsible:"Superviseur terrain",status:"In Progress"},
+      {date:"",type:"Environmental",description:"Petit déversement d'acide de batterie plomb-acide (~2 litres) dans la zone de stockage des batteries",location:"Entrepôt — stockage batteries",persons:"Aucun blessé",cause:"Boîtier de batterie fissuré : batterie arrivée endommagée du fournisseur",action:"Neutralisé au bicarbonate de soude ; zone nettoyée ; bacs de rétention installés ; fournisseur notifié et remplacement organisé.",responsible:"Responsable SST",status:"Closed"},
+    ],
+    pt:[
+      {date:"",type:"Near-Miss",description:"Bota de técnico atingida por ácido de bateria durante manuseamento de bateria de chumbo — sem lesão",location:"Armazém",persons:"Técnico de armazém",cause:"EPI inadequado: luvas e avental resistente a ácidos não estavam a ser usados",action:"EPI fornecido imediatamente. Corretivo: protocolo de EPI obrigatório e sessão de segurança realizada para todo o pessoal de armazém.",responsible:"Responsável SST",status:"In Progress"},
+      {date:"",type:"Near-Miss",description:"Técnico escorregou em escada durante instalação de painel no telhado — retido pela linha de segurança; sem lesão",location:"Local do cliente",persons:"Técnico de campo",cause:"Escada não devidamente fixada; superfície molhada após chuva",action:"Lista de verificação de escadas implementada; sem instalação imediatamente após chuva; arnês anticaída agora obrigatório para todos os trabalhos em telhado.",responsible:"Supervisor de campo",status:"In Progress"},
+      {date:"",type:"Environmental",description:"Pequeno derrame de ácido de bateria de chumbo-ácido (~2 litros) na área de armazenamento de baterias",location:"Armazém — depósito de baterias",persons:"Sem feridos",cause:"Invólucro da bateria fissurado: bateria chegou danificada do fornecedor",action:"Neutralizado com bicarbonato de sódio; área limpa; tabuleiros de contenção instalados; fornecedor notificado e substituição providenciada.",responsible:"Responsável SST",status:"Closed"},
+    ],
+  },
+  training: {
+    en:[
+      {date:"",module:"OHS Induction — New Staff",facilitator:"OHS Officer",participants:"4",target_group:"New field technicians",duration:"4 hrs",method:"In-person",assessment:"Yes",cert_no:"",notes:"Covered: hazard awareness, PPE use, incident reporting, electrical safety, LOTO procedures"},
+      {date:"",module:"Battery Handling & E-Waste Safety",facilitator:"OHS Officer",participants:"8",target_group:"Warehouse and field staff",duration:"2 hrs",method:"Workshop",assessment:"Yes",cert_no:"",notes:"Practical demo of spill kit; acid-resistant PPE; safe battery storage and licensed disposal route"},
+      {date:"",module:"GBV / SEAH Awareness & Code of Conduct",facilitator:"HR Manager",participants:"All staff",target_group:"All staff",duration:"2 hrs",method:"In-person",assessment:"No",cert_no:"",notes:"Annual mandatory session: reporting channel, zero-tolerance policy, survivor support referral"},
+      {date:"",module:"Consumer Protection & Responsible Selling",facilitator:"Sales Manager",participants:"12",target_group:"Sales agents and distributors",duration:"3 hrs",method:"Workshop",assessment:"Yes",cert_no:"",notes:"Affordability assessment; prohibited selling practices; product safety communication; GRM referral process"},
+    ],
+    fr:[
+      {date:"",module:"Induction SST — Nouveau personnel",facilitator:"Responsable SST",participants:"4",target_group:"Nouveaux techniciens terrain",duration:"4 h",method:"In-person",assessment:"Yes",cert_no:"",notes:"Couvert : sensibilisation aux risques, utilisation EPI, signalement d'incidents, sécurité électrique, procédures LOTO"},
+      {date:"",module:"Manipulation de batteries & Sécurité déchets électroniques",facilitator:"Responsable SST",participants:"8",target_group:"Personnel entrepôt et terrain",duration:"2 h",method:"Workshop",assessment:"Yes",cert_no:"",notes:"Démonstration pratique kit anti-déversement ; EPI résistant aux acides ; stockage sûr et filière d'élimination agréée"},
+      {date:"",module:"Sensibilisation VBG / EAS/HS & Code de conduite",facilitator:"Responsable RH",participants:"Tout le personnel",target_group:"Tout le personnel",duration:"2 h",method:"In-person",assessment:"No",cert_no:"",notes:"Session annuelle obligatoire : canal de signalement, politique de tolérance zéro, renvoi vers soutien aux victimes"},
+      {date:"",module:"Protection des consommateurs & Vente responsable",facilitator:"Directeur commercial",participants:"12",target_group:"Agents et distributeurs",duration:"3 h",method:"Workshop",assessment:"Yes",cert_no:"",notes:"Évaluation capacité remboursement ; pratiques vente interdites ; communication sécurité produits ; processus de renvoi vers MR"},
+    ],
+    pt:[
+      {date:"",module:"Indução SST — Novo pessoal",facilitator:"Responsável SST",participants:"4",target_group:"Novos técnicos de campo",duration:"4 h",method:"In-person",assessment:"Yes",cert_no:"",notes:"Abrangeu: sensibilização para riscos, uso de EPI, reporte de incidentes, segurança elétrica, procedimentos LOTO"},
+      {date:"",module:"Manuseamento de baterias e segurança de resíduos eletrónicos",facilitator:"Responsável SST",participants:"8",target_group:"Pessoal de armazém e campo",duration:"2 h",method:"Workshop",assessment:"Yes",cert_no:"",notes:"Demonstração prática do kit anti-derrame; EPI resistente a ácidos; armazenamento seguro e rota de eliminação licenciada"},
+      {date:"",module:"Sensibilização VBG / EAS/AS e Código de Conduta",facilitator:"Gestor de RH",participants:"Todo o pessoal",target_group:"Todo o pessoal",duration:"2 h",method:"In-person",assessment:"No",cert_no:"",notes:"Sessão anual obrigatória: canal de denúncia, política de tolerância zero, encaminhamento para apoio a sobreviventes"},
+      {date:"",module:"Proteção do consumidor e venda responsável",facilitator:"Diretor comercial",participants:"12",target_group:"Agentes e distribuidores",duration:"3 h",method:"Workshop",assessment:"Yes",cert_no:"",notes:"Avaliação de acessibilidade; práticas de venda proibidas; comunicação de segurança do produto; processo de encaminhamento para MR"},
+    ],
+  },
+  grievance: {
+    en:[
+      {case_id:"GRM-001",date_received:"",channel:"Phone/WhatsApp",complainant:"Customer (anonymous)",category:"Consumer protection",description:"Customer reports PAYG system locked early — payment received but unit did not unlock",level:"Level 1",assigned_to:"Customer Support",action:"Investigated — confirmed technical error in PAYG platform; unit unlocked immediately; apology issued; platform bug reported to manufacturer.",satisfied:"Yes",date_closed:""},
+      {case_id:"GRM-002",date_received:"",channel:"In-person",complainant:"Community member",category:"Community",description:"Community member reports construction noise from warehouse extension disturbing residents during early morning hours",level:"Level 1",assigned_to:"Operations Manager",action:"Agreed to restrict construction to 8am–5pm; contractor notified; community notice posted.",satisfied:"Yes",date_closed:""},
+      {case_id:"GRM-003",date_received:"",channel:"Anonymous",complainant:"Anonymous",category:"Working conditions",description:"Anonymous complaint: field technicians pressured to meet sales targets by visiting unsafe sites after dark",level:"Level 2",assigned_to:"HR Manager",action:"HR investigation initiated; sales manager reminded of safe site-visit policy; additional safety briefing for field team.",satisfied:"Pending",date_closed:""},
+    ],
+    fr:[
+      {case_id:"MR-001",date_received:"",channel:"Phone/WhatsApp",complainant:"Client (anonyme)",category:"Consumer protection",description:"Client signale que le système PAYG s'est verrouillé prématurément — paiement reçu mais unité non déverrouillée",level:"Level 1",assigned_to:"Support client",action:"Enquête — erreur technique confirmée sur la plateforme PAYG ; unité déverrouillée immédiatement ; excuses présentées ; bug signalé au fabricant.",satisfied:"Yes",date_closed:""},
+      {case_id:"MR-002",date_received:"",channel:"In-person",complainant:"Membre de la communauté",category:"Community",description:"Un membre de la communauté signale que le bruit de construction de l'extension d'entrepôt perturbe les riverains tôt le matin",level:"Level 1",assigned_to:"Directeur des opérations",action:"Accord de restreindre les travaux à 8h–17h ; entrepreneur notifié ; avis communautaire affiché.",satisfied:"Yes",date_closed:""},
+      {case_id:"MR-003",date_received:"",channel:"Anonymous",complainant:"Anonyme",category:"Working conditions",description:"Plainte anonyme : techniciens terrain contraints d'atteindre des objectifs de vente en visitant des sites non sécurisés de nuit",level:"Level 2",assigned_to:"Responsable RH",action:"Enquête RH initiée ; responsable commercial rappelé sur la politique de sécurité ; réunion de sécurité supplémentaire pour l'équipe terrain.",satisfied:"Pending",date_closed:""},
+    ],
+    pt:[
+      {case_id:"MR-001",date_received:"",channel:"Phone/WhatsApp",complainant:"Cliente (anónimo)",category:"Consumer protection",description:"Cliente reporta que o sistema PAYG bloqueou antecipadamente — pagamento recebido mas unidade não desbloqueou",level:"Level 1",assigned_to:"Suporte ao cliente",action:"Investigado — erro técnico confirmado na plataforma PAYG; unidade desbloqueada imediatamente; pedido de desculpas emitido; bug reportado ao fabricante.",satisfied:"Yes",date_closed:""},
+      {case_id:"MR-002",date_received:"",channel:"In-person",complainant:"Membro da comunidade",category:"Community",description:"Membro da comunidade reporta que o ruído de construção da extensão do armazém perturba residentes de manhã cedo",level:"Level 1",assigned_to:"Gestor de Operações",action:"Acordado restringir obras às 8h–17h; empreiteiro notificado; aviso à comunidade afixado.",satisfied:"Yes",date_closed:""},
+      {case_id:"MR-003",date_received:"",channel:"Anonymous",complainant:"Anónimo",category:"Working conditions",description:"Queixa anónima: técnicos de campo pressionados a cumprir metas de vendas visitando locais não seguros de noite",level:"Level 2",assigned_to:"Gestor de RH",action:"Investigação de RH iniciada; gestor de vendas relembrado da política de segurança; briefing adicional de segurança para a equipa de campo.",satisfied:"Pending",date_closed:""},
+    ],
+  },
+};
+
 const STAKEHOLDER_BASELINE=[
   {group:"Customers (households / businesses)",interests:"Product reliability, affordability, safety, e-waste disposal",influence:"High",impact:"High",relationship:"Direct",method:"",frequency:"",responsible:""},
   {group:"Employees (all categories)",interests:"Fair wages, safe conditions, job security, career development",influence:"High",impact:"High",relationship:"Direct",method:"",frequency:"",responsible:""},
@@ -299,8 +467,8 @@ const STAKEHOLDER_BASELINE=[
   {group:"Industry bodies (GOGLA / NAFSMA)",interests:"Sector standards, advocacy, code compliance",influence:"Low",impact:"Low",relationship:"Peer",method:"",frequency:"",responsible:""},
 ];
 function StakeholderRegister({value,onChange}){
-  const {t}=useLang();
-  const rows=Array.isArray(value)&&value.length>0?value:STAKEHOLDER_BASELINE;
+  const {t,lang}=useLang();
+  const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.stakeholder[lang]||STAKEHOLDER_BASELINE);
   const cols=[
     {id:"group",label:t("csvColGroup"),w:"16%",ph:"Group name"},
     {id:"interests",label:t("csvColInterests"),w:"18%",type:"ta"},
@@ -314,7 +482,7 @@ function StakeholderRegister({value,onChange}){
   ];
   return(<div>
     <InfoBox col={C.purple} bg="#F9F0FF">{t("stakeholderInfoBox2")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={STAKEHOLDER_BASELINE} value={rows} onChange={onChange} addRowLabel={t("stakeholderAddRow")}/>
+    <TableBuilder columns={cols} baselineRows={BASELINES_I18N.stakeholder[lang]||STAKEHOLDER_BASELINE} value={rows} onChange={onChange} addRowLabel={t("stakeholderAddRow")}/>
   </div>);
 }
 
@@ -330,8 +498,8 @@ const PPE_BASELINE=[
   {task:"Office / general work",hazard:"DSE, ergonomic",ppe_required:"No special PPE; ergonomic workstation",standard:"—",provided:"",inspected:"",your_spec:""},
 ];
 function PPEMatrix({value,onChange}){
-  const {t}=useLang();
-  const rows=Array.isArray(value)&&value.length>0?value:PPE_BASELINE;
+  const {t,lang}=useLang();
+  const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.ppe[lang]||PPE_BASELINE);
   const cols=[
     {id:"task",label:t("ppeColTask"),w:"15%",ph:"Describe task"},
     {id:"hazard",label:t("ppeColHazard"),w:"13%",ph:"Main hazard"},
@@ -343,7 +511,7 @@ function PPEMatrix({value,onChange}){
   ];
   return(<div>
     <InfoBox col={C.red} bg="#FFF5F5">{t("ppeInfoBox")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={PPE_BASELINE} value={rows} onChange={onChange} addRowLabel={t("ppeAddRow")}/>
+    <TableBuilder columns={cols} baselineRows={BASELINES_I18N.ppe[lang]||PPE_BASELINE} value={rows} onChange={onChange} addRowLabel={t("ppeAddRow")}/>
   </div>);
 }
 
@@ -361,8 +529,8 @@ const COMPLIANCE_BASELINE=[
   {law:"Income Tax / PAYE / VAT Obligations",authority:"Federal/State Revenue Authority",requirement:"Tax compliance — registration, filing, remittance",applies:"yes",status:"",expiry:"",responsible:"",evidence:"",action:""},
 ];
 function ComplianceTracker({value,onChange}){
-  const {t}=useLang();
-  const rows=Array.isArray(value)&&value.length>0?value:COMPLIANCE_BASELINE;
+  const {t,lang}=useLang();
+  const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.compliance[lang]||COMPLIANCE_BASELINE);
   const cols=[
     {id:"law",label:t("complianceColLaw"),w:"16%",ph:"Name"},
     {id:"authority",label:t("complianceColAuthority"),w:"12%",ph:"Body"},
@@ -376,7 +544,7 @@ function ComplianceTracker({value,onChange}){
   ];
   return(<div>
     <InfoBox col={C.amber} bg="#FFF8ED">{t("complianceInfoBox")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={COMPLIANCE_BASELINE} value={rows} onChange={onChange} addRowLabel={t("complianceAdd")}/>
+    <TableBuilder columns={cols} baselineRows={BASELINES_I18N.compliance[lang]||COMPLIANCE_BASELINE} value={rows} onChange={onChange} addRowLabel={t("complianceAdd")}/>
   </div>);
 }
 
@@ -386,46 +554,46 @@ function ScreeningQuestionnaire({value,onChange}){
   const {t}=useLang();
   const sections=[
     {id:"excl",title:t("screeningC1"),subtitle:t("screeningC1sub"),items:[
-      {id:"forced_labour",text:"Has the company been involved in production or activities involving forced labour?",critical:true},
-      {id:"child_labour",text:"Has the company been involved in production or activities involving child labour?",critical:true},
-      {id:"ewaste_noncompliant",text:"Has the company been involved in cross-border trade in waste not compliant with the Basel Convention?",critical:true},
-      {id:"ohs_incidents",text:"Has the company had confirmed cases of OHS incidents or accidents? (Note: If properly documented and addressed, may still be eligible)",critical:true},
-      {id:"gbv_cases",text:"Has the company had confirmed cases of Gender Based Violence / Sexual Exploitation and Abuse?",critical:true},
-      {id:"discrimination",text:"Has the company had confirmed cases of discrimination of vulnerable groups (gender, disability)?",critical:true},
+      {id:"forced_labour",lk:"sqForcedLabour",critical:true},
+      {id:"child_labour",lk:"sqChildLabour",critical:true},
+      {id:"ewaste_noncompliant",lk:"sqEwasteNonCompliant",critical:true},
+      {id:"ohs_incidents",lk:"sqOhsIncidents",critical:true},
+      {id:"gbv_cases",lk:"sqGbvCases",critical:true},
+      {id:"discrimination",lk:"sqDiscrimination",critical:true},
     ]},
     {id:"esms",title:t("screeningC2"),subtitle:t("screeningC2sub"),items:[
-      {id:"has_es_policy",text:"Does the company have an Environmental and / or Social Policy?"},
-      {id:"es_training",text:"Does the company conduct E&S, gender awareness, and SEA/SH training internally?"},
-      {id:"hr_policy",text:"Does the company have a Human Resources Policy?"},
-      {id:"hr_labour_laws",text:"Does the HR Policy comply with country labour laws and regulations?"},
-      {id:"hr_nondiscrim",text:"Does the HR Policy provide for non-discrimination and equal opportunity for women and vulnerable groups?"},
-      {id:"hr_no_child",text:"Does the HR Policy prohibit child labour?"},
-      {id:"hr_no_forced",text:"Does the HR Policy prohibit forced labour?"},
-      {id:"worker_grievance",text:"Is there a workers' grievance mechanism in place?"},
+      {id:"has_es_policy",lk:"sqHasEsPolicy"},
+      {id:"es_training",lk:"sqEsTraining"},
+      {id:"hr_policy",lk:"sqHrPolicy"},
+      {id:"hr_labour_laws",lk:"sqHrLabourLaws"},
+      {id:"hr_nondiscrim",lk:"sqHrNonDiscrim"},
+      {id:"hr_no_child",lk:"sqHrNoChild"},
+      {id:"hr_no_forced",lk:"sqHrNoForced"},
+      {id:"worker_grievance",lk:"sqWorkerGrievance"},
     ]},
     {id:"ohs",title:t("screeningC3"),items:[
-      {id:"ohs_policy",text:"Does the company have a policy or guidelines on occupational health and safety?"},
-      {id:"ohs_officer",text:"Does the company have designated internal OHS coordinators / staff?"},
-      {id:"ppe_provided",text:"Does the company provide Personal Protective Equipment (PPE) to its workers?"},
-      {id:"ohs_training",text:"Does the company conduct regular OHS training for its workers and employees?"},
-      {id:"incident_system",text:"Does the company have a clear, documented workplace incident and accident tracking system?"},
-      {id:"code_of_conduct",text:"Does the company have a Code of Conduct for workers?"},
-      {id:"gbv_training",text:"Does the company provide internal training on Gender Based Violence?"},
-      {id:"ohs_monitoring",text:"Does the company have a monitoring system for workplace conditions and safety?"},
+      {id:"ohs_policy",lk:"sqOhsPolicy"},
+      {id:"ohs_officer",lk:"sqOhsOfficer"},
+      {id:"ppe_provided",lk:"sqPpeProvided"},
+      {id:"ohs_training",lk:"sqOhsTraining"},
+      {id:"incident_system",lk:"sqIncidentSystem"},
+      {id:"code_of_conduct",lk:"sqCodeOfConduct"},
+      {id:"gbv_training",lk:"sqGbvTraining"},
+      {id:"ohs_monitoring",lk:"sqOhsMonitoring"},
     ]},
     {id:"ewaste",title:t("screeningC4"),items:[
-      {id:"battery_collection",text:"Does the company have a policy or process for collecting used batteries from customers?"},
-      {id:"battery_recycling",text:"Does the company have a process for recycling/disposal of used lead-acid and lithium-ion batteries?"},
-      {id:"buyback",text:"Does the company have buy-back agreements with equipment manufacturers?"},
-      {id:"systematic_collection",text:"Does the company systematically collect used batteries and/or units from consumers?"},
-      {id:"ewaste_education",text:"Does the company inform end users about the e-waste issue and proper e-waste management?"},
+      {id:"battery_collection",lk:"sqBatteryCollection"},
+      {id:"battery_recycling",lk:"sqBatteryRecycling"},
+      {id:"buyback",lk:"sqBuyback"},
+      {id:"systematic_collection",lk:"sqSystematicCollection"},
+      {id:"ewaste_education",lk:"sqEwasteEducation"},
     ]},
     {id:"stakeholders",title:t("screeningC5"),items:[
-      {id:"sep_exists",text:"Does the company have a Stakeholder Engagement Plan (SEP)?"},
-      {id:"public_education",text:"Does the company engage in consumer and public education about E&S aspects of solar energy?"},
-      {id:"stakeholders_identified",text:"Has the company identified key external stakeholders for its business?"},
-      {id:"stakeholder_events",text:"Does the company hold events or similar actions to engage with stakeholders?"},
-      {id:"grievance_written",text:"Is there a written mechanism to receive and address complaints?"},
+      {id:"sep_exists",lk:"sqSepExists"},
+      {id:"public_education",lk:"sqPublicEducation"},
+      {id:"stakeholders_identified",lk:"sqStakeholdersIdentified"},
+      {id:"stakeholder_events",lk:"sqStakeholderEvents"},
+      {id:"grievance_written",lk:"sqGrievanceWritten"},
     ]},
   ];
 
@@ -448,7 +616,7 @@ function ScreeningQuestionnaire({value,onChange}){
         {sec.items.map(item=>(
           <div key={item.id} style={{display:"flex",gap:12,alignItems:"flex-start",padding:"10px 12px",borderRadius:8,marginBottom:6,background:item.critical?"#FFF5F5":"#FAFBFC",border:`1px solid ${item.critical?"#FCCECE":C.border}`}}>
             <div style={{flex:1}}>
-              <div style={{fontSize:13,lineHeight:1.5}}>{item.critical&&<span style={{fontSize:10,color:C.red,fontWeight:700,marginRight:6}}>{t("screeningExclusion")}</span>}{item.text}</div>
+              <div style={{fontSize:13,lineHeight:1.5}}>{item.critical&&<span style={{fontSize:10,color:C.red,fontWeight:700,marginRight:6}}>{t("screeningExclusion")}</span>}{t(item.lk)}</div>
               {d[item.id]?.notes&&<div style={{fontSize:12,color:C.muted,marginTop:4,fontStyle:"italic"}}>📝 {d[item.id].notes}</div>}
             </div>
             <div style={{display:"flex",gap:5,flexShrink:0}}>
@@ -467,86 +635,87 @@ function ScreeningQuestionnaire({value,onChange}){
 
 // ═══════════════ MONITORING FORM (ROGEAP Table 22) ═══════════════
 function MonitoringForm({value,onChange}){
+  const {t}=useLang();
   const d=value||{};
   const set=(k,v)=>onChange({...d,[k]:v});
   const YN=({id,label})=>(
     <div style={{display:"flex",alignItems:"center",gap:12,padding:"10px 12px",background:"#FAFBFC",borderRadius:8,marginBottom:6,border:`1px solid ${C.border}`}}>
       <div style={{flex:1,fontSize:13}}>{label}</div>
       <div style={{display:"flex",gap:5}}>
-        {["Yes","No"].map(o=><button key={o} onClick={()=>set(`${id}_yn`,o)} style={{background:d[`${id}_yn`]===o?(o==="Yes"?"#E8F5E9":"#FDECEA"):"white",color:d[`${id}_yn`]===o?(o==="Yes"?C.green:C.red):C.muted,border:`1px solid ${d[`${id}_yn`]===o?(o==="Yes"?C.green:C.red):C.border}`,borderRadius:6,padding:"4px 12px",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:F.b}}>{o}</button>)}
+        {[["Yes",t("mfBtnYes")],["No",t("mfBtnNo")]].map(([val,lbl])=>(
+          <button key={val} onClick={()=>set(`${id}_yn`,val)} style={{background:d[`${id}_yn`]===val?(val==="Yes"?"#E8F5E9":"#FDECEA"):"white",color:d[`${id}_yn`]===val?(val==="Yes"?C.green:C.red):C.muted,border:`1px solid ${d[`${id}_yn`]===val?(val==="Yes"?C.green:C.red):C.border}`,borderRadius:6,padding:"4px 12px",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:F.b}}>{lbl}</button>
+        ))}
       </div>
-      {d[`${id}_yn`]==="Yes"&&<textarea value={d[`${id}_details`]||""} onChange={e=>set(`${id}_details`,e.target.value)} placeholder="Provide details / attach document reference…" rows={2} style={{...S.ta,width:260,fontSize:12}}/>}
+      {d[`${id}_yn`]==="Yes"&&<textarea value={d[`${id}_details`]||""} onChange={e=>set(`${id}_details`,e.target.value)} placeholder={t("mfPhDetails")} rows={2} style={{...S.ta,width:260,fontSize:12}}/>}
     </div>
   );
   return(<div>
-    <InfoBox col={C.navy} bg="#EBF5FB">
-      This form is based on the ROGEAP Operational Manual E&S Risk Monitoring Form (Table 22). Complete it at least quarterly for ROGEAP reporting and internal management review.
-    </InfoBox>
+    <InfoBox col={C.navy} bg="#EBF5FB">{t("mfInfoBox")}</InfoBox>
     <div style={{...S.card,marginBottom:16}}>
-      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:12,fontFamily:F.d}}>Report Header</div>
+      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:12,fontFamily:F.d}}>{t("mfSecHeader")}</div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-        {[["company","Company Name"],["completed_by","Completed By (Name)"],["position","Position"],["period_from","Reporting Period — From"],["period_to","Reporting Period — To"],["date","Date Completed"]].map(([k,l])=>(
+        {[["company",t("mfFldCompany")],["completed_by",t("mfFldCompletedBy")],["position",t("mfFldPosition")],["period_from",t("mfFldPeriodFrom")],["period_to",t("mfFldPeriodTo")],["date",t("mfFldDate")]].map(([k,l])=>(
           <div key={k}><Lbl c={l}/><input value={d[k]||""} onChange={e=>set(k,e.target.value)} style={S.inp}/></div>
         ))}
       </div>
     </div>
     <div style={{...S.card,marginBottom:16}}>
-      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:12,fontFamily:F.d}}>ESMS General</div>
-      <YN id="esms_developed" label="Has the company developed and implemented an ESMS?"/>
-      <YN id="esms_updated" label="Has the ESMS or any policy/procedure been updated during the reporting period?"/>
-      <YN id="roles_defined" label="Are roles and responsibilities of ESMS staff well-defined and understood?"/>
+      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:12,fontFamily:F.d}}>{t("mfSecESMS")}</div>
+      <YN id="esms_developed" label={t("mfQEsmsDeveloped")}/>
+      <YN id="esms_updated" label={t("mfQEsmsUpdated")}/>
+      <YN id="roles_defined" label={t("mfQRolesDefined")}/>
       <div style={{marginTop:8}}>
-        <Lbl c="Name and contact of main ESMS responsible person"/>
-        <input value={d.esms_focal||""} onChange={e=>set("esms_focal",e.target.value)} placeholder="Name, role, phone/email" style={S.inp}/>
+        <Lbl c={t("mfLblFocalPoint")}/>
+        <input value={d.esms_focal||""} onChange={e=>set("esms_focal",e.target.value)} placeholder={t("mfPhFocalPoint")} style={S.inp}/>
       </div>
       <div style={{marginTop:8}}>
-        <Lbl c="Other ESMS staff involved (name and role)"/>
+        <Lbl c={t("mfLblEsmsStaff")}/>
         <textarea value={d.esms_staff||""} onChange={e=>set("esms_staff",e.target.value)} rows={2} style={S.ta}/>
       </div>
     </div>
     <div style={{...S.card,marginBottom:16}}>
-      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:12,fontFamily:F.d}}>Policies & Processes</div>
-      <YN id="es_policy_updated" label="Has the E&S Policy been recently reviewed/updated and signed off?"/>
-      <YN id="hr_policy_updated" label="Has the HR Policy been recently reviewed/updated?"/>
-      <YN id="ohs_updated" label="Have OHS procedures been recently updated?"/>
-      <YN id="sep_updated" label="Has the Stakeholder Engagement Plan been recently updated?"/>
-      <YN id="gm_updated" label="Has the Grievance Mechanism (including SEA/SH process) been recently updated?"/>
-      <YN id="esap_progress" label="Is the Environmental and Social Action Plan (ESAP) being carried out as planned?"/>
+      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:12,fontFamily:F.d}}>{t("mfSecPolicies")}</div>
+      <YN id="es_policy_updated" label={t("mfQEsPolicyUpdated")}/>
+      <YN id="hr_policy_updated" label={t("mfQHrPolicyUpdated")}/>
+      <YN id="ohs_updated" label={t("mfQOhsUpdated")}/>
+      <YN id="sep_updated" label={t("mfQSepUpdated")}/>
+      <YN id="gm_updated" label={t("mfQGmUpdated")}/>
+      <YN id="esap_progress" label={t("mfQEsapProgress")}/>
       <div style={{marginTop:8}}>
-        <Lbl c="Difficulties or constraints with ESAP implementation (if any)"/>
+        <Lbl c={t("mfLblEsapConstraints")}/>
         <textarea value={d.esap_constraints||""} onChange={e=>set("esap_constraints",e.target.value)} rows={3} style={S.ta}/>
       </div>
     </div>
     <div style={{...S.card,marginBottom:16}}>
-      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:12,fontFamily:F.d}}>Capacity & Training</div>
-      <YN id="training_conducted" label="Was E&S, OHS, or gender/SEAH training provided to staff during the reporting period?"/>
+      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:12,fontFamily:F.d}}>{t("mfSecCapacity")}</div>
+      <YN id="training_conducted" label={t("mfQTrainingConducted")}/>
       <div style={{marginTop:8}}>
-        <Lbl c="Describe training delivered (module, audience, date, no. of participants)"/>
+        <Lbl c={t("mfLblTrainingDetail")}/>
         <textarea value={d.training_detail||""} onChange={e=>set("training_detail",e.target.value)} rows={3} style={S.ta}/>
       </div>
     </div>
     <div style={{...S.card,marginBottom:16}}>
-      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:12,fontFamily:F.d}}>Monitoring & Incidents</div>
-      <YN id="monitoring_plan" label="Do you have an internal monitoring and review plan?"/>
-      <YN id="incidents" label="Were any workplace incidents, accidents, or near-misses recorded during this period?"/>
-      <YN id="grievances" label="Were any grievances received through the Grievance Mechanism during this period?"/>
-      <YN id="seah_complaints" label="Were any GBV/SEAH complaints received during this period? (Record Y/N only — no victim details)"/>
-      <YN id="gm_external" label="Have you implemented an external communication and grievance mechanism accessible to the public?"/>
+      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:12,fontFamily:F.d}}>{t("mfSecMonitoring")}</div>
+      <YN id="monitoring_plan" label={t("mfQMonitoringPlan")}/>
+      <YN id="incidents" label={t("mfQIncidents")}/>
+      <YN id="grievances" label={t("mfQGrievances")}/>
+      <YN id="seah_complaints" label={t("mfQSeahComplaints")}/>
+      <YN id="gm_external" label={t("mfQGmExternal")}/>
       <div style={{marginTop:8}}>
-        <Lbl c="KPI Summary for this reporting period (key numbers)"/>
-        <textarea value={d.kpi_summary||""} onChange={e=>set("kpi_summary",e.target.value)} placeholder="e.g. E-waste collected: 45 kg | Incidents: 1 near-miss | Complaints: 3 received, 3 resolved | Training sessions: 2" rows={3} style={S.ta}/>
+        <Lbl c={t("mfLblKpiSummary")}/>
+        <textarea value={d.kpi_summary||""} onChange={e=>set("kpi_summary",e.target.value)} placeholder={t("mfPhKpiSummary")} rows={3} style={S.ta}/>
       </div>
     </div>
     <div style={{...S.card}}>
-      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:12,fontFamily:F.d}}>Reporting & Next Steps</div>
-      <YN id="internal_reporting" label="Is there an internal process to report on E&S issues to management?"/>
+      <div style={{fontWeight:700,color:C.navy,fontSize:14,marginBottom:12,fontFamily:F.d}}>{t("mfSecReporting")}</div>
+      <YN id="internal_reporting" label={t("mfQInternalReporting")}/>
       <div style={{marginTop:8}}>
-        <Lbl c="Main actions planned for next reporting period"/>
+        <Lbl c={t("mfLblNextActions")}/>
         <textarea value={d.next_actions||""} onChange={e=>set("next_actions",e.target.value)} rows={3} style={S.ta}/>
       </div>
       <div style={{marginTop:8}}>
-        <Lbl c="Signature and Date"/>
-        <input value={d.signature||""} onChange={e=>set("signature",e.target.value)} placeholder="Name, role, date" style={S.inp}/>
+        <Lbl c={t("mfLblSignature")}/>
+        <input value={d.signature||""} onChange={e=>set("signature",e.target.value)} placeholder={t("mfPhSignature")} style={S.inp}/>
       </div>
     </div>
   </div>);
@@ -1847,7 +2016,8 @@ const BASELINE_RISKS = [
 ];
 
 function RiskSection({ esmsData, setFieldValue, openGuide }) {
-  const {t}=useLang();
+  const {t,lang}=useLang();
+  const langRisks=BASELINES_I18N.risks[lang]||BASELINE_RISKS;
   const val = esmsData["risk_register"]?.data;
   const set = (v) => setFieldValue("risk_register", "data", v);
   return (
@@ -1865,17 +2035,17 @@ function RiskSection({ esmsData, setFieldValue, openGuide }) {
         <ExportBar title={t("risksTitle")} filename="ESMS_Risk_Register"
           sections={buildRiskSections(esmsData)}
           csvCols={getToolCSVDefs(t).risk_matrix.cols}
-          csvRows={esmsData.risk_register?.data?.length?esmsData.risk_register.data:BASELINE_RISKS}
+          csvRows={esmsData.risk_register?.data?.length?esmsData.risk_register.data:langRisks}
           esmsData={esmsData}/>
       </div>
-      <RiskMatrix baselineRisks={BASELINE_RISKS} value={val} onChange={set}/>
+      <RiskMatrix baselineRisks={langRisks} value={val} onChange={set}/>
     </div>
   );
 }
 
 // ═══════════════ COMPLIANCE SECTION ═══════════════
 function ComplianceSection({ esmsData, setFieldValue, openGuide }) {
-  const {t}=useLang();
+  const {t,lang}=useLang();
   const val = esmsData["compliance_tracker"]?.data;
   const set = (v) => setFieldValue("compliance_tracker", "data", v);
   return (
@@ -1892,7 +2062,7 @@ function ComplianceSection({ esmsData, setFieldValue, openGuide }) {
         <ExportBar title={t("complianceTitle")} filename="ESMS_Compliance"
           sections={buildComplianceSections(esmsData,t)}
           csvCols={getToolCSVDefs(t).compliance.cols}
-          csvRows={esmsData.compliance_tracker?.data?.length?esmsData.compliance_tracker.data:COMPLIANCE_BASELINE}
+          csvRows={esmsData.compliance_tracker?.data?.length?esmsData.compliance_tracker.data:(BASELINES_I18N.compliance[lang]||COMPLIANCE_BASELINE)}
           esmsData={esmsData}/>
       </div>
       <ComplianceTracker value={val} onChange={set}/>

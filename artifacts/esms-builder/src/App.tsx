@@ -820,6 +820,48 @@ function ESAPTable({value,onChange}){
         </div>
       </div>);
     })}
+    {rows.length>0&&(
+      <div style={{textAlign:"center",margin:"4px 0 24px"}}>
+        <button onClick={add} style={{...S.btn,padding:"10px 28px",fontSize:14}}>➕ {t("esapAdd")}</button>
+        <div style={{fontSize:11,color:C.muted,marginTop:6}}>{t("esapAutoSaved")}</div>
+      </div>
+    )}
+    {rows.length>0&&(
+      <div style={{...S.card,marginTop:8}}>
+        <div style={{fontWeight:700,color:C.navy,fontSize:15,marginBottom:14,fontFamily:F.d}}>📊 {t("esapOverviewTitle")}</div>
+        <div style={{overflowX:"auto"}}>
+          <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
+            <thead>
+              <tr style={{background:C.navy,color:"white"}}>
+                {[["#","5%"],[t("esapCategory"),"14%"],[t("esapObjective"),"22%"],[t("esapKpi"),"12%"],[t("esapDeadline"),"9%"],[t("esapResponsible"),"12%"],[t("esapBudget"),"9%"],["Status","10%"]].map(([h,w])=>(
+                  <th key={h} style={{padding:"7px 8px",textAlign:"left",fontWeight:700,width:w,whiteSpace:"nowrap"}}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row,i)=>{
+                const st=STATUS[row.status]||STATUS["Not Started"];
+                const catObj=categories.find(c=>c.val===row.cat);
+                return(
+                  <tr key={row.id||i} style={{background:i%2===0?"white":"#F8FAFC",borderBottom:`1px solid ${C.border}`}}>
+                    <td style={{padding:"6px 8px",fontWeight:700,color:C.navy}}>{i+1}</td>
+                    <td style={{padding:"6px 8px",fontWeight:600,color:C.navy}}>{catObj?t(catObj.lk):row.cat}</td>
+                    <td style={{padding:"6px 8px",color:C.text,lineHeight:1.4}}>{row.objective||<span style={{color:C.muted,fontStyle:"italic"}}>—</span>}</td>
+                    <td style={{padding:"6px 8px",color:C.muted}}>{row.kpi||"—"}</td>
+                    <td style={{padding:"6px 8px",color:C.muted,whiteSpace:"nowrap"}}>{row.deadline||"—"}</td>
+                    <td style={{padding:"6px 8px",color:C.muted}}>{row.responsible||"—"}</td>
+                    <td style={{padding:"6px 8px",color:C.muted}}>{row.budget||"—"}</td>
+                    <td style={{padding:"6px 8px"}}>
+                      <span style={{background:st.bg,color:st.c,borderRadius:5,padding:"2px 8px",fontWeight:700,fontSize:11,whiteSpace:"nowrap"}}>{t(st.lk)}</span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    )}
   </div>);
 }
 

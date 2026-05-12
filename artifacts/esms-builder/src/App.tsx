@@ -968,6 +968,9 @@ function ToolsSection({ esmsData, setFieldValue, openGuide, setActive }) {
   const getVal = (id) => esmsData[TOOL_DATA_KEYS[id] || `tool_${id}`];
   const setVal = (id, v) => setFieldValue(TOOL_DATA_KEYS[id] || `tool_${id}`, "data", v);
 
+  // Ordered list of tools that open inline (excludes redirect-only tools like risk_matrix, compliance, screening, esap)
+  const TOOL_ORDER = Object.values(TOOLS_REGISTRY).filter(tt => !tt.redirectTo).map(tt => tt.id);
+
   if (activeTool) {
     const tool = TOOLS_REGISTRY[activeTool];
     const Comp = TOOL_COMPONENTS[tool.component];
@@ -1011,6 +1014,19 @@ function ToolsSection({ esmsData, setFieldValue, openGuide, setActive }) {
           />
         </div>
         <Comp value={val} onChange={v => setVal(activeTool, v)} />
+        {(() => {
+          const toolIdx = TOOL_ORDER.indexOf(activeTool);
+          if (toolIdx === -1) return null;
+          return (
+            <div style={{ marginTop:24, paddingTop:16, borderTop:`1.5px solid ${C.border}`, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:10 }}>
+              <div/>
+              <div style={{display:"flex",gap:10}}>
+                {toolIdx > 0 && <button onClick={() => setActiveTool(TOOL_ORDER[toolIdx-1])} style={S.outBtn}>← {t(TOOLS_REGISTRY[TOOL_ORDER[toolIdx-1]].lk)}</button>}
+                {toolIdx < TOOL_ORDER.length-1 && <button onClick={() => setActiveTool(TOOL_ORDER[toolIdx+1])} style={S.btn}>{t(TOOLS_REGISTRY[TOOL_ORDER[toolIdx+1]].lk)} →</button>}
+              </div>
+            </div>
+          );
+        })()}
       </div>
     );
   }

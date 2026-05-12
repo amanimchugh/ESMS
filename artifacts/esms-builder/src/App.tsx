@@ -2166,8 +2166,9 @@ function ScreeningSection({ esmsData, setFieldValue, openGuide }) {
 
 // ═══════════════ WELCOME ═══════════════
 function Welcome({ esmsData, setActive, openGuide, nav }) {
-  const {t}=useLang();
+  const {t,lang}=useLang();
   const navList = nav || NAV_DEFS;
+  const L = BP_LABELS[lang] || BP_LABELS.en;
   const isSectionDone = (n) => {
     if (n.id === "business_profile") return BUSINESS_PROFILE_DEFS.some(d => {
       const dat = esmsData[`bp_${d.id}`] || {};
@@ -2225,6 +2226,14 @@ function Welcome({ esmsData, setActive, openGuide, nav }) {
               {isOpt && !done && <span style={{ position:"absolute", top:8, right:8, fontSize:9, background:"#FFF3DC", color:C.amber, borderRadius:4, padding:"1px 5px", fontWeight:700, letterSpacing:0.3 }}>{t("bpOptional")}</span>}
               <div style={{ fontSize:24, marginBottom:6 }}>{n.icon}</div>
               <div style={{ fontWeight:700, fontSize:12, color:C.text }}>{n.label}</div>
+              {n.id === "business_profile" && (
+                <div onClick={e => e.stopPropagation()} style={{ marginTop:10, borderTop:"1px dashed rgba(232,160,32,0.45)", paddingTop:8, textAlign:"left" }}>
+                  <div style={{ fontSize:10, color:C.amber, lineHeight:1.45, marginBottom:6 }}>
+                    Not included in the Full ESMS download — download separately below.
+                  </div>
+                  <ExportBar title={t("bpTitle")} filename="Business_Profile" sections={buildBPSections(esmsData, L, t)} esmsData={esmsData}/>
+                </div>
+              )}
             </div>
           );
         })}

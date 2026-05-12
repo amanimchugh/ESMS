@@ -3178,50 +3178,82 @@ async function exportPDF(title, sections, strings={}) {
       windowWidth: containerPx,
     });
 
-    const imgData = canvas.toDataURL('image/jpeg', 0.88);
-
-    // Scale image height to match content width in mm
     const mmPerPx = contentW / canvas.width;
-    const imgH = canvas.height * mmPerPx;
 
-    const totalPages = Math.ceil(imgH / contentH);
+    // Convert content height from mm → pixels in the rendered canvas
+    const contentH_px = Math.round(contentH / mmPerPx);
+    // Look back up to 45 mm from the ideal cut point to find a safe white row
+    const lookback_px = Math.round(45 / mmPerPx);
+
+    // Read all pixel data once — used to find near-white rows between elements
+    const ctx2d = canvas.getContext('2d');
+    const imageData = ctx2d.getImageData(0, 0, canvas.width, canvas.height);
+    const pixels = imageData.data;
+    const W = canvas.width;
+
+    // Scan backwards from targetRow to find the nearest row where every
+    // sampled pixel is near-white (≥250). This lands cuts in whitespace
+    // gaps between elements rather than through text or bordered boxes.
+    const findSafeCut = (targetRow) => {
+      const minRow = Math.max(0, targetRow - lookback_px);
+      for (let row = targetRow; row >= minRow; row--) {
+        let isWhite = true;
+        for (let col = 0; col < W; col += 3) {
+          const idx = (row * W + col) * 4;
+          if (pixels[idx] < 250 || pixels[idx + 1] < 250 || pixels[idx + 2] < 250) {
+            isWhite = false;
+            break;
+          }
+        }
+        if (isWhite) return row;
+      }
+      return targetRow; // fallback: use target if no white row found
+    };
+
+    // Pass 1: compute all page cut points by finding safe white-row boundaries
+    const cuts = [0];
+    while (true) {
+      const last = cuts[cuts.length - 1];
+      const target = last + contentH_px;
+      if (target >= canvas.height) { cuts.push(canvas.height); break; }
+      const safe = findSafeCut(target);
+      // Guard against infinite loop if findSafeCut returns same position
+      cuts.push(safe > last ? safe : target);
+    }
+    const totalPages = cuts.length - 1;
+
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-    // After placing the image on each page, overlay clean white margins
-    // and write the page number into the bottom margin.
     const finishPage = (pageNum) => {
-      // White out top margin (catches any image bleed from previous page's slice)
       pdf.setFillColor(255, 255, 255);
-      pdf.rect(0, 0, pdfW, mT, 'F');
-      // White out bottom margin
       pdf.rect(0, pdfH - mB, pdfW, mB, 'F');
-      // White out side margins (belt-and-suspenders — image is already inset)
-      pdf.rect(0, 0, mL, pdfH, 'F');
-      pdf.rect(pdfW - mR, 0, mR, pdfH, 'F');
-      // Page number — bottom right of margin strip
       pdf.setFontSize(8);
       pdf.setTextColor(95, 112, 128);
       pdf.text(`Page ${pageNum} / ${totalPages}`, pdfW - mR - 2, pdfH - 6, { align: 'right' });
-      // Thin separator line above page number
       pdf.setDrawColor(208, 220, 232);
       pdf.setLineWidth(0.3);
       pdf.line(mL, pdfH - mB + 3, pdfW - mR, pdfH - mB + 3);
     };
 
-    // Tile the image: shift it up by contentH for each new page
-    let imageY = mT;
-    let pageNum = 1;
-    pdf.addImage(imgData, 'JPEG', mL, imageY, contentW, imgH);
-    finishPage(pageNum);
+    // Pass 2: crop each slice onto its own canvas and add to PDF page.
+    // Because each slice is cropped from exactly the safe-cut boundaries,
+    // content is never split mid-element.
+    for (let i = 0; i < totalPages; i++) {
+      const sliceY   = cuts[i];
+      const sliceH_px = cuts[i + 1] - sliceY;
+      const sliceH_mm = sliceH_px * mmPerPx;
 
-    let remaining = imgH - contentH;
-    while (remaining > 0) {
-      imageY -= contentH;
-      pdf.addPage();
-      pageNum++;
-      pdf.addImage(imgData, 'JPEG', mL, imageY, contentW, imgH);
-      finishPage(pageNum);
-      remaining -= contentH;
+      const sliceCanvas = document.createElement('canvas');
+      sliceCanvas.width  = canvas.width;
+      sliceCanvas.height = sliceH_px;
+      const sliceCtx = sliceCanvas.getContext('2d');
+      sliceCtx.drawImage(canvas, 0, sliceY, canvas.width, sliceH_px,
+                                  0, 0,      canvas.width, sliceH_px);
+      const sliceImg = sliceCanvas.toDataURL('image/jpeg', 0.90);
+
+      if (i > 0) pdf.addPage();
+      pdf.addImage(sliceImg, 'JPEG', mL, mT, contentW, sliceH_mm);
+      finishPage(i + 1);
     }
 
     const fname = title.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '_') || 'ESMS';

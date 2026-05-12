@@ -2179,7 +2179,7 @@ function BPCardExport({ esmsData, L, t }) {
   };
   const btn = (type, icon, label) => (
     <button onClick={() => run(type)} disabled={!!busy}
-      style={{ border:'none', borderRadius:6, padding:'4px 9px', cursor:'pointer', fontSize:11, fontWeight:700, fontFamily:F.b, display:'flex', alignItems:'center', gap:4, opacity:busy?0.65:1,
+      style={{ borderRadius:6, padding:'4px 9px', cursor:'pointer', fontSize:11, fontWeight:700, fontFamily:F.b, display:'flex', alignItems:'center', gap:4, opacity:busy?0.65:1,
         background: type==='pdf' ? '#FDECEA' : '#EBF5FB',
         color:      type==='pdf' ? C.red      : C.navyLight,
         border:     type==='pdf' ? `1.5px solid ${C.red}` : `1.5px solid ${C.navyLight}` }}>
@@ -2200,6 +2200,8 @@ function Welcome({ esmsData, setActive, openGuide, nav }) {
   const navList = nav || NAV_DEFS;
   const L = BP_LABELS[lang] || BP_LABELS.en;
   const [bpHover, setBpHover] = useState(false);
+  const [bpExportOpen, setBpExportOpen] = useState(false);
+  const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
   const isSectionDone = (n) => {
     if (n.id === "business_profile") return BUSINESS_PROFILE_DEFS.some(d => {
       const dat = esmsData[`bp_${d.id}`] || {};
@@ -2250,17 +2252,25 @@ function Welcome({ esmsData, setActive, openGuide, nav }) {
           const isOpt = !!n.optional;
           const isBP = n.id === "business_profile";
           return (
-            <div key={n.id} onClick={() => setActive(n.id)}
+            <div key={n.id} onClick={() => { if (isBP && isTouch && bpExportOpen) { setBpExportOpen(false); return; } setActive(n.id); }}
               style={{ ...S.card, cursor:"pointer", border:`2px solid ${done ? C.green : (isOpt ? C.amber : C.border)}`, transition:"all 0.12s", position:"relative", textAlign:"center", padding:"16px 14px", overflow:"hidden" }}
-              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)"; if (isBP) setBpHover(true); }}
-              onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; if (isBP) setBpHover(false); }}>
+              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)"; if (isBP && !isTouch) setBpHover(true); }}
+              onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; if (isBP && !isTouch) setBpHover(false); }}>
               {done && <span style={{ position:"absolute", top:8, right:8, fontSize:13 }}>✅</span>}
               {isOpt && !done && <span style={{ position:"absolute", top:8, right:8, fontSize:9, background:"#FFF3DC", color:C.amber, borderRadius:4, padding:"1px 5px", fontWeight:700, letterSpacing:0.3 }}>{t("bpOptional")}</span>}
               <div style={{ fontSize:24, marginBottom:6 }}>{n.icon}</div>
               <div style={{ fontWeight:700, fontSize:12, color:C.text }}>{n.label}</div>
+              {isBP && isTouch && (
+                <button
+                  onClick={e => { e.stopPropagation(); setBpExportOpen(v => !v); }}
+                  aria-label="Export Business Profile"
+                  style={{ position:"absolute", bottom:6, right:6, background:"rgba(255,248,235,0.95)", border:`1px solid ${C.amber}`, borderRadius:5, padding:"2px 6px", fontSize:10, color:C.amber, fontWeight:700, cursor:"pointer", lineHeight:1.4, zIndex:2 }}>
+                  ⬇ Export
+                </button>
+              )}
               {isBP && (
                 <div onClick={e => e.stopPropagation()}
-                  style={{ position:"absolute", bottom:0, left:0, right:0, background:"rgba(255,248,235,0.97)", borderTop:"1px dashed rgba(232,160,32,0.45)", padding:"6px 8px 7px", textAlign:"left", opacity: bpHover ? 1 : 0, pointerEvents: bpHover ? "auto" : "none", transition:"opacity 0.18s" }}>
+                  style={{ position:"absolute", bottom:0, left:0, right:0, background:"rgba(255,248,235,0.97)", borderTop:"1px dashed rgba(232,160,32,0.45)", padding:"6px 8px 7px", textAlign:"left", opacity: (isTouch ? bpExportOpen : bpHover) ? 1 : 0, pointerEvents: (isTouch ? bpExportOpen : bpHover) ? "auto" : "none", transition:"opacity 0.18s" }}>
                   <div style={{ fontSize:9, color:C.amber, lineHeight:1.3, marginBottom:4 }}>Not in Full ESMS — export separately:</div>
                   <BPCardExport esmsData={esmsData} L={L} t={t}/>
                 </div>

@@ -2164,6 +2164,36 @@ function ScreeningSection({ esmsData, setFieldValue, openGuide }) {
   );
 }
 
+// Compact PDF + Word buttons for the BP card on the Overview page
+function BPCardExport({ esmsData, L, t }) {
+  const [busy, setBusy] = useState(null);
+  const run = async (type) => {
+    setBusy(type);
+    try {
+      const secs = buildBPSections(esmsData, L, t);
+      const strings = { noEntries: t('noEntries'), notCompleted: t('notCompleted'), coverLine: t('exportCoverLine'), footerLine: t('exportFooterLine'), generated: t('exportGenerated') };
+      if (type === 'pdf') await exportPDF(t('bpTitle'), secs, strings);
+      else exportWord(t('bpTitle'), secs, strings);
+    } catch(e) { alert(`Export error: ${e.message}`); }
+    setBusy(null);
+  };
+  const btn = (type, icon, label) => (
+    <button onClick={() => run(type)} disabled={!!busy}
+      style={{ border:'none', borderRadius:6, padding:'4px 9px', cursor:'pointer', fontSize:11, fontWeight:700, fontFamily:F.b, display:'flex', alignItems:'center', gap:4, opacity:busy?0.65:1,
+        background: type==='pdf' ? '#FDECEA' : '#EBF5FB',
+        color:      type==='pdf' ? C.red      : C.navyLight,
+        border:     type==='pdf' ? `1.5px solid ${C.red}` : `1.5px solid ${C.navyLight}` }}>
+      {busy===type ? '⏳' : icon} {busy===type ? '…' : label}
+    </button>
+  );
+  return (
+    <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginTop:2 }}>
+      {btn('pdf',  '📄', 'PDF')}
+      {btn('word', '📝', 'Word')}
+    </div>
+  );
+}
+
 // ═══════════════ WELCOME ═══════════════
 function Welcome({ esmsData, setActive, openGuide, nav }) {
   const {t,lang}=useLang();
@@ -2231,7 +2261,7 @@ function Welcome({ esmsData, setActive, openGuide, nav }) {
                   <div style={{ fontSize:10, color:C.amber, lineHeight:1.45, marginBottom:6 }}>
                     Not included in the Full ESMS download — download separately below.
                   </div>
-                  <ExportBar title={t("bpTitle")} filename="Business_Profile" sections={buildBPSections(esmsData, L, t)} esmsData={esmsData}/>
+                  <BPCardExport esmsData={esmsData} L={L} t={t}/>
                 </div>
               )}
             </div>

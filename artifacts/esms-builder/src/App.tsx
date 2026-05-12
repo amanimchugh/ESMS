@@ -2199,6 +2199,7 @@ function Welcome({ esmsData, setActive, openGuide, nav }) {
   const {t,lang}=useLang();
   const navList = nav || NAV_DEFS;
   const L = BP_LABELS[lang] || BP_LABELS.en;
+  const [bpHover, setBpHover] = useState(false);
   const isSectionDone = (n) => {
     if (n.id === "business_profile") return BUSINESS_PROFILE_DEFS.some(d => {
       const dat = esmsData[`bp_${d.id}`] || {};
@@ -2247,20 +2248,20 @@ function Welcome({ esmsData, setActive, openGuide, nav }) {
         {navList.filter(n => n.id !== "welcome").map(n => {
           const done = isSectionDone(n);
           const isOpt = !!n.optional;
+          const isBP = n.id === "business_profile";
           return (
             <div key={n.id} onClick={() => setActive(n.id)}
-              style={{ ...S.card, cursor:"pointer", border:`2px solid ${done ? C.green : (isOpt ? C.amber : C.border)}`, transition:"all 0.12s", position:"relative", textAlign:"center", padding:"16px 14px" }}
-              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)"; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}>
+              style={{ ...S.card, cursor:"pointer", border:`2px solid ${done ? C.green : (isOpt ? C.amber : C.border)}`, transition:"all 0.12s", position:"relative", textAlign:"center", padding:"16px 14px", overflow:"hidden" }}
+              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)"; if (isBP) setBpHover(true); }}
+              onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; if (isBP) setBpHover(false); }}>
               {done && <span style={{ position:"absolute", top:8, right:8, fontSize:13 }}>✅</span>}
               {isOpt && !done && <span style={{ position:"absolute", top:8, right:8, fontSize:9, background:"#FFF3DC", color:C.amber, borderRadius:4, padding:"1px 5px", fontWeight:700, letterSpacing:0.3 }}>{t("bpOptional")}</span>}
               <div style={{ fontSize:24, marginBottom:6 }}>{n.icon}</div>
               <div style={{ fontWeight:700, fontSize:12, color:C.text }}>{n.label}</div>
-              {n.id === "business_profile" && (
-                <div onClick={e => e.stopPropagation()} style={{ marginTop:10, borderTop:"1px dashed rgba(232,160,32,0.45)", paddingTop:8, textAlign:"left" }}>
-                  <div style={{ fontSize:10, color:C.amber, lineHeight:1.45, marginBottom:6 }}>
-                    Not included in the Full ESMS download — download separately below.
-                  </div>
+              {isBP && (
+                <div onClick={e => e.stopPropagation()}
+                  style={{ position:"absolute", bottom:0, left:0, right:0, background:"rgba(255,248,235,0.97)", borderTop:"1px dashed rgba(232,160,32,0.45)", padding:"6px 8px 7px", textAlign:"left", opacity: bpHover ? 1 : 0, pointerEvents: bpHover ? "auto" : "none", transition:"opacity 0.18s" }}>
+                  <div style={{ fontSize:9, color:C.amber, lineHeight:1.3, marginBottom:4 }}>Not in Full ESMS — export separately:</div>
                   <BPCardExport esmsData={esmsData} L={L} t={t}/>
                 </div>
               )}

@@ -3138,30 +3138,33 @@ async function exportPDF(title, sections, strings={}) {
 
   const html = buildPrintHTML(title, sections, strings);
 
-  // Pull the <style> block out so we can inject it into the main document
   const styleMatch = html.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
   const cssText = styleMatch ? styleMatch[1] : '';
 
-  // Pull just the <body> contents (strip the wrapper document)
   const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
   let bodyContent = bodyMatch ? bodyMatch[1] : html;
-  // Strip the fixed-position print button overlay and auto-print script
   bodyContent = bodyContent.replace(/<div[^>]*position:fixed[\s\S]*?<\/div>/g, '');
   bodyContent = bodyContent.replace(/<script[\s\S]*?<\/script>/g, '');
 
-  // Temporarily inject the PDF styles into the main document
   const styleEl = document.createElement('style');
   styleEl.id = '__pdf_export_style';
   styleEl.textContent = cssText;
   document.head.appendChild(styleEl);
 
-  // Render the body content in an off-screen A4-width container
+  // Page dimensions and margins (all in mm)
+  const pdfW = 210, pdfH = 297;
+  const mL = 12, mR = 12, mT = 16, mB = 20;
+  const contentW = pdfW - mL - mR;   // 186 mm usable width
+  const contentH = pdfH - mT - mB;   // 261 mm usable height per page
+
+  // Render at a pixel width proportional to the content area
+  const containerPx = Math.round(contentW / pdfW * 794);
+
   const container = document.createElement('div');
-  container.style.cssText = 'position:absolute;left:-9999px;top:0;width:794px;background:#ffffff;';
+  container.style.cssText = `position:absolute;left:-9999px;top:0;width:${containerPx}px;background:#ffffff;`;
   container.innerHTML = bodyContent;
   document.body.appendChild(container);
 
-  // Give fonts and layout time to settle
   await new Promise(r => setTimeout(r, 700));
 
   try {
@@ -3171,29 +3174,54 @@ async function exportPDF(title, sections, strings={}) {
       allowTaint: true,
       backgroundColor: '#ffffff',
       logging: false,
-      width: 794,
-      windowWidth: 794,
+      width: containerPx,
+      windowWidth: containerPx,
     });
 
     const imgData = canvas.toDataURL('image/jpeg', 0.88);
 
-    // A4 in mm
-    const pdfW = 210, pdfH = 297;
-    const mmPerPx = pdfW / canvas.width;
+    // Scale image height to match content width in mm
+    const mmPerPx = contentW / canvas.width;
     const imgH = canvas.height * mmPerPx;
 
+    const totalPages = Math.ceil(imgH / contentH);
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-    // Tile the single tall image across multiple A4 pages
-    let remaining = imgH;
-    let y = 0;
-    pdf.addImage(imgData, 'JPEG', 0, y, pdfW, imgH);
-    remaining -= pdfH;
+    // After placing the image on each page, overlay clean white margins
+    // and write the page number into the bottom margin.
+    const finishPage = (pageNum) => {
+      // White out top margin (catches any image bleed from previous page's slice)
+      pdf.setFillColor(255, 255, 255);
+      pdf.rect(0, 0, pdfW, mT, 'F');
+      // White out bottom margin
+      pdf.rect(0, pdfH - mB, pdfW, mB, 'F');
+      // White out side margins (belt-and-suspenders — image is already inset)
+      pdf.rect(0, 0, mL, pdfH, 'F');
+      pdf.rect(pdfW - mR, 0, mR, pdfH, 'F');
+      // Page number — bottom right of margin strip
+      pdf.setFontSize(8);
+      pdf.setTextColor(95, 112, 128);
+      pdf.text(`Page ${pageNum} / ${totalPages}`, pdfW - mR - 2, pdfH - 6, { align: 'right' });
+      // Thin separator line above page number
+      pdf.setDrawColor(208, 220, 232);
+      pdf.setLineWidth(0.3);
+      pdf.line(mL, pdfH - mB + 3, pdfW - mR, pdfH - mB + 3);
+    };
+
+    // Tile the image: shift it up by contentH for each new page
+    let imageY = mT;
+    let pageNum = 1;
+    pdf.addImage(imgData, 'JPEG', mL, imageY, contentW, imgH);
+    finishPage(pageNum);
+
+    let remaining = imgH - contentH;
     while (remaining > 0) {
-      y -= pdfH;
+      imageY -= contentH;
       pdf.addPage();
-      pdf.addImage(imgData, 'JPEG', 0, y, pdfW, imgH);
-      remaining -= pdfH;
+      pageNum++;
+      pdf.addImage(imgData, 'JPEG', mL, imageY, contentW, imgH);
+      finishPage(pageNum);
+      remaining -= contentH;
     }
 
     const fname = title.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '_') || 'ESMS';

@@ -756,7 +756,19 @@ function ESAPTable({value,onChange}){
     "Overdue":{bg:"#FDECEA",c:C.red,lk:"overdue"},
     "Deferred":{bg:"#F3E5F5",c:"#6C3483",lk:"deferred"},
   };
-  const categories=["ESMS / Policy","Labour & Working Conditions","OHS","E-Waste Management","Consumer/End User Health & Safety","Stakeholder Engagement & GRM","Gender / SEAH","HR Management","Compliance","Capacity & Training","Other"];
+  const categories=[
+    {val:"ESMS / Policy",lk:"esapCatPolicy"},
+    {val:"Labour & Working Conditions",lk:"esapCatLabour"},
+    {val:"OHS",lk:"esapCatOhs"},
+    {val:"E-Waste Management",lk:"esapCatEwaste"},
+    {val:"Consumer/End User Health & Safety",lk:"esapCatConsumer"},
+    {val:"Stakeholder Engagement & GRM",lk:"esapCatSep"},
+    {val:"Gender / SEAH",lk:"esapCatGender"},
+    {val:"HR Management",lk:"esapCatHr"},
+    {val:"Compliance",lk:"esapCatCompliance"},
+    {val:"Capacity & Training",lk:"esapCatCapacity"},
+    {val:"Other",lk:"esapCatOther"},
+  ];
   const add=()=>onChange([...rows,{id:Date.now(),cat:"ESMS / Policy",objective:"",output:"",actions:"",kpi:"",baseline:"",target:"",deadline:"",responsible:"",budget:"",verifier:"",status:"Not Started"}]);
   const update=(i,k,v)=>{const r=[...rows];r[i]={...r[i],[k]:v};onChange(r);};
   const remove=i=>onChange(rows.filter((_,j)=>j!==i));
@@ -780,7 +792,7 @@ function ESAPTable({value,onChange}){
           <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
             <span style={{fontWeight:700,color:C.navy,fontSize:14}}>{t("esapActionNo")}{i+1}</span>
             <select value={row.cat||""} onChange={e=>update(i,"cat",e.target.value)} style={{...S.inp,width:"auto",fontSize:12,padding:"4px 8px"}}>
-              {categories.map(c=><option key={c}>{c}</option>)}
+              {categories.map(c=><option key={c.val} value={c.val}>{t(c.lk)}</option>)}
             </select>
           </div>
           <div style={{display:"flex",gap:8,alignItems:"center"}}>

@@ -40,7 +40,7 @@ const S={
   inp:{width:"100%",padding:"9px 12px",border:`1.5px solid ${C.border}`,borderRadius:7,fontSize:13,fontFamily:F.b,color:C.text,background:"white",boxSizing:"border-box",outline:"none"},
   ta:{width:"100%",padding:"9px 12px",border:`1.5px solid ${C.border}`,borderRadius:7,fontSize:13,fontFamily:F.b,color:C.text,background:"white",boxSizing:"border-box",resize:"vertical",outline:"none",lineHeight:1.6},
   th:{background:C.navy,color:"white",padding:"8px 12px",textAlign:"left",fontSize:11,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.5px"},
-  td:{padding:"8px 11px",borderBottom:`1px solid ${C.border}`,verticalAlign:"middle",fontSize:13},
+  td:{padding:"8px 11px",borderBottom:`1px solid ${C.border}`,verticalAlign:"top",fontSize:13},
   lbl:{display:"block",fontWeight:700,fontSize:13,color:C.text,marginBottom:5},
   card:{background:"white",border:`1.5px solid ${C.border}`,borderRadius:11,padding:18},
   btn:{background:C.navy,color:"white",border:"none",borderRadius:7,padding:"9px 18px",cursor:"pointer",fontSize:13,fontWeight:600,fontFamily:F.b},
@@ -120,7 +120,7 @@ function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row"
                     {c.opts.map((o,i)=><option key={o} value={o}>{c.transOpts?c.transOpts[i]:o}</option>)}
                   </select>
                   :c.type==="ta"
-                    ?<textarea value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} rows={2} style={{...S.ta,padding:"4px 8px",minWidth:c.minW||120}}/>
+                    ?<textarea value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} rows={3} style={{...S.ta,padding:"5px 8px",minWidth:c.minW||160}}/>
                     :<input value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} placeholder={c.ph||""} style={{...S.inp,padding:"5px 8px"}}/>}
               </td>
             ))}
@@ -153,7 +153,7 @@ function RiskMatrix({baselineRisks,value,onChange}){
         {rows.map((row,ri)=>{
           const rc=row.applies==="yes"?ratingColor(row.prob||"1",row.sev||"1"):{bg:"white",c:C.muted,label:t("riskNA")};
           return(<tr key={ri} style={{background:row.applies==="no"?"#FAFAFA":"white"}}>
-            <td style={S.td}><textarea value={row.risk||""} onChange={e=>update(ri,"risk",e.target.value)} rows={2} style={{...S.ta,padding:"4px 6px",fontSize:12}}/></td>
+            <td style={S.td}><textarea value={row.risk||""} onChange={e=>update(ri,"risk",e.target.value)} rows={3} style={{...S.ta,padding:"5px 7px",fontSize:12}}/></td>
             <td style={S.td}><select value={row.category||""} onChange={e=>update(ri,"category",e.target.value)} style={{...S.inp,padding:"4px 6px",fontSize:11}}>
               <option value="">—</option>
               {[
@@ -170,7 +170,7 @@ function RiskMatrix({baselineRisks,value,onChange}){
             <td style={{...S.td,textAlign:"center"}}><select value={row.sev||"2"} onChange={e=>update(ri,"sev",e.target.value)} style={{...S.inp,padding:"4px 5px",fontSize:11,width:55}}>
               {["1","2","3","4"].map(o=><option key={o}>{o}</option>)}</select></td>
             <td style={{...S.td,textAlign:"center"}}><span style={{background:rc.bg,color:rc.c,borderRadius:5,padding:"3px 6px",fontWeight:700,fontSize:11}}>{rc.label}</span></td>
-            <td style={S.td}><textarea value={row.mitigation||""} onChange={e=>update(ri,"mitigation",e.target.value)} rows={2} style={{...S.ta,padding:"4px 6px",fontSize:12}}/></td>
+            <td style={S.td}><textarea value={row.mitigation||""} onChange={e=>update(ri,"mitigation",e.target.value)} rows={3} style={{...S.ta,padding:"5px 7px",fontSize:12}}/></td>
             <td style={S.td}><input value={row.responsible||""} onChange={e=>update(ri,"responsible",e.target.value)} style={{...S.inp,padding:"4px 6px",fontSize:11}}/></td>
             <td style={S.td}><select value={row.status||"Planned"} onChange={e=>update(ri,"status",e.target.value)} style={{...S.inp,padding:"4px 5px",fontSize:11}}>
               <option value="Planned">{t("riskPlanned")}</option>
@@ -646,7 +646,7 @@ function MonitoringForm({value,onChange}){
           <button key={val} onClick={()=>set(`${id}_yn`,val)} style={{background:d[`${id}_yn`]===val?(val==="Yes"?"#E8F5E9":"#FDECEA"):"white",color:d[`${id}_yn`]===val?(val==="Yes"?C.green:C.red):C.muted,border:`1px solid ${d[`${id}_yn`]===val?(val==="Yes"?C.green:C.red):C.border}`,borderRadius:6,padding:"4px 12px",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:F.b}}>{lbl}</button>
         ))}
       </div>
-      {d[`${id}_yn`]==="Yes"&&<textarea value={d[`${id}_details`]||""} onChange={e=>set(`${id}_details`,e.target.value)} placeholder={t("mfPhDetails")} rows={2} style={{...S.ta,width:260,fontSize:12}}/>}
+      {d[`${id}_yn`]==="Yes"&&<textarea value={d[`${id}_details`]||""} onChange={e=>set(`${id}_details`,e.target.value)} placeholder={t("mfPhDetails")} rows={3} style={{...S.ta,fontSize:13}}/>}
     </div>
   );
   return(<div>

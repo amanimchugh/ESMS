@@ -100,28 +100,28 @@ function ChecklistBuilder({baseline,value,onChange,columns=1}){
 
 // ═══════════════ LIVE TABLE BUILDER ═══════════════
 // Users can edit cell content, add rows, remove rows
-function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row"}){
+function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row",minWidth=950}){
   const {t}=useLang();
   const rows=(Array.isArray(value)&&value.length>0)?value:(Array.isArray(baselineRows)?baselineRows:[]);
   const updateCell=(ri,ci,v)=>{const r=[...rows];r[ri]={...r[ri],[ci]:v};onChange(r);};
   const addRow=()=>{const blank={};columns.forEach(c=>{blank[c.id]="";});onChange([...rows,blank]);};
   const removeRow=i=>onChange(rows.filter((_,j)=>j!==i));
   return(<div style={{overflowX:"auto"}}>
-    <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
-      <thead><tr>{columns.map(c=><th key={c.id} style={{...S.th,width:c.w||"auto"}}>{c.lk?t(c.lk):c.label}</th>)}<th style={{...S.th,width:40}}></th></tr></thead>
+    <table style={{width:"100%",borderCollapse:"collapse",fontSize:13,minWidth}}>
+      <thead><tr>{columns.map(c=><th key={c.id} style={{...S.th,width:c.w||"auto",minWidth:c.minW||undefined}}>{c.lk?t(c.lk):c.label}</th>)}<th style={{...S.th,width:40}}></th></tr></thead>
       <tbody>
         {rows.map((row,ri)=>(
           <tr key={ri} style={{background:ri%2===0?"white":"#FAFBFC"}}>
             {columns.map(c=>(
               <td key={c.id} style={S.td}>
                 {c.type==="sel"
-                  ?<select value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} style={{...S.inp,padding:"5px 8px"}}>
+                  ?<select value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} style={{...S.inp,padding:"6px 8px",minWidth:"100%"}}>
                     <option value="">—</option>
                     {c.opts.map((o,i)=><option key={o} value={o}>{c.transOpts?c.transOpts[i]:o}</option>)}
                   </select>
                   :c.type==="ta"
-                    ?<textarea value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} rows={3} style={{...S.ta,padding:"5px 8px",minWidth:c.minW||160}}/>
-                    :<input value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} placeholder={c.ph||""} style={{...S.inp,padding:"5px 8px"}}/>}
+                    ?<textarea value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} rows={4} style={{...S.ta,padding:"6px 8px",minWidth:"100%"}}/>
+                    :<input value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} placeholder={c.ph||""} style={{...S.inp,padding:"6px 8px"}}/>}
               </td>
             ))}
             <td style={{...S.td,textAlign:"center",padding:0}}><button onClick={()=>removeRow(ri)} aria-label="Remove row" className="remove-btn" style={{background:"none",border:"none",color:C.red,cursor:"pointer",fontSize:18,lineHeight:1,width:44,height:44}}>×</button></td>
@@ -143,18 +143,18 @@ function RiskMatrix({baselineRisks,value,onChange}){
   const ratingColor=(p,s)=>{const score=parseInt(p)*parseInt(s);if(score>=9)return{bg:"#FDECEA",c:C.red,label:t("riskCritical")};if(score>=6)return{bg:"#FFF3E0",c:"#E65100",label:t("riskHigh")};if(score>=3)return{bg:"#FFFDE7",c:"#F9A825",label:t("riskMedium")};return{bg:"#E8F5E9",c:C.green,label:t("riskLow")};};
   const colHeaders=[t("riskColHazard"),t("riskColCategory"),t("riskColApplies"),t("riskColProb"),t("riskColSev"),t("riskColRating"),t("riskColMitigation"),t("riskColResponsible"),t("riskColStatus")];
   return(<div style={{overflowX:"auto"}}>
-    <table style={{width:"100%",borderCollapse:"collapse",fontSize:12,minWidth:900}}>
+    <table style={{width:"100%",borderCollapse:"collapse",fontSize:13,minWidth:1150}}>
       <thead><tr>
         {colHeaders.map((h,i)=>
-          <th key={i} style={{...S.th,width:["22%","9%","7%","8%","8%","7%","22%","9%","8%"][i]}}>{h}</th>)}
-        <th style={{...S.th,width:30}}></th>
+          <th key={i} style={{...S.th,width:["20%","12%","7%","5%","5%","7%","21%","10%","13%"][i]}}>{h}</th>)}
+        <th style={{...S.th,width:34}}></th>
       </tr></thead>
       <tbody>
         {rows.map((row,ri)=>{
           const rc=row.applies==="yes"?ratingColor(row.prob||"1",row.sev||"1"):{bg:"white",c:C.muted,label:t("riskNA")};
           return(<tr key={ri} style={{background:row.applies==="no"?"#FAFAFA":"white"}}>
-            <td style={S.td}><textarea value={row.risk||""} onChange={e=>update(ri,"risk",e.target.value)} rows={3} style={{...S.ta,padding:"5px 7px",fontSize:12}}/></td>
-            <td style={S.td}><select value={row.category||""} onChange={e=>update(ri,"category",e.target.value)} style={{...S.inp,padding:"4px 6px",fontSize:11}}>
+            <td style={S.td}><textarea value={row.risk||""} onChange={e=>update(ri,"risk",e.target.value)} rows={4} style={{...S.ta,padding:"6px 7px",fontSize:13}}/></td>
+            <td style={S.td}><select value={row.category||""} onChange={e=>update(ri,"category",e.target.value)} style={{...S.inp,padding:"6px 7px",fontSize:12,minWidth:"100%"}}>
               <option value="">—</option>
               {[
                 {v:"OHS",lk:"catOHS"},{v:"E-Waste",lk:"catEWaste"},{v:"Labour",lk:"catLabour"},
@@ -163,16 +163,16 @@ function RiskMatrix({baselineRisks,value,onChange}){
                 {v:"Security",lk:"catSecurity"},{v:"Environment",lk:"catEnvironment"},{v:"Other",lk:"catOther"}
               ].map(({v,lk})=><option key={v} value={v}>{t(lk)}</option>)}
             </select></td>
-            <td style={{...S.td,textAlign:"center"}}><select value={row.applies||"yes"} onChange={e=>update(ri,"applies",e.target.value)} style={{...S.inp,padding:"4px 5px",fontSize:11,width:60}}>
+            <td style={{...S.td,textAlign:"center"}}><select value={row.applies||"yes"} onChange={e=>update(ri,"applies",e.target.value)} style={{...S.inp,padding:"6px 5px",fontSize:12,minWidth:"100%"}}>
               <option value="yes">{t("riskAppliesYes")}</option><option value="no">{t("riskAppliesNo")}</option></select></td>
-            <td style={{...S.td,textAlign:"center"}}><select value={row.prob||"2"} onChange={e=>update(ri,"prob",e.target.value)} style={{...S.inp,padding:"4px 5px",fontSize:11,width:55}}>
+            <td style={{...S.td,textAlign:"center"}}><select value={row.prob||"2"} onChange={e=>update(ri,"prob",e.target.value)} style={{...S.inp,padding:"6px 4px",fontSize:12,textAlign:"center",minWidth:"100%"}}>
               {["1","2","3","4"].map(o=><option key={o}>{o}</option>)}</select></td>
-            <td style={{...S.td,textAlign:"center"}}><select value={row.sev||"2"} onChange={e=>update(ri,"sev",e.target.value)} style={{...S.inp,padding:"4px 5px",fontSize:11,width:55}}>
+            <td style={{...S.td,textAlign:"center"}}><select value={row.sev||"2"} onChange={e=>update(ri,"sev",e.target.value)} style={{...S.inp,padding:"6px 4px",fontSize:12,textAlign:"center",minWidth:"100%"}}>
               {["1","2","3","4"].map(o=><option key={o}>{o}</option>)}</select></td>
-            <td style={{...S.td,textAlign:"center"}}><span style={{background:rc.bg,color:rc.c,borderRadius:5,padding:"3px 6px",fontWeight:700,fontSize:11}}>{rc.label}</span></td>
-            <td style={S.td}><textarea value={row.mitigation||""} onChange={e=>update(ri,"mitigation",e.target.value)} rows={3} style={{...S.ta,padding:"5px 7px",fontSize:12}}/></td>
-            <td style={S.td}><input value={row.responsible||""} onChange={e=>update(ri,"responsible",e.target.value)} style={{...S.inp,padding:"4px 6px",fontSize:11}}/></td>
-            <td style={S.td}><select value={row.status||"Planned"} onChange={e=>update(ri,"status",e.target.value)} style={{...S.inp,padding:"4px 5px",fontSize:11}}>
+            <td style={{...S.td,textAlign:"center"}}><span style={{background:rc.bg,color:rc.c,borderRadius:5,padding:"3px 6px",fontWeight:700,fontSize:12}}>{rc.label}</span></td>
+            <td style={S.td}><textarea value={row.mitigation||""} onChange={e=>update(ri,"mitigation",e.target.value)} rows={4} style={{...S.ta,padding:"6px 7px",fontSize:13}}/></td>
+            <td style={S.td}><input value={row.responsible||""} onChange={e=>update(ri,"responsible",e.target.value)} style={{...S.inp,padding:"6px 7px",fontSize:12}}/></td>
+            <td style={S.td}><select value={row.status||"Planned"} onChange={e=>update(ri,"status",e.target.value)} style={{...S.inp,padding:"6px 7px",fontSize:12,minWidth:"100%"}}>
               <option value="Planned">{t("riskPlanned")}</option>
               <option value="In Progress">{t("riskInProgress")}</option>
               <option value="Complete">{t("riskComplete")}</option>
@@ -199,19 +199,19 @@ function IncidentLog({value,onChange}){
   const {t,lang}=useLang();
   const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.incident[lang]||[]);
   const cols=[
-    {id:"date",label:t("csvColDate"),w:"8%",ph:"DD/MM/YY"},
-    {id:"type",label:t("csvColType"),w:"9%",type:"sel",opts:["Injury","Near-Miss","Property Damage","Environmental","Security","SEAH","Other"],transOpts:[t("optIncidentInjury"),t("optIncidentNearMiss"),t("optIncidentPropertyDmg"),t("optIncidentEnvironmental"),t("optIncidentSecurity"),t("optIncidentSEAH"),t("optIncidentOther")]},
-    {id:"description",label:t("csvColDescription"),w:"22%",type:"ta"},
-    {id:"location",label:t("csvColLocation"),w:"10%",ph:"Site/area"},
-    {id:"persons",label:t("csvColPersons"),w:"10%",ph:"Role only"},
-    {id:"cause",label:t("csvColCause"),w:"15%",type:"ta"},
-    {id:"action",label:t("csvColAction"),w:"15%",type:"ta"},
-    {id:"responsible",label:t("colResponsible"),w:"8%",ph:"Name"},
-    {id:"status",label:t("colStatus"),w:"8%",type:"sel",opts:["Open","In Progress","Closed","Reported to Authority"],transOpts:[t("optStatusOpen"),t("optStatusInProgress"),t("optStatusClosed"),t("optStatusReported")]},
+    {id:"date",label:t("csvColDate"),w:"7%",minW:80,ph:"DD/MM/YY"},
+    {id:"type",label:t("csvColType"),w:"11%",minW:130,type:"sel",opts:["Injury","Near-Miss","Property Damage","Environmental","Security","SEAH","Other"],transOpts:[t("optIncidentInjury"),t("optIncidentNearMiss"),t("optIncidentPropertyDmg"),t("optIncidentEnvironmental"),t("optIncidentSecurity"),t("optIncidentSEAH"),t("optIncidentOther")]},
+    {id:"description",label:t("csvColDescription"),w:"21%",type:"ta"},
+    {id:"location",label:t("csvColLocation"),w:"9%",ph:"Site/area"},
+    {id:"persons",label:t("csvColPersons"),w:"9%",ph:"Role only"},
+    {id:"cause",label:t("csvColCause"),w:"14%",type:"ta"},
+    {id:"action",label:t("csvColAction"),w:"14%",type:"ta"},
+    {id:"responsible",label:t("colResponsible"),w:"7%",ph:"Name"},
+    {id:"status",label:t("colStatus"),w:"11%",minW:130,type:"sel",opts:["Open","In Progress","Closed","Reported to Authority"],transOpts:[t("optStatusOpen"),t("optStatusInProgress"),t("optStatusClosed"),t("optStatusReported")]},
   ];
   return(<div>
     <InfoBox col={C.red} bg="#FFF5F5">{t("incidentInfoBox")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("incidentAddRow")}/>
+    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("incidentAddRow")} minWidth={1050}/>
   </div>);
 }
 
@@ -220,20 +220,20 @@ function WasteRegister({value,onChange}){
   const {t}=useLang();
   const rows=value||[];
   const cols=[
-    {id:"date",label:t("csvColDate"),w:"8%",ph:"DD/MM/YY"},
-    {id:"waste_type",label:t("csvColWasteType"),w:"12%",type:"sel",opts:["Lead-acid battery","Lithium battery","Solar panel","Inverter/controller","Accessories","Packaging","Office waste","Workshop waste","Other"],transOpts:[t("optWasteLeadAcid"),t("optWasteLithium"),t("optWasteSolarPanel"),t("optWasteInverter"),t("optWasteAccessories"),t("optWastePackaging"),t("optWasteOffice"),t("optWasteWorkshop"),t("optWasteOther")]},
-    {id:"qty_units",label:t("csvColQtyUnits"),w:"7%",ph:"#"},
-    {id:"qty_kg",label:t("csvColQtyKg"),w:"7%",ph:"kg"},
-    {id:"source",label:t("csvColSource"),w:"10%",ph:"Agent/area"},
-    {id:"r5",label:t("csv5R"),w:"9%",type:"sel",opts:["Reduce","Reuse","Repair","Refurbish","Recycle","Dispose"],transOpts:[t("optR5Reduce"),t("optR5Reuse"),t("optR5Repair"),t("optR5Refurbish"),t("optR5Recycle"),t("optR5Dispose")]},
+    {id:"date",label:t("csvColDate"),w:"7%",minW:80,ph:"DD/MM/YY"},
+    {id:"waste_type",label:t("csvColWasteType"),w:"14%",minW:155,type:"sel",opts:["Lead-acid battery","Lithium battery","Solar panel","Inverter/controller","Accessories","Packaging","Office waste","Workshop waste","Other"],transOpts:[t("optWasteLeadAcid"),t("optWasteLithium"),t("optWasteSolarPanel"),t("optWasteInverter"),t("optWasteAccessories"),t("optWastePackaging"),t("optWasteOffice"),t("optWasteWorkshop"),t("optWasteOther")]},
+    {id:"qty_units",label:t("csvColQtyUnits"),w:"6%",minW:60,ph:"#"},
+    {id:"qty_kg",label:t("csvColQtyKg"),w:"6%",minW:60,ph:"kg"},
+    {id:"source",label:t("csvColSource"),w:"9%",ph:"Agent/area"},
+    {id:"r5",label:t("csv5R"),w:"10%",minW:105,type:"sel",opts:["Reduce","Reuse","Repair","Refurbish","Recycle","Dispose"],transOpts:[t("optR5Reduce"),t("optR5Reuse"),t("optR5Repair"),t("optR5Refurbish"),t("optR5Recycle"),t("optR5Dispose")]},
     {id:"disposal_route",label:t("csvColDisposalRoute"),w:"13%",ph:"Recycler/landfill"},
     {id:"recycler",label:t("colWasteRecycler"),w:"12%",ph:"Name"},
-    {id:"certificate",label:t("colCertNo"),w:"10%",ph:"Ref no."},
-    {id:"responsible",label:t("colResponsible"),w:"8%",ph:"Name"},
+    {id:"certificate",label:t("colCertNo"),w:"9%",ph:"Ref no."},
+    {id:"responsible",label:t("colResponsible"),w:"7%",ph:"Name"},
   ];
   return(<div>
     <InfoBox col={C.green} bg="#F0FFF4">{t("wasteInfoBox")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("wasteAddRow")}/>
+    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("wasteAddRow")} minWidth={1100}/>
   </div>);
 }
 
@@ -242,24 +242,24 @@ function GrievanceLog({value,onChange}){
   const {t,lang}=useLang();
   const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.grievance[lang]||[]);
   const cols=[
-    {id:"case_id",label:t("csvColCaseNo"),w:"7%",ph:"GRM-001"},
-    {id:"date_received",label:t("csvColDateReceived"),w:"7%",ph:"DD/MM/YY"},
-    {id:"channel",label:t("csvColChannel"),w:"8%",type:"sel",opts:["Phone/WhatsApp","Email","In-person","Suggestion box","Online form","Via agent","Anonymous","Other"],transOpts:[t("optChanPhone"),t("optChanEmail"),t("optChanInPerson"),t("optChanBox"),t("optChanOnline"),t("optChanAgent"),t("optChanAnon"),t("optChanOther")]},
-    {id:"complainant",label:t("colComplainantKnown"),w:"10%",ph:"Name or 'Anon'"},
-    {id:"category",label:t("riskColCategory"),w:"9%",type:"sel",opts:["Working conditions","Product quality","Consumer protection","Environmental","Community","Gender/SEAH","Payment dispute","Safety","Other"],transOpts:[t("optCatWorkCond"),t("optCatProduct"),t("optCatConsumerProt"),t("optCatEnvironment"),t("optCatCommunity"),t("optCatGender"),t("optCatPayment"),t("optCatSafety"),t("optCatOther")]},
-    {id:"description",label:t("csvColDescription"),w:"18%",type:"ta"},
-    {id:"level",label:t("csvColLevel"),w:"6%",type:"sel",opts:["Level 1","Level 2","Level 3"],transOpts:[t("optGrmLvl1"),t("optGrmLvl2"),t("optGrmLvl3")]},
-    {id:"assigned_to",label:t("csvColAssignedTo"),w:"8%",ph:"Name"},
+    {id:"case_id",label:t("csvColCaseNo"),w:"6%",minW:75,ph:"GRM-001"},
+    {id:"date_received",label:t("csvColDateReceived"),w:"7%",minW:80,ph:"DD/MM/YY"},
+    {id:"channel",label:t("csvColChannel"),w:"11%",minW:135,type:"sel",opts:["Phone/WhatsApp","Email","In-person","Suggestion box","Online form","Via agent","Anonymous","Other"],transOpts:[t("optChanPhone"),t("optChanEmail"),t("optChanInPerson"),t("optChanBox"),t("optChanOnline"),t("optChanAgent"),t("optChanAnon"),t("optChanOther")]},
+    {id:"complainant",label:t("colComplainantKnown"),w:"9%",ph:"Name or 'Anon'"},
+    {id:"category",label:t("riskColCategory"),w:"12%",minW:145,type:"sel",opts:["Working conditions","Product quality","Consumer protection","Environmental","Community","Gender/SEAH","Payment dispute","Safety","Other"],transOpts:[t("optCatWorkCond"),t("optCatProduct"),t("optCatConsumerProt"),t("optCatEnvironment"),t("optCatCommunity"),t("optCatGender"),t("optCatPayment"),t("optCatSafety"),t("optCatOther")]},
+    {id:"description",label:t("csvColDescription"),w:"17%",type:"ta"},
+    {id:"level",label:t("csvColLevel"),w:"8%",minW:90,type:"sel",opts:["Level 1","Level 2","Level 3"],transOpts:[t("optGrmLvl1"),t("optGrmLvl2"),t("optGrmLvl3")]},
+    {id:"assigned_to",label:t("csvColAssignedTo"),w:"7%",ph:"Name"},
     {id:"action",label:t("colActionTaken"),w:"13%",type:"ta"},
-    {id:"satisfied",label:t("csvColSatisfied"),w:"6%",type:"sel",opts:["Yes","No","Pending","N/A"],transOpts:[t("optSatisfiedYes"),t("optSatisfiedNo"),t("optSatisfiedPending"),t("optSatisfiedNA")]},
-    {id:"date_closed",label:t("csvColDateClosed"),w:"7%",ph:"DD/MM/YY"},
+    {id:"satisfied",label:t("csvColSatisfied"),w:"8%",minW:90,type:"sel",opts:["Yes","No","Pending","N/A"],transOpts:[t("optSatisfiedYes"),t("optSatisfiedNo"),t("optSatisfiedPending"),t("optSatisfiedNA")]},
+    {id:"date_closed",label:t("csvColDateClosed"),w:"6%",minW:80,ph:"DD/MM/YY"},
   ];
   return(<div>
     <InfoBox col={C.purple} bg="#F9F0FF">
       <strong>{t("grievanceTimelinesLabel")}</strong> {t("grievanceTimelinesText")}<br/>
       <strong>{t("grievanceLevelsLabel")}</strong> {t("grievanceLevelsText")}
     </InfoBox>
-    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("grievanceAddRow")}/>
+    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("grievanceAddRow")} minWidth={1150}/>
   </div>);
 }
 
@@ -268,20 +268,20 @@ function TrainingRegister({value,onChange}){
   const {t,lang}=useLang();
   const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.training[lang]||[]);
   const cols=[
-    {id:"date",label:t("csvColDate"),w:"8%",ph:"DD/MM/YY"},
+    {id:"date",label:t("csvColDate"),w:"7%",minW:80,ph:"DD/MM/YY"},
     {id:"module",label:t("csvColModule"),w:"18%",ph:"e.g. OHS Induction"},
     {id:"facilitator",label:t("csvColFacilitator"),w:"10%",ph:"Name / Org"},
-    {id:"participants",label:t("colParticipantsNo"),w:"8%",ph:"#"},
-    {id:"target_group",label:t("csvColTargetGroup"),w:"11%",ph:"e.g. Field techs"},
-    {id:"duration",label:t("csvColDuration"),w:"7%",ph:"hrs/days"},
-    {id:"method",label:t("csvColMethod"),w:"9%",type:"sel",opts:["In-person","Workshop","On-the-job","Online","Toolbox talk","Certified course","Other"],transOpts:[t("optMethInPerson"),t("optMethWorkshop"),t("optMethOJT"),t("optMethOnline"),t("optMethToolbox"),t("optMethCertified"),t("optMethOther")]},
-    {id:"assessment",label:t("csvColAssessment"),w:"7%",type:"sel",opts:["Yes","No","Planned"],transOpts:[t("optGenYes"),t("optGenNo"),t("optGenPlanned")]},
-    {id:"cert_no",label:t("colCertNo"),w:"9%",ph:"Ref (if any)"},
+    {id:"participants",label:t("colParticipantsNo"),w:"7%",minW:60,ph:"#"},
+    {id:"target_group",label:t("csvColTargetGroup"),w:"10%",ph:"e.g. Field techs"},
+    {id:"duration",label:t("csvColDuration"),w:"7%",minW:75,ph:"hrs/days"},
+    {id:"method",label:t("csvColMethod"),w:"12%",minW:140,type:"sel",opts:["In-person","Workshop","On-the-job","Online","Toolbox talk","Certified course","Other"],transOpts:[t("optMethInPerson"),t("optMethWorkshop"),t("optMethOJT"),t("optMethOnline"),t("optMethToolbox"),t("optMethCertified"),t("optMethOther")]},
+    {id:"assessment",label:t("csvColAssessment"),w:"8%",minW:90,type:"sel",opts:["Yes","No","Planned"],transOpts:[t("optGenYes"),t("optGenNo"),t("optGenPlanned")]},
+    {id:"cert_no",label:t("colCertNo"),w:"8%",ph:"Ref (if any)"},
     {id:"notes",label:t("colNotesGaps"),w:"12%",type:"ta"},
   ];
   return(<div>
     <InfoBox col={C.navyLight} bg="#EBF5FB">{t("trainingInfoBox")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("trainingAddRow")}/>
+    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("trainingAddRow")} minWidth={1050}/>
   </div>);
 }
 
@@ -472,17 +472,17 @@ function StakeholderRegister({value,onChange}){
   const cols=[
     {id:"group",label:t("csvColGroup"),w:"16%",ph:"Group name"},
     {id:"interests",label:t("csvColInterests"),w:"18%",type:"ta"},
-    {id:"influence",label:t("csvColInfluence"),w:"7%",type:"sel",opts:["High","Medium","Low"],transOpts:[t("optInflHigh"),t("optInflMedium"),t("optInflLow")]},
-    {id:"impact",label:t("colImpactThem"),w:"7%",type:"sel",opts:["High","Medium","Low"],transOpts:[t("optInflHigh"),t("optInflMedium"),t("optInflLow")]},
+    {id:"influence",label:t("csvColInfluence"),w:"8%",minW:95,type:"sel",opts:["High","Medium","Low"],transOpts:[t("optInflHigh"),t("optInflMedium"),t("optInflLow")]},
+    {id:"impact",label:t("colImpactThem"),w:"8%",minW:95,type:"sel",opts:["High","Medium","Low"],transOpts:[t("optInflHigh"),t("optInflMedium"),t("optInflLow")]},
     {id:"relationship",label:t("csvColRelationship"),w:"9%",ph:"Type"},
     {id:"method",label:t("colEngagementMethod"),w:"14%",type:"ta"},
-    {id:"frequency",label:t("csvColFrequency"),w:"8%",type:"sel",opts:["Ongoing","Monthly","Quarterly","Annually","As needed"],transOpts:[t("optFreqOngoing"),t("optFreqMonthly"),t("optFreqQuarterly"),t("optFreqAnnually"),t("optFreqAsNeeded")]},
+    {id:"frequency",label:t("csvColFrequency"),w:"10%",minW:110,type:"sel",opts:["Ongoing","Monthly","Quarterly","Annually","As needed"],transOpts:[t("optFreqOngoing"),t("optFreqMonthly"),t("optFreqQuarterly"),t("optFreqAnnually"),t("optFreqAsNeeded")]},
     {id:"responsible",label:t("colResponsible"),w:"9%",ph:"Name"},
-    {id:"last_engaged",label:t("colLastInspected"),w:"8%",ph:"DD/MM/YY"},
+    {id:"last_engaged",label:t("colLastInspected"),w:"7%",minW:80,ph:"DD/MM/YY"},
   ];
   return(<div>
     <InfoBox col={C.purple} bg="#F9F0FF">{t("stakeholderInfoBox2")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={BASELINES_I18N.stakeholder[lang]||STAKEHOLDER_BASELINE} value={rows} onChange={onChange} addRowLabel={t("stakeholderAddRow")}/>
+    <TableBuilder columns={cols} baselineRows={BASELINES_I18N.stakeholder[lang]||STAKEHOLDER_BASELINE} value={rows} onChange={onChange} addRowLabel={t("stakeholderAddRow")} minWidth={1000}/>
   </div>);
 }
 
@@ -503,15 +503,15 @@ function PPEMatrix({value,onChange}){
   const cols=[
     {id:"task",label:t("ppeColTask"),w:"15%",ph:"Describe task"},
     {id:"hazard",label:t("ppeColHazard"),w:"13%",ph:"Main hazard"},
-    {id:"ppe_required",label:t("ppeColRequired"),w:"22%",type:"ta"},
+    {id:"ppe_required",label:t("ppeColRequired"),w:"23%",type:"ta"},
     {id:"standard",label:t("ppeColStandard"),w:"8%",ph:"EN/ISO ref"},
-    {id:"provided",label:t("ppeColProvided"),w:"8%",type:"sel",opts:["Yes","No","Partial","Planned"],transOpts:[t("optPpeYes"),t("optPpeNo"),t("optPpePartial"),t("optPpePlanned")]},
-    {id:"inspected",label:t("colLastInspected"),w:"7%",ph:"DD/MM/YY"},
-    {id:"your_spec",label:t("ppeColSpec"),w:"18%",type:"ta"},
+    {id:"provided",label:t("ppeColProvided"),w:"9%",minW:100,type:"sel",opts:["Yes","No","Partial","Planned"],transOpts:[t("optPpeYes"),t("optPpeNo"),t("optPpePartial"),t("optPpePlanned")]},
+    {id:"inspected",label:t("colLastInspected"),w:"7%",minW:80,ph:"DD/MM/YY"},
+    {id:"your_spec",label:t("ppeColSpec"),w:"19%",type:"ta"},
   ];
   return(<div>
     <InfoBox col={C.red} bg="#FFF5F5">{t("ppeInfoBox")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={BASELINES_I18N.ppe[lang]||PPE_BASELINE} value={rows} onChange={onChange} addRowLabel={t("ppeAddRow")}/>
+    <TableBuilder columns={cols} baselineRows={BASELINES_I18N.ppe[lang]||PPE_BASELINE} value={rows} onChange={onChange} addRowLabel={t("ppeAddRow")} minWidth={950}/>
   </div>);
 }
 
@@ -532,19 +532,19 @@ function ComplianceTracker({value,onChange}){
   const {t,lang}=useLang();
   const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.compliance[lang]||COMPLIANCE_BASELINE);
   const cols=[
-    {id:"law",label:t("complianceColLaw"),w:"16%",ph:"Name"},
-    {id:"authority",label:t("complianceColAuthority"),w:"12%",ph:"Body"},
-    {id:"requirement",label:t("complianceColReq"),w:"18%",type:"ta"},
-    {id:"applies",label:t("complianceColApplies"),w:"6%",type:"sel",opts:["yes","no","unsure"],transOpts:[t("optAppliesYes"),t("optAppliesNo"),t("optAppliesUnsure")]},
-    {id:"status",label:t("complianceColStatus"),w:"9%",type:"sel",opts:["Compliant","Partial","Non-compliant","Under review","N/A"],transOpts:[t("optComplCompliant"),t("optComplPartial"),t("optComplNonCompliant"),t("optComplReview"),t("optComplNA")]},
-    {id:"expiry",label:t("complianceColExpiry"),w:"7%",ph:"DD/MM/YY"},
+    {id:"law",label:t("complianceColLaw"),w:"15%",ph:"Name"},
+    {id:"authority",label:t("complianceColAuthority"),w:"11%",ph:"Body"},
+    {id:"requirement",label:t("complianceColReq"),w:"17%",type:"ta"},
+    {id:"applies",label:t("complianceColApplies"),w:"8%",minW:90,type:"sel",opts:["yes","no","unsure"],transOpts:[t("optAppliesYes"),t("optAppliesNo"),t("optAppliesUnsure")]},
+    {id:"status",label:t("complianceColStatus"),w:"12%",minW:140,type:"sel",opts:["Compliant","Partial","Non-compliant","Under review","N/A"],transOpts:[t("optComplCompliant"),t("optComplPartial"),t("optComplNonCompliant"),t("optComplReview"),t("optComplNA")]},
+    {id:"expiry",label:t("complianceColExpiry"),w:"7%",minW:80,ph:"DD/MM/YY"},
     {id:"responsible",label:t("complianceColResponsible"),w:"8%",ph:"Name"},
-    {id:"evidence",label:t("complianceColEvidence"),w:"14%",ph:"File name/location"},
-    {id:"action",label:t("complianceColAction"),w:"12%",type:"ta"},
+    {id:"evidence",label:t("complianceColEvidence"),w:"13%",ph:"File name/location"},
+    {id:"action",label:t("complianceColAction"),w:"11%",type:"ta"},
   ];
   return(<div>
     <InfoBox col={C.amber} bg="#FFF8ED">{t("complianceInfoBox")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={BASELINES_I18N.compliance[lang]||COMPLIANCE_BASELINE} value={rows} onChange={onChange} addRowLabel={t("complianceAdd")}/>
+    <TableBuilder columns={cols} baselineRows={BASELINES_I18N.compliance[lang]||COMPLIANCE_BASELINE} value={rows} onChange={onChange} addRowLabel={t("complianceAdd")} minWidth={1150}/>
   </div>);
 }
 
@@ -726,21 +726,21 @@ function SupplierAssessment({value,onChange}){
   const {t}=useLang();
   const rows=value||[];
   const cols=[
-    {id:"supplier",label:t("supplierColName"),w:"13%",ph:"Company name"},
+    {id:"supplier",label:t("supplierColName"),w:"12%",ph:"Company name"},
     {id:"country",label:t("csvColCountry"),w:"7%",ph:"Country"},
-    {id:"category",label:t("riskColCategory"),w:"10%",type:"sel",opts:["Panels / Modules","Batteries","Accessories","Logistics","Agent/Distributor","Service provider","Other"],transOpts:[t("optSupPanels"),t("optSupBatteries"),t("optSupAccessories"),t("optSupLogistics"),t("optSupAgent"),t("optSupService"),t("optSupOther")]},
-    {id:"spend",label:t("csvColSpend"),w:"8%",ph:"USD amount"},
-    {id:"es_policy",label:t("csvColESPolicy"),w:"7%",type:"sel",opts:["Yes","No","Partial","Unknown"],transOpts:[t("optSupYes"),t("optSupNo"),t("optSupPartial"),t("optSupUnknown")]},
-    {id:"child_labour",label:t("csvColChildLabour"),w:"8%",type:"sel",opts:["Low","Medium","High","Unknown"],transOpts:[t("optInflLow"),t("optInflMedium"),t("optInflHigh"),t("optSupUnknown")]},
-    {id:"forced_labour",label:t("csvColForcedLabour"),w:"8%",type:"sel",opts:["Low","Medium","High","Unknown"],transOpts:[t("optInflLow"),t("optInflMedium"),t("optInflHigh"),t("optSupUnknown")]},
-    {id:"ewaste",label:t("csvColEwaste"),w:"7%",type:"sel",opts:["Yes","No","Partial","Unknown"],transOpts:[t("optSupYes"),t("optSupNo"),t("optSupPartial"),t("optSupUnknown")]},
-    {id:"certified",label:t("csvColCertified"),w:"8%",ph:"e.g. RBA, ISO"},
-    {id:"last_review",label:t("csvColLastReview"),w:"7%",ph:"DD/MM/YY"},
-    {id:"action",label:t("complianceColAction"),w:"14%",type:"ta"},
+    {id:"category",label:t("riskColCategory"),w:"12%",minW:145,type:"sel",opts:["Panels / Modules","Batteries","Accessories","Logistics","Agent/Distributor","Service provider","Other"],transOpts:[t("optSupPanels"),t("optSupBatteries"),t("optSupAccessories"),t("optSupLogistics"),t("optSupAgent"),t("optSupService"),t("optSupOther")]},
+    {id:"spend",label:t("csvColSpend"),w:"7%",ph:"USD amount"},
+    {id:"es_policy",label:t("csvColESPolicy"),w:"9%",minW:105,type:"sel",opts:["Yes","No","Partial","Unknown"],transOpts:[t("optSupYes"),t("optSupNo"),t("optSupPartial"),t("optSupUnknown")]},
+    {id:"child_labour",label:t("csvColChildLabour"),w:"9%",minW:105,type:"sel",opts:["Low","Medium","High","Unknown"],transOpts:[t("optInflLow"),t("optInflMedium"),t("optInflHigh"),t("optSupUnknown")]},
+    {id:"forced_labour",label:t("csvColForcedLabour"),w:"9%",minW:105,type:"sel",opts:["Low","Medium","High","Unknown"],transOpts:[t("optInflLow"),t("optInflMedium"),t("optInflHigh"),t("optSupUnknown")]},
+    {id:"ewaste",label:t("csvColEwaste"),w:"9%",minW:105,type:"sel",opts:["Yes","No","Partial","Unknown"],transOpts:[t("optSupYes"),t("optSupNo"),t("optSupPartial"),t("optSupUnknown")]},
+    {id:"certified",label:t("csvColCertified"),w:"7%",ph:"e.g. RBA, ISO"},
+    {id:"last_review",label:t("csvColLastReview"),w:"6%",minW:80,ph:"DD/MM/YY"},
+    {id:"action",label:t("complianceColAction"),w:"13%",type:"ta"},
   ];
   return(<div>
     <InfoBox col={C.orange} bg="#FFF3E0">{t("supplierInfoBox")}</InfoBox>
-    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("supplierAddBtn")}/>
+    <TableBuilder columns={cols} baselineRows={[]} value={rows} onChange={onChange} addRowLabel={t("supplierAddBtn")} minWidth={1200}/>
   </div>);
 }
 

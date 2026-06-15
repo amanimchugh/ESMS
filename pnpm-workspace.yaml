@@ -157,7 +157,8 @@ overrides:
   "@expo/ngrok-bin>@expo/ngrok-bin-win32-x64": "-"
   # drizzle-kit uses esbuild internally on an older version that's vulnerable, this overrides it
   "@esbuild-kit/esm-loader": "npm:tsx@^4.21.0"
-  esbuild: "0.27.3"
+  # Security: fix esbuild missing binary integrity verification (GHSA-gv7w-rqvm-qjhr, GHSA-g7r4-m6w7-qqqr)
+  esbuild: "0.28.1"
   # Security: fix picomatch ReDoS and POSIX injection (GHSA-c2c7-rcm5-vvqj, GHSA-3v7f-55p6-f55p)
   "micromatch>picomatch": "^2.3.2"
   "vite>picomatch": "^4.0.4"
@@ -171,3 +172,7 @@ overrides:
   "minimatch>brace-expansion": "^2.0.3"
   # Security: fix postcss XSS via unescaped </style> (GHSA-qx2v-qp2m-jg93)
   postcss: "^8.5.10"
+  # Security: fix fast-uri path traversal and host confusion (GHSA-q3j6-qgpj-74h6, GHSA-v39h-62p7-jpjc)
+  fast-uri: ">=3.1.2"
+  # Security: fix qs DoS via null/undefined in comma-format arrays (GHSA-q8mj-m7cp-5q26)
+  qs: ">=6.15.2"

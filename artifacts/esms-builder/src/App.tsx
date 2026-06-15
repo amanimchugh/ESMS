@@ -143,7 +143,7 @@ function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row"
                     {c.opts.map((o,i)=><option key={o} value={o}>{c.transOpts?c.transOpts[i]:o}</option>)}
                   </select>
                   :c.type==="ta"
-                    ?<textarea value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} rows={4} style={{...S.ta,padding:"6px 8px",minWidth:"100%"}}/>
+                    ?<textarea value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} placeholder={c.ph||""} rows={4} style={{...S.ta,padding:"6px 8px",minWidth:"100%"}}/>
                     :<input value={row[c.id]||""} onChange={e=>updateCell(ri,c.id,e.target.value)} placeholder={c.ph||""} style={{...S.inp,padding:"6px 8px"}}/>}
               </td>
             ))}
@@ -228,7 +228,7 @@ function IncidentLog({value,onChange}){
     {id:"date",label:t("csvColDate"),w:"7%",minW:80,ph:"DD/MM/YY"},
     {id:"type",label:t("csvColType"),w:"11%",minW:130,type:"sel",opts:["Injury","Near-Miss","Property Damage","Environmental","Security","SEAH","Other"],transOpts:[t("optIncidentInjury"),t("optIncidentNearMiss"),t("optIncidentPropertyDmg"),t("optIncidentEnvironmental"),t("optIncidentSecurity"),t("optIncidentSEAH"),t("optIncidentOther")]},
     {id:"description",label:t("csvColDescription"),w:"21%",type:"ta"},
-    {id:"location",label:t("csvColLocation"),w:"9%",ph:"Site/area"},
+    {id:"location",label:t("csvColLocation"),w:"9%",ph:"Site/area",type:"ta"},
     {id:"persons",label:t("csvColPersons"),w:"9%",ph:"Role only"},
     {id:"cause",label:t("csvColCause"),w:"14%",type:"ta"},
     {id:"action",label:t("csvColAction"),w:"14%",type:"ta"},
@@ -250,10 +250,10 @@ function WasteRegister({value,onChange}){
     {id:"waste_type",label:t("csvColWasteType"),w:"14%",minW:155,type:"sel",opts:["Lead-acid battery","Lithium battery","Solar panel","Inverter/controller","Accessories","Packaging","Office waste","Workshop waste","Other"],transOpts:[t("optWasteLeadAcid"),t("optWasteLithium"),t("optWasteSolarPanel"),t("optWasteInverter"),t("optWasteAccessories"),t("optWastePackaging"),t("optWasteOffice"),t("optWasteWorkshop"),t("optWasteOther")]},
     {id:"qty_units",label:t("csvColQtyUnits"),w:"6%",minW:60,ph:"#"},
     {id:"qty_kg",label:t("csvColQtyKg"),w:"6%",minW:60,ph:"kg"},
-    {id:"source",label:t("csvColSource"),w:"9%",ph:"Agent/area"},
+    {id:"source",label:t("csvColSource"),w:"9%",ph:"Agent/area",type:"ta"},
     {id:"r5",label:t("csv5R"),w:"10%",minW:105,type:"sel",opts:["Reduce","Reuse","Repair","Refurbish","Recycle","Dispose"],transOpts:[t("optR5Reduce"),t("optR5Reuse"),t("optR5Repair"),t("optR5Refurbish"),t("optR5Recycle"),t("optR5Dispose")]},
-    {id:"disposal_route",label:t("csvColDisposalRoute"),w:"13%",ph:"Recycler/landfill"},
-    {id:"recycler",label:t("colWasteRecycler"),w:"12%",ph:"Name"},
+    {id:"disposal_route",label:t("csvColDisposalRoute"),w:"13%",ph:"Recycler/landfill",type:"ta"},
+    {id:"recycler",label:t("colWasteRecycler"),w:"12%",ph:"Name",type:"ta"},
     {id:"certificate",label:t("colCertNo"),w:"9%",ph:"Ref no."},
     {id:"responsible",label:t("colResponsible"),w:"7%",ph:"Name"},
   ];
@@ -271,7 +271,7 @@ function GrievanceLog({value,onChange}){
     {id:"case_id",label:t("csvColCaseNo"),w:"6%",minW:75,ph:"GRM-001"},
     {id:"date_received",label:t("csvColDateReceived"),w:"7%",minW:80,ph:"DD/MM/YY"},
     {id:"channel",label:t("csvColChannel"),w:"11%",minW:135,type:"sel",opts:["Phone/WhatsApp","Email","In-person","Suggestion box","Online form","Via agent","Anonymous","Other"],transOpts:[t("optChanPhone"),t("optChanEmail"),t("optChanInPerson"),t("optChanBox"),t("optChanOnline"),t("optChanAgent"),t("optChanAnon"),t("optChanOther")]},
-    {id:"complainant",label:t("colComplainantKnown"),w:"9%",ph:"Name or 'Anon'"},
+    {id:"complainant",label:t("colComplainantKnown"),w:"9%",ph:"Name or 'Anon'",type:"ta"},
     {id:"category",label:t("riskColCategory"),w:"12%",minW:145,type:"sel",opts:["Working conditions","Product quality","Consumer protection","Environmental","Community","Gender/SEAH","Payment dispute","Safety","Other"],transOpts:[t("optCatWorkCond"),t("optCatProduct"),t("optCatConsumerProt"),t("optCatEnvironment"),t("optCatCommunity"),t("optCatGender"),t("optCatPayment"),t("optCatSafety"),t("optCatOther")]},
     {id:"description",label:t("csvColDescription"),w:"17%",type:"ta"},
     {id:"level",label:t("csvColLevel"),w:"8%",minW:90,type:"sel",opts:["Level 1","Level 2","Level 3"],transOpts:[t("optGrmLvl1"),t("optGrmLvl2"),t("optGrmLvl3")]},
@@ -295,10 +295,10 @@ function TrainingRegister({value,onChange}){
   const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.training[lang]||[]);
   const cols=[
     {id:"date",label:t("csvColDate"),w:"7%",minW:80,ph:"DD/MM/YY"},
-    {id:"module",label:t("csvColModule"),w:"18%",ph:"e.g. OHS Induction"},
-    {id:"facilitator",label:t("csvColFacilitator"),w:"10%",ph:"Name / Org"},
+    {id:"module",label:t("csvColModule"),w:"18%",ph:"e.g. OHS Induction",type:"ta"},
+    {id:"facilitator",label:t("csvColFacilitator"),w:"10%",ph:"Name / Org",type:"ta"},
     {id:"participants",label:t("colParticipantsNo"),w:"7%",minW:60,ph:"#"},
-    {id:"target_group",label:t("csvColTargetGroup"),w:"10%",ph:"e.g. Field techs"},
+    {id:"target_group",label:t("csvColTargetGroup"),w:"10%",ph:"e.g. Field techs",type:"ta"},
     {id:"duration",label:t("csvColDuration"),w:"7%",minW:75,ph:"hrs/days"},
     {id:"method",label:t("csvColMethod"),w:"12%",minW:140,type:"sel",opts:["In-person","Workshop","On-the-job","Online","Toolbox talk","Certified course","Other"],transOpts:[t("optMethInPerson"),t("optMethWorkshop"),t("optMethOJT"),t("optMethOnline"),t("optMethToolbox"),t("optMethCertified"),t("optMethOther")]},
     {id:"assessment",label:t("csvColAssessment"),w:"8%",minW:90,type:"sel",opts:["Yes","No","Planned"],transOpts:[t("optGenYes"),t("optGenNo"),t("optGenPlanned")]},
@@ -496,11 +496,11 @@ function StakeholderRegister({value,onChange}){
   const {t,lang}=useLang();
   const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.stakeholder[lang]||STAKEHOLDER_BASELINE);
   const cols=[
-    {id:"group",label:t("csvColGroup"),w:"16%",ph:"Group name"},
+    {id:"group",label:t("csvColGroup"),w:"16%",ph:"Group name",type:"ta"},
     {id:"interests",label:t("csvColInterests"),w:"18%",type:"ta"},
     {id:"influence",label:t("csvColInfluence"),w:"8%",minW:95,type:"sel",opts:["High","Medium","Low"],transOpts:[t("optInflHigh"),t("optInflMedium"),t("optInflLow")]},
     {id:"impact",label:t("colImpactThem"),w:"8%",minW:95,type:"sel",opts:["High","Medium","Low"],transOpts:[t("optInflHigh"),t("optInflMedium"),t("optInflLow")]},
-    {id:"relationship",label:t("csvColRelationship"),w:"9%",ph:"Type"},
+    {id:"relationship",label:t("csvColRelationship"),w:"9%",ph:"Type",type:"ta"},
     {id:"method",label:t("colEngagementMethod"),w:"14%",type:"ta"},
     {id:"frequency",label:t("csvColFrequency"),w:"10%",minW:110,type:"sel",opts:["Ongoing","Monthly","Quarterly","Annually","As needed"],transOpts:[t("optFreqOngoing"),t("optFreqMonthly"),t("optFreqQuarterly"),t("optFreqAnnually"),t("optFreqAsNeeded")]},
     {id:"responsible",label:t("colResponsible"),w:"9%",ph:"Name"},
@@ -527,8 +527,8 @@ function PPEMatrix({value,onChange}){
   const {t,lang}=useLang();
   const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.ppe[lang]||PPE_BASELINE);
   const cols=[
-    {id:"task",label:t("ppeColTask"),w:"15%",ph:"Describe task"},
-    {id:"hazard",label:t("ppeColHazard"),w:"13%",ph:"Main hazard"},
+    {id:"task",label:t("ppeColTask"),w:"15%",ph:"Describe task",type:"ta"},
+    {id:"hazard",label:t("ppeColHazard"),w:"13%",ph:"Main hazard",type:"ta"},
     {id:"ppe_required",label:t("ppeColRequired"),w:"23%",type:"ta"},
     {id:"standard",label:t("ppeColStandard"),w:"8%",ph:"EN/ISO ref"},
     {id:"provided",label:t("ppeColProvided"),w:"9%",minW:100,type:"sel",opts:["Yes","No","Partial","Planned"],transOpts:[t("optPpeYes"),t("optPpeNo"),t("optPpePartial"),t("optPpePlanned")]},
@@ -558,14 +558,14 @@ function ComplianceTracker({value,onChange}){
   const {t,lang}=useLang();
   const rows=Array.isArray(value)&&value.length>0?value:(BASELINES_I18N.compliance[lang]||COMPLIANCE_BASELINE);
   const cols=[
-    {id:"law",label:t("complianceColLaw"),w:"15%",ph:"Name"},
-    {id:"authority",label:t("complianceColAuthority"),w:"11%",ph:"Body"},
+    {id:"law",label:t("complianceColLaw"),w:"15%",ph:"Name",type:"ta"},
+    {id:"authority",label:t("complianceColAuthority"),w:"11%",ph:"Body",type:"ta"},
     {id:"requirement",label:t("complianceColReq"),w:"17%",type:"ta"},
     {id:"applies",label:t("complianceColApplies"),w:"8%",minW:90,type:"sel",opts:["yes","no","unsure"],transOpts:[t("optAppliesYes"),t("optAppliesNo"),t("optAppliesUnsure")]},
     {id:"status",label:t("complianceColStatus"),w:"12%",minW:140,type:"sel",opts:["Compliant","Partial","Non-compliant","Under review","N/A"],transOpts:[t("optComplCompliant"),t("optComplPartial"),t("optComplNonCompliant"),t("optComplReview"),t("optComplNA")]},
     {id:"expiry",label:t("complianceColExpiry"),w:"7%",minW:80,ph:"DD/MM/YY"},
     {id:"responsible",label:t("complianceColResponsible"),w:"8%",ph:"Name"},
-    {id:"evidence",label:t("complianceColEvidence"),w:"13%",ph:"File name/location"},
+    {id:"evidence",label:t("complianceColEvidence"),w:"13%",ph:"File name/location",type:"ta"},
     {id:"action",label:t("complianceColAction"),w:"11%",type:"ta"},
   ];
   return(<div>
@@ -752,7 +752,7 @@ function SupplierAssessment({value,onChange}){
   const {t}=useLang();
   const rows=value||[];
   const cols=[
-    {id:"supplier",label:t("supplierColName"),w:"12%",ph:"Company name"},
+    {id:"supplier",label:t("supplierColName"),w:"12%",ph:"Company name",type:"ta"},
     {id:"country",label:t("csvColCountry"),w:"7%",ph:"Country"},
     {id:"category",label:t("riskColCategory"),w:"12%",minW:145,type:"sel",opts:["Panels / Modules","Batteries","Accessories","Logistics","Agent/Distributor","Service provider","Other"],transOpts:[t("optSupPanels"),t("optSupBatteries"),t("optSupAccessories"),t("optSupLogistics"),t("optSupAgent"),t("optSupService"),t("optSupOther")]},
     {id:"spend",label:t("csvColSpend"),w:"7%",ph:"USD amount"},
@@ -760,7 +760,7 @@ function SupplierAssessment({value,onChange}){
     {id:"child_labour",label:t("csvColChildLabour"),w:"9%",minW:105,type:"sel",opts:["Low","Medium","High","Unknown"],transOpts:[t("optInflLow"),t("optInflMedium"),t("optInflHigh"),t("optSupUnknown")]},
     {id:"forced_labour",label:t("csvColForcedLabour"),w:"9%",minW:105,type:"sel",opts:["Low","Medium","High","Unknown"],transOpts:[t("optInflLow"),t("optInflMedium"),t("optInflHigh"),t("optSupUnknown")]},
     {id:"ewaste",label:t("csvColEwaste"),w:"9%",minW:105,type:"sel",opts:["Yes","No","Partial","Unknown"],transOpts:[t("optSupYes"),t("optSupNo"),t("optSupPartial"),t("optSupUnknown")]},
-    {id:"certified",label:t("csvColCertified"),w:"7%",ph:"e.g. RBA, ISO"},
+    {id:"certified",label:t("csvColCertified"),w:"7%",ph:"e.g. RBA, ISO",type:"ta"},
     {id:"last_review",label:t("csvColLastReview"),w:"6%",minW:80,ph:"DD/MM/YY"},
     {id:"action",label:t("complianceColAction"),w:"13%",type:"ta"},
   ];
@@ -1711,7 +1711,7 @@ const PLAN_DEFS_SIMPLE = [
          {id:"source",lk:"tblColSource",label:"Source / Process",w:"18%"},
          {id:"volume_yr",lk:"tblColVolumeYr",label:"Est. Volume / Year",w:"13%"},
          {id:"unit",lk:"tblColUnit",label:"Unit",w:"8%"},
-         {id:"notes",lk:"tblColNotes",label:"Notes",w:"22%"},
+         {id:"notes",lk:"tblColNotes",label:"Notes",w:"22%",type:"ta"},
        ],
        baseline:[
          {waste_type:"Lead-acid batteries",hazard_class:"Hazardous",source:"Customer returns / agent collection",volume_yr:"~200",unit:"units",notes:"Primary e-waste stream; Basel Convention listed; highest priority"},
@@ -1724,10 +1724,10 @@ const PLAN_DEFS_SIMPLE = [
        addRowLabel:"➕ Add Strategy Row",addRowLk:"addStrategyRow",
        cols:[
          {id:"waste_stream",lk:"tblColWasteStream",label:"Waste Stream",w:"14%"},
-         {id:"reduce",lk:"tblColReduce",label:"Reduce",w:"17%"},
-         {id:"reuse_repair",lk:"tblColReuseRepair",label:"Reuse / Repair / Refurbish",w:"20%"},
-         {id:"recycle",lk:"tblColRecycle",label:"Recycle",w:"18%"},
-         {id:"priority",lk:"tblColPriorityAction",label:"Priority Action",w:"14%"},
+         {id:"reduce",lk:"tblColReduce",label:"Reduce",w:"17%",type:"ta"},
+         {id:"reuse_repair",lk:"tblColReuseRepair",label:"Reuse / Repair / Refurbish",w:"20%",type:"ta"},
+         {id:"recycle",lk:"tblColRecycle",label:"Recycle",w:"18%",type:"ta"},
+         {id:"priority",lk:"tblColPriorityAction",label:"Priority Action",w:"14%",type:"ta"},
          {id:"target_date",lk:"tblColTargetDate",label:"Target Date",w:"9%"},
        ],
        baseline:[
@@ -1743,11 +1743,11 @@ const PLAN_DEFS_SIMPLE = [
        addRowLabel:"➕ Add Partner",addRowLk:"addPartner",
        cols:[
          {id:"waste_type",lk:"tblColWasteType",label:"Waste Type",w:"14%"},
-         {id:"partner_name",lk:"tblColPartner",label:"Partner / Recycler",w:"17%"},
+         {id:"partner_name",lk:"tblColPartner",label:"Partner / Recycler",w:"17%",type:"ta"},
          {id:"country",lk:"tblColCountry",label:"Country",w:"9%"},
-         {id:"reg_no",lk:"tblColRegNo",label:"Regulatory Reg. No.",w:"15%"},
+         {id:"reg_no",lk:"tblColRegNo",label:"Regulatory Reg. No.",w:"15%",type:"ta"},
          {id:"collection_freq",lk:"tblColCollFreq",label:"Collection Frequency",w:"14%"},
-         {id:"evidence",lk:"tblColEvidence",label:"Evidence / Documentation",w:"21%"},
+         {id:"evidence",lk:"tblColEvidence",label:"Evidence / Documentation",w:"21%",type:"ta"},
        ],
        baseline:[
          {waste_type:"Lead-acid batteries",partner_name:"[Recycler TBC]",country:"Nigeria",reg_no:"NESREA Lic. No. [X]",collection_freq:"Quarterly",evidence:"Certificate of Recycling + Waste Transfer Note"},
@@ -1766,12 +1766,12 @@ const PLAN_DEFS_SIMPLE = [
       {id:"scenarios_epr",lk:"plnfldScenarios",label:"Emergency Scenarios & Priority",t:"table",
        addRowLabel:"➕ Add Scenario",addRowLk:"addScenario",
        cols:[
-         {id:"scenario",lk:"tblColScenario",label:"Emergency Scenario",w:"22%"},
+         {id:"scenario",lk:"tblColScenario",label:"Emergency Scenario",w:"22%",type:"ta"},
          {id:"probability",lk:"tblColProbability",label:"Probability",w:"10%",type:"sel",opts:["Low","Medium","High"]},
          {id:"severity",lk:"tblColSeverity",label:"Severity",w:"10%",type:"sel",opts:["Low","Medium","High","Critical"]},
          {id:"priority",lk:"tblColPriority",label:"Priority",w:"9%",type:"sel",opts:["LOW","MEDIUM","HIGH","CRITICAL"]},
-         {id:"response_lead",lk:"tblColResponseLead",label:"Response Lead",w:"16%"},
-         {id:"procedure_ref",lk:"tblColProcRef",label:"Procedure Reference",w:"23%"},
+         {id:"response_lead",lk:"tblColResponseLead",label:"Response Lead",w:"16%",type:"ta"},
+         {id:"procedure_ref",lk:"tblColProcRef",label:"Procedure Reference",w:"23%",type:"ta"},
        ],
        baseline:[
          {scenario:"Electrical fire (office / warehouse)",probability:"Medium",severity:"High",priority:"HIGH",response_lead:"Warehouse / Office Manager",procedure_ref:"Fire Response Procedure (Section A)"},
@@ -1789,12 +1789,12 @@ const PLAN_DEFS_SIMPLE = [
       {id:"drills_epr",lk:"plnfldDrills",label:"Drill Schedule & Records",t:"table",
        addRowLabel:"➕ Add Drill",addRowLk:"addDrill",
        cols:[
-         {id:"drill_type",lk:"tblColDrillType",label:"Drill Type",w:"22%"},
+         {id:"drill_type",lk:"tblColDrillType",label:"Drill Type",w:"22%",type:"ta"},
          {id:"frequency",lk:"tblColFrequency",label:"Frequency",w:"11%"},
          {id:"last_completed",lk:"tblColLastCompleted",label:"Last Completed",w:"13%"},
          {id:"next_scheduled",lk:"tblColNextScheduled",label:"Next Scheduled",w:"13%"},
-         {id:"participants",lk:"tblColParticipants",label:"Participants",w:"20%"},
-         {id:"outcome_notes",lk:"tblColOutcome",label:"Outcome / Lessons Learned",w:"21%"},
+         {id:"participants",lk:"tblColParticipants",label:"Participants",w:"20%",type:"ta"},
+         {id:"outcome_notes",lk:"tblColOutcome",label:"Outcome / Lessons Learned",w:"21%",type:"ta"},
        ],
        baseline:[
          {drill_type:"Full building / site evacuation drill",frequency:"Semi-annual",last_completed:"[Date]",next_scheduled:"[Date]",participants:"All office and warehouse staff",outcome_notes:"[Complete after drill — document gaps found]"},

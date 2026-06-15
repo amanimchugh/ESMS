@@ -2238,8 +2238,9 @@ function calcSectionProgress(sectionId, esmsData) {
     return {pct:Math.min(100,Math.round(done/TOTAL*100)),done,total:TOTAL};
   }
   if (sectionId === "policy") {
-    const total=PLAN_DEFS_SIMPLE.length;
-    const done=PLAN_DEFS_SIMPLE.filter(p=>{const dat=esmsData[`policy_${p.id}`]||{};return Object.keys(dat).some(k=>!!dat[k]);}).length;
+    const policies=makePolicies(k=>k);
+    const total=policies.length;
+    const done=policies.filter(p=>{const dat=esmsData[`policy_${p.id}`]||{};return Object.keys(dat).some(k=>!!dat[k]);}).length;
     return {pct:Math.round(done/total*100),done,total};
   }
   if (sectionId === "risks") {
@@ -2275,7 +2276,7 @@ function calcSectionProgress(sectionId, esmsData) {
   if (sectionId === "esap") {
     const rows=esmsData["tool_esap"]?.data||[];
     if(!rows.length) return {pct:0,done:0,total:0};
-    const done=rows.filter(r=>r.action?.trim()).length;
+    const done=rows.filter(r=>r.objective?.trim()||r.actions?.trim()).length;
     return {pct:Math.round(done/rows.length*100),done,total:rows.length};
   }
   return {pct:0,done:0,total:0};
@@ -2320,7 +2321,7 @@ function Welcome({ esmsData, setActive, openGuide, nav }) {
       return Object.keys(dat).some(k => !!dat[k]);
     });
     if (n.id === "tools") return Object.keys(TOOLS_REGISTRY).some(t => !!(esmsData[`tool_${t}`]?.data));
-    if (n.id === "policy") return PLAN_DEFS_SIMPLE.some(p => !!(esmsData[`policy_${p.id}`] && Object.keys(esmsData[`policy_${p.id}`]||{}).length > 0));
+    if (n.id === "policy") return makePolicies(k=>k).some(p => !!(esmsData[`policy_${p.id}`] && Object.keys(esmsData[`policy_${p.id}`]||{}).length > 0));
     if (n.id === "plans") return PLAN_DEFS_SIMPLE.some(p => !!(esmsData[`plan_${p.id}`] && Object.keys(esmsData[`plan_${p.id}`]||{}).length > 0));
     if (n.id === "risks") return !!(esmsData["risk_register"]?.data);
     if (n.id === "compliance") return !!(esmsData["compliance_tracker"]?.data);
@@ -2358,6 +2359,14 @@ function Welcome({ esmsData, setActive, openGuide, nav }) {
       <h2 style={{ fontFamily:F.d, color:C.text, marginBottom:6, fontWeight:400 }}>{t("welcomeTitle")}</h2>
       <p style={{ color:C.muted, lineHeight:1.7, fontSize:14, marginBottom:20 }}>{t("welcomeDesc")}</p>
       <InfoBox col={C.amber} bg="#FFF8ED">{t("welcomeComponents")}</InfoBox>
+      <div style={{display:"flex",alignItems:"center",gap:12,margin:"0 0 16px",padding:"12px 16px",background:"linear-gradient(135deg,#EBF5FB,#D6EAF8)",borderRadius:10,border:"1.5px solid #2A5F9E",flexWrap:"wrap"}}>
+        <span style={{fontSize:20,flexShrink:0}}>📖</span>
+        <div style={{flex:1,minWidth:160}}>
+          <div style={{fontWeight:700,fontSize:13,color:"#1A3A5C"}}>ROGEAP Guidelines &amp; Resources</div>
+          <div style={{fontSize:11,color:"#2A5F9E",marginTop:2}}>ROGEAP ESMS Guidelines · IFC Performance Standards · Implementation guidance</div>
+        </div>
+        <GuideBtn guideId="plans" onOpen={openGuide}/>
+      </div>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(190px,1fr))", gap:10 }}>
         {navList.filter(n => n.id !== "welcome").map(n => {
           const done = isSectionDone(n);

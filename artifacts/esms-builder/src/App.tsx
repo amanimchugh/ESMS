@@ -98,6 +98,28 @@ function ChecklistBuilder({baseline,value,onChange,columns=1}){
   </div>);
 }
 
+// ═══════════════ SYNC SCROLLBAR WRAPPER ═══════════════
+// Mirrors a scrollbar strip ABOVE the table so users can scroll horizontally
+// without first scrolling to the bottom of the page to reach the native scrollbar.
+function SyncScroll({children,minWidth=950}){
+  const topRef=useRef(null);
+  const botRef=useRef(null);
+  const busy=useRef(false);
+  const onTop=()=>{if(busy.current)return;busy.current=true;if(botRef.current)botRef.current.scrollLeft=topRef.current.scrollLeft;busy.current=false;};
+  const onBot=()=>{if(busy.current)return;busy.current=true;if(topRef.current)topRef.current.scrollLeft=botRef.current.scrollLeft;busy.current=false;};
+  return(
+    <div>
+      <div ref={topRef} onScroll={onTop} aria-hidden="true"
+        style={{overflowX:"scroll",overflowY:"hidden",background:"#F0F2F4",borderRadius:"6px 6px 0 0",border:"1px solid #DDE1E6",borderBottom:"none"}}>
+        <div style={{height:1,minWidth}}/>
+      </div>
+      <div ref={botRef} onScroll={onBot} style={{overflowX:"auto",border:"1px solid #DDE1E6",borderTop:"none",borderRadius:"0 0 4px 4px"}}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 // ═══════════════ LIVE TABLE BUILDER ═══════════════
 // Users can edit cell content, add rows, remove rows
 function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row",minWidth=950}){
@@ -106,7 +128,8 @@ function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row"
   const updateCell=(ri,ci,v)=>{const r=[...rows];r[ri]={...r[ri],[ci]:v};onChange(r);};
   const addRow=()=>{const blank={};columns.forEach(c=>{blank[c.id]="";});onChange([...rows,blank]);};
   const removeRow=i=>onChange(rows.filter((_,j)=>j!==i));
-  return(<div style={{overflowX:"auto"}}>
+  return(<div>
+    <SyncScroll minWidth={minWidth}>
     <table style={{width:"100%",borderCollapse:"collapse",fontSize:13,minWidth}}>
       <thead><tr>{columns.map(c=><th key={c.id} style={{...S.th,width:c.w||"auto",minWidth:c.minW||undefined}}>{c.lk?t(c.lk):c.label}</th>)}<th style={{...S.th,width:40}}></th></tr></thead>
       <tbody>
@@ -129,6 +152,7 @@ function TableBuilder({columns,baselineRows,value,onChange,addRowLabel="Add Row"
         ))}
       </tbody>
     </table>
+    </SyncScroll>
     <button onClick={addRow} style={{...S.outBtn,marginTop:10,fontSize:12,color:C.teal,borderColor:C.teal,display:"flex",alignItems:"center",gap:6}}>➕ {addRowLabel}</button>
   </div>);
 }
@@ -142,7 +166,8 @@ function RiskMatrix({baselineRisks,value,onChange}){
   const removeRow=i=>onChange(rows.filter((_,j)=>j!==i));
   const ratingColor=(p,s)=>{const score=parseInt(p)*parseInt(s);if(score>=9)return{bg:"#FDECEA",c:C.red,label:t("riskCritical")};if(score>=6)return{bg:"#FFF3E0",c:"#E65100",label:t("riskHigh")};if(score>=3)return{bg:"#FFFDE7",c:"#F9A825",label:t("riskMedium")};return{bg:"#E8F5E9",c:C.green,label:t("riskLow")};};
   const colHeaders=[t("riskColHazard"),t("riskColCategory"),t("riskColApplies"),t("riskColProb"),t("riskColSev"),t("riskColRating"),t("riskColMitigation"),t("riskColResponsible"),t("riskColStatus")];
-  return(<div style={{overflowX:"auto"}}>
+  return(<div>
+    <SyncScroll minWidth={1150}>
     <table style={{width:"100%",borderCollapse:"collapse",fontSize:13,minWidth:1150}}>
       <thead><tr>
         {colHeaders.map((h,i)=>
@@ -184,6 +209,7 @@ function RiskMatrix({baselineRisks,value,onChange}){
         })}
       </tbody>
     </table>
+    </SyncScroll>
     <button onClick={addRow} style={{...S.outBtn,marginTop:10,fontSize:12,color:C.teal,borderColor:C.teal}}>{t("riskAdd")}</button>
     <div style={{marginTop:14,display:"flex",gap:10,flexWrap:"wrap"}}>
       {[{lk:"riskCritical",range:"(9-16)",bg:"#FDECEA",c:C.red},{lk:"riskHigh",range:"(6-8)",bg:"#FFF3E0",c:"#E65100"},{lk:"riskMedium",range:"(3-5)",bg:"#FFFDE7",c:"#F9A825"},{lk:"riskLow",range:"(1-2)",bg:"#E8F5E9",c:C.green}].map(r=>(
@@ -2194,6 +2220,92 @@ function BPCardExport({ esmsData, L, t }) {
   );
 }
 
+// ═══════════════ SECTION PROGRESS ═══════════════
+// Pure function — safe to call outside React components
+function calcSectionProgress(sectionId, esmsData) {
+  if (sectionId === "business_profile") {
+    let done=0,total=0;
+    BUSINESS_PROFILE_DEFS.forEach(def=>{
+      const dat=esmsData[`bp_${def.id}`]||{};
+      def.fields.forEach(f=>{total++;const v=dat[f.id];if(v!==undefined&&v!==''&&v!==false&&v!==null)done++;});
+    });
+    return {pct:total>0?Math.round(done/total*100):0,done,total};
+  }
+  if (sectionId === "screening") {
+    const data=esmsData["screening_q"]?.data||{};
+    const TOTAL=32; // 6+8+8+5+5 questions
+    const done=Object.values(data).filter(v=>v?.answer).length;
+    return {pct:Math.min(100,Math.round(done/TOTAL*100)),done,total:TOTAL};
+  }
+  if (sectionId === "policy") {
+    const total=PLAN_DEFS_SIMPLE.length;
+    const done=PLAN_DEFS_SIMPLE.filter(p=>{const dat=esmsData[`policy_${p.id}`]||{};return Object.keys(dat).some(k=>!!dat[k]);}).length;
+    return {pct:Math.round(done/total*100),done,total};
+  }
+  if (sectionId === "risks") {
+    const rows=esmsData["risk_register"]?.data||[];
+    if(!rows.length) return {pct:0,done:0,total:0};
+    const done=rows.filter(r=>r.risk?.trim()&&r.mitigation?.trim()).length;
+    return {pct:Math.round(done/rows.length*100),done,total:rows.length};
+  }
+  if (sectionId === "compliance") {
+    const rows=esmsData["compliance_tracker"]?.data||[];
+    if(!rows.length) return {pct:0,done:0,total:0};
+    const done=rows.filter(r=>r.status&&r.status!=='').length;
+    return {pct:Math.round(done/rows.length*100),done,total:rows.length};
+  }
+  if (sectionId === "plans") {
+    let done=0,total=0;
+    PLAN_DEFS_SIMPLE.forEach(p=>{
+      const dat=esmsData[`plan_${p.id}`]||{};
+      p.fields.forEach(f=>{
+        total++;const v=dat[f.id];
+        if(f.t==="table"){if(Array.isArray(v)&&v.length>0)done++;}
+        else if(typeof v==="string"&&v.trim())done++;
+      });
+    });
+    return {pct:total>0?Math.round(done/total*100):0,done,total};
+  }
+  if (sectionId === "tools") {
+    const nonRedir=Object.values(TOOLS_REGISTRY).filter(tt=>!tt.redirectTo);
+    const total=nonRedir.length;
+    const done=nonRedir.filter(tt=>{const d=esmsData[`tool_${tt.id}`]?.data;return Array.isArray(d)?d.length>0:!!(d&&typeof d==='object'&&Object.keys(d).length>0);}).length;
+    return {pct:Math.round(done/total*100),done,total};
+  }
+  if (sectionId === "esap") {
+    const rows=esmsData["tool_esap"]?.data||[];
+    if(!rows.length) return {pct:0,done:0,total:0};
+    const done=rows.filter(r=>r.action?.trim()).length;
+    return {pct:Math.round(done/rows.length*100),done,total:rows.length};
+  }
+  return {pct:0,done:0,total:0};
+}
+
+const PROG_LABEL_KEYS = {
+  business_profile:"progBP", screening:"progScreening", policy:"progPolicy",
+  risks:"progRisks", compliance:"progCompliance", plans:"progPlans",
+  tools:"progTools", esap:"progEsap",
+};
+
+function SectionProgressBar({sectionId, esmsData}){
+  const {t}=useLang();
+  const {pct,done,total}=calcSectionProgress(sectionId,esmsData);
+  const lk=PROG_LABEL_KEYS[sectionId];
+  if(!lk||total===0) return null;
+  const col=pct===100?C.green:pct>0?C.amber:C.muted;
+  return(
+    <div style={{marginBottom:18,padding:"9px 14px",background:pct===100?"#F0FFF4":"white",borderRadius:8,border:`1.5px solid ${pct===100?C.green+"55":C.border}`}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:5}}>
+        <span style={{fontSize:12,color:C.muted}}>{done} / {total} {t(lk)}</span>
+        <span style={{fontSize:12,fontWeight:700,color:col}}>{pct===100?`${t("progressComplete")} ✓`:`${pct}%`}</span>
+      </div>
+      <div style={{background:C.bg,borderRadius:4,height:5,overflow:"hidden"}}>
+        <div style={{width:`${pct}%`,background:col,height:"100%",borderRadius:4,transition:"width 0.4s ease"}}/>
+      </div>
+    </div>
+  );
+}
+
 // ═══════════════ WELCOME ═══════════════
 function Welcome({ esmsData, setActive, openGuide, nav }) {
   const {t,lang}=useLang();
@@ -2260,6 +2372,7 @@ function Welcome({ esmsData, setActive, openGuide, nav }) {
               {isOpt && !done && <span style={{ position:"absolute", top:8, right:8, fontSize:9, background:"#FFF3DC", color:C.amber, borderRadius:4, padding:"1px 5px", fontWeight:700, letterSpacing:0.3 }}>{t("bpOptional")}</span>}
               <div style={{ fontSize:24, marginBottom:6 }}>{n.icon}</div>
               <div style={{ fontWeight:700, fontSize:12, color:C.text }}>{n.label}</div>
+              {(()=>{const{pct}=calcSectionProgress(n.id,esmsData);return pct>0?(<div style={{position:"absolute",bottom:0,left:0,right:0,height:3,overflow:"hidden"}}><div style={{width:`${pct}%`,height:"100%",background:pct===100?C.green:C.amber,transition:"width 0.3s"}}/></div>):null;})()}
               {isBP && isTouch && (
                 <button
                   onClick={e => { e.stopPropagation(); setBpExportOpen(v => !v); }}
@@ -4152,18 +4265,26 @@ export default function App() {
         <nav aria-label="Sections" style={{ flex: isMobile ? 'none' : 1, padding:"9px 6px", overflowY: isMobile ? 'visible' : 'auto' }}>
           {NAV.map(item => {
             const isA = active === item.id;
+            const {pct:navPct} = item.id!=="welcome" ? calcSectionProgress(item.id,esmsData) : {pct:0};
+            const navBarCol = navPct===100 ? "#2ECC71" : navPct>0 ? "#F39C12" : "transparent";
             return (
               <button key={item.id}
                 onClick={() => mobileGoTo(item.id)}
-                aria-label={item.label}
+                aria-label={`${item.label}${item.id!=="welcome"&&navPct>0?` — ${navPct}%`:""}`}
                 aria-current={isA ? "page" : undefined}
                 className="nav-btn"
-                style={{ display:"flex", alignItems:"center", gap:8, width:"100%", padding:sidebarOpen?"8px 10px":"8px", justifyContent:sidebarOpen?"flex-start":"center", background:isA?"rgba(255,255,255,0.15)":"transparent", border:"none", borderRadius:7, cursor:"pointer", color:isA?"white":"rgba(255,255,255,0.65)", fontWeight:isA?700:400, fontSize:12, marginBottom:2, textAlign:"left", fontFamily:F.b }}
+                style={{ display:"flex", alignItems:"center", gap:8, width:"100%", padding:sidebarOpen?"8px 10px":"8px", justifyContent:sidebarOpen?"flex-start":"center", background:isA?"rgba(255,255,255,0.15)":"transparent", border:"none", borderRadius:7, cursor:"pointer", color:isA?"white":"rgba(255,255,255,0.65)", fontWeight:isA?700:400, fontSize:12, marginBottom:2, textAlign:"left", fontFamily:F.b, position:"relative", overflow:"hidden" }}
                 onMouseEnter={e => { if(!isA) e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}
                 onMouseLeave={e => { if(!isA) e.currentTarget.style.background = "transparent"; }}>
                 <span style={{ fontSize:14, flexShrink:0 }} aria-hidden="true">{item.icon}</span>
                 {sidebarOpen && <span style={{ whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", flex:1 }}>{item.label}</span>}
                 {sidebarOpen && item.optional && <span style={{ fontSize:8, background:"rgba(255,193,7,0.22)", color:"#FFD54F", borderRadius:3, padding:"1px 4px", fontWeight:700, letterSpacing:0.4, flexShrink:0 }}>OPT</span>}
+                {sidebarOpen && item.id!=="welcome" && navPct>0 && (
+                  <span style={{ fontSize:9, fontWeight:700, color:navPct===100?"#2ECC71":"#F39C12", flexShrink:0, opacity:0.85 }}>{navPct}%</span>
+                )}
+                {item.id!=="welcome" && navPct>0 && (
+                  <div style={{ position:"absolute", bottom:0, left:0, height:2, width:`${navPct}%`, background:navBarCol, transition:"width 0.35s ease" }} aria-hidden="true"/>
+                )}
               </button>
             );
           })}
@@ -4209,6 +4330,7 @@ export default function App() {
       {/* ── MAIN CONTENT ── */}
       <main id="main-content" ref={mainRef} className="app-main" role="main" style={{ flex:1, padding:"28px 32px 48px", overflowX:"hidden", overflowY:"auto", maxHeight:"100vh" }}>
         <div key={`${active}-${navKey}`} className="app-content-inner" style={{ maxWidth:1000, margin:"0 auto" }}>
+          {active!=="welcome" && <SectionProgressBar sectionId={active} esmsData={esmsData}/>}
           {renderContent()}
           {active !== "welcome" && (
             <div style={{ marginTop:32, paddingTop:18, borderTop:`2px solid ${C.border}`, display:"flex", gap:10, flexWrap:"wrap" }}>

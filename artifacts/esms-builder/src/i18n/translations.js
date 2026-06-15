@@ -825,6 +825,18 @@ export const TRANSLATIONS = {
     grmKpis: "GRM Performance Targets",
     planLblGRM: "Grievance Redress Mechanism Plan",
     planIntroGRM: "Establishes your company's system for receiving, processing, and resolving complaints from workers, customers, and communities.",
+
+    // Section progress indicators
+    progBP: "fields completed",
+    progScreening: "questions answered",
+    progPolicy: "policies started",
+    progRisks: "risks with controls",
+    progCompliance: "items reviewed",
+    progPlans: "plan fields completed",
+    progTools: "tools activated",
+    progEsap: "actions defined",
+    progressComplete: "Complete",
+    progressNotStarted: "Not started",
   },
 
   fr: {
@@ -1625,6 +1637,18 @@ export const TRANSLATIONS = {
     grmKpis: "Objectifs de performance du MGR",
     planLblGRM: "Plan du Mécanisme de Gestion des Réclamations",
     planIntroGRM: "Établit le système de votre entreprise pour recevoir, traiter et résoudre les plaintes des travailleurs, clients et communautés.",
+
+    // Indicateurs de progression
+    progBP: "champs complétés",
+    progScreening: "questions répondues",
+    progPolicy: "politiques commencées",
+    progRisks: "risques avec mesures",
+    progCompliance: "éléments évalués",
+    progPlans: "champs du plan complétés",
+    progTools: "outils activés",
+    progEsap: "actions définies",
+    progressComplete: "Terminé",
+    progressNotStarted: "Non commencé",
   },
 
   pt: {
@@ -2425,6 +2449,18 @@ export const TRANSLATIONS = {
     grmKpis: "Metas de desempenho do MR",
     planLblGRM: "Plano do Mecanismo de Reclamações",
     planIntroGRM: "Estabelece o sistema da sua empresa para receber, processar e resolver reclamações de trabalhadores, clientes e comunidades.",
+
+    // Indicadores de progresso
+    progBP: "campos preenchidos",
+    progScreening: "questões respondidas",
+    progPolicy: "políticas iniciadas",
+    progRisks: "riscos com controles",
+    progCompliance: "itens avaliados",
+    progPlans: "campos do plano preenchidos",
+    progTools: "ferramentas ativadas",
+    progEsap: "ações definidas",
+    progressComplete: "Concluído",
+    progressNotStarted: "Não iniciado",
   },
 };
 
